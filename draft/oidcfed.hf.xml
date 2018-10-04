@@ -979,9 +979,9 @@ Content-Type: application/json
 
     <section title="Illustrative example of OpenID Connect flow">
       <t>A service Foodle would like to offer its services to all identity
-      providers in eduGAIN. Foodle is manaed and registrered by the university
-      NTNU. NTNU is part of the norwegian Feide federation. Foodle is also
-      directly trusted in the swedish SWAMID federation. Both Feide and SWAMID
+      providers in eduGAIN. Foodle is managed and registered by the university
+      NTNU. NTNU is part of the Norwegian Feide federation. Foodle is also
+      directly trusted in the Swedish SWAMID federation. Both Feide and SWAMID
       are part of the international eduGAIN federation.</t>
 
       <section title="Initial setup of Foodle">
@@ -995,14 +995,18 @@ Content-Type: application/json
   "use": "sig",
   "kty": "RSA",
   "alg": "RS256",
-  "n": "pnXBOusEANuug6ewezb9J_XbxbSGEISyA75wBGkerPNg6WTXmmxJ-DV1U4sCuRqhSdo3Uncmw6-01bZKCtAyRHT_TOZN2TMfNPRsfLkOstVofyfxg5oIWViLX9IDG_iZVdq6_T6yOuufOIvqpaeBMwSKuDXHNa_DU0aUu_3kOAc5_2hD4Dq-XXtum-oix2EPkNSbFfPqFIp5n4gS1XrzGzuNQiDw82k-H6mWN0wlVWfqLxJA9DZikAX7x9feipn36wxDH-XUlzDDUi3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z-3B8Q",
+  "n": "pnXBOusEANuug6ewezb9J_XbxbSGEISyA75wBGkerPNg6WTXmmxJ-DV1U4sCuRqhSd
+o3Uncmw6-01bZKCtAyRHT_TOZN2TMfNPRsfLkOstVofyfxg5oIWViLX9IDG_iZVdq6_T6yOuuf
+OIvqpaeBMwSKuDXHNa_DU0aUu_3kOAc5_2hD4Dq-XXtum-oix2EPkNSbFfPqFIp5n4gS1XrzGz
+uNQiDw82k-H6mWN0wlVWfqLxJA9DZikAX7x9feipn36wxDH-XUlzDDUi3nfnC8GSkT-CYII3oZ
+PsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z-3B8Q",
   "e": "AQAB",
   "key_ops": ["verify"],
   "ext": true
 }]]></artwork>
         </figure>
 
-        <t>Foodle offers a WebFinger interface and metadata API according to
+        <t>Foodle offers a WebFinger interface and a metadata API according to
         this specification, with the ability to issue entity statements about
         itself.</t>
       </section>
@@ -1011,7 +1015,7 @@ Content-Type: application/json
         <t>How trust is established and entities becomes part of a federation
         is out of scope of this specification. But it could involve some kind
         of non-technical contract, agreement or term of use that is
-        established, followed by a federation or trust issuer to register the
+        established, followed by a federation or trust issuer that registers an
         entity identifier, public key and a set of metadata that restricts the
         delegated trust that is represented in the entity statement about the
         joining party.</t>
@@ -1034,8 +1038,8 @@ Content-Type: application/json
             <t>eduGAIN issues an entity statement about SWAMID</t>
 
             <t>SWAMID issues an entity statement about the university of
-            Ume&aring; - an OpenID provider for employees and students in
-            Ume&aring;</t>
+            Umea - an OpenID provider for employees and students at the
+            university of Umea</t>
           </list>Foodle has a local trust root configuration that looks like
         this:</t>
 
@@ -1064,7 +1068,7 @@ Content-Type: application/json
       </section>
 
       <section title="User choose to login at Foodle">
-        <t>Let us assume a student from Ume&aring; would like to login at
+        <t>Let us assume a student from Umea would like to login at
         Foodle. Some sort of discovery process involves the end user choosing
         an OpenID provider. OpenID Discovery using the e-mail address is one
         option. Foodle presenting a list of available providers for the user
@@ -1080,7 +1084,11 @@ Content-Type: application/json
         performs a WebFinger request to resolve the metadata API. </t>
 
         <figure>
-          <artwork><![CDATA[GET /.well-known/webfinger?rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&resource=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
+          <artwork><![CDATA[
+GET /.well-known/webfinger?
+rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&
+resource=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
+
 Host: umu.se]]></artwork>
         </figure>
 
@@ -1100,21 +1108,23 @@ Content-Type: application/jrd+json
         </figure>
 
         <t>Foodle then uses the metadata API endpoint to fetch the self issued
-        entity statement from Ume&aring;.</t>
+        entity statement from Umea.</t>
 
         <figure>
-          <artwork><![CDATA[GET /openid-federation/metadata-api?target=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
+          <artwork><![CDATA[
+GET /openid-federation/metadata-api?
+target=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
 Host: idp.umu.se]]></artwork>
         </figure>
 
         <figure>
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQiOjE1MzgzN..."]]]></artwork>
+["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQ..."]]]></artwork>
         </figure>
 
         <t>The API endpoint returns a list of signed entity statements. In
-        this case we look for a selfissued statement from the Ume&aring;
+        this case we look for a self issued statement from the Umea
         university. We then decode and inspect the content:</t>
 
         <figure>
@@ -1175,7 +1185,10 @@ Content-Type: application/json
         SWAMID. First a WebFinger request to obtain the metadata endpoint:</t>
 
         <figure>
-          <artwork><![CDATA[GET /.well-known/webfinger?rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&resource=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
+          <artwork><![CDATA[
+GET /.well-known/webfinger?
+rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&
+resource=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
 Host: www.sunet.se]]></artwork>
         </figure>
 
@@ -1195,17 +1208,19 @@ Content-Type: application/jrd+json
         </figure>
 
         <t>Then a simple request to the metadata API endpoint to request
-        SWAMIDs entity statement with regards to Univesrity of Ume&aring;:</t>
+        SWAMIDs entity statement with regards to University of Umea:</t>
 
         <figure>
-          <artwork><![CDATA[GET /openid-federation/metadata-api?target=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
+          <artwork><![CDATA[
+GET /openid-federation/metadata-api?
+target=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
 Host: www.sunet.se]]></artwork>
         </figure>
 
         <figure>
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpYXQiOjE1Mz..."]]]></artwork>
+["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJ..."]]]></artwork>
         </figure>
 
         <t>The decoded version of the entity statement is:</t>
@@ -1240,14 +1255,14 @@ Content-Type: application/json
 }]]></artwork>
         </figure>
 
-        <t>Notice that the entity statement about University of Ume&aring;
+        <t>Note that the entity statement about University of Umea
         also contains an entry for openid_client metadata. This indicates that
-        SWAMID express this university to be trusted to issue its own OpenID
+        SWAMID has deemed this university to be trusted to issue its own OIDC
         clients without the need for registering these directly in SWAMID.</t>
 
         <t>These two entity statements are sufficient to establish a path from
         the local configured trust anchor which trust SWAMID, to the
-        selfissued statement from the University of Ume&aring;. Here are the
+        self issued statement from the University of Umea. Here are the
         steps performed to validate the trust chain:</t>
 
         <t><list style="symbols">
@@ -1255,15 +1270,15 @@ Content-Type: application/json
             configuration.</t>
 
             <t>Use these keys to validate the signature of the signed entity
-            statement issued by SWAMID about the University of Ume&aring;</t>
+            statement issued by SWAMID about the University of Umea</t>
 
             <t>Check that the sub from the trust configuration matches the iss
             value of the first entity statement.</t>
 
             <t>Extract the jwks entry from this entity statement. These are
-            the signing keys of the University of Ume&aring;</t>
+            the signing keys of the University of Umea</t>
 
-            <t>Validate the self signed statement from Universy of Ume&aring;
+            <t>Validate the self signed statement from Universy of Umea
             using the keys found above.</t>
 
             <t>Check that the sub from the previous statement matches the iss
@@ -1275,7 +1290,7 @@ Content-Type: application/json
       </section>
 
       <section title="Extracting the provider metadata">
-        <t>The output from the trust chain validation is an order list of
+        <t>The output from the trust chain validation is an ordered list of
         entity statements. In order to extract the needed metadata, we need to
         look at the metadata type relevant in the given context. In this case,
         we are establishing trust with an OpenID Provider, and we take a look
@@ -1334,7 +1349,7 @@ Content-Type: application/json
       </section>
 
       <section title="RP sends authentication request (implicit registration)">
-        <t>Foodle after establishing trust with the University of Ume&aring;
+        <t>Foodle after establishing trust with the University of Umea
         and extracted a resulting set of metadata, will send an authentication
         request to the OpenID provider. This example involves the implicit
         registration.</t>

@@ -90,7 +90,7 @@ Hedberg, et al.          Expires March 21, 2019                 [Page 1]
      A.1.  Initial setup of Foodle . . . . . . . . . . . . . . . . .  19
      A.2.  Federation setup  . . . . . . . . . . . . . . . . . . . .  19
      A.3.  User choose to login at Foodle  . . . . . . . . . . . . .  20
-     A.4.  Foodle discovers the OpenID provider  . . . . . . . . . .  20
+     A.4.  Foodle discovers the OpenID provider  . . . . . . . . . .  21
      A.5.  Resolving the provider trust chain  . . . . . . . . . . .  22
      A.6.  Extracting the provider metadata  . . . . . . . . . . . .  25
      A.7.  RP sends authentication request (implicit registration) .  26
@@ -999,9 +999,9 @@ Hedberg, et al.          Expires March 21, 2019                [Page 17]
 Appendix A.  Illustrative example of OpenID Connect flow
 
    A service Foodle would like to offer its services to all identity
-   providers in eduGAIN.  Foodle is manaed and registrered by the
-   university NTNU.  NTNU is part of the norwegian Feide federation.
-   Foodle is also directly trusted in the swedish SWAMID federation.
+   providers in eduGAIN.  Foodle is managed and registered by the
+   university NTNU.  NTNU is part of the Norwegian Feide federation.
+   Foodle is also directly trusted in the Swedish SWAMID federation.
 
 
 
@@ -1024,13 +1024,17 @@ A.1.  Initial setup of Foodle
   "use": "sig",
   "kty": "RSA",
   "alg": "RS256",
-  "n": "pnXBOusEANuug6ewezb9J_XbxbSGEISyA75wBGkerPNg6WTXmmxJ-DV1U4sCuRqhSdo3Uncmw6-01bZKCtAyRHT_TOZN2TMfNPRsfLkOstVofyfxg5oIWViLX9IDG_iZVdq6_T6yOuufOIvqpaeBMwSKuDXHNa_DU0aUu_3kOAc5_2hD4Dq-XXtum-oix2EPkNSbFfPqFIp5n4gS1XrzGzuNQiDw82k-H6mWN0wlVWfqLxJA9DZikAX7x9feipn36wxDH-XUlzDDUi3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z-3B8Q",
+  "n": "pnXBOusEANuug6ewezb9J_XbxbSGEISyA75wBGkerPNg6WTXmmxJ-DV1U4sCuRqhSd
+o3Uncmw6-01bZKCtAyRHT_TOZN2TMfNPRsfLkOstVofyfxg5oIWViLX9IDG_iZVdq6_T6yOuuf
+OIvqpaeBMwSKuDXHNa_DU0aUu_3kOAc5_2hD4Dq-XXtum-oix2EPkNSbFfPqFIp5n4gS1XrzGz
+uNQiDw82k-H6mWN0wlVWfqLxJA9DZikAX7x9feipn36wxDH-XUlzDDUi3nfnC8GSkT-CYII3oZ
+PsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z-3B8Q",
   "e": "AQAB",
   "key_ops": ["verify"],
   "ext": true
 }
 
-   Foodle offers a WebFinger interface and metadata API according to
+   Foodle offers a WebFinger interface and a metadata API according to
    this specification, with the ability to issue entity statements about
    itself.
 
@@ -1039,8 +1043,8 @@ A.2.  Federation setup
    How trust is established and entities becomes part of a federation is
    out of scope of this specification.  But it could involve some kind
    of non-technical contract, agreement or term of use that is
-   established, followed by a federation or trust issuer to register the
-   entity identifier, public key and a set of metadata that restricts
+   established, followed by a federation or trust issuer that registers
+   an entity identifier, public key and a set of metadata that restricts
    the delegated trust that is represented in the entity statement about
    the joining party.
 
@@ -1054,10 +1058,6 @@ A.2.  Federation setup
 
    o  SWAMID issues an entity statement about Foodle
 
-   o  Feide issues an entity statement about NTNU
-
-   o  eduGAIN issues an entity statement about Feide
-
 
 
 
@@ -1066,10 +1066,15 @@ Hedberg, et al.          Expires March 21, 2019                [Page 19]
                         OpenID Connect Federation         September 2018
 
 
+   o  Feide issues an entity statement about NTNU
+
+   o  eduGAIN issues an entity statement about Feide
+
    o  eduGAIN issues an entity statement about SWAMID
 
-   o  SWAMID issues an entity statement about the university of Umeae -
-      an OpenID provider for employees and students in Umeae
+   o  SWAMID issues an entity statement about the university of Umea -
+      an OpenID provider for employees and students at the university of
+      Umea
 
    Foodle has a local trust root configuration that looks like this:
 
@@ -1096,7 +1101,7 @@ Hedberg, et al.          Expires March 21, 2019                [Page 19]
 
 A.3.  User choose to login at Foodle
 
-   Let us assume a student from Umeae would like to login at Foodle.
+   Let us assume a student from Umea would like to login at Foodle.
    Some sort of discovery process involves the end user choosing an
    OpenID provider.  OpenID Discovery using the e-mail address is one
    option.  Foodle presenting a list of available providers for the user
@@ -1106,13 +1111,8 @@ A.3.  User choose to login at Foodle
    login using the OpenID provider with entity identifier
    "https://www.umu.se/openid".
 
-A.4.  Foodle discovers the OpenID provider
 
-   Foodle normalizes the entity identifier of the OpenID Provider, and
-   performs a WebFinger request to resolve the metadata API.
 
-GET /.well-known/webfinger?rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&resource=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
-Host: umu.se
 
 
 
@@ -1121,6 +1121,17 @@ Hedberg, et al.          Expires March 21, 2019                [Page 20]
 
                         OpenID Connect Federation         September 2018
 
+
+A.4.  Foodle discovers the OpenID provider
+
+   Foodle normalizes the entity identifier of the OpenID Provider, and
+   performs a WebFinger request to resolve the metadata API.
+
+   GET /.well-known/webfinger?
+   rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&
+   resource=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
+
+   Host: umu.se
 
    HTTP/1.1 200 OK
    Access-Control-Allow-Origin: *
@@ -1136,30 +1147,19 @@ Hedberg, et al.          Expires March 21, 2019                [Page 20]
    }
 
    Foodle then uses the metadata API endpoint to fetch the self issued
-   entity statement from Umeae.
+   entity statement from Umea.
 
-GET /openid-federation/metadata-api?target=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
-Host: idp.umu.se
+   GET /openid-federation/metadata-api?
+   target=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
+   Host: idp.umu.se
 
-HTTP/1.1 200 OK
-Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQiOjE1MzgzN..."]
+   HTTP/1.1 200 OK
+   Content-Type: application/json
+   ["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQ..."]
 
    The API endpoint returns a list of signed entity statements.  In this
-   case we look for a selfissued statement from the Umeae university.
+   case we look for a self issued statement from the Umea university.
    We then decode and inspect the content:
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1242,8 +1242,10 @@ Hedberg, et al.          Expires March 21, 2019                [Page 22]
    In this example, Foodle now fetches an entity statement from SWAMID.
    First a WebFinger request to obtain the metadata endpoint:
 
-GET /.well-known/webfinger?rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&resource=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
-Host: www.sunet.se
+   GET /.well-known/webfinger?
+   rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&
+   resource=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
+   Host: www.sunet.se
 
    HTTP/1.1 200 OK
    Access-Control-Allow-Origin: *
@@ -1259,19 +1261,17 @@ Host: www.sunet.se
    }
 
    Then a simple request to the metadata API endpoint to request SWAMIDs
-   entity statement with regards to Univesrity of Umeae:
+   entity statement with regards to University of Umea:
 
-GET /openid-federation/metadata-api?target=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
-Host: www.sunet.se
+   GET /openid-federation/metadata-api?
+   target=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
+   Host: www.sunet.se
 
-HTTP/1.1 200 OK
-Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpYXQiOjE1Mz..."]
+   HTTP/1.1 200 OK
+   Content-Type: application/json
+   ["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJ..."]
 
    The decoded version of the entity statement is:
-
-
-
 
 
 
@@ -1318,21 +1318,21 @@ Hedberg, et al.          Expires March 21, 2019                [Page 23]
      ]
    }
 
-   Notice that the entity statement about University of Umeae also
+   Notice that the entity statement about University of Umea also
    contains an entry for openid_client metadata.  This indicates that
    SWAMID express this university to be trusted to issue its own OpenID
    clients without the need for registering these directly in SWAMID.
 
    These two entity statements are sufficient to establish a path from
    the local configured trust anchor which trust SWAMID, to the
-   selfissued statement from the University of Umeae.  Here are the
-   steps performed to validate the trust chain:
+   selfissued statement from the University of Umea.  Here are the steps
+   performed to validate the trust chain:
 
    o  Find the trusted public keys for SWAMID in local trust
       configuration.
 
    o  Use these keys to validate the signature of the signed entity
-      statement issued by SWAMID about the University of Umeae
+      statement issued by SWAMID about the University of Umea
 
    o  Check that the sub from the trust configuration matches the iss
       value of the first entity statement.
@@ -1347,10 +1347,10 @@ Hedberg, et al.          Expires March 21, 2019                [Page 24]
 
 
    o  Extract the jwks entry from this entity statement.  These are the
-      signing keys of the University of Umeae
+      signing keys of the University of Umea
 
-   o  Validate the self signed statement from Universy of Umeae using
-      the keys found above.
+   o  Validate the self signed statement from University of Umea using the
+      keys found above.
 
    o  Check that the sub from the previous statement matches the iss of
       the self issued statement.
@@ -1422,7 +1422,7 @@ Hedberg, et al.          Expires March 21, 2019                [Page 25]
 
 A.7.  RP sends authentication request (implicit registration)
 
-   Foodle after establishing trust with the University of Umeae and
+   Foodle after establishing trust with the University of Umea and
    extracted a resulting set of metadata, will send an authentication
    request to the OpenID provider.  This example involves the implicit
    registration.
