@@ -94,11 +94,11 @@ Hedberg, et al.          Expires March 21, 2019                 [Page 1]
      A.5.  Resolving the provider trust chain  . . . . . . . . . . .  22
      A.6.  Extracting the provider metadata  . . . . . . . . . . . .  25
      A.7.  RP sends authentication request (implicit registration) .  26
-     A.8.  Provider fetches entity statements  . . . . . . . . . . .  26
-     A.9.  Provider fetches entity statements  . . . . . . . . . . .  28
-   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  28
-   Appendix C.  Document History . . . . . . . . . . . . . . . . . .  29
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  29
+     A.8.  Provider fetches entity statements  . . . . . . . . . . .  27
+     A.9.  Provider fetches entity statements  . . . . . . . . . . .  29
+   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  29
+   Appendix C.  Document History . . . . . . . . . . . . . . . . . .  30
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  30
 
 1.  Introduction
 
@@ -1019,20 +1019,21 @@ A.1.  Initial setup of Foodle
    "https://foodl.org/".  And upon deployment, Foodle is setup with a
    RSA keypair, with the following public key:
 
-{
-  "kid": "key1",
-  "use": "sig",
-  "kty": "RSA",
-  "alg": "RS256",
-  "n": "pnXBOusEANuug6ewezb9J_XbxbSGEISyA75wBGkerPNg6WTXmmxJ-DV1U4sCuRqhSd
-o3Uncmw6-01bZKCtAyRHT_TOZN2TMfNPRsfLkOstVofyfxg5oIWViLX9IDG_iZVdq6_T6yOuuf
-OIvqpaeBMwSKuDXHNa_DU0aUu_3kOAc5_2hD4Dq-XXtum-oix2EPkNSbFfPqFIp5n4gS1XrzGz
-uNQiDw82k-H6mWN0wlVWfqLxJA9DZikAX7x9feipn36wxDH-XUlzDDUi3nfnC8GSkT-CYII3oZ
-PsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z-3B8Q",
-  "e": "AQAB",
-  "key_ops": ["verify"],
-  "ext": true
-}
+   {
+     "kid": "key1",
+     "use": "sig",
+     "kty": "RSA",
+     "alg": "RS256",
+     "n": "pnXBOusEANuug6ewezb9J_XbxbSGEISyA75wBGkerPNg6WTXmmxJ-DV1U4sCu
+   RqhSdo3Uncmw6-01bZKCtAyRHT_TOZN2TMfNPRsfLkOstVofyfxg5oIWViLX9IDG_iZVd
+   q6_T6yOuufOIvqpaeBMwSKuDXHNa_DU0aUu_3kOAc5_2hD4Dq-XXtum-oix2EPkNSbFfP
+   qFIp5n4gS1XrzGzuNQiDw82k-H6mWN0wlVWfqLxJA9DZikAX7x9feipn36wxDH-XUlzDD
+   Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
+   -3B8Q",
+     "e": "AQAB",
+     "key_ops": ["verify"],
+     "ext": true
+   }
 
    Foodle offers a WebFinger interface and a metadata API according to
    this specification, with the ability to issue entity statements about
@@ -1060,7 +1061,6 @@ A.2.  Federation setup
 
 
 
-
 Hedberg, et al.          Expires March 21, 2019                [Page 19]
 
                         OpenID Connect Federation         September 2018
@@ -1078,26 +1078,27 @@ Hedberg, et al.          Expires March 21, 2019                [Page 19]
 
    Foodle has a local trust root configuration that looks like this:
 
- [
-   {
-     "sub": "https://www.sunet.se/swamid",
-     "metadata": {
-       "openid_provider": {"LoaMax": "http://swamid.se/LoA/substantial"}
-     },
-     "jwks": [
-       {
-         "kty": "RSA",
-         "alg": "RS256",
-         "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
-         "e": "AQAB",
-         "key_ops": ["verify"],
-         "ext": true,
-         "kid": "swamid",
-         "use": "sig"
-       }
-     ]
-   }
- ]
+   [
+     {
+       "sub": "https://www.sunet.se/swamid",
+       "metadata": {
+         "openid_provider": {
+            "LoaMax": "http://swamid.se/LoA/substantial"}
+       },
+       "jwks": [
+         {
+           "kty": "RSA",
+           "alg": "RS256",
+           "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
+           "e": "AQAB",
+           "key_ops": ["verify"],
+           "ext": true,
+           "kid": "swamid",
+           "use": "sig"
+         }
+       ]
+     }
+   ]
 
 A.3.  User choose to login at Foodle
 
@@ -1110,7 +1111,6 @@ A.3.  User choose to login at Foodle
    After the discovery process, Foodle knows that the user would like to
    login using the OpenID provider with entity identifier
    "https://www.umu.se/openid".
-
 
 
 
@@ -1155,7 +1155,7 @@ A.4.  Foodle discovers the OpenID provider
 
    HTTP/1.1 200 OK
    Content-Type: application/json
-   ["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQ..."]
+   ["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJp..."]
 
    The API endpoint returns a list of signed entity statements.  In this
    case we look for a self issued statement from the Umea university.
@@ -1178,53 +1178,53 @@ Hedberg, et al.          Expires March 21, 2019                [Page 21]
                         OpenID Connect Federation         September 2018
 
 
-{
-  "iat": 1538390905,
-  "exp": 1538394505,
-  "metadata": {
-    "openid_provider": {
-      "authorization_endpoint": "https://idp.umu.se/openid/authorization",
-      "token_endpoint": "https://idp.umu.se/openid/token",
-      "response_types_supported": ["code", "code id_token", "token"],
-      "grant_types_supported": [
-        "authorization_code",
-        "implicit",
-        "urn:ietf:params:oauth:grant-type:jwt-bearer"
-      ],
-      "subject_types_supported": ["pairwise", "public"],
-      "id_token_signing_alg_values_supported": ["RS256"],
-      "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-      "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
-      "LoaMax": "http://eidas.europa.eu/LoA/high"
-    }
-  },
-  "iss": "https://umu.se/openid",
-  "sub": "https://umu.se/openid",
-  "authority_hints": {
-    "https://www.sunet.se/swamid": ["https://edugain.org/oidc"],
-    "https://kalmar2.org/openid": []
-  },
-  "jwks": [
-    {
-      "kty": "RSA",
-      "alg": "RS256",
-      "n": "z1V1kyi6qwmXfKsfhVqKUMmQH3AixN[...]",
-      "e": "AQAB",
-      "key_ops": ["verify"],
-      "ext": true,
-      "kid": "umu",
-      "use": "sig"
-    }
-  ]
-}
+   {
+     "iat": 1538390905,
+     "exp": 1538394505,
+     "metadata": {
+       "openid_provider": {
+         "authorization_endpoint":
+           "https://idp.umu.se/openid/authorization",
+         "token_endpoint": "https://idp.umu.se/openid/token",
+         "response_types_supported": ["code", "code id_token", "token"],
+         "grant_types_supported": [
+           "authorization_code",
+           "implicit",
+           "urn:ietf:params:oauth:grant-type:jwt-bearer"
+         ],
+         "subject_types_supported": ["pairwise", "public"],
+         "id_token_signing_alg_values_supported": ["RS256"],
+         "logo_uri":
+           "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+         "policy_uri":
+           "https://www.umu.se/en/about-the-website/legal-information/",
+         "LoaMax": "http://eidas.europa.eu/LoA/high"
+       }
+     },
+     "iss": "https://umu.se/openid",
+     "sub": "https://umu.se/openid",
+     "authority_hints": {
+       "https://www.sunet.se/swamid": ["https://edugain.org/oidc"],
+       "https://kalmar2.org/openid": []
+     },
+     "jwks": [
+       {
+         "kty": "RSA",
+         "alg": "RS256",
+         "n": "z1V1kyi6qwmXfKsfhVqKUMmQH3AixN[...]",
+         "e": "AQAB",
+         "key_ops": ["verify"],
+         "ext": true,
+         "kid": "umu",
+         "use": "sig"
+       }
+     ]
+   }
 
 A.5.  Resolving the provider trust chain
 
    In order to establish trust with this provider, the Foodle service
    provider would need to fetch sufficient entity statements to
-   represent a complete chain from the self issued statement to the
-   locally configured trust root, which contain SWAMID.
-
 
 
 
@@ -1233,6 +1233,9 @@ Hedberg, et al.          Expires March 21, 2019                [Page 22]
 
                         OpenID Connect Federation         September 2018
 
+
+   represent a complete chain from the self issued statement to the
+   locally configured trust root, which contain SWAMID.
 
    The information found in the authority_hints is critical in order to
    dynamically discover the trust chain.  If such hints are not present,
@@ -1282,9 +1285,6 @@ Hedberg, et al.          Expires March 21, 2019                [Page 22]
 
 
 
-
-
-
 Hedberg, et al.          Expires March 21, 2019                [Page 23]
 
                         OpenID Connect Federation         September 2018
@@ -1318,14 +1318,14 @@ Hedberg, et al.          Expires March 21, 2019                [Page 23]
      ]
    }
 
-   Notice that the entity statement about University of Umea also
-   contains an entry for openid_client metadata.  This indicates that
-   SWAMID express this university to be trusted to issue its own OpenID
-   clients without the need for registering these directly in SWAMID.
+   Note that the entity statement about University of Umea also contains
+   an entry for openid_client metadata.  This indicates that SWAMID has
+   deemed this university to be trusted to issue its own OIDC clients
+   without the need for registering these directly in SWAMID.
 
    These two entity statements are sufficient to establish a path from
-   the local configured trust anchor which trust SWAMID, to the
-   selfissued statement from the University of Umea.  Here are the steps
+   the local configured trust anchor which trust SWAMID, to the self
+   issued statement from the University of Umea.  Here are the steps
    performed to validate the trust chain:
 
    o  Find the trusted public keys for SWAMID in local trust
@@ -1349,7 +1349,7 @@ Hedberg, et al.          Expires March 21, 2019                [Page 24]
    o  Extract the jwks entry from this entity statement.  These are the
       signing keys of the University of Umea
 
-   o  Validate the self signed statement from University of Umea using the
+   o  Validate the self signed statement from Universy of Umea using the
       keys found above.
 
    o  Check that the sub from the previous statement matches the iss of
@@ -1360,39 +1360,39 @@ Hedberg, et al.          Expires March 21, 2019                [Page 24]
 
 A.6.  Extracting the provider metadata
 
-   The output from the trust chain validation is an order list of entity
-   statements.  In order to extract the needed metadata, we need to look
-   at the metadata type relevant in the given context.  In this case, we
-   are establishing trust with an OpenID Provider, and we take a look at
-   the _openid_provider_ metadata object of the trust chain:
+   The output from the trust chain validation is an ordered list of
+   entity statements.  In order to extract the needed metadata, we need
+   to look at the metadata type relevant in the given context.  In this
+   case, we are establishing trust with an OpenID Provider, and we take
+   a look at the _openid_provider_ metadata object of the trust chain:
 
-[
-  {"LoaMax": "http://swamid.se/LoA/substantial"},
-  {
-    "subject_types_supported": ["pairwise"],
-    "id_token_signing_alg_values_supported": ["RS256", "RS512"],
-    "organization": "University of Ume?",
-    "contacts": ["legal@umu.se", "technical@umu.se"]
-  },
-  {
-    "authorization_endpoint": "https://idp.umu.se/openid/authorization",
-    "token_endpoint": "https://idp.umu.se/openid/token",
-    "response_types_supported": ["code", "code id_token", "token"],
-    "grant_types_supported": [
-      "authorization_code",
-      "implicit",
-      "urn:ietf:params:oauth:grant-type:jwt-bearer"
-    ],
-    "subject_types_supported": ["pairwise", "public"],
-    "id_token_signing_alg_values_supported": ["RS256"],
-    "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-    "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
-    "LoaMax": "http://eidas.europa.eu/LoA/high"
-  }
-]
-
-   The metadata flattening process converts this to a single metadata
-   object.  The resulting metadata in this case would be:
+   [
+     {"LoaMax": "http://swamid.se/LoA/substantial"},
+     {
+       "subject_types_supported": ["pairwise"],
+       "id_token_signing_alg_values_supported": ["RS256", "RS512"],
+       "organization": "University of Ume?",
+       "contacts": ["legal@umu.se", "technical@umu.se"]
+     },
+     {
+       "authorization_endpoint":
+         "https://idp.umu.se/openid/authorization",
+       "token_endpoint": "https://idp.umu.se/openid/token",
+       "response_types_supported": ["code", "code id_token", "token"],
+       "grant_types_supported": [
+         "authorization_code",
+         "implicit",
+         "urn:ietf:params:oauth:grant-type:jwt-bearer"
+       ],
+       "subject_types_supported": ["pairwise", "public"],
+       "id_token_signing_alg_values_supported": ["RS256"],
+       "logo_uri":
+         "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+       "policy_uri":
+         "https://www.umu.se/en/about-the-website/legal-information/",
+       "LoaMax": "http://eidas.europa.eu/LoA/high"
+     }
+   ]
 
 
 
@@ -1402,23 +1402,29 @@ Hedberg, et al.          Expires March 21, 2019                [Page 25]
                         OpenID Connect Federation         September 2018
 
 
-{
-  "organization": "University of Ume?",
-  "contacts": ["legal@umu.se", "technical@umu.se"],
-  "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-  "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
-  "authorization_endpoint": "https://idp.umu.se/openid/authorization",
-  "token_endpoint": "https://idp.umu.se/openid/token",
-  "response_types_supported": ["code", "code id_token", "token"],
-  "grant_types_supported": [
-    "authorization_code",
-    "implicit",
-    "urn:ietf:params:oauth:grant-type:jwt-bearer"
-  ],
-  "subject_types_supported": ["pairwise"],
-  "id_token_signing_alg_values_supported": ["RS256"],
-  "LoaMax": "http://swamid.se/LoA/substantial"
-}
+   The metadata flattening process converts this to a single metadata
+   object.  The resulting metadata in this case would be:
+
+   {
+     "organization": "University of Ume?",
+     "contacts": ["legal@umu.se", "technical@umu.se"],
+     "logo_uri":
+       "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+     "policy_uri":
+       "https://www.umu.se/en/about-the-website/legal-information/",
+     "authorization_endpoint":
+       "https://idp.umu.se/openid/authorization",
+     "token_endpoint": "https://idp.umu.se/openid/token",
+     "response_types_supported": ["code", "code id_token", "token"],
+     "grant_types_supported": [
+       "authorization_code",
+       "implicit",
+       "urn:ietf:params:oauth:grant-type:jwt-bearer"
+     ],
+     "subject_types_supported": ["pairwise"],
+     "id_token_signing_alg_values_supported": ["RS256"],
+     "LoaMax": "http://swamid.se/LoA/substantial"
+   }
 
 A.7.  RP sends authentication request (implicit registration)
 
@@ -1441,6 +1447,17 @@ A.7.  RP sends authentication request (implicit registration)
    RP is cached or statically configured, start to dynamically fetch and
    establish trust with the RP.
 
+
+
+
+
+
+
+Hedberg, et al.          Expires March 21, 2019                [Page 26]
+
+                        OpenID Connect Federation         September 2018
+
+
 A.8.  Provider fetches entity statements
 
    The provider needs to establish a trust chain for RP from which a
@@ -1453,7 +1470,46 @@ A.8.  Provider fetches entity statements
 
 
 
-Hedberg, et al.          Expires March 21, 2019                [Page 26]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires March 21, 2019                [Page 27]
 
                         OpenID Connect Federation         September 2018
 
@@ -1509,7 +1565,7 @@ Hedberg, et al.          Expires March 21, 2019                [Page 26]
 
 
 
-Hedberg, et al.          Expires March 21, 2019                [Page 27]
+Hedberg, et al.          Expires March 21, 2019                [Page 28]
 
                         OpenID Connect Federation         September 2018
 
@@ -1565,7 +1621,7 @@ Appendix B.  Notices
 
 
 
-Hedberg, et al.          Expires March 21, 2019                [Page 28]
+Hedberg, et al.          Expires March 21, 2019                [Page 29]
 
                         OpenID Connect Federation         September 2018
 
@@ -1621,7 +1677,7 @@ Authors' Addresses
 
 
 
-Hedberg, et al.          Expires March 21, 2019                [Page 29]
+Hedberg, et al.          Expires March 21, 2019                [Page 30]
 
                         OpenID Connect Federation         September 2018
 
@@ -1677,4 +1733,4 @@ Hedberg, et al.          Expires March 21, 2019                [Page 29]
 
 
 
-Hedberg, et al.          Expires March 21, 2019                [Page 30]
+Hedberg, et al.          Expires March 21, 2019                [Page 31]

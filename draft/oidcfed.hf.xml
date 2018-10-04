@@ -995,11 +995,12 @@ Content-Type: application/json
   "use": "sig",
   "kty": "RSA",
   "alg": "RS256",
-  "n": "pnXBOusEANuug6ewezb9J_XbxbSGEISyA75wBGkerPNg6WTXmmxJ-DV1U4sCuRqhSd
-o3Uncmw6-01bZKCtAyRHT_TOZN2TMfNPRsfLkOstVofyfxg5oIWViLX9IDG_iZVdq6_T6yOuuf
-OIvqpaeBMwSKuDXHNa_DU0aUu_3kOAc5_2hD4Dq-XXtum-oix2EPkNSbFfPqFIp5n4gS1XrzGz
-uNQiDw82k-H6mWN0wlVWfqLxJA9DZikAX7x9feipn36wxDH-XUlzDDUi3nfnC8GSkT-CYII3oZ
-PsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z-3B8Q",
+  "n": "pnXBOusEANuug6ewezb9J_XbxbSGEISyA75wBGkerPNg6WTXmmxJ-DV1U4sCu
+RqhSdo3Uncmw6-01bZKCtAyRHT_TOZN2TMfNPRsfLkOstVofyfxg5oIWViLX9IDG_iZVd
+q6_T6yOuufOIvqpaeBMwSKuDXHNa_DU0aUu_3kOAc5_2hD4Dq-XXtum-oix2EPkNSbFfP
+qFIp5n4gS1XrzGzuNQiDw82k-H6mWN0wlVWfqLxJA9DZikAX7x9feipn36wxDH-XUlzDD
+Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
+-3B8Q",
   "e": "AQAB",
   "key_ops": ["verify"],
   "ext": true
@@ -1048,7 +1049,8 @@ PsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z-3B8Q",
   {
     "sub": "https://www.sunet.se/swamid",
     "metadata": {
-      "openid_provider": {"LoaMax": "http://swamid.se/LoA/substantial"}
+      "openid_provider": {
+         "LoaMax": "http://swamid.se/LoA/substantial"}
     },
     "jwks": [
       {
@@ -1120,7 +1122,7 @@ Host: idp.umu.se]]></artwork>
         <figure>
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQ..."]]]></artwork>
+["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJp..."]]]></artwork>
         </figure>
 
         <t>The API endpoint returns a list of signed entity statements. In
@@ -1133,7 +1135,8 @@ Content-Type: application/json
   "exp": 1538394505,
   "metadata": {
     "openid_provider": {
-      "authorization_endpoint": "https://idp.umu.se/openid/authorization",
+      "authorization_endpoint":
+        "https://idp.umu.se/openid/authorization",
       "token_endpoint": "https://idp.umu.se/openid/token",
       "response_types_supported": ["code", "code id_token", "token"],
       "grant_types_supported": [
@@ -1143,8 +1146,10 @@ Content-Type: application/json
       ],
       "subject_types_supported": ["pairwise", "public"],
       "id_token_signing_alg_values_supported": ["RS256"],
-      "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-      "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
+      "logo_uri":
+        "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+      "policy_uri":
+        "https://www.umu.se/en/about-the-website/legal-information/",
       "LoaMax": "http://eidas.europa.eu/LoA/high"
     }
   },
@@ -1307,7 +1312,8 @@ Content-Type: application/json
     "contacts": ["legal@umu.se", "technical@umu.se"]
   },
   {
-    "authorization_endpoint": "https://idp.umu.se/openid/authorization",
+    "authorization_endpoint":
+      "https://idp.umu.se/openid/authorization",
     "token_endpoint": "https://idp.umu.se/openid/token",
     "response_types_supported": ["code", "code id_token", "token"],
     "grant_types_supported": [
@@ -1317,8 +1323,10 @@ Content-Type: application/json
     ],
     "subject_types_supported": ["pairwise", "public"],
     "id_token_signing_alg_values_supported": ["RS256"],
-    "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-    "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
+    "logo_uri":
+      "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+    "policy_uri":
+      "https://www.umu.se/en/about-the-website/legal-information/",
     "LoaMax": "http://eidas.europa.eu/LoA/high"
   }
 ]]]></artwork>
@@ -1331,9 +1339,12 @@ Content-Type: application/json
           <artwork><![CDATA[{
   "organization": "University of Ume?",
   "contacts": ["legal@umu.se", "technical@umu.se"],
-  "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-  "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
-  "authorization_endpoint": "https://idp.umu.se/openid/authorization",
+  "logo_uri":
+    "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+  "policy_uri":
+    "https://www.umu.se/en/about-the-website/legal-information/",
+  "authorization_endpoint":
+    "https://idp.umu.se/openid/authorization",
   "token_endpoint": "https://idp.umu.se/openid/token",
   "response_types_supported": ["code", "code id_token", "token"],
   "grant_types_supported": [
