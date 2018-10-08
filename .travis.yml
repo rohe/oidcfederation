@@ -17,7 +17,7 @@ services:
 
 install:
 - pip install --user --upgrade pip
-- pip install xml2rfc
+- pip install --user xml2rfc
 - ls -la .
 - ls -la public
 
