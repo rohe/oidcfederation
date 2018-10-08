@@ -354,23 +354,19 @@
       </section>
 
       <section title="OpenID Connect Discovery">
-        <t>The metadata type identifier is <spanx style="verb">
-          openid-discovery</spanx>.</t>
+        <t>The metadata type identifier is <spanx style="verb">openid-discovery</spanx>.</t>
       </section>
 
       <section title="OAuth Provider">
-        <t>The metadata type identifier is <spanx style="verb">
-          openid-</spanx>provider.</t>
+        <t>The metadata type identifier is <spanx style="verb">openid-</spanx>provider.</t>
       </section>
 
       <section title="OAuth Client">
-        <t>The metadata type identifier is <spanx style="verb">
-          openid_client</spanx>.</t>
+        <t>The metadata type identifier is <spanx style="verb">openid_client</spanx>.</t>
       </section>
 
       <section title="OAuth Protected Resources">
-        <t>The metadata type identifier is <spanx style="verb">
-          openid-</spanx>api.</t>
+        <t>The metadata type identifier is <spanx style="verb">openid-</spanx>api.</t>
       </section>
     </section>
 
