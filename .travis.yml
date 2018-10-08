@@ -18,8 +18,6 @@ services:
 install:
 - pip install --user --upgrade pip
 - pip install --user xml2rfc
-- ls -la .
-- ls -la public
 
 deploy:
   provider: gcs
