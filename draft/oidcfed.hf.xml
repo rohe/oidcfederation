@@ -869,8 +869,8 @@ Content-Type: application/json
         client_secret. Instead the implicit registration model requires the RP
         to make use of asymmetric crypto.</t>
 
-        <t>The RP MUST host a WebFinger and Metadata API to allow the OP fetch
-        the entity statements.</t>
+        <t>The RP MUST host a Federation API that allows the OP to fetch the
+        entity statements.</t>
 
         <section title="The Authentication Request">
           <t>The authentication request as specified in OpenID Connect
@@ -1554,8 +1554,7 @@ Host: idp.umu.se
       <t>[[ To be removed from the final specification ]]</t>
 
       <t>-05 <list style="symbols">
-          <t>A major rewrite, introducing WebFinger, entity statements and
-          more.</t>
+          <t>A major rewrite.</t>
         </list></t>
 
       <t>-04 <list style="symbols">
