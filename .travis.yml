@@ -1,0 +1,29 @@
+sudo: required
+
+language: node_js
+
+node_js:
+- '0.11'
+
+script: node -v
+
+services:
+  - docker
+
+install:
+- "./xml2rfc.sh"
+- ls -la .
+- ls -la public
+
+deploy:
+  provider: gcs
+  access_key_id: GOOGN4TO2PHZD2BOMBDOM7VX
+  secret_access_key:
+    secure: EwXUZkaP/et85YnPsMLgIYRXfVGCRVHPk1npVUy7suB9nOp68VBLzfQdIW7WgjPOgbFoEDtiyphk9cvlDfRxtf76na/9FJgMEhMG71fJ/bokzAXWrBNFLFb5R5leu9va3rwECidjw+Z/eh4pMLkvafS0yY7AX7w7mGTMmBXskqInlPCNRmRiO4mrSi6+TvOgamDxeMt075DBfxWyJmEA5lfDwML+3CmDwh0TgZ4K1i/Qk8E52rqvkCy1FFA3pQDe8dTkSUfYoQWt7caV+x98o6nfhPpEg/U4vxAHOBjyCHP1FDMe91v9PZOR7hpNfW+U9NENeAX3tJQmrQzhZ44IeaxF8yPbuCqWlxc6naInBzEfEY2EnSo3UWhGkDDPRRzYzjxnwP4xnvE0+/qryNok6vO/JvNdK9AVsknMcOnX5UDjPooEwBMiVnJOnPTx6vUA2IFQ7ug+XnvHy8d2HXD3yhzVQ7H+7h3Ua4emoUxzHSHS/BN6C4bKIzq21LTmyInG9MiMzvnXSQM2oAxoX10Nf46WkQXEBpeWorsflMDjUiHlV3rjZQKTldFGhN4H1U/vDMjipW7NeNp8ivrCA/+C4I3upWMLFPNeVAzSGXiAC9QUa8uOvKN4t1Fqy+VbotJnLOzQnV9ETHJtecvWbNBdOkqdkrkC0hwn6byNzPp1aQk=
+  bucket: openid-connect
+  local-dir: public
+  skip_cleanup: true
+  overwrite: true
+  acl: public-read
+  on:
+    repo: andreassolberg/fedoidc
