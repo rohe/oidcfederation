@@ -382,104 +382,95 @@
       identifier of this entity is all the information you have. Then you will
       ask this identifier for entity statements about itself.</t>
 
-      <t>Fetching entity statements is performed in two steps. First WebFinger
-      is used to resolve the entity statement API endpoint of the entity to
-      ask. Then the API endpoint is used to fetch one or more entity
-      statements.</t>
+      <t>All entities that are expected to expose entity statements about
+      themselves or other entities, MUST implement a Federation API. A
+      Federation API is an endpoint to support requesting signed entity
+      statements needed in order to build trust between two entities.</t>
 
       <section anchor="webfinger"
-               title="Using WebFinger to find the Metadata API endpoint">
-        <t>The entity is discovered using <xref
-        target="RFC7033">WebFinger</xref>, with the <spanx style="verb">rel</spanx>
-        value: <spanx style="verb">
-            https://openid.net/specs/federation/1.0/entity</spanx>. The <spanx
-        style="verb">resource</spanx> parameter is set the entity identifier
-        from whom we would like to issue entity statements.</t>
-
-        <t>The provider performs normalization rules to the entity identifier
-        to determine the hostname. In example the entity identifier
-        https://serviceprovider.org/application may result in the following
-        WebFinger request:</t>
-
-        <figure>
-          <preamble>The following non-normative example is a WebFinger request
-          to discover the Metadata API endpoint of the entity <spanx
-          style="verb">
-              https://serviceprovider.org/application</spanx>.</preamble>
-
-          <artwork><![CDATA[GET /.well-known/webfinger?
-  resource=https%3A%2F%2Fserviceprovider.org%2Fapplication&
-  rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity
-  HTTP/1.1
-Host: serviceprovider.org]]></artwork>
-
-          <postamble>(postamble)</postamble>
-        </figure>
-
-        <figure>
-          <preamble>The response includes</preamble>
-
-          <artwork><![CDATA[HTTP/1.1 200 OK
-Access-Control-Allow-Origin: *
-Content-Type: application/jrd+json
-
-{
-  "subject" : "https://serviceprovider.org/application",
-  "links" :
-  [
-    {
-      "rel" : "https://openid.net/specs/federation/1.0/entity",
-      "href" : "https://serviceprovider.org/metadata-api"
-    }
-  ]
-}]]></artwork>
-
-          <postamble>(postamble)</postamble>
-        </figure>
+               title="Resolving the Federation API endpoint of the issuer">
+        <t>The federation API endpoint of an issuer, is resolved from the
+        issuer entity identifier. The Federation API endpoint is found using
+        the <xref target="RFC5785">Well known URIs</xref> specification, with
+        the suffix <spanx style="verb">openid-federation</spanx>. The scheme,
+        host and port is taken directly from the issuer entity identifier
+        combined with the following path: <spanx style="verb">/.well-known/openid-federation</spanx>.</t>
       </section>
 
-      <section title="Querying the Metadata API endpoint">
-        <t>Next, after the metadata API endpoint URL is resolved using
-        WebFinger, the metadata API can be used to fetch entity statements
-        about specific entities. The metadata API endpoint may offer multiple
-        services.</t>
+      <section title="Querying the Federation API">
+        <t>The Federation API is an HTTP API that may support multiple
+        operations. The <spanx style="verb">op</spanx> (operation) parameter
+        may be used to defined new operations in a future version of the
+        specification or a local deployment which have agreed upon additional
+        functionality.</t>
 
-        <section title="Fetching Entity Statements">
-          <t>The HTTP GET request to the metadata API endpoint takes the
-          following query string parameters:</t>
+        <t>While all operations in the specification make use of a GET
+        request, other operations may choose to use other HTTP methods. If the
+        <spanx style="verb">op</spanx> parameter is left out, it is considered
+        to be a fetch entity statements request. Unless otherwise mentioned or
+        agreed upon, requests to the federation API does not need to be
+        authenticated.</t>
+
+        <section title="Fetch Entity Statements Request">
+          <t>The request MUST be a HTTP request using the GET method to a
+          resolved federation API endpoint with the following query string
+          parameters:</t>
 
           <t><list style="hanging">
-              <t hangText="target">REQUIRED. The entity identifier of the
-              target entity for which you want metadata.</t>
+              <t hangText="op">OPTIONAL. If not present MUST be set to <spanx
+              style="verb">fetch</spanx>.</t>
+
+              <t hangText="iss">REQUIRED. The entity identifier of the issuer
+              from which you want an entity statement issued. Because of the
+              normalization of the URL, multiple issuers may resolve to a
+              shared federation API. This parameter makes it expicit exactly
+              which issuer we want entity statements from.</t>
+
+              <t hangText="sub">OPTIONAL. The entity identifier of the subject
+              for which you would like an entity statement issued. If this
+              parameter is left out, it is considered to be the same as the
+              issuer, and would indicate a request for a self issued
+              statement.</t>
+
+              <t hangText="aud">OPTIONAL. The entity identifier of the
+              requestor. The issuing entity may choose to include this
+              parameter to form the entity statement specificly for this
+              target, in which the <spanx style="verb">aud</spanx> claim also
+              should be present in the entity statement it self.</t>
 
               <t hangText="prefetch">OPTIONAL. If left out, it is assumed to
               be <spanx style="verb">false</spanx>. If set to <spanx
               style="verb">true</spanx>, it indicates that the requester would
-              like the API to prefetch entity statements that may be
-              relevant.</t>
-            </list> As long as the request is understood and correct, the
-          response MUST be a JSON array including signed entity statements.
-          The content type MUST be set to <spanx style="verb">
-            application/json</spanx>. If the issuing entity does not recognize
-          the target, it should return an empty JSON array. The returned list
-          of entity statements SHOULD include a statement issued by the
-          issuing entity about the entity represented in the target parameter.
-          The issuing entity may also decide to prefetch additional entity
-          statements that may be relevant to the requester.</t>
+              like the API to prefetch entity statements that may be relevant
+              for consumer to establish a trust chain, and may save the
+              consumer from performing additional API requests.</t>
+            </list></t>
 
           <figure>
             <preamble>The following is a non-normative example of an API
             request for entity statement:</preamble>
 
-            <artwork><![CDATA[GET /metadata-api?target= HTTP/1.1
-Host: serviceprovider.org
+            <artwork><![CDATA[GET /.well-known/openid-federation?iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation HTTP/1.1
+Host: openid.sunet.se
 ]]></artwork>
 
             <postamble>(postamble)</postamble>
           </figure>
+        </section>
+
+        <section title="Fetch Entity Statements Response">
+          <t>As long as the request is correct, understood and accepted, the
+          response MUST be a JSON array including signed entity statements.
+          The content type MUST be set to <spanx style="verb">application/json</spanx>.
+          If the issuing entity does not recognize the subject or the issuer,
+          it should return an empty JSON array. The returned list of entity
+          statements SHOULD include a statement issued by the issuing entity
+          about the entity represented in the subject parameter. The issuing
+          entity may also decide to prefetch additional entity statements that
+          may be relevant to the requester.</t>
 
           <figure>
-            <preamble>resulting in the following response:</preamble>
+            <preamble>A non-normative example of a response:</preamble>
 
             <artwork><![CDATA[200 OK
 Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
@@ -492,17 +483,83 @@ Content-Type: application/json
           </figure>
         </section>
 
-        <section title="Trust negotiation">
-          <t>TBD. Resolving metadata for a specific type of metadata, for a
-          given peer. The relying party may ask a specific provider to resolve
-          the relying party openid_client metadata with its own configured
-          trust root. The result may tell what operations, scopes and claims
-          the relying party is allowed to use.</t>
+        <section title="Trust negotiation Request">
+          <t>WORK IN PROGRESS. Resolving metadata for a specific type of
+          metadata, for a given peer. The relying party may ask a specific
+          provider to resolve the relying party openid_client metadata with
+          its own configured trust root. The result may tell what operations,
+          scopes and claims the relying party is allowed to use.</t>
+
+          <t><list style="hanging">
+              <t hangText="op">REQUIRED. MUST be set to <spanx style="verb">resolve_metadata</spanx>.</t>
+
+              <t hangText="iss">REQUIRED. The entity identifier of the issuer
+              from which you want to resolve metadata. Because of the
+              normalization of the URL, multiple issuers may resolve to a
+              shared federation API. This parameter makes it expicit exactly
+              which issuer we want to interact with.</t>
+
+              <t hangText="peer">REQUIRED. The entity identifeir of the .</t>
+
+              <t hangText="type">REQUIRED. The metadata type to resolve.</t>
+            </list></t>
         </section>
 
-        <section title="Entity listings">
-          <t>TBD. Return an JSON List of all entities that the entity is
-          prepared to issue statements about.</t>
+        <section title="Entity Listings Request">
+          <t>WORK IN PROGRESS. Return an JSON List of all entities that the
+          entity is prepared to issue statements about.</t>
+
+          <t><list style="hanging">
+              <t hangText="op">REQUIRED. MUST be set to <spanx style="verb">listing</spanx>.</t>
+
+              <t hangText="iss">REQUIRED. The entity identifier of the issuer
+              from which you want to resolve metadata. Because of the
+              normalization of the URL, multiple issuers may resolve to a
+              shared federation API. This parameter makes it expicit exactly
+              which issuer we want to interact with.</t>
+
+              <t hangText="type">OPTIONAL. Provide this parameter to filter
+              the results to entity statements that contain entries for this
+              specific metadata type.</t>
+            </list></t>
+        </section>
+
+        <section title="Generic Error Response">
+          <t>If the request was malformed, or some error occured during
+          processing of the request, the following standardized error format
+          should be used regardless of the operation specified.</t>
+
+          <t>The HTTP response code MUST be something else than 200, giving an
+          indication of the type of error. The response body MUST be a JSON
+          object including these claims:</t>
+
+          <t><list style="hanging">
+              <t hangText="op">REQUIRED. Which operation was the request
+              processed as.</t>
+
+              <t hangText="error">REQUIRED. Shor text tag indicating the error
+              code.</t>
+
+              <t hangText="error_description">REQUIRED. A human readable short
+              text describing the error.</t>
+            </list></t>
+
+          <figure>
+            <preamble>A non-normative example of a error response:</preamble>
+
+            <artwork><![CDATA[200 Invalid request
+Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
+Content-Type: application/json
+
+{
+  "op": "fetch",
+  "error": "generic_error",
+  "error_description": "Required request parameter [iss] was missing."
+}
+]]></artwork>
+
+            <postamble>(the signed JWT is truntated)</postamble>
+          </figure>
         </section>
       </section>
     </section>
@@ -673,10 +730,11 @@ Content-Type: application/json
         target="OpenID.Registration">OpenID Connect Dynamic Client
         Registration 1.0</xref>.</t>
 
-        <t>It is assumed that an federation entity has a set of authority_hints
-        and knowledge about which trust anchor that can be found at the end of
-        a trust chain starting in each authorityHint. How the entity has
-        received this knowledge is outside the scope of this document.</t>
+        <t>It is assumed that an federation entity has a set of
+        authority_hints and knowledge about which trust anchor that can be
+        found at the end of a trust chain starting in each authorityHint. How
+        the entity has received this knowledge is outside the scope of this
+        document.</t>
 
         <section title="Provider Discovery">
           <t>The RP will start by figuring out the OPs metadata using the
@@ -915,6 +973,8 @@ Content-Type: application/json
 
       <?rfc include="reference.RFC.7515"?>
 
+      <?rfc include="reference.RFC.5785"?>
+
       <?rfc include="reference.RFC.7517"?>
 
       <?rfc include="reference.RFC.6962"?>
@@ -1042,10 +1102,10 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
         <t>How trust is established and entities becomes part of a federation
         is out of scope of this specification. But it could involve some kind
         of non-technical contract, agreement or term of use that is
-        established, followed by a federation or trust issuer that registers an
-        entity identifier, public key and a set of metadata that restricts the
-        delegated trust that is represented in the entity statement about the
-        joining party.</t>
+        established, followed by a federation or trust issuer that registers
+        an entity identifier, public key and a set of metadata that restricts
+        the delegated trust that is represented in the entity statement about
+        the joining party.</t>
 
         <t>The following example, assumes the following trust relations is
         established, and the following entities are able to issue entity
@@ -1064,9 +1124,9 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
 
             <t>eduGAIN issues an entity statement about SWAMID</t>
 
-            <t>SWAMID issues an entity statement about the university of
-            Umea - an OpenID provider for employees and students at the
-            university of Umea</t>
+            <t>SWAMID issues an entity statement about the university of Umea
+            - an OpenID provider for employees and students at the university
+            of Umea</t>
           </list>Foodle has a local trust root configuration that looks like
         this:</t>
 
