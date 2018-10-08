@@ -188,6 +188,14 @@
           responses. Instead OpenID Connect specific metadata includes claims
           for this purpose.</t>
 
+          <t hangText="authority_hints">OPTIONAL. A JSON object where the keys
+          are the intermediate entities that may issue an entity statement
+          about the issuer entity. The value MUST be a JSON array of entities
+          that is further up in the trust chain. The array may be an empty
+          list. The JSON array can be used to simplify the selection of trust
+          chains without the need for fetching all possible authority
+          hints.</t>
+
           <t hangText="metadata">REQUIRED. JSON object including protocol
           specific metadata claims that represent the leaf node. To resolve
           the resulting metadata for a leaf node, the compound metadata
@@ -202,13 +210,31 @@
           metadata</xref>. An entity statement may contain multiple metadata
           statement, but only one for each metadata type.</t>
 
-          <t hangText="authority_hints">OPTIONAL. A JSON object where the keys
-          are the intermediate entities that may issue an entity statement
-          about the issuer entity. The value MUST be a JSON array of entities
-          that is further up in the trust chain. The array may be an empty
-          list. The JSON array can be used to simplify the selection of trust
-          chains without the need for fetching all possible authority
-          hints.</t>
+          <t hangText="sub_is_leaf">OPTIONAL. Boolean value that indicates
+          whether the subject is considered a leaf node. A leaf node is not
+          trusted to issue statements about other entities than itself. If
+          this property is left out, it is considered to be true.</t>
+
+          <t hangText="sub_meta">OPTIONAL. If present, an JSON object
+          containing one or more of the properties listed below. This is
+          metadata describing the subject of this entity statement. The
+          metadata included in the metadata claim is always referring to the
+          leaf nodes, while the metadata in sub_meta refers to the immediate
+          subject, which may be an intermediate trust issuer.<vspace
+          blankLines="1"/><list style="hanging">
+              <t hangText="name">OPTIONAL. String. The human readable name
+              describing the subject entity. This may in example be the name
+              of an organization.</t>
+
+              <t hangText="contacts">OPTIONAL. JSON array with one or more
+              strings. Contact persons at the entity.</t>
+
+              <t hangText="policy_url">OPTIONAL. URL to documentation of
+              conditions and policies relevant to this entity</t>
+
+              <t hangText="homepage_url">OPTIONAL. URL to a generic home page
+              representing this entity.</t>
+            </list></t>
         </list></t>
 
       <t>The entity statement is signed using the private key of the issuer
@@ -1070,7 +1096,7 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
       </section>
 
       <section title="User choose to login at Foodle">
-        <t>Let us assume a student from Umea would like to login at
+        <t>Let us assume a student from Ume&aring; would like to login at
         Foodle. Some sort of discovery process involves the end user choosing
         an OpenID provider. OpenID Discovery using the e-mail address is one
         option. Foodle presenting a list of available providers for the user
@@ -1083,14 +1109,10 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
 
       <section title="Foodle discovers the OpenID provider">
         <t>Foodle normalizes the entity identifier of the OpenID Provider, and
-        performs a WebFinger request to resolve the metadata API. </t>
+        performs a WebFinger request to resolve the metadata API.</t>
 
         <figure>
-          <artwork><![CDATA[
-GET /.well-known/webfinger?
-rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&
-resource=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
-
+          <artwork><![CDATA[GET /.well-known/webfinger?rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&resource=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
 Host: umu.se]]></artwork>
         </figure>
 
@@ -1110,23 +1132,21 @@ Content-Type: application/jrd+json
         </figure>
 
         <t>Foodle then uses the metadata API endpoint to fetch the self issued
-        entity statement from Umea.</t>
+        entity statement from Ume&aring;.</t>
 
         <figure>
-          <artwork><![CDATA[
-GET /openid-federation/metadata-api?
-target=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
+          <artwork><![CDATA[GET /openid-federation/metadata-api?target=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
 Host: idp.umu.se]]></artwork>
         </figure>
 
         <figure>
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJp..."]]]></artwork>
+["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQiOjE1MzgzN..."]]]></artwork>
         </figure>
 
         <t>The API endpoint returns a list of signed entity statements. In
-        this case we look for a self issued statement from the Umea
+        this case we look for a selfissued statement from the Ume&aring;
         university. We then decode and inspect the content:</t>
 
         <figure>
@@ -1135,8 +1155,7 @@ Content-Type: application/json
   "exp": 1538394505,
   "metadata": {
     "openid_provider": {
-      "authorization_endpoint":
-        "https://idp.umu.se/openid/authorization",
+      "authorization_endpoint": "https://idp.umu.se/openid/authorization",
       "token_endpoint": "https://idp.umu.se/openid/token",
       "response_types_supported": ["code", "code id_token", "token"],
       "grant_types_supported": [
@@ -1146,10 +1165,8 @@ Content-Type: application/json
       ],
       "subject_types_supported": ["pairwise", "public"],
       "id_token_signing_alg_values_supported": ["RS256"],
-      "logo_uri":
-        "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-      "policy_uri":
-        "https://www.umu.se/en/about-the-website/legal-information/",
+      "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+      "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
       "LoaMax": "http://eidas.europa.eu/LoA/high"
     }
   },
@@ -1181,19 +1198,16 @@ Content-Type: application/json
         a complete chain from the self issued statement to the locally
         configured trust root, which contain SWAMID.</t>
 
-        <t>The information found in the authority_hints is critical in order to
-        dynamically discover the trust chain. If such hints are not present,
-        the relying party may resume to fixed configured trust roots to ask
-        for trust statements.</t>
+        <t>The information found in the authority_hints is critical in order
+        to dynamically discover the trust chain. If such hints are not
+        present, the relying party may resume to fixed configured trust roots
+        to ask for trust statements.</t>
 
         <t>In this example, Foodle now fetches an entity statement from
         SWAMID. First a WebFinger request to obtain the metadata endpoint:</t>
 
         <figure>
-          <artwork><![CDATA[
-GET /.well-known/webfinger?
-rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&
-resource=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
+          <artwork><![CDATA[GET /.well-known/webfinger?rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&resource=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
 Host: www.sunet.se]]></artwork>
         </figure>
 
@@ -1213,19 +1227,17 @@ Content-Type: application/jrd+json
         </figure>
 
         <t>Then a simple request to the metadata API endpoint to request
-        SWAMIDs entity statement with regards to University of Umea:</t>
+        SWAMIDs entity statement with regards to Univesrity of Ume&aring;:</t>
 
         <figure>
-          <artwork><![CDATA[
-GET /openid-federation/metadata-api?
-target=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
+          <artwork><![CDATA[GET /openid-federation/metadata-api?target=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
 Host: www.sunet.se]]></artwork>
         </figure>
 
         <figure>
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJ..."]]]></artwork>
+["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpYXQiOjE1Mz..."]]]></artwork>
         </figure>
 
         <t>The decoded version of the entity statement is:</t>
@@ -1260,14 +1272,14 @@ Content-Type: application/json
 }]]></artwork>
         </figure>
 
-        <t>Note that the entity statement about University of Umea
+        <t>Notice that the entity statement about University of Ume&aring;
         also contains an entry for openid_client metadata. This indicates that
-        SWAMID has deemed this university to be trusted to issue its own OIDC
+        SWAMID express this university to be trusted to issue its own OpenID
         clients without the need for registering these directly in SWAMID.</t>
 
         <t>These two entity statements are sufficient to establish a path from
         the local configured trust anchor which trust SWAMID, to the
-        self issued statement from the University of Umea. Here are the
+        selfissued statement from the University of Ume&aring;. Here are the
         steps performed to validate the trust chain:</t>
 
         <t><list style="symbols">
@@ -1275,15 +1287,15 @@ Content-Type: application/json
             configuration.</t>
 
             <t>Use these keys to validate the signature of the signed entity
-            statement issued by SWAMID about the University of Umea</t>
+            statement issued by SWAMID about the University of Ume&aring;</t>
 
             <t>Check that the sub from the trust configuration matches the iss
             value of the first entity statement.</t>
 
             <t>Extract the jwks entry from this entity statement. These are
-            the signing keys of the University of Umea</t>
+            the signing keys of the University of Ume&aring;</t>
 
-            <t>Validate the self signed statement from Universy of Umea
+            <t>Validate the self signed statement from Universy of Ume&aring;
             using the keys found above.</t>
 
             <t>Check that the sub from the previous statement matches the iss
@@ -1312,8 +1324,7 @@ Content-Type: application/json
     "contacts": ["legal@umu.se", "technical@umu.se"]
   },
   {
-    "authorization_endpoint":
-      "https://idp.umu.se/openid/authorization",
+    "authorization_endpoint": "https://idp.umu.se/openid/authorization",
     "token_endpoint": "https://idp.umu.se/openid/token",
     "response_types_supported": ["code", "code id_token", "token"],
     "grant_types_supported": [
@@ -1323,10 +1334,8 @@ Content-Type: application/json
     ],
     "subject_types_supported": ["pairwise", "public"],
     "id_token_signing_alg_values_supported": ["RS256"],
-    "logo_uri":
-      "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-    "policy_uri":
-      "https://www.umu.se/en/about-the-website/legal-information/",
+    "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+    "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
     "LoaMax": "http://eidas.europa.eu/LoA/high"
   }
 ]]]></artwork>
@@ -1339,12 +1348,9 @@ Content-Type: application/json
           <artwork><![CDATA[{
   "organization": "University of Ume?",
   "contacts": ["legal@umu.se", "technical@umu.se"],
-  "logo_uri":
-    "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-  "policy_uri":
-    "https://www.umu.se/en/about-the-website/legal-information/",
-  "authorization_endpoint":
-    "https://idp.umu.se/openid/authorization",
+  "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+  "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
+  "authorization_endpoint": "https://idp.umu.se/openid/authorization",
   "token_endpoint": "https://idp.umu.se/openid/token",
   "response_types_supported": ["code", "code id_token", "token"],
   "grant_types_supported": [
@@ -1360,7 +1366,7 @@ Content-Type: application/json
       </section>
 
       <section title="RP sends authentication request (implicit registration)">
-        <t>Foodle after establishing trust with the University of Umea
+        <t>Foodle after establishing trust with the University of Ume&aring;
         and extracted a resulting set of metadata, will send an authentication
         request to the OpenID provider. This example involves the implicit
         registration.</t>
