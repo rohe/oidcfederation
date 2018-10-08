@@ -16,6 +16,7 @@ services:
   - docker
 
 install:
+- pip install --upgrade pip
 - pip install xml2rfc
 - ls -la .
 - ls -la public
