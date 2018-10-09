@@ -419,7 +419,7 @@
               <t hangText="iss">REQUIRED. The entity identifier of the issuer
               from which you want an entity statement issued. Because of the
               normalization of the URL, multiple issuers may resolve to a
-              shared federation API. This parameter makes it expicit exactly
+              shared federation API. This parameter makes it explicit exactly
               which issuer we want entity statements from.</t>
 
               <t hangText="sub">OPTIONAL. The entity identifier of the subject
@@ -429,8 +429,8 @@
               statement.</t>
 
               <t hangText="aud">OPTIONAL. The entity identifier of the
-              requestor. The issuing entity may choose to include this
-              parameter to form the entity statement specificly for this
+              requester. The issuing entity may choose to include this
+              parameter to form the entity statement specifically for this
               target, in which the <spanx style="verb">aud</spanx> claim also
               should be present in the entity statement it self.</t>
 
