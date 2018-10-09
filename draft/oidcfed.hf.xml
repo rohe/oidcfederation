@@ -477,7 +477,7 @@ Content-Type: application/json
 ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc..."]
 ]]></artwork>
 
-            <postamble>(the signed JWT is truntated)</postamble>
+            <postamble>(the signed JWT is truncated)</postamble>
           </figure>
         </section>
 
