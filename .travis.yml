@@ -1,14 +1,22 @@
 sudo: required
 language: node_js
+
+python:
+- 3.6
+
 node_js:
 - '0.11'
-script: node -v
+
+script:
+  - node -v
+  - xml2rfc draft/oidcfed.hf.xml
+
 services:
 - docker
 install:
-- "./xml2rfc.sh"
-- ls -la .
-- ls -la public
+- pip install --user --upgrade pip
+- pip install --user xml2rfc
+
 deploy:
   provider: gcs
   access_key_id: GOOGN4TO2PHZD2BOMBDOM7VX
