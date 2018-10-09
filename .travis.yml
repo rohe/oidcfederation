@@ -28,4 +28,4 @@ deploy:
   overwrite: true
   acl: public-read
   on:
-    repo: andreassolberg/fedoidc
+    repo: rohe/oidcfederation
