@@ -9,7 +9,10 @@ node_js:
 
 script:
   - node -v
-  - xml2rfc draft/oidcfed.hf.xml
+  # - xml2rfc draft/oidcfed.hf.xml
+  - mkdir public
+  - xml2rfc draft/oidcfed.hf.xml --text -o public/oidcfed-05.txt
+  - xml2rfc draft/oidcfed.hf.xml --html -o public/oidcfed-05.html
 
 services:
 - docker
