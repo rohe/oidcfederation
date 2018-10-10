@@ -724,7 +724,8 @@ Content-Type: application/json
       </section>
     </section>
 
-    <section anchor="flattening-metadata" title="Flattening compound metadata">
+    <section anchor="flattening-metadata"
+             title="Flattening metadata from chain of entity statements">
       <t>The metadata for a specific entity can be constructed by starting
       with the information in ms_0 and then adding the information in ms_1 to
       ms_n using the following rule:</t>
