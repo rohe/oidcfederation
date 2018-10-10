@@ -370,42 +370,44 @@
       </section>
     </section>
 
-    <section title="Fetching entity statements">
-      <t>In order to fetch entity statements, you need to know the identifier
-      of the entity to ask, and the identifier of the entity that you want the
-      statement to be about. Typically you will start fetching entity
-      statements before you initiate contact with another entity, where the
-      identifier of this entity is all the information you have. Then you will
-      ask this identifier for entity statements about itself.</t>
+    <section title="The Federation API">
+      <t>Given the entity identifier, the endpoint of the federation API
+      endpoint of the entity is easily derived. All entities that are expected
+      to expose entity statements about themselves or other entities, MUST
+      implement a Federation API. </t>
 
-      <t>All entities that are expected to expose entity statements about
-      themselves or other entities, MUST implement a Federation API. A
-      Federation API is an endpoint to support requesting signed entity
-      statements needed in order to build trust between two entities.</t>
+      <t>The federation API endpoint of an entity, is resolved from the entity
+      identifier. The Federation API endpoint is found using the <xref
+      target="RFC5785">Well known URIs</xref> specification, with the suffix
+      <spanx style="verb">openid-federation</spanx>. The scheme, host and port
+      is taken directly from the entity identifier combined with the following
+      path: <spanx style="verb">/.well-known/openid-federation</spanx>.</t>
 
-      <section anchor="webfinger"
-               title="Resolving the Federation API endpoint of the issuer">
-        <t>The federation API endpoint of an issuer, is resolved from the
-        issuer entity identifier. The Federation API endpoint is found using
-        the <xref target="RFC5785">Well known URIs</xref> specification, with
-        the suffix <spanx style="verb">openid-federation</spanx>. The scheme,
-        host and port is taken directly from the issuer entity identifier
-        combined with the following path: <spanx style="verb">/.well-known/openid-federation</spanx>.</t>
-      </section>
+      <t>The Federation API is an HTTP API that may support multiple
+      operations. Fetching entities is one of the operations, and the only one
+      that all entities is REQUIRED to support. All the other operations is
+      OPTIONAL. The <spanx style="verb">op</spanx> (operation) parameter may
+      be used to defined new operations in a future version of the
+      specification or a local deployment which have agreed upon additional
+      functionality.</t>
 
-      <section title="Querying the Federation API">
-        <t>The Federation API is an HTTP API that may support multiple
-        operations. The <spanx style="verb">op</spanx> (operation) parameter
-        may be used to defined new operations in a future version of the
-        specification or a local deployment which have agreed upon additional
-        functionality.</t>
+      <t>While all operations in the specification make use of a GET request,
+      other operations may choose to use other HTTP methods. If the <spanx
+      style="verb">op</spanx> parameter is left out, it is considered to be a
+      fetch entity statements request. Unless otherwise mentioned or agreed
+      upon, requests to the federation API does not need to be
+      authenticated.</t>
 
-        <t>While all operations in the specification make use of a GET
-        request, other operations may choose to use other HTTP methods. If the
-        <spanx style="verb">op</spanx> parameter is left out, it is considered
-        to be a fetch entity statements request. Unless otherwise mentioned or
-        agreed upon, requests to the federation API does not need to be
-        authenticated.</t>
+      <section title="Fetching entity statements (REQUIRED)">
+        <t>Fetching entity statements is used to collect entity statements and
+        a valid trust chain in order to establish trust with a remote
+        peer.</t>
+
+        <t>In order to fetch entity statements, you need to know the
+        identifier of the entity to ask, and the identifier of the entity that
+        you want the statement to be about. Typically the first entity
+        statement to fetch is the remote peer self issued entity
+        statement.</t>
 
         <section title="Fetch Entity Statements Request">
           <t>The request MUST be a HTTP request using the GET method to a
@@ -480,17 +482,26 @@ Content-Type: application/json
             <postamble>(the signed JWT is truncated)</postamble>
           </figure>
         </section>
+      </section>
+
+      <section title="Trust negotiation (OPTIONAL)">
+        <t>An entity may use the trust negotiation operation in order to fetch
+        a resolved metadata of it self as seen/trusted by a remote peer. The
+        remote peer will fetch the metadata and neccessary trust chain to the
+        requestor, and perform metadata flattening. The remote peer should
+        include it own trust root configuration when generating the resulting
+        metadata. The metadata returned should be the same as the one used in
+        the software.</t>
 
         <section title="Trust negotiation Request">
-          <t>WORK IN PROGRESS. Resolving metadata for a specific type of
-          metadata, for a given peer. The relying party may ask a specific
-          provider to resolve the relying party openid_client metadata with
-          its own configured trust root. The result may tell what operations,
-          scopes and claims the relying party is allowed to use.</t>
+          <t>Resolving metadata for a specific type of metadata, for a given
+          peer. The relying party may ask a specific provider to resolve the
+          relying party openid_client metadata with its own configured trust
+          root. The result may tell what operations, scopes and claims the
+          relying party is allowed to use.</t>
 
           <t><list style="hanging">
-              <t hangText="op">REQUIRED. MUST be set to
-                <spanx style="verb">resolve_metadata</spanx>.</t>
+              <t hangText="op">REQUIRED. MUST be set to <spanx style="verb">resolve_metadata</spanx>.</t>
 
               <t hangText="iss">REQUIRED. The entity identifier of the issuer
               from which you want to resolve metadata. Because of the
@@ -504,13 +515,52 @@ Content-Type: application/json
             </list></t>
         </section>
 
+        <section title="Trust negotiation Response">
+          <t>The response is a generated flattened metadata of the type
+          specified in the request.</t>
+
+          <figure>
+            <preamble>A non-normative example of a response:</preamble>
+
+            <artwork><![CDATA[200 OK
+Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
+Content-Type: application/json
+
+{
+  "organization": "University of Ume?",
+  "contacts": ["legal@umu.se", "technical@umu.se"],
+  "logo_uri":
+    "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+  "policy_uri":
+    "https://www.umu.se/en/about-the-website/legal-information/",
+  "authorization_endpoint":
+    "https://idp.umu.se/openid/authorization",
+  "token_endpoint": "https://idp.umu.se/openid/token",
+  "response_types_supported": ["code", "code id_token", "token"],
+  "grant_types_supported": [
+    "authorization_code",
+    "implicit",
+    "urn:ietf:params:oauth:grant-type:jwt-bearer"
+  ],
+  "subject_types_supported": ["pairwise"],
+  "id_token_signing_alg_values_supported": ["RS256"],
+  "LoaMax": "http://swamid.se/LoA/substantial",
+  "expires": 8776635
+}
+]]></artwork>
+          </figure>
+        </section>
+      </section>
+
+      <section title="Entity listings (OPTIONAL)">
+        <t>An interested entity may query an entity about a list of all
+        entities that an entity is prepared to issue statements about.</t>
+
         <section title="Entity Listings Request">
-          <t>WORK IN PROGRESS. Return an JSON List of all entities that the
-          entity is prepared to issue statements about.</t>
+          <t>The following request parameters are allowed for a </t>
 
           <t><list style="hanging">
-              <t hangText="op">REQUIRED. MUST be set to
-                <spanx style="verb">listing</spanx>.</t>
+              <t hangText="op">REQUIRED. MUST be set to <spanx style="verb">listing</spanx>.</t>
 
               <t hangText="iss">REQUIRED. The entity identifier of the issuer
               from which you want to resolve metadata. Because of the
@@ -521,33 +571,72 @@ Content-Type: application/json
               <t hangText="type">OPTIONAL. Provide this parameter to filter
               the results to entity statements that contain entries for this
               specific metadata type.</t>
+
+              <t hangText="sub_is_leaf">OPTIONAL. If left out, result should
+              include both leaf nodes and intermediate nodes. If set to true,
+              the response should contain only leaf nodes. If set to true, the
+              response should contain only intermediate nodes.</t>
+
+              <t hangText="claims">OPTIONAL. A comma separated list of claim
+              names that the requestor would like to get for each entity. If
+              left out or an empty string, the response should contain an
+              empty object for each of the known entities.</t>
             </list></t>
         </section>
 
-        <section title="Generic Error Response">
-          <t>If the request was malformed, or some error occured during
-          processing of the request, the following standardized error format
-          should be used regardless of the operation specified.</t>
-
-          <t>The HTTP response code MUST be something else than 200, giving an
-          indication of the type of error. The response body MUST be a JSON
-          object including these claims:</t>
-
-          <t><list style="hanging">
-              <t hangText="op">REQUIRED. Which operation was the request
-              processed as.</t>
-
-              <t hangText="error">REQUIRED. Shor text tag indicating the error
-              code.</t>
-
-              <t hangText="error_description">REQUIRED. A human readable short
-              text describing the error.</t>
-            </list></t>
+        <section title="Entity Listing Response">
+          <t>The response MUST contain an JSON object where the known entity
+          identifiers are the propery keys, and a JSON object with the
+          requested claims is the property value. Requsted claims that the
+          reponder is not able to provide should be left out.</t>
 
           <figure>
-            <preamble>A non-normative example of a error response:</preamble>
+            <preamble>A non-normative example of a response:</preamble>
 
-            <artwork><![CDATA[200 Invalid request
+            <artwork><![CDATA[200 OK
+Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
+Content-Type: application/json
+
+{
+  "https://ntnu.andreas.labs.uninett.no/": {
+    "client_name": "NTNU Labs"
+  },
+  "https://blackboard.ntnu.no/openid/callback": {
+    "client_name": "Blackboard"
+  },
+  "https://serviceprovider.andreas.labs.uninett.no/application1007": {
+    "client_name": "Test application"
+  }
+}
+]]></artwork>
+          </figure>
+        </section>
+      </section>
+
+      <section title="Generic Error Response (OPTIONAL)">
+        <t>If the request was malformed, or some error occured during
+        processing of the request, the following standardized error format
+        should be used regardless of the operation specified.</t>
+
+        <t>The HTTP response code MUST be something else than 200, giving an
+        indication of the type of error. The response body MUST be a JSON
+        object including these claims:</t>
+
+        <t><list style="hanging">
+            <t hangText="op">REQUIRED. Which operation was the request
+            processed as.</t>
+
+            <t hangText="error">REQUIRED. Shor text tag indicating the error
+            code.</t>
+
+            <t hangText="error_description">REQUIRED. A human readable short
+            text describing the error.</t>
+          </list></t>
+
+        <figure>
+          <preamble>A non-normative example of a error response:</preamble>
+
+          <artwork><![CDATA[200 Invalid request
 Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
@@ -559,9 +648,8 @@ Content-Type: application/json
 }
 ]]></artwork>
 
-            <postamble>(the signed JWT is truntated)</postamble>
-          </figure>
-        </section>
+          <postamble>(the signed JWT is truntated)</postamble>
+        </figure>
       </section>
     </section>
 
