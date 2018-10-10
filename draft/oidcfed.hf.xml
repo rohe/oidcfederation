@@ -1222,28 +1222,31 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
             - an OpenID provider for employees and students at the university
             of Umea</t>
           </list>Foodle has a local trust root configuration that looks like
-        this:</t>
+        this (notice that the exact format and content on the trust root
+        configuration is out of scope of this specification):</t>
 
         <figure>
           <artwork><![CDATA[[
   {
     "sub": "https://www.sunet.se/swamid",
+    "sub_meta": {"name": "SWAMID"},
     "metadata": {
-      "openid_provider": {
-         "LoaMax": "http://swamid.se/LoA/substantial"}
+      "openid-provider": {"loa_max": "http://swamid.se/LoA/substantial"}
     },
-    "jwks": [
-      {
-        "kty": "RSA",
-        "alg": "RS256",
-        "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
-        "e": "AQAB",
-        "key_ops": ["verify"],
-        "ext": true,
-        "kid": "swamid",
-        "use": "sig"
-      }
-    ]
+    "jwks": {
+      "keys": [
+        {
+          "kty": "RSA",
+          "alg": "RS256",
+          "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
+          "e": "AQAB",
+          "key_ops": ["verify"],
+          "ext": true,
+          "kid": "swamid",
+          "use": "sig"
+        }
+      ]
+    }
   }
 ]]]></artwork>
         </figure>
@@ -1263,45 +1266,18 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
 
       <section title="Foodle discovers the OpenID provider">
         <t>Foodle normalizes the entity identifier of the OpenID Provider, and
-        performs a WebFinger request to resolve the metadata API.</t>
+        performs a request to fetch the self issued entity statement using the
+        federation API of the OpenID provider.</t>
 
         <figure>
-          <artwork><![CDATA[
-GET /.well-known/webfinger?
-rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&
-resource=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
+          <artwork><![CDATA[GET /.well-known/openid-federation?iss=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
 Host: umu.se]]></artwork>
         </figure>
 
         <figure>
           <artwork><![CDATA[HTTP/1.1 200 OK
-Access-Control-Allow-Origin: *
-Content-Type: application/jrd+json
-{
-  "subject": "https://umu.se/openid",
-  "links": [
-    {
-      "rel": "https://openid.net/specs/federation/1.0/entity",
-      "href": "https://idp.umu.se/openid-federation/metadata-api"
-    }
-  ]
-}]]></artwork>
-        </figure>
-
-        <t>Foodle then uses the metadata API endpoint to fetch the self issued
-        entity statement from Ume&aring;.</t>
-
-        <figure>
-          <artwork><![CDATA[
-GET /openid-federation/metadata-api?
-target=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
-Host: idp.umu.se]]></artwork>
-        </figure>
-
-        <figure>
-          <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQiO..."]]]></artwork>
+["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQiOjE1MzkxN..."]]]></artwork>
         </figure>
 
         <t>The API endpoint returns a list of signed entity statements. In
@@ -1310,15 +1286,13 @@ Content-Type: application/json
 
         <figure>
           <artwork><![CDATA[{
-  "iat": 1538390905,
-  "exp": 1538394505,
+  "iat": 1539174048,
+  "exp": 1539177648,
   "metadata": {
-    "openid_provider": {
-      "authorization_endpoint":
-        "https://idp.umu.se/openid/authorization",
+    "openid-provider": {
+      "authorization_endpoint": "https://idp.umu.se/openid/authorization",
       "token_endpoint": "https://idp.umu.se/openid/token",
-      "response_types_supported":
-        ["code", "code id_token", "token"],
+      "response_types_supported": ["code", "code id_token", "token"],
       "grant_types_supported": [
         "authorization_code",
         "implicit",
@@ -1326,11 +1300,9 @@ Content-Type: application/json
       ],
       "subject_types_supported": ["pairwise", "public"],
       "id_token_signing_alg_values_supported": ["RS256"],
-      "logo_uri":
-        "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-      "policy_uri":
-        "https://www.umu.se/en/about-the-website/legal-information/",
-      "LoaMax": "http://eidas.europa.eu/LoA/high"
+      "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+      "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
+      "loa_max": "http://eidas.europa.eu/LoA/high"
     }
   },
   "iss": "https://umu.se/openid",
@@ -1339,18 +1311,20 @@ Content-Type: application/json
     "https://www.sunet.se/swamid": ["https://edugain.org/oidc"],
     "https://kalmar2.org/openid": []
   },
-  "jwks": [
-    {
-      "kty": "RSA",
-      "alg": "RS256",
-      "n": "z1V1kyi6qwmXfKsfhVqKUMmQH3AixN[...]",
-      "e": "AQAB",
-      "key_ops": ["verify"],
-      "ext": true,
-      "kid": "umu",
-      "use": "sig"
-    }
-  ]
+  "jwks": {
+    "keys": [
+      {
+        "kty": "RSA",
+        "alg": "RS256",
+        "n": "z1V1kyi6qwmXfKsfhVqKUMmQH3AixN[...]",
+        "e": "AQAB",
+        "key_ops": ["verify"],
+        "ext": true,
+        "kid": "umu",
+        "use": "sig"
+      }
+    ]
+  }
 }]]></artwork>
         </figure>
       </section>
@@ -1366,77 +1340,53 @@ Content-Type: application/json
         present, the relying party may resume to fixed configured trust roots
         to ask for trust statements.</t>
 
-        <t>In this example, Foodle now fetches an entity statement from
-        SWAMID. First a WebFinger request to obtain the metadata endpoint:</t>
+        <t>In this example, Foodle now fetches an entity statement from SWAMID
+        using the federation API endpoint of SWAMID, discovered in the
+        authority_hints claim.</t>
 
         <figure>
-          <artwork><![CDATA[
-GET /.well-known/webfinger?
-rel=https%3A%2F%2Fopenid.net%2Fspecs%2Ffederation%2F1.0%2Fentity&
-resource=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
-Host: www.sunet.se]]></artwork>
-        </figure>
-
-        <figure>
-          <artwork><![CDATA[HTTP/1.1 200 OK
-Access-Control-Allow-Origin: *
-Content-Type: application/jrd+json
-{
-  "subject": "https://www.sunet.se/swamid",
-  "links": [
-    {
-      "rel": "https://openid.net/specs/federation/1.0/entity",
-      "href": "https://www.sunet.se/openid-federation/metadata-api"
-    }
-  ]
-}]]></artwork>
-        </figure>
-
-        <t>Then a simple request to the metadata API endpoint to request
-        SWAMIDs entity statement with regards to Univesrity of Ume&aring;:</t>
-
-        <figure>
-          <artwork><![CDATA[
-GET /openid-federation/metadata-api?
-target=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
+          <artwork><![CDATA[GET /.well-known/openid-federation?iss=https%3A%2F%2Fwww.sunet.se%2Fswamid&sub=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
 Host: www.sunet.se]]></artwork>
         </figure>
 
         <figure>
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpYX..."]]]></artwork>
+["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpYXQiOjE1Mz..."]]]></artwork>
         </figure>
 
         <t>The decoded version of the entity statement is:</t>
 
         <figure>
           <artwork><![CDATA[{
-  "iat": 1538383588,
-  "exp": 1538387188,
+  "iat": 1539174048,
+  "exp": 1539177648,
   "metadata": {
-    "openid_provider": {
+    "openid-provider": {
       "subject_types_supported": ["pairwise"],
       "id_token_signing_alg_values_supported": ["RS256", "RS512"],
       "organization": "University of Ume?",
       "contacts": ["legal@umu.se", "technical@umu.se"]
     },
-    "openidClient": {}
+    "openid-client": {}
   },
   "iss": "https://www.sunet.se/swamid",
   "sub": "https://umu.se/openid",
-  "jwks": [
-    {
-      "kty": "RSA",
-      "alg": "RS256",
-      "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
-      "e": "AQAB",
-      "key_ops": ["verify"],
-      "ext": true,
-      "kid": "swamid",
-      "use": "sig"
-    }
-  ]
+  "sub_meta": {"name": "University of Ume?"},
+  "jwks": {
+    "keys": [
+      {
+        "kty": "RSA",
+        "alg": "RS256",
+        "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
+        "e": "AQAB",
+        "key_ops": ["verify"],
+        "ext": true,
+        "kid": "swamid",
+        "use": "sig"
+      }
+    ]
+  }
 }]]></artwork>
         </figure>
 
@@ -1484,7 +1434,7 @@ Content-Type: application/json
 
         <figure>
           <artwork><![CDATA[[
-  {"LoaMax": "http://swamid.se/LoA/substantial"},
+  {"loa_max": "http://swamid.se/LoA/substantial"},
   {
     "subject_types_supported": ["pairwise"],
     "id_token_signing_alg_values_supported": ["RS256", "RS512"],
@@ -1492,8 +1442,7 @@ Content-Type: application/json
     "contacts": ["legal@umu.se", "technical@umu.se"]
   },
   {
-    "authorization_endpoint":
-      "https://idp.umu.se/openid/authorization",
+    "authorization_endpoint": "https://idp.umu.se/openid/authorization",
     "token_endpoint": "https://idp.umu.se/openid/token",
     "response_types_supported": ["code", "code id_token", "token"],
     "grant_types_supported": [
@@ -1503,11 +1452,9 @@ Content-Type: application/json
     ],
     "subject_types_supported": ["pairwise", "public"],
     "id_token_signing_alg_values_supported": ["RS256"],
-    "logo_uri":
-      "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-    "policy_uri":
-      "https://www.umu.se/en/about-the-website/legal-information/",
-    "LoaMax": "http://eidas.europa.eu/LoA/high"
+    "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+    "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
+    "loa_max": "http://eidas.europa.eu/LoA/high"
   }
 ]]]></artwork>
         </figure>
@@ -1534,7 +1481,7 @@ Content-Type: application/json
   ],
   "subject_types_supported": ["pairwise"],
   "id_token_signing_alg_values_supported": ["RS256"],
-  "LoaMax": "http://swamid.se/LoA/substantial"
+  "loa_max": "http://swamid.se/LoA/substantial"
 }]]></artwork>
         </figure>
       </section>
@@ -1573,46 +1520,51 @@ Host: idp.umu.se
   {
     "sub": "https://edugain.org/oidc",
     "metadata": {
-      "openid_client": {
+      "openid-client": {
         "rp_scopes": ["openid", "userid-targetedid", "eduperson"],
         "response_types": ["code", "code id_token"]
       }
     },
-    "jwks": [
-      {
-        "kty": "RSA",
-        "use": "sig",
-        "alg": "RS256",
-        "n": "qnd5_krrHKzuJzb5_YEt4sP-YOGSbf[...]",
-        "e": "AQAB",
-        "key_ops": ["verify"],
-        "ext": true,
-        "kid": "edugain"
-      }
-    ]
+    "jwks": {
+      "keys": [
+        {
+          "kty": "RSA",
+          "use": "sig",
+          "alg": "RS256",
+          "n": "qnd5_krrHKzuJzb5_YEt4sP-YOGSbf[...]",
+          "e": "AQAB",
+          "key_ops": ["verify"],
+          "ext": true,
+          "kid": "edugain"
+        }
+      ]
+    }
   },
   {
     "sub": "https://www.sunet.se/swamid",
     "metadata": {
-      "openid_client": {
+      "openid-client": {
         "rp_scopes": ["openid", "userid-persistent", "fs"],
         "response_types": ["code", "code id_token"]
       }
     },
-    "jwks": [
-      {
-        "kty": "RSA",
-        "alg": "RS256",
-        "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
-        "e": "AQAB",
-        "key_ops": ["verify"],
-        "ext": true,
-        "kid": "swamid",
-        "use": "sig"
-      }
-    ]
+    "jwks": {
+      "keys": [
+        {
+          "kty": "RSA",
+          "alg": "RS256",
+          "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
+          "e": "AQAB",
+          "key_ops": ["verify"],
+          "ext": true,
+          "kid": "swamid",
+          "use": "sig"
+        }
+      ]
+    }
   }
-]]]></artwork>
+]
+]]></artwork>
         </figure>
       </section>
 
