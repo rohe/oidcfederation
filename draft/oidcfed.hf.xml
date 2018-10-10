@@ -613,6 +613,10 @@ Content-Type: application/json
         </section>
       </section>
 
+      <section title="Force refreshing of entity statements">
+        <t>TBD.</t>
+      </section>
+
       <section title="Generic Error Response">
         <t>If the request was malformed, or some error occured during
         processing of the request, the following standardized error format
