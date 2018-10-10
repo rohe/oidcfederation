@@ -4,6 +4,8 @@ language: node_js
 python:
 - 3.6
 
+cache: pip
+
 node_js:
 - '0.11'
 
