@@ -213,7 +213,8 @@
           <t hangText="sub_is_leaf">OPTIONAL. Boolean value that indicates
           whether the subject is considered a leaf node. A leaf node is not
           trusted to issue statements about other entities than itself. If
-          this property is left out, it is considered to be true.</t>
+          this property is left out, it is considered to be <spanx
+          style="verb">true</spanx>.</t>
 
           <t hangText="sub_meta">OPTIONAL. If present, an JSON object
           containing one or more of the properties listed below. This is
@@ -318,8 +319,7 @@
       with additional properties relevant in a federated context.</t>
 
       <section title="OpenID Connect Relying Party Metadata">
-        <t>The metadata type identifier is <spanx style="verb">
-          openid_client</spanx>.</t>
+        <t>The metadata type identifier is <spanx style="verb">openid_client</spanx>.</t>
 
         <t>All parameters defined in section 2 of <xref
         target="OpenID.Registration">OpenID Connect Dynamic Client
