@@ -613,7 +613,7 @@ Content-Type: application/json
         </section>
       </section>
 
-      <section title="Generic Error Response (OPTIONAL)">
+      <section title="Generic Error Response">
         <t>If the request was malformed, or some error occured during
         processing of the request, the following standardized error format
         should be used regardless of the operation specified.</t>
