@@ -724,6 +724,70 @@ Content-Type: application/json
       </section>
     </section>
 
+    <section title="Updating metadata, key-rollover and revocation">
+      <t>The OpenID Connect Federation allows for a smooth process of updating
+      metadata and public keys.</t>
+
+      <t>Each entity statement has an explicit expiration time. A trust chain
+      is valid until one or more of the involved entity statements expires.
+      This specification describes how entity statement is fetched and
+      metadata is resolved for the first time, but a consumer of metadata from
+      OpenID Connect Federation MUST support refreshing at least the expired
+      entity statements and re-evaluate the whole trust chain when needed.</t>
+
+      <t>Setting an expiration time on an entity statement can be used to
+      control how often the remote party is fetching an updated version of
+      your public key.</t>
+
+      <section title="Leaf node key-rollover using in procotol">
+        <t>A leaf node, such as an OpenID Provider will typically have at
+        least two set of key pairs, one that is embedded in the entity
+        statement issued by the superior trust issuer, and one that is
+        embedded in the protocol specific metadata that is included in the
+        self issuer entity statement.</t>
+
+        <t><list style="numbers">
+            <t>Generate a new key pair to use K2 to replace the existing K1.
+            The lifetime T1 is the time until all previously issued entity
+            statements are expired.</t>
+
+            <t>Publish both K1 and K2 in the self issued entity statement. Use
+            K1 to sign outgoing messages. Accept encrypted messages to both K1
+            and K2. Set K2 to prioritized key. Wait at least T1 before moving
+            to next step.</t>
+
+            <t>Remove K1 from pulished entity statements. Start signing
+            outgoing messages with K2, accept incomming encrypted messages
+            with both K1 and K2. Wait at least T1.</t>
+
+            <t>Only K2 is used and accepted.</t>
+          </list>The complete time of this key-rollover process is 2x T1.</t>
+      </section>
+
+      <section title="Key-rollover for entity signing key">
+        <t>Identifical to the section above, but the entity statements is
+        issued by the superior party, such that an out of band process for the
+        entity to push its key material to the superior entity MUST be
+        added.</t>
+      </section>
+
+      <section title="Key rollover for trust roots">
+        <t>As previous steps.</t>
+
+        <t>Take into considerations that clients have manually configured
+        pubic keys as part of configuration.</t>
+      </section>
+
+      <section title="Updating metadata">
+        <t>The process of updating its own metadata follows the same procedure
+        as with public keys. </t>
+      </section>
+
+      <section title="Revocation">
+        <t/>
+      </section>
+    </section>
+
     <section anchor="flattening-metadata"
              title="Flattening metadata from chain of entity statements">
       <t>The metadata for a specific entity can be constructed by starting
@@ -1569,8 +1633,13 @@ Host: idp.umu.se
       </section>
 
       <section title="Provider fetches entity statements">
-        <t>The provider starts with the client identifier https://foodl.org/
-        and uses WebFinger, the metadata API endpoints and the authority_hints
+        <t>The provider starts to resolve metadata for the client identifier
+        https://foodl.org/ by fetching the self issued entity statement using
+        the federation API.</t>
+
+        <t/>
+
+        <t>uses WebFinger, the metadata API endpoints and the authority_hints
         in order to establish a full trust chain to the trust root.</t>
 
         <t>In this case there are two possible trust chains:</t>
