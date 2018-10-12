@@ -739,7 +739,7 @@ Content-Type: application/json
       control how often the remote party is fetching an updated version of
       your public key.</t>
 
-      <section title="Leaf node key-rollover using in procotol">
+      <section title="Leaf node key-rollover on keys used in protocol">
         <t>A leaf node, such as an OpenID Provider will typically have at
         least two set of key pairs, one that is embedded in the entity
         statement issued by the superior trust issuer, and one that is
@@ -756,8 +756,8 @@ Content-Type: application/json
             and K2. Set K2 to prioritized key. Wait at least T1 before moving
             to next step.</t>
 
-            <t>Remove K1 from pulished entity statements. Start signing
-            outgoing messages with K2, accept incomming encrypted messages
+            <t>Remove K1 from published entity statements. Start signing
+            outgoing messages with K2, accept incoming encrypted messages
             with both K1 and K2. Wait at least T1.</t>
 
             <t>Only K2 is used and accepted.</t>
@@ -765,7 +765,7 @@ Content-Type: application/json
       </section>
 
       <section title="Key-rollover for entity signing key">
-        <t>Identifical to the section above, but the entity statements is
+        <t>Identical to the section above, but the entity statements is
         issued by the superior party, such that an out of band process for the
         entity to push its key material to the superior entity MUST be
         added.</t>
