@@ -214,7 +214,7 @@
           whether the subject is considered a leaf node. A leaf node is not
           trusted to issue statements about other entities than itself. If
           this property is left out, it is considered to be <spanx
-          style="verb">true</spanx>.</t>
+          style="verb">false</spanx>.</t>
 
           <t hangText="sub_meta">OPTIONAL. If present, an JSON object
           containing one or more of the properties listed below. This is
