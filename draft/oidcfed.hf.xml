@@ -374,7 +374,7 @@
       <t>Given the entity identifier, the endpoint of the federation API
       endpoint of the entity is easily derived. All entities that are expected
       to expose entity statements about themselves or other entities, MUST
-      implement a Federation API. </t>
+      implement a Federation API.</t>
 
       <t>The federation API endpoint of an entity, is resolved from the entity
       identifier. The Federation API endpoint is found using the <xref
@@ -557,7 +557,7 @@ Content-Type: application/json
         entities that an entity is prepared to issue statements about.</t>
 
         <section title="Entity Listings Request">
-          <t>The following request parameters are allowed for a </t>
+          <t>The following request parameters are allowed for a</t>
 
           <t><list style="hanging">
               <t hangText="op">REQUIRED. MUST be set to <spanx style="verb">listing</spanx>.</t>
@@ -757,18 +757,17 @@ Content-Type: application/json
             to next step.</t>
 
             <t>Remove K1 from published entity statements. Start signing
-            outgoing messages with K2, accept incoming encrypted messages
-            with both K1 and K2. Wait at least T1.</t>
+            outgoing messages with K2, accept incoming encrypted messages with
+            both K1 and K2. Wait at least T1.</t>
 
             <t>Only K2 is used and accepted.</t>
           </list>The complete time of this key-rollover process is 2x T1.</t>
       </section>
 
       <section title="Key-rollover for entity signing key">
-        <t>Identical to the section above, but the entity statements is
-        issued by the superior party, such that an out of band process for the
-        entity to push its key material to the superior entity MUST be
-        added.</t>
+        <t>Identical to the section above, but the entity statements is issued
+        by the superior party, such that an out of band process for the entity
+        to push its key material to the superior entity MUST be added.</t>
       </section>
 
       <section title="Key rollover for trust roots">
@@ -780,7 +779,7 @@ Content-Type: application/json
 
       <section title="Updating metadata">
         <t>The process of updating its own metadata follows the same procedure
-        as with public keys. </t>
+        as with public keys.</t>
       </section>
 
       <section title="Revocation">
