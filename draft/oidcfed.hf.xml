@@ -600,8 +600,10 @@ Content-Type: application/json
               specific metadata type.</t>
 
               <t hangText="sub_is_leaf">OPTIONAL. If left out, result should
-              include both leaf nodes and intermediate nodes. If set to true,
-              the response should contain only leaf nodes. If set to true, the
+              include both leaf nodes and intermediate nodes. If set to
+                <spanx style="verb">true</spanx> ,
+              the response should contain only leaf nodes. If set to
+                <spanx style="verb">false</spanx>, the
               response should contain only intermediate nodes.</t>
 
               <t hangText="claims">OPTIONAL. A comma separated list of claim
