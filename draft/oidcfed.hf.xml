@@ -560,11 +560,11 @@ Content-Type: application/json
       </section>
 
       <section title="Entity listings (OPTIONAL)">
-        <t>An interested entity may query an entity about a list of all
-        entities that an entity is prepared to issue statements about.</t>
+        <t>An entity may query another entity for a list of all
+        entities that that entity is prepared to issue statements about.</t>
 
         <section title="Entity Listings Request">
-          <t>The following request parameters are allowed for a</t>
+          <t>The following request parameters are allowed in the query part:</t>
 
           <t><list style="hanging">
               <t hangText="op">REQUIRED. MUST be set to
