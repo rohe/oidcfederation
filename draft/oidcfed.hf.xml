@@ -659,8 +659,7 @@ Content-Type: application/json
             <t hangText="op">REQUIRED. Which operation was the request
             processed as.</t>
 
-            <t hangText="error">REQUIRED. Shor text tag indicating the error
-            code.</t>
+            <t hangText="error">REQUIRED. The error code.</t>
 
             <t hangText="error_description">REQUIRED. A human readable short
             text describing the error.</t>
@@ -669,7 +668,7 @@ Content-Type: application/json
         <figure>
           <preamble>A non-normative example of a error response:</preamble>
 
-          <artwork><![CDATA[200 Invalid request
+          <artwork><![CDATA[400 Bad request
 Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
@@ -681,7 +680,6 @@ Content-Type: application/json
 }
 ]]></artwork>
 
-          <postamble>(the signed JWT is truntated)</postamble>
         </figure>
       </section>
     </section>
