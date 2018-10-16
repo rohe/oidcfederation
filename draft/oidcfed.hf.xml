@@ -513,12 +513,15 @@ Content-Type: application/json
               <t hangText="iss">REQUIRED. The entity identifier of the issuer
               from which you want to resolve metadata. Because of the
               normalization of the URL, multiple issuers may resolve to a
-              shared federation API. This parameter makes it expicit exactly
+              shared federation API. This parameter makes it explicit exactly
               which issuer we want to interact with.</t>
 
-              <t hangText="peer">REQUIRED. The entity identifeir of the .</t>
+              <t hangText="peer">REQUIRED. The entity identifier of the .</t>
 
-              <t hangText="type">REQUIRED. The metadata type to resolve.</t>
+              <t hangText="type">REQUIRED. The metadata type to resolve.
+              In this document we use the metadata types,
+                <spanx style="verb">openid_client</spanx>
+                and <spanx style="verb">openid_provider</spanx>.</t>
             </list></t>
         </section>
 
@@ -612,7 +615,7 @@ Content-Type: application/json
   "https://blackboard.ntnu.no/openid/callback": {
     "client_name": "Blackboard"
   },
-  "https://serviceprovider.andreas.labs.uninett.no/application1007": {
+  "https://serviceprovider.andreas.labs.uninett.no/application007": {
     "client_name": "Test application"
   }
 }
@@ -1303,7 +1306,9 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
     "sub": "https://www.sunet.se/swamid",
     "sub_meta": {"name": "SWAMID"},
     "metadata": {
-      "openid-provider": {"loa_max": "http://swamid.se/LoA/substantial"}
+      "openid-provider": {
+        "loa_max": "http://swamid.se/LoA/substantial"
+      }
     },
     "jwks": {
       "keys": [
@@ -1351,7 +1356,7 @@ Host: umu.se]]></artwork>
         <figure>
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQiOjE1..."]]]></artwork>
+["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQi..."]]]></artwork>
         </figure>
 
         <t>The API endpoint returns a list of signed entity statements. In
@@ -1364,7 +1369,8 @@ Content-Type: application/json
   "exp": 1539177648,
   "metadata": {
     "openid-provider": {
-      "authorization_endpoint": "https://idp.umu.se/openid/authorization",
+      "authorization_endpoint":
+        "https://idp.umu.se/openid/authorization",
       "token_endpoint": "https://idp.umu.se/openid/token",
       "response_types_supported": ["code", "code id_token", "token"],
       "grant_types_supported": [
@@ -1431,7 +1437,7 @@ Host: www.sunet.se]]></artwork>
         <figure>
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpYXQi..."]]]></artwork>
+["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJp..."]]]></artwork>
         </figure>
 
         <t>The decoded version of the entity statement is:</t>
@@ -1521,7 +1527,8 @@ Content-Type: application/json
     "contacts": ["legal@umu.se", "technical@umu.se"]
   },
   {
-    "authorization_endpoint": "https://idp.umu.se/openid/authorization",
+    "authorization_endpoint":
+     "https://idp.umu.se/openid/authorization",
     "token_endpoint": "https://idp.umu.se/openid/token",
     "response_types_supported": ["code", "code id_token", "token"],
     "grant_types_supported": [
