@@ -90,7 +90,7 @@
       discover metadata about an OpenID Provider (OP), and then register to
       obtain relying party credentials. The discovery and registration process
       does not involve any mechanisms of dynamically establishing trust in the
-      exchanged information, but instead rely on-out-of band trust
+      exchanged information, but instead rely on out-of-band trust
       establishment.</t>
 
       <t>In an identity federation context, this is not sufficient. The
@@ -108,20 +108,20 @@
   <middle>
     <section anchor="Introduction" title="Introduction">
       <t>This specification describes how two entities that would like to
-      interact can dynamically fetch and and resolve trust and metadata for a
+      interact can dynamically fetch and resolve trust and metadata for a
       given protocol, by the use of third party trust issuers.</t>
 
       <t>An identity federation can be realized using this specification by
       the use of one or more levels of trust issuers. A trust issuer is an
-      entity, which main purpose is to issue trust statements about entities,
+      entity whose main purpose is to issue trust statements about entities,
       such as OpenID relying party and providers. This specification does not
-      mandates a specific way or restrict how a federation may be built.
+      mandate a specific way or restrict how a federation may be built.
       Instead the specification provides the basic technical trust
-      infrastructure building blocks needed to build a a dynamic and
+      infrastructure building blocks needed to build a dynamic and
       distributed trust network such as a federation.</t>
 
       <t>An entity will typically configure a local trust root to include the
-      identifier and the certificate of a the trusted third party &ndash; the
+      identifier and the certificate of a trusted third party &ndash; the
       federation. All entities involved in OpenID Connect Federation,
       including the trust issuers, will have their own unique identifier. This
       identifier is used to dynamically fetch entity statements. As a complete
