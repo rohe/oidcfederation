@@ -726,9 +726,8 @@ Content-Type: application/json
       <section anchor="trust_lifetime"
                title="Calculating the lifetime of a trust chain">
         <t>Each entity statement in a trust chain is signed and MUST have a
-        expiration time (exp) set. Given that all of them are sometime in the
-        future then the expiration time of the whole trust chain is then the
-        expiration time that is closest in time to the present time.</t>
+        expiration time (exp) set. The earliest expiry time defines the
+          expiration time of the whole trust chain</t>
       </section>
     </section>
 
