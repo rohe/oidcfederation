@@ -90,7 +90,7 @@
       discover metadata about an OpenID Provider (OP), and then register to
       obtain relying party credentials. The discovery and registration process
       does not involve any mechanisms of dynamically establishing trust in the
-      exchanged information, but instead rely on out-of-band trust
+      exchanged information, but instead rely on-out-of band trust
       establishment.</t>
 
       <t>In an identity federation context, this is not sufficient. The
@@ -108,20 +108,20 @@
   <middle>
     <section anchor="Introduction" title="Introduction">
       <t>This specification describes how two entities that would like to
-      interact can dynamically fetch and resolve trust and metadata for a
+      interact can dynamically fetch and and resolve trust and metadata for a
       given protocol, by the use of third party trust issuers.</t>
 
       <t>An identity federation can be realized using this specification by
       the use of one or more levels of trust issuers. A trust issuer is an
-      entity whose main purpose is to issue trust statements about entities,
+      entity, which main purpose is to issue trust statements about entities,
       such as OpenID relying party and providers. This specification does not
-      mandate a specific way or restrict how a federation may be built.
+      mandates a specific way or restrict how a federation may be built.
       Instead the specification provides the basic technical trust
-      infrastructure building blocks needed to build a dynamic and
+      infrastructure building blocks needed to build a a dynamic and
       distributed trust network such as a federation.</t>
 
       <t>An entity will typically configure a local trust root to include the
-      identifier and the certificate of a trusted third party &ndash; the
+      identifier and the certificate of a the trusted third party &ndash; the
       federation. All entities involved in OpenID Connect Federation,
       including the trust issuers, will have their own unique identifier. This
       identifier is used to dynamically fetch entity statements. As a complete
@@ -155,7 +155,7 @@
       <t>An entity statement is always a signed JWT. An entity statement is
       issued by the <spanx style="verb">iss</spanx>, and the statement
       considers the subject entity, the <spanx style="verb">sub</spanx>. To be
-      able to resolve trust and metadata, one need to know the identifier of
+      able to resolve trust and metadata, one needs to know the identifier of
       the target entity &ndash; we refer to this as the leaf entity. The leaf
       entity will always sign a statement about itself, and give some hints to
       other entities that may want to issue statements about itself. All other
@@ -164,7 +164,7 @@
 
       <t><list style="hanging">
           <t hangText="iss">REQUIRED. The entity identifier of the entity that
-          issues the statement. If the iss and the sub is identical, the
+          issues the statement. If the iss and the sub are identical, the
           issuer is making a statement about itself.</t>
 
           <t hangText="sub">REQUIRED. The entity identifier of the subject</t>
@@ -176,11 +176,11 @@
 
           <t hangText="jwks">REQUIRED. A <xref target="RFC7517">JSON Web Key
           Set (JWKS) </xref> representing the public part of the subject
-          entity's signing keys.<vspace blankLines="1"/>These keys is used
+          entity's signing keys.<vspace blankLines="1"/>These keys are used
           verify the identity of the subject. A corresponding private key is
           used by the leaf entity to sign an entity statement about itself,
           and intermediate entities to sign statements about other entities.
-          The keys that can be found here is primarily intended to sign entity
+          The keys that can be found here are primarily intended to sign entity
           statements, and can not be used in other protocols, unless the
           metadata type specification explicitly states how the keys can be
           used. In OpenID Connect, the jwks keys cannot be used within the
@@ -224,7 +224,7 @@
           subject, which may be an intermediate trust issuer.<vspace
           blankLines="1"/><list style="hanging">
               <t hangText="name">OPTIONAL. String. The human readable name
-              describing the subject entity. This may in example be the name
+              describing the subject entity. This may be, for example, the name
               of an organization.</t>
 
               <t hangText="contacts">OPTIONAL. JSON array with one or more
@@ -314,8 +314,8 @@
       <t>The metadata document MUST be a JSON document. Beyond that there is
       no restriction.</t>
 
-      <t>Metadata used in OpenID Connect Federations typically re-use existing
-      metadata standards. If needed extend the metadata schema is extended
+      <t>Metadata used in OpenID Connect Federations typically re-uses existing
+      metadata standards. If needed, the metadata schema is extended
       with additional properties relevant in a federated context.</t>
 
       <section title="OpenID Connect Relying Party Metadata">
@@ -362,7 +362,7 @@
 
       <section title="OAuth Provider">
         <t>The metadata type identifier is
-          <spanx style="verb">openid-</spanx>provider.</t>
+          <spanx style="verb">openid-provider</spanx>.</t>
       </section>
 
       <section title="OAuth Client">
@@ -372,17 +372,17 @@
 
       <section title="OAuth Protected Resources">
         <t>The metadata type identifier is
-          <spanx style="verb">openid-</spanx>api.</t>
+          <spanx style="verb">openid-api</spanx>.</t>
       </section>
     </section>
 
     <section title="The Federation API">
       <t>Given the entity identifier, the endpoint of the federation API
       endpoint of the entity is easily derived. All entities that are expected
-      to expose entity statements about themselves or other entities MUST
+      to expose entity statements about themselves or other entities, MUST
       implement a Federation API.</t>
 
-      <t>The Federation API endpoint of an entity is resolved from the entity
+      <t>The federation API endpoint of an entity, is resolved from the entity
       identifier. The Federation API endpoint is found using the <xref
       target="RFC5785">Well known URIs</xref> specification, with the suffix
       <spanx style="verb">openid-federation</spanx>. The scheme, host and port
@@ -391,7 +391,7 @@
 
       <t>The Federation API is an HTTP API that may support multiple
       operations. Fetching entities is one of the operations, and the only one
-      that all entities are REQUIRED to support. All the other operations are
+      that all entities is REQUIRED to support. All the other operations is
       OPTIONAL. The <spanx style="verb">op</spanx> (operation) parameter may
       be used to defined new operations in a future version of the
       specification or a local deployment which have agreed upon additional
@@ -401,7 +401,7 @@
       other operations may choose to use other HTTP methods. If the <spanx
       style="verb">op</spanx> parameter is left out, it is considered to be a
       fetch entity statements request. Unless otherwise mentioned or agreed
-      upon, requests to the Federation API do not need to be
+      upon, requests to the federation API does not need to be
       authenticated.</t>
 
       <section title="Fetching entity statements (REQUIRED)">
@@ -412,7 +412,7 @@
         <t>In order to fetch entity statements, you need to know the
         identifier of the entity to ask, and the identifier of the entity that
         you want the statement to be about. Typically the first entity
-        statement to fetch is the remote peer self-issued entity
+        statement to fetch is the remote peer self issued entity
         statement.</t>
 
         <section title="Fetch Entity Statements Request">
@@ -427,13 +427,13 @@
               <t hangText="iss">REQUIRED. The entity identifier of the issuer
               from which you want an entity statement issued. Because of the
               normalization of the URL, multiple issuers may resolve to a
-              shared Federation API. This parameter makes it explicit exactly
+              shared federation API. This parameter makes it explicit exactly
               which issuer we want entity statements from.</t>
 
               <t hangText="sub">OPTIONAL. The entity identifier of the subject
               for which you would like an entity statement issued. If this
               parameter is left out, it is considered to be the same as the
-              issuer, and would indicate a request for a self-issued
+              issuer, and would indicate a request for a self issued
               statement.</t>
 
               <t hangText="aud">OPTIONAL. The entity identifier of the
@@ -492,10 +492,10 @@ Content-Type: application/json
 
       <section title="Trust negotiation (OPTIONAL)">
         <t>An entity may use the trust negotiation operation in order to fetch
-        a resolved metadata of itself as seen/trusted by a remote peer. The
+        a resolved metadata of it self as seen/trusted by a remote peer. The
         remote peer will fetch the metadata and necessary trust chain to the
         requester, and perform metadata flattening. The remote peer should
-        include its own trust root configuration when generating the resulting
+        include it own trust root configuration when generating the resulting
         metadata. The metadata returned should be the same as the one used in
         the software.</t>
 
@@ -513,10 +513,10 @@ Content-Type: application/json
               <t hangText="iss">REQUIRED. The entity identifier of the issuer
               from which you want to resolve metadata. Because of the
               normalization of the URL, multiple issuers may resolve to a
-              shared Federation API. This parameter makes it explicit exactly
+              shared federation API. This parameter makes it expicit exactly
               which issuer we want to interact with.</t>
 
-              <t hangText="peer">REQUIRED. The entity identifier of the peer.</t>
+              <t hangText="peer">REQUIRED. The entity identifeir of the .</t>
 
               <t hangText="type">REQUIRED. The metadata type to resolve.</t>
             </list></t>
@@ -573,7 +573,7 @@ Content-Type: application/json
               <t hangText="iss">REQUIRED. The entity identifier of the issuer
               from which you want to resolve metadata. Because of the
               normalization of the URL, multiple issuers may resolve to a
-              shared Federation API. This parameter makes it explicit exactly
+              shared federation API. This parameter makes it expicit exactly
               which issuer we want to interact with.</t>
 
               <t hangText="type">OPTIONAL. Provide this parameter to filter
@@ -638,7 +638,7 @@ Content-Type: application/json
             <t hangText="op">REQUIRED. Which operation was the request
             processed as.</t>
 
-            <t hangText="error">REQUIRED. Short text tag indicating the error
+            <t hangText="error">REQUIRED. Shor text tag indicating the error
             code.</t>
 
             <t hangText="error_description">REQUIRED. A human readable short
@@ -667,12 +667,12 @@ Content-Type: application/json
 
     <section anchor="resolving_trust"
              title="Resolving trust chain and metadata">
-      <t>An entity seeking to establish trust with a remote peer, will start
+      <t>An entity seeking to establish trust with a remote peer will start
       with the knowledge of the remote peer entity identifier and with a
       locally configured trust anchor. The entity will first have to fetch
       sufficient entity statements to establish a chain of trust from the
-      remote peer to the locally configured trust anchor. Afterwards the
-      seeking entity will have to validate the trust chain, and choose one if
+      remote peer to the locally configured trust anchor. Afterwards, the
+      seeking entity will have to validate the trust chain and choose one if
       there are multiple valid trust chains.</t>
 
       <section anchor="fetching-es"
@@ -682,11 +682,11 @@ Content-Type: application/json
         MAY contain an list of intermediate entities in the authority_hints
         claim.</t>
 
-        <t>The seeking entity may iterate through the list of authority_hints,
-        and request entity statement on the remote peer from each of the
-        intermediate. It may further iterate intermediate entity statements
+        <t>The seeking entity may iterate through the list of authority_hints
+        and request an entity statement on the remote peer from each of the
+        intermediates. It may further iterate intermediate entity statements
         for their authority_hints, and so on. The seeking entity should never
-        attempt to fetch entity statements it already have fetched in this
+        attempt to fetch entity statements that it has already fetched in this
         process (loop prevention).</t>
 
         <t>The result of this operation should be a number of flat lists of
@@ -697,19 +697,19 @@ Content-Type: application/json
         <t>The seeking entity will look for paths from the remote peer entity
         to the locally configured trust anchors. If no path is found, the
         process of establishing trust has failed. The result may also very
-        well be more than one possible paths.</t>
+        well be more than one possible path.</t>
       </section>
 
       <section title="Validating the trust chains">
-        <t>A trust chain consists of a ordered list of entity statements that
+        <t>A trust chain consists of an ordered list of entity statements that
         refer to each other from one entry in the local trust anchor to the
-        self issued entity statement of the remote peer.</t>
+        self-issued entity statement of the remote peer.</t>
 
         <t>We refer to the locally configured trust root as ES0, the top level
         intermediate entity statement as ES1, up to the self signed entity
         statement ESi. A trust chain without any intermediate entities is also
         valid. The trust anchor might include a ES0 representing a direct
-        trust to a remote peer, and the self issued statement of the peer will
+        trust to a remote peer, and the self-issued statement of the peer will
         then be ES1.</t>
 
         <t>To validate the chain, the signed JWT ES1 is validated against the
