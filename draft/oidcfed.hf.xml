@@ -516,13 +516,29 @@ Content-Type: application/json
               shared federation API. This parameter makes it explicit exactly
               which issuer we want to interact with.</t>
 
-              <t hangText="peer">REQUIRED. The entity identifier of the .</t>
+              <t hangText="peer">REQUIRED. The entity identifier of the entity
+                the information is required for.</t>
 
               <t hangText="type">REQUIRED. The metadata type to resolve.
               In this document we use the metadata types,
                 <spanx style="verb">openid_client</spanx>
                 and <spanx style="verb">openid_provider</spanx>.</t>
             </list></t>
+          <t>
+                      <figure>
+            <preamble>The following is a non-normative example of an API
+            request for trust negotiation:</preamble>
+
+            <artwork><![CDATA[
+GET /.well-known/openid-federation?
+op=resolve_metadata&
+iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
+type=openid_provider&
+peer=https%3A%2F%2Fidp.umu.se%2Fopenid HTTP/1.1
+Host: openid.sunet.se
+]]></artwork></figure>
+
+          </t>
         </section>
 
         <section title="Trust negotiation Response">
