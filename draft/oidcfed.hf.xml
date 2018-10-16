@@ -1273,12 +1273,12 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
         the delegated trust that is represented in the entity statement about
         the joining party.</t>
 
-        <t>The following example, assumes the following trust relations is
+        <t>The following example, assumes the following trust relations are
         established, and the following entities are able to issue entity
         statements:</t>
 
         <t><list style="symbols">
-            <t>Foodle issues an entity statement about it self</t>
+            <t>Foodle issues an entity statement about itself</t>
 
             <t>NTNU issues an entity statement about Foodle</t>
 
@@ -1324,7 +1324,7 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
         </figure>
       </section>
 
-      <section title="User choose to login at Foodle">
+      <section title="User chooses to login at Foodle">
         <t>Let us assume a student from Ume&aring; would like to login at
         Foodle. Some sort of discovery process involves the end user choosing
         an OpenID provider. OpenID Discovery using the e-mail address is one
@@ -1338,8 +1338,8 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
 
       <section title="Foodle discovers the OpenID provider">
         <t>Foodle normalizes the entity identifier of the OpenID Provider, and
-        performs a request to fetch the self issued entity statement using the
-        federation API of the OpenID provider.</t>
+        performs a request to fetch the self-issued entity statement using the
+        Federation API of the OpenID provider.</t>
 
         <figure>
           <artwork><![CDATA[
@@ -1355,7 +1355,7 @@ Content-Type: application/json
         </figure>
 
         <t>The API endpoint returns a list of signed entity statements. In
-        this case we look for a selfissued statement from the Ume&aring;
+        this case we look for a self-issued statement from the Ume&aring;
         university. We then decode and inspect the content:</t>
 
         <figure>
@@ -1408,8 +1408,8 @@ Content-Type: application/json
       <section title="Resolving the provider trust chain">
         <t>In order to establish trust with this provider, the Foodle service
         provider would need to fetch sufficient entity statements to represent
-        a complete chain from the self issued statement to the locally
-        configured trust root, which contain SWAMID.</t>
+        a complete chain from the self-issued statement to the locally
+        configured trust root, which contains SWAMID.</t>
 
         <t>The information found in the authority_hints is critical in order
         to dynamically discover the trust chain. If such hints are not
@@ -1417,7 +1417,7 @@ Content-Type: application/json
         to ask for trust statements.</t>
 
         <t>In this example, Foodle now fetches an entity statement from SWAMID
-        using the federation API endpoint of SWAMID, discovered in the
+        using the Federation API endpoint of SWAMID, discovered in the
         authority_hints claim.</t>
 
         <figure>
@@ -1471,16 +1471,16 @@ Content-Type: application/json
 
         <t>Notice that the entity statement about University of Ume&aring;
         also contains an entry for openid_client metadata. This indicates that
-        SWAMID express this university to be trusted to issue its own OpenID
+        SWAMID expresses this university to be trusted to issue its own OpenID
         clients without the need for registering these directly in SWAMID.</t>
 
         <t>These two entity statements are sufficient to establish a path from
         the local configured trust anchor which trust SWAMID, to the
-        selfissued statement from the University of Ume&aring;. Here are the
+        self-issued statement from the University of Ume&aring;. Here are the
         steps performed to validate the trust chain:</t>
 
         <t><list style="symbols">
-            <t>Find the trusted public keys for SWAMID in local trust
+            <t>Find the trusted public keys for SWAMID in the local trust
             configuration.</t>
 
             <t>Use these keys to validate the signature of the signed entity
@@ -1492,13 +1492,13 @@ Content-Type: application/json
             <t>Extract the jwks entry from this entity statement. These are
             the signing keys of the University of Ume&aring;</t>
 
-            <t>Validate the self signed statement from Universy of Ume&aring;
+            <t>Validate the self-signed statement from University of Ume&aring;
             using the keys found above.</t>
 
             <t>Check that the sub from the previous statement matches the iss
-            of the self issued statement.</t>
+            of the self-issued statement.</t>
 
-            <t>Check that the self issued statement has the iss and sub to be
+            <t>Check that the self-issued statement has the iss and sub to be
             the same.</t>
           </list></t>
       </section>
@@ -1508,7 +1508,7 @@ Content-Type: application/json
         entity statements. In order to extract the needed metadata, we need to
         look at the metadata type relevant in the given context. In this case,
         we are establishing trust with an OpenID Provider, and we take a look
-        at the <spanx style="varb">openid_provider</spanx> metadata object of
+        at the <spanx style="verb">openid_provider</spanx> metadata object of
         the trust chain:</t>
 
         <figure>
@@ -1586,13 +1586,13 @@ Host: idp.umu.se
 ]]></artwork>
         </figure>
 
-        <t>The provider receiving this authentication request, will unless the
+        <t>The provider receiving this authentication request will, unless the
         RP is cached or statically configured, start to dynamically fetch and
         establish trust with the RP.</t>
       </section>
 
       <section title="Provider fetches entity statements">
-        <t>The provider needs to establish a trust chain for RP from which a
+        <t>The provider needs to establish a trust chain for the RP from which a
         authentication was received. The provider in this example has the
         following configured trust root:</t>
 
@@ -1651,8 +1651,8 @@ Host: idp.umu.se
 
       <section title="Provider fetches entity statements">
         <t>The provider starts to resolve metadata for the client identifier
-        https://foodl.org/ by fetching the self issued entity statement using
-        the federation API.</t>
+        https://foodl.org/ by fetching the self-issued entity statement using
+        the Federation API.</t>
 
         <t/>
 
