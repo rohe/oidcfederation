@@ -203,7 +203,7 @@
           target="flattening-metadata">metadata flattening process</xref>. The
           keys of the JSON object represent the metadata type identifier, and
           the value MUST be a JSON object representing the metadata according
-          to the metadata scema of that metadata type. To allow for the leaf
+          to the metadata schema of that metadata type. To allow for the leaf
           node to resolve a specific metadata type, all intermediate entities
           in the trust chain MUST contain a metadata document for this
           specific type. See <xref target="metadata">section about
@@ -319,7 +319,8 @@
       with additional properties relevant in a federated context.</t>
 
       <section title="OpenID Connect Relying Party Metadata">
-        <t>The metadata type identifier is <spanx style="verb">openid_client</spanx>.</t>
+        <t>The metadata type identifier is
+          <spanx style="verb">openid_client</spanx>.</t>
 
         <t>All parameters defined in section 2 of <xref
         target="OpenID.Registration">OpenID Connect Dynamic Client
@@ -337,7 +338,8 @@
       </section>
 
       <section title="OpenID Provider Metadata">
-        <t>The metadata type identifier is an <spanx style="verb">openid_provider</spanx>.</t>
+        <t>The metadata type identifier is an
+          <spanx style="verb">openid_provider</spanx>.</t>
 
         <t>All parameters defined in section 3 of <xref
         target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref></t>
@@ -354,19 +356,23 @@
       </section>
 
       <section title="OpenID Connect Discovery">
-        <t>The metadata type identifier is <spanx style="verb">openid-discovery</spanx>.</t>
+        <t>The metadata type identifier is
+          <spanx style="verb">openid-discovery</spanx>.</t>
       </section>
 
       <section title="OAuth Provider">
-        <t>The metadata type identifier is <spanx style="verb">openid-</spanx>provider.</t>
+        <t>The metadata type identifier is
+          <spanx style="verb">openid-</spanx>provider.</t>
       </section>
 
       <section title="OAuth Client">
-        <t>The metadata type identifier is <spanx style="verb">openid_client</spanx>.</t>
+        <t>The metadata type identifier is
+          <spanx style="verb">openid_client</spanx>.</t>
       </section>
 
       <section title="OAuth Protected Resources">
-        <t>The metadata type identifier is <spanx style="verb">openid-</spanx>api.</t>
+        <t>The metadata type identifier is
+          <spanx style="verb">openid-</spanx>api.</t>
       </section>
     </section>
 
@@ -487,8 +493,8 @@ Content-Type: application/json
       <section title="Trust negotiation (OPTIONAL)">
         <t>An entity may use the trust negotiation operation in order to fetch
         a resolved metadata of it self as seen/trusted by a remote peer. The
-        remote peer will fetch the metadata and neccessary trust chain to the
-        requestor, and perform metadata flattening. The remote peer should
+        remote peer will fetch the metadata and necessary trust chain to the
+        requester, and perform metadata flattening. The remote peer should
         include it own trust root configuration when generating the resulting
         metadata. The metadata returned should be the same as the one used in
         the software.</t>
@@ -501,7 +507,8 @@ Content-Type: application/json
           relying party is allowed to use.</t>
 
           <t><list style="hanging">
-              <t hangText="op">REQUIRED. MUST be set to <spanx style="verb">resolve_metadata</spanx>.</t>
+              <t hangText="op">REQUIRED. MUST be set to
+                <spanx style="verb">resolve_metadata</spanx>.</t>
 
               <t hangText="iss">REQUIRED. The entity identifier of the issuer
               from which you want to resolve metadata. Because of the
@@ -560,7 +567,8 @@ Content-Type: application/json
           <t>The following request parameters are allowed for a</t>
 
           <t><list style="hanging">
-              <t hangText="op">REQUIRED. MUST be set to <spanx style="verb">listing</spanx>.</t>
+              <t hangText="op">REQUIRED. MUST be set to
+                <spanx style="verb">listing</spanx>.</t>
 
               <t hangText="iss">REQUIRED. The entity identifier of the issuer
               from which you want to resolve metadata. Because of the
@@ -578,7 +586,7 @@ Content-Type: application/json
               response should contain only intermediate nodes.</t>
 
               <t hangText="claims">OPTIONAL. A comma separated list of claim
-              names that the requestor would like to get for each entity. If
+              names that the requester would like to get for each entity. If
               left out or an empty string, the response should contain an
               empty object for each of the known entities.</t>
             </list></t>
@@ -587,8 +595,8 @@ Content-Type: application/json
         <section title="Entity Listing Response">
           <t>The response MUST contain an JSON object where the known entity
           identifiers are the propery keys, and a JSON object with the
-          requested claims is the property value. Requsted claims that the
-          reponder is not able to provide should be left out.</t>
+          requested claims is the property value. Requested claims that the
+          responder is not able to provide should be left out.</t>
 
           <figure>
             <preamble>A non-normative example of a response:</preamble>
@@ -902,7 +910,8 @@ Content-Type: application/json
         <section anchor="Clireg" title="Client Registration">
           <section anchor="Cliregreq" title="Client Registration Request">
             <t>The OP MUST support dynamic relying party registration. That it
-            does so is signaled by have the claim <spanx style="verb">federation_registration_endpoint
+            does so is signaled by have the claim
+              <spanx style="verb">federation_registration_endpoint
               </spanx> in the metadata.</t>
 
             <t>Given that the OP supports dynamic registration the RP
@@ -921,7 +930,8 @@ Content-Type: application/json
                 metadata and the authority_hints specified are picked by the
                 process described above.</t>
 
-                <t>The entity statement is sent to the <spanx style="verb">federation_registration_endpoint
+                <t>The entity statement is sent to the
+                  <spanx style="verb">federation_registration_endpoint
                   </spanx> defined in this document.</t>
               </list></t>
           </section>
@@ -1333,14 +1343,16 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
         federation API of the OpenID provider.</t>
 
         <figure>
-          <artwork><![CDATA[GET /.well-known/openid-federation?iss=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
+          <artwork><![CDATA[
+GET /.well-known/openid-federation?
+iss=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
 Host: umu.se]]></artwork>
         </figure>
 
         <figure>
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQiOjE1MzkxN..."]]]></artwork>
+["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQiOjE1..."]]]></artwork>
         </figure>
 
         <t>The API endpoint returns a list of signed entity statements. In
@@ -1363,8 +1375,10 @@ Content-Type: application/json
       ],
       "subject_types_supported": ["pairwise", "public"],
       "id_token_signing_alg_values_supported": ["RS256"],
-      "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-      "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
+      "logo_uri":
+        "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+      "policy_uri":
+        "https://www.umu.se/en/about-the-website/legal-information/",
       "loa_max": "http://eidas.europa.eu/LoA/high"
     }
   },
@@ -1408,14 +1422,17 @@ Content-Type: application/json
         authority_hints claim.</t>
 
         <figure>
-          <artwork><![CDATA[GET /.well-known/openid-federation?iss=https%3A%2F%2Fwww.sunet.se%2Fswamid&sub=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
+          <artwork><![CDATA[
+GET /.well-known/openid-federation?
+iss=https%3A%2F%2Fwww.sunet.se%2Fswamid&
+sub=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
 Host: www.sunet.se]]></artwork>
         </figure>
 
         <figure>
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpYXQiOjE1Mz..."]]]></artwork>
+["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpYXQi..."]]]></artwork>
         </figure>
 
         <t>The decoded version of the entity statement is:</t>
@@ -1515,8 +1532,10 @@ Content-Type: application/json
     ],
     "subject_types_supported": ["pairwise", "public"],
     "id_token_signing_alg_values_supported": ["RS256"],
-    "logo_uri": "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-    "policy_uri": "https://www.umu.se/en/about-the-website/legal-information/",
+    "logo_uri":
+      "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+    "policy_uri":
+      "https://www.umu.se/en/about-the-website/legal-information/",
     "loa_max": "http://eidas.europa.eu/LoA/high"
   }
 ]]]></artwork>
