@@ -12,7 +12,7 @@
   document and not a private document, as the private="..." declaration could
   be taken to indicate.
 -->
-<rfc category="std" docName="openid-connect-federation-05" ipr="none">
+<rfc category="std" docName="openid-connect-federation-1_0" ipr="none">
   <?rfc toc="yes" ?>
 
   <?rfc tocdepth="3" ?>
@@ -79,7 +79,7 @@
       </address>
     </author>
 
-    <date day="17" month="September" year="2018"/>
+    <date day="18" month="October" year="2018"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
