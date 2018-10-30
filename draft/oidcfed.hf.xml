@@ -919,8 +919,8 @@ Content-Type: application/json
         Registration 1.0</xref>.</t>
 
         <t>It is assumed that a federation entity has a set of
-        authority_hints and knowledge about which trust anchor that can be
-        found at the end of a trust chain starting in each authorityHint. How
+        authority_hints and knowledge about which trust anchors that can be
+        found at the end of trust chains starting in each authority hint. How
         the entity has received this knowledge is outside the scope of this
         document.</t>
 
@@ -928,32 +928,34 @@ Content-Type: application/json
           <t>The RP will start by figuring out the OPs metadata using the
           process specified in <xref target="resolving_trust">Resolving trust
           chain and metadata </xref> above.</t>
+          <t>This will result in the RP having a set of verified trust chains
+            rooted in trust roots it accepts.</t>
         </section>
 
         <section anchor="Clireg" title="Client Registration">
           <section anchor="Cliregreq" title="Client Registration Request">
             <t>The OP MUST support dynamic relying party registration. That it
             does so is signaled by having the claim
-              <spanx style="verb">federation_registration_endpoint</spanx> in the metadata.</t>
+              <spanx style="verb">federation_registration_endpoint</spanx> in
+              the metadata.</t>
 
             <t>Given that the OP supports dynamic registration the RP
             progresses as follows: <list style="numbers">
-                <t>Once it has the list of acceptable trust chains for the OP
+                <t>Once it has the list of acceptable trust roots for the OP
                 it MUST choose the subset it wants to progress with. The
-                subset can be as small as one trust chain but it can also
+                subset can be as small as one but it can also
                 contain more then one.</t>
 
-                <t>Based on the trust anchors referenced in the subset of
-                trust chains, the RP will choose a set of authority_hints from
-                its own set that terminates in those trust anchors.</t>
+                <t>Based on the subset of trust roots, the RP will choose a set
+                  of authority_hints from its own set that terminates in those
+                  trust roots.</t>
 
-                <t>The RP will now construct a self-signed entity statement
-                where the metadata statement chosen is influenced by the OPs
-                metadata and the authority_hints specified are picked by the
-                process described above.</t>
+                <t>The RP will now construct a self-signed entity statement and
+                  to this add the authority_hints.</t>
 
                 <t>The entity statement is sent to the
-                  <spanx style="verb">federation_registration_endpoint</spanx> defined in this document.</t>
+                  <spanx style="verb">federation_registration_endpoint</spanx>
+                  defined in this document.</t>
               </list></t>
           </section>
 
@@ -961,23 +963,20 @@ Content-Type: application/json
             <t>Now on the OPs side the following occurs: <list style="number">
                 <t>It receives the request, collects and evaluates the trust
                 chains starting with the authority_hints in the registration
-                request. After having verified such chains it can verify that
-                the signature on the received registration request is
-                correct.</t>
+                request.</t>
 
                 <t>If it finds more than one acceptable trust chain it MUST
-                choose one or more that terminates in one and the same trust
-                anchor.</t>
+                choose one.</t>
 
                 <t>At this point, if there already exists a client
                 registration under the same entity_id then that registration
-                MUST be regarded as invalid.</t>
+                MUST be marked as invalid.</t>
 
                 <t>The OP will now construct an entity statement containing a
                 description of the RPs metadata that the OP finds acceptable.
                 To the entity statement it will add one or more
-                authority_hints from its collection, that terminates in the
-                trust anchor chosen above.</t>
+                authority_hints (from its collection), that all terminates in
+                  the trust root chosen above.</t>
 
                 <t>It will sign and return the signed entity statement to the
                 RP</t>
@@ -988,15 +987,22 @@ Content-Type: application/json
                 Making sure that the trust chains starting at the
                 authority_hints terminates in trust anchors that where
                 referenced in the entity statement it sent to the OP.</t>
-
-                <t>If the RP is OK with the metadata that was the result of
-                the flattening of the received entity statement then it stores
+                <t>
+                  Note that the RP can not flatten the trust path it collects
+                  based on the response from the OP. Since the metadata
+                  statements in the superiors entity statements can not be
+                  applied to it.
+                </t>
+                <t>If the RP is OK with the OPs view of its metadata, as
+                  expressed in the received entity statement then it stores
                 the configuration and can continue communicating with the OP
                 using the agreed on metadata.</t>
-
                 <t>If the RP was not OK, for some reason, with the received
                 entity statement then it has the choice to restart the
                 registration process or to give up.</t>
+                <t>At this point in time the RP know which trust root the OP
+                chose and can now flatten the correct trust path of the ones
+                collected based on the OP's entity statement</t>
               </list></t>
           </section>
         </section>
