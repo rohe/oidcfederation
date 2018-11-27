@@ -2507,7 +2507,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
   "exp": 1543931097,
   "iat": 1543326297,
   "iss": "https://op.umu.se",
-  "kid": "QU9LTnJsN2xUTXBFR3N4OVZOeTlyejFrWWthYWlaTllYMDRXSkN3OHpFZw",
+  "kid": "QU9LTnJsN2xUTXBFR3N4OVZOeTlyejFrWWthYWlaTllYMDRXSkN...",
   "metadata": {
     "openid_client": {
       "application_name": "EPEE",
