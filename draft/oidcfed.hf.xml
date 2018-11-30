@@ -122,12 +122,12 @@
         such as OpenID relying party and providers. This specification does not
         mandates a specific way or restrict how a federation may be built.
         Instead the specification provides the basic technical trust
-        infrastructure building blocks needed to build a a dynamic and
+        infrastructure building blocks needed to build a dynamic and
         distributed trust network such as a federation.
       </t>
 
       <t>An entity will typically configure a local trust root to include the
-        identifier and the certificate of a the trusted third party &ndash; the
+        identifier and the certificate of a trusted third party &ndash; the
         federation. All entities involved in OpenID Connect Federation,
         including the trust issuers, will have their own unique identifier. This
         identifier is used to dynamically fetch entity statements. As a complete
@@ -190,7 +190,7 @@
 
           <t hangText="jwks">REQUIRED. A <xref target="RFC7517">JSON Web Key
           Set (JWKS) </xref> representing the public part of the subject
-          entity's signing keys.<vspace blankLines="1"/>These keys are used
+          entity's signing keys.<vspace blankLines="1"/>These keys are used to
           verify the identity of the subject. A corresponding private key is
           used by the leaf entity to sign an entity statement about itself,
           and intermediate entities to sign statements about other entities.
@@ -203,27 +203,27 @@
           for this purpose.</t>
 
           <t hangText="authority_hints">OPTIONAL. A JSON object where the keys
-            are the intermediate entities that may issue an entity statement
+            are the entity id's of the intermediate entities that may issue an
+            entity statement
             about the issuer entity. The value MUST be a JSON array of entities
             that is further up in the trust chain. The array may be an empty
             list. The JSON array can be used to simplify the selection of trust
-            chains without the need for fetching all possible authority
-            hints.
+            chains without the need for following all possible trust chains.
           </t>
 
           <t hangText="metadata">REQUIRED. JSON object including protocol
           specific metadata claims that represent the leaf node. To resolve
           the resulting metadata for a leaf node, the compound metadata
-          documents included in the trust chain is merged by the <xref
+          documents included in the trust chain are merged by the <xref
           target="flattening-metadata">metadata flattening process</xref>. The
           keys of the JSON object represent the metadata type identifier, and
-          the value MUST be a JSON object representing the metadata according
+          their value MUST be a JSON object representing the metadata according
           to the metadata schema of that metadata type. To allow for the leaf
           node to resolve a specific metadata type, all intermediate entities
           in the trust chain MUST contain a metadata document for this
           specific type. See <xref target="metadata">section about
           metadata</xref>. An entity statement may contain multiple metadata
-          statement, but only one for each metadata type.</t>
+          statements, but only one for each metadata type.</t>
 
           <t hangText="sub_is_leaf">OPTIONAL. Boolean value that indicates
           whether the subject is considered a leaf node. A leaf node is not
@@ -310,7 +310,7 @@
 
       <section title="The trust anchor">
         <t>In order to configure trust when deploying a software component, it
-          is recommended to align the configuration with the semantics of a
+          is recommended to align that configuration with the semantics of an
           entity statement. How the configuration is stored and the exact format
           is out of the scope of this specification, but it is recommended to
           allow the user to configure a list of entries containing <spanx
@@ -361,12 +361,12 @@
             <t hangText="allowed_scopes"><vspace/>RECOMMENDED. JSON array
               containing a list of the
               <xref target="RFC6749">RFC6749</xref>
-              scope values that this relying party expects to use.
+              scope values that a relying party may ask for.
             </t>
 
             <t hangText="allowed_claims"><vspace/>RECOMMENDED. JSON array
-              containing a list of the Claim Names of the Claims that the OpenID
-              Client wants values for.
+              containing a list of the Claim Names of the Claims that a OpenID
+              RP may ask for.
             </t>
           </list>
         </t>
@@ -399,23 +399,25 @@
 
       <section title="OpenID Connect Discovery">
         <t>The metadata type identifier is <spanx style="verb">
-          openid-discovery</spanx>.
+          openid_discovery</spanx>.
         </t>
       </section>
 
-      <section title="OAuth Provider">
-        <t>The metadata type identifier is <spanx style="verb">openid-</spanx>provider.
+      <section title="OAuth Authorization Server">
+        <t>The metadata type identifier is
+          <spanx style="verb">oauth_as</spanx>.
         </t>
       </section>
 
       <section title="OAuth Client">
         <t>The metadata type identifier is <spanx style="verb">
-          openid_client</spanx>.
+          oauth_client</spanx>.
         </t>
       </section>
 
       <section title="OAuth Protected Resources">
-        <t>The metadata type identifier is <spanx style="verb">openid-</spanx>api.
+        <t>The metadata type identifier is
+          <spanx style="verb">oauth_api</spanx>.
         </t>
       </section>
     </section>
@@ -427,7 +429,7 @@
         implement a Federation API.
       </t>
 
-      <t>The federation API endpoint of an entity, is resolved from the entity
+      <t>The federation API endpoint of an entity is resolved from the entity
       identifier. The Federation API endpoint is found using the <xref
       target="RFC5785">Well known URIs</xref> specification, with the suffix
       <spanx style="verb">openid-federation</spanx>. The scheme, host and port
@@ -436,9 +438,9 @@
 
       <t>The Federation API is an HTTP API that may support multiple
       operations. Fetching entities is one of the operations, and the only one
-      that all entities is REQUIRED to support. All the other operations is
+      that all entities are REQUIRED to support. All the other operations is
       OPTIONAL. The <spanx style="verb">op</spanx> (operation) parameter may
-      be used to defined new operations in a future version of the
+      be used to define new operations in a future version of the
       specification or a local deployment which have agreed upon additional
       functionality.</t>
 
@@ -449,28 +451,26 @@
       upon, requests to the federation API does not need to be
       authenticated.</t>
 
-      <section title="Fetching entity statements (REQUIRED)">
-        <t>Fetching entity statements is used to collect entity statements and
+      <section title="Fetching entity statement (REQUIRED)">
+        <t>Fetching entity statement is used to collect entity statements and
         a valid trust chain in order to establish trust with a remote
         peer.</t>
 
-        <t>In order to fetch entity statements, you need to know the
+        <t>In order to fetch an entity statement, an entity needs to know the
         identifier of the entity to ask, and the identifier of the entity that
-        you want the statement to be about. Typically the first entity
-        statement to fetch is the remote peer self issued entity
-        statement.</t>
+        you want the statement to be about.</t>
 
         <section title="Fetch Entity Statements Request"
                  anchor="fetch_statement">
-          <t>The request MUST be a HTTP request using the GET method to a
+          <t>The request MUST be an HTTP request using the GET method to a
             resolved federation API endpoint with the following query string
             parameters:
           </t>
 
           <t>
             <list style="hanging">
-              <t hangText="op">OPTIONAL. If not present MUST be set to <spanx
-                  style="verb">fetch</spanx>.
+              <t hangText="op">OPTIONAL. If not present MUST be treated as
+                <spanx style="verb">fetch</spanx>.
               </t>
 
               <t hangText="iss">REQUIRED. The entity identifier of the issuer
@@ -522,15 +522,12 @@ Host: openid.sunet.se
 
         <section title="Fetch Entity Statements Response">
           <t>As long as the request is correct, understood and accepted, the
-            response MUST be a JSON array including signed entity statements.
-            The content type MUST be set to <spanx style="verb">
-              application/json</spanx>.
+            response is a signed entity statements.
+            The content type MUST be in that case be set to <spanx style="verb">
+              application/jose</spanx>.
             If the issuing entity does not recognize the subject or the issuer,
-            it should return an empty JSON array. The returned list of entity
-            statements SHOULD include a statement issued by the issuing entity
-            about the entity represented in the subject parameter. The issuing
-            entity may also decide to prefetch additional entity statements that
-            may be relevant to the requester.
+            it should return an error response as a JSON object. More about
+            error responses <xref target="error_response">below</xref>
           </t>
 
           <figure>
@@ -538,9 +535,9 @@ Host: openid.sunet.se
 
             <artwork><![CDATA[200 OK
 Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
-Content-Type: application/json
+Content-Type: application/jose
 
-["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc..."]
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
 ]]></artwork>
 
             <postamble>(the signed JWT is truncated)</postamble>
@@ -571,14 +568,14 @@ Content-Type: application/json
                 resolve_metadata</spanx>.
               </t>
 
-              <t hangText="iss">REQUIRED. The entity identifier of the issuer
-              from which you want to resolve metadata. Because of the
+              <t hangText="iss">REQUIRED. The entity identifier of the entity
+              who's metadata are requested. Because of the
               normalization of the URL, multiple issuers may resolve to a
               shared federation API. This parameter makes it explicit exactly
               which issuer we want to interact with.</t>
 
               <t hangText="peer">REQUIRED. The entity identifier of the entity
-                the information is required for.</t>
+                the information is requested for.</t>
 
               <t hangText="type">REQUIRED. The metadata type to resolve.
               In this document we use the metadata types,
@@ -586,7 +583,7 @@ Content-Type: application/json
                 and <spanx style="verb">openid_provider</spanx>.</t>
             </list></t>
           <t>
-                      <figure>
+            <figure>
             <preamble>The following is a non-normative example of an API
             request for trust negotiation:</preamble>
 
@@ -641,7 +638,7 @@ Content-Type: application/json
       </section>
 
       <section title="Entity listings (OPTIONAL)">
-        <t>An entity may query another entity for a list of all
+        <t>An entity may query another entity for a list of all the
         entities that that entity is prepared to issue statements about.</t>
 
         <section title="Entity Listings Request">
@@ -652,7 +649,7 @@ Content-Type: application/json
                 <spanx style="verb">listing</spanx>.</t>
 
               <t hangText="iss">REQUIRED. The entity identifier of the issuer
-              from which you want to resolve metadata. Because of the
+              from which an entity listing is requested. Because of the
               normalization of the URL, multiple issuers may resolve to a
               shared federation API. This parameter makes it explicit exactly
               which issuer we want to interact with.</t>
@@ -673,6 +670,20 @@ Content-Type: application/json
               left out or an empty string, the response should contain an
               empty object for each of the known entities.</t>
             </list></t>
+          <t>
+                      <figure>
+            <preamble>The following is a non-normative example of an API
+            request for trust negotiation:</preamble>
+
+            <artwork><![CDATA[
+GET /.well-known/openid-federation?
+op=listing&
+iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
+type=openid_provider&
+claims=client_name HTTP/1.1
+Host: openid.sunet.se
+]]></artwork></figure></t>
+
         </section>
 
         <section title="Entity Listing Response">
@@ -708,14 +719,14 @@ Content-Type: application/json
         <t>TBD.</t>
       </section>
 
-      <section title="Generic Error Response">
+      <section title="Generic Error Response" anchor="error_response">
         <t>If the request was malformed, or some error occurred during
         processing of the request, the following standardized error format
         should be used regardless of the operation specified.</t>
-
         <t>The HTTP response code MUST be something else than 200, giving an
         indication of the type of error. The response body MUST be a JSON
-        object including these claims:</t>
+        object conatining the claims below and the content type MUST
+        be set to <spanx style="verb">application/json</spanx>.:</t>
 
         <t><list style="hanging">
             <t hangText="op">REQUIRED. Which operation was the request
@@ -728,7 +739,7 @@ Content-Type: application/json
           </list></t>
 
         <figure>
-          <preamble>A non-normative example of a error response:</preamble>
+          <preamble>A non-normative example of an error response:</preamble>
 
           <artwork><![CDATA[400 Bad request
 Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
@@ -752,17 +763,18 @@ Content-Type: application/json
         peer, must have the remote peer's entity identifier and a list of
         entity ID's of trusted trust anchors together with the public version
         of their signing keys. The Consumer will first have to fetch
-        sufficient entity statements to establish a chain of trust from the
-        remote peer to one or more of the configured trust anchors. After that
-        the entity MUST validate the trust chains, and if the application
-        demands it choose one if there are multiple valid trust chains.
+        sufficient entity statements to establish at least one chain of trust
+        from the remote peer to one or more of the configured trust anchors.
+        After that the entity MUST validate the trust chains independently,
+        and -- if there are multiple valid trust chains and if the
+        application demands it -- choose one.
       </t>
 
       <section anchor="fetching-es"
                title="Fetching entity statements to establish a trust chain">
         <t>Depending on the circumstances the Consumer may either be
-          handed the the remote peer's self-issued entity statement or it may
-          have to fetch it by itself. If it needs to fetch it it will use the
+          handed the remote peer's self-issued entity statement or it may
+          have to fetch it by itself. If it needs to fetch it, it will use the
           process described in <xref target="fetch_statement">Fetch Entity
             Statements
           </xref> with both *iss* and *sub* set to the entity ID
@@ -771,14 +783,14 @@ Content-Type: application/json
 
         <t>The next step is to iterate through the list of
           intermediates listed in authority_hints, ignoring the authority
-          hints that ends in a unknown trust anchors, requesting an entity
+          hints that end in an unknown trust anchor, requesting an entity
           statement about the remote peer from the intermediate.
           If the received entity statement contains an authority hint this
           process is repeated. This time with the *iss* set to the
           intermediates entity ID and the *sub* to be the *iss* of the previous
           query.
           The Consumer should never attempt to fetch
-          entity statements it already have fetched during this
+          entity statements it already has fetched during this
           process (loop prevention).
         </t>
 
@@ -789,28 +801,29 @@ Content-Type: application/json
         <t>
           If there is no path from the remote peer to at least one of the
           trusted trust anchors then the list will be empty and there is no
-          way of establishing trust in the remote peer's information
+          way of establishing trust in the remote peer's information.
         </t>
       </section>
       <section title="Validating the trust chains"
                anchor="trust_chain_validation">
-        <t>A trust chain consists of a ordered list of entity statements that
+        <t>A trust chain consists of an ordered list of entity statements that
           starts with the self issued entity statement (ES[0]) of the remote
           peer and ends with an entity statement signed by a trusted trust
           anchor
           (ES[i]).
         </t>
         <t>
-          Except for the self-signed entity statement (ES0) each entity
-          statement refers back to the one preceding it. Such that the
+          Except for the self-signed entity statement (ES[0]) each entity
+          statement refers back to the one preceding it, such that the
           *sub* in one entity statement (ES[j]) is the *iss* in the immediate
           preceding (ES[j-1]).
         </t>
         <t>
-          A trust chain without any intermediate entities is also then valid.
+          A trust chain without any intermediate entities is also valid.
         </t>
         <t>
-          To validate the chain, this is done for each entity statement ES[j]
+          To validate the chain, the following steps are done for each entity
+          statement ES[j]
           j=i,..,0 :
           <list style="numbers">
             <t>
@@ -821,13 +834,13 @@ Content-Type: application/json
               *sub* in ES[j+1]
             </t>
             <t>
-              Verify that *iat* has a reasonable value
+              Verify that *iat* has a value in the past
             </t>
             <t>
-              Verify that the signature is still valid, e.g. the time
-              specified in *exp* has not arrived yet. It's reasonable to only
-              accept the signature as valid if *exp* is some time in the not
-              so near future.
+              Verify that *exp* has value that is in the future.
+            </t>
+            <t>
+              Verify the signature
             </t>
             <t>
               <list style="symbols">
@@ -836,7 +849,7 @@ Content-Type: application/json
                   in the *jwks* claim in ES[j+1].
                 </t>
                 <t>
-                  if j == 1: verify the signature with the configured public
+                  if j == i: verify the signature with the configured public
                   key of the trust anchor.
                 </t>
               </list>
@@ -846,13 +859,12 @@ Content-Type: application/json
       </section>
 
       <section title="Choosing one of the valid trust chains">
-        <t>If multiple valid trust chain is found, the Consumer will
-          need to decide on which one to use going further. This choice may
-          be done based on many different things.
+        <t>If multiple valid trust chains are found, the Consumer will
+          need to decide on which one to use.
         </t>
         <t>
-          One simple rule would be to chose a shorter chain before and longer
-          one. Another to prefer a local trust anchor before a more remote one.
+          One simple rule would be to prefer a shorter chain over a longer
+          one.
         </t>
       </section>
 
@@ -860,8 +872,8 @@ Content-Type: application/json
                title="Calculating the lifetime of a trust chain">
         <t>Each entity statement in a trust chain is signed and MUST have a
           expiration time (exp) set. The expiration time of the whole trust
-          chain is the expiration time that is closest in time to the present
-          time.
+          chain is the expiration time that is in the future and closest in time
+          to the present time.
         </t>
       </section>
     </section>
@@ -876,9 +888,9 @@ Content-Type: application/json
         each trust chain has a expiration time.
         A consumer of metadata using this specification MUST support
         refreshing a trust chain when it expires.
-        The consumer SHOULD re-evaluate the trust chain with intervals that
-        are significantly more frequent than what is demanded by the trust
-        chains expiration time.
+        How often a consumer SHOULD re-evaluate the trust chain depends on
+        how quickly the consumer wants to find out that something has changed
+        in the trust chain.
       </t>
 
       <section title="Protocol key roll-over">
@@ -890,12 +902,13 @@ Content-Type: application/json
       </section>
 
       <section title="Key rollover for a trust anchor">
-        <t>The last entity statement in a trust chain is normally an
-          entity statement about the trust anchor signed by the trust anchor.
-          In this case the trust anchor SHOULD set a reasonable expiration
-          time such that the consumers will re-fetch the entity statement at
-          reasonable intervals. If the trust root wants to roll over its
-          signing keys it would have to
+        <t>A trust anchor must publish a self-signed entity statement about
+          itself. Such an entity statement may be part of a trust cahin or
+          it might not.
+          The trust anchor SHOULD set a reasonable expiration
+          time on that statement, such that the consumers will re-fetch the
+          entity statement at reasonable intervals. If the trust root wants to
+          roll over its signing keys it would have to:
           <list style="numbers">
             <t>
               Add the new keys to the *jwks* representing the trust
@@ -915,8 +928,8 @@ Content-Type: application/json
           </list>
         </t>
 
-        <t>Take into considerations that clients may have manually configured
-          pubic keys as part of configuration.
+        <t>It has to be taken into considerations that clients may have
+          manually configured pubic keys as part of configuration.
         </t>
       </section>
 
