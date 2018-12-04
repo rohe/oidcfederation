@@ -12,5 +12,5 @@ script:
   - xml2rfc draft/oidcfed.hf.xml --html -o public/oidcfed-05.html
 
 install:
-- pip install --user --upgrade pip
-- pip install --user xml2rfc
+- pip install --upgrade pip
+- pip install xml2rfc
