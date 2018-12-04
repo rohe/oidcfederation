@@ -2,12 +2,13 @@ sudo: required
 language: python
 
 python:
-- 3.6
+- 2.7
 
 cache: pip
 
 script:
   - mkdir public
+  - xml2rfc -V
   - xml2rfc draft/oidcfed.hf.xml --text -o public/oidcfed-05.txt
   - xml2rfc draft/oidcfed.hf.xml --html -o public/oidcfed-05.html
 
