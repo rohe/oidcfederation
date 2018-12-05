@@ -11,12 +11,12 @@
                                                                 M. Jones
                                                                Microsoft
                                                               J. Bradley
-                                                           Ping Identity
+                                                                  Yubico
                                                         December 3, 2018
 
 
                 OpenID Connect Federation 1.0 - draft 06
-                     openid-connect-federation-1_0
+                      openid-connect-federation-06
 
 Abstract
 
@@ -494,9 +494,9 @@ Hedberg, et al.           Expires June 6, 2019                  [Page 8]
    The Federation API is an HTTP API that may support multiple
    operations.  Fetching entities is one of the operations, and the only
    one that all entities are REQUIRED to support.  All the other
-   operations is OPTIONAL.  The "op" (operation) parameter may be used
-   to define new operations in a future version of the specification or
-   a local deployment which have agreed upon additional functionality.
+   operations is OPTIONAL.  The list of defined operations for the "op"
+   parameter may be extended in a future.
+
 
 
 
@@ -573,12 +573,10 @@ Hedberg, et al.           Expires June 6, 2019                 [Page 10]
 
 4.1.2.  Fetch Entity Statements Response
 
-   As long as the request is correct, understood and accepted, the
-   response is a signed entity statements.  The content type MUST be in
-   that case be set to "application/jose".  If the issuing entity does
-   not recognize the subject or the issuer, it should return an error
-   response as a JSON object.  More about error responses below
-   (Section 4.5)
+   A positive response is a signed entity statements in which case the
+   content type MUST be set to "application/jose".  If it is negative
+   response it will be a JSON object and the content type MUST be set to
+   "application/json".  More about error responses below (Section 4.5)
 
    A non-normative example of a response:
 
@@ -610,6 +608,8 @@ Hedberg, et al.           Expires June 6, 2019                 [Page 10]
 
    op REQUIRED.  MUST be set to "resolve_metadata".
 
+   iss  REQUIRED.  The entity identifier of the entity who's metadata
+      are requested.  Because of the normalization of the URL, multiple
 
 
 
@@ -618,8 +618,6 @@ Hedberg, et al.           Expires June 6, 2019                 [Page 11]
                         OpenID Connect Federation          December 2018
 
 
-   iss  REQUIRED.  The entity identifier of the entity who's metadata
-      are requested.  Because of the normalization of the URL, multiple
       issuers may resolve to a shared federation API.  This parameter
       makes it explicit exactly which issuer we want to interact with.
 
@@ -643,6 +641,8 @@ Hedberg, et al.           Expires June 6, 2019                 [Page 11]
 
    The response is a generated flattened metadata of the type specified
    in the request.
+
+
 
 
 
@@ -816,7 +816,7 @@ Hedberg, et al.           Expires June 6, 2019                 [Page 14]
 
    {
      "op": "fetch",
-     "error": "generic_error",
+     "error": "invalid_request",
      "error_description":
        "Required request parameter [iss] was missing."
    }
@@ -2810,7 +2810,7 @@ Hedberg, et al.           Expires June 6, 2019                 [Page 50]
 
 
    John Bradley
-   Ping Identity
+   Yubico
 
    Email: ve7jtb@ve7jtb.com
    URI:   http://www.thread-safe.com/

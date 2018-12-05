@@ -460,7 +460,7 @@
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Solberg, A., Gulliksson, S., Jones, M., and J. Bradley" />
-  <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
+  <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-06" />
   <meta name="dct.issued" scheme="ISO8601" content="2018-12-03" />
   <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain relying party credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on-out-of band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained from resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed in order to allow for re-use by other protocols and in other use cases.  " />
   <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain relying party credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on-out-of band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained from resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed in order to allow for re-use by other protocols and in other use cases.  " />
@@ -510,7 +510,7 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">Ping Identity</td>
+<td class="right">Yubico</td>
 </tr>
 <tr>
 <td class="left"></td>
@@ -522,7 +522,7 @@
   </table>
 
   <p class="title">OpenID Connect Federation 1.0 - draft 06 <br />
-  <span class="filename">openid-connect-federation-1_0</span></p>
+  <span class="filename">openid-connect-federation-06</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
 <p>The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain relying party credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on-out-of band trust establishment.  </p>
@@ -845,7 +845,7 @@
 <a href="#rfc.section.4">4.</a> The Federation API</h1>
 <p id="rfc.section.4.p.1">Given the entity identifier, the endpoint of the federation API endpoint of the entity is easily derived. All entities that are expected to expose entity statements about themselves or other entities, MUST implement a Federation API.  </p>
 <p id="rfc.section.4.p.2">The federation API endpoint of an entity is resolved from the entity identifier. The Federation API endpoint is found using the <a href="#RFC5785" class="xref">Well known URIs</a> specification, with the suffix <samp>openid-federation</samp>. The scheme, host and port is taken directly from the entity identifier combined with the following path: <samp>/.well-known/openid-federation</samp>.  </p>
-<p id="rfc.section.4.p.3">The Federation API is an HTTP API that may support multiple operations. Fetching entities is one of the operations, and the only one that all entities are REQUIRED to support. All the other operations is OPTIONAL. The <samp>op</samp> (operation) parameter may be used to define new operations in a future version of the specification or a local deployment which have agreed upon additional functionality.  </p>
+<p id="rfc.section.4.p.3">The Federation API is an HTTP API that may support multiple operations. Fetching entities is one of the operations, and the only one that all entities are REQUIRED to support. All the other operations is OPTIONAL. The list of defined operations for the <samp>op</samp> parameter may be extended in a future.  </p>
 <p id="rfc.section.4.p.4">While all operations in the specification make use of a GET request, other operations may choose to use other HTTP methods. If the <samp>op </samp> parameter is left out, it is considered to be a fetch entity statements request. Unless otherwise mentioned or agreed upon, requests to the federation API does not need to be authenticated.  </p>
 <h1 id="rfc.section.4.1">
 <a href="#rfc.section.4.1">4.1.</a> Fetching entity statement (REQUIRED)</h1>
@@ -880,7 +880,7 @@ Host: openid.sunet.se
 <p>(postamble)</p>
 <h1 id="rfc.section.4.1.2">
 <a href="#rfc.section.4.1.2">4.1.2.</a> Fetch Entity Statements Response</h1>
-<p id="rfc.section.4.1.2.p.1">As long as the request is correct, understood and accepted, the response is a signed entity statements.  The content type MUST be in that case be set to <samp>application/jose</samp>.  If the issuing entity does not recognize the subject or the issuer, it should return an error response as a JSON object. More about error responses <a href="#error_response" class="xref">below</a> </p>
+<p id="rfc.section.4.1.2.p.1">A positive response is a signed entity statements in which case the content type MUST be set to <samp>application/jose</samp>.  If it is negative response it will be a JSON object and the content type MUST be set to <samp>application/json</samp>.  More about error responses <a href="#error_response" class="xref">below</a> </p>
 <p>A non-normative example of a response:</p>
 <pre>200 OK
 Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
@@ -1030,7 +1030,7 @@ Content-Type: application/json
 
 {
   "op": "fetch",
-  "error": "generic_error",
+  "error": "invalid_request",
   "error_description":
     "Required request parameter [iss] was missing."
 }
@@ -2263,7 +2263,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
 		<span class="family-name">Bradley</span>
 	  </span>
 	</span>
-	<span class="org vcardline">Ping Identity</span>
+	<span class="org vcardline">Yubico</span>
 	<span class="adr">
 	  
 	  <span class="vcardline">

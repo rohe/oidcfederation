@@ -12,7 +12,7 @@
   document and not a private document, as the private="..." declaration could
   be taken to indicate.
 -->
-<rfc category="std" docName="openid-connect-federation-1_0" ipr="none">
+<rfc category="std" docName="openid-connect-federation-06" ipr="none">
   <?rfc toc="yes" ?>
 
   <?rfc tocdepth="3" ?>
@@ -71,7 +71,7 @@
     </author>
 
     <author fullname="John Bradley" initials="J." surname="Bradley">
-      <organization abbrev="Ping Identity">Ping Identity</organization>
+      <organization abbrev="Yubico">Yubico</organization>
 
       <address>
         <email>ve7jtb@ve7jtb.com</email>
@@ -454,10 +454,8 @@
       <t>The Federation API is an HTTP API that may support multiple
         operations. Fetching entities is one of the operations, and the only one
         that all entities are REQUIRED to support. All the other operations is
-        OPTIONAL. The <spanx style="verb">op</spanx> (operation) parameter may
-        be used to define new operations in a future version of the
-        specification or a local deployment which have agreed upon additional
-        functionality.
+        OPTIONAL. The list of defined operations for the
+        <spanx style="verb">op</spanx> parameter may be extended in a future.
       </t>
 
       <t>While all operations in the specification make use of a GET request,
@@ -541,13 +539,13 @@ Host: openid.sunet.se
         </section>
 
         <section title="Fetch Entity Statements Response">
-          <t>As long as the request is correct, understood and accepted, the
-            response is a signed entity statements.
-            The content type MUST be in that case be set to <spanx style="verb">
+          <t>A positive response is a signed entity statements in which case
+            the content type MUST be set to <spanx style="verb">
               application/jose</spanx>.
-            If the issuing entity does not recognize the subject or the issuer,
-            it should return an error response as a JSON object. More about
-            error responses
+            If it is negative response it will be a JSON object and the
+            content type MUST be set to
+            <spanx style="verb">application/json</spanx>.
+            More about error responses
             <xref target="error_response">below</xref>
           </t>
 
@@ -794,7 +792,7 @@ Content-Type: application/json
 
 {
   "op": "fetch",
-  "error": "generic_error",
+  "error": "invalid_request",
   "error_description":
     "Required request parameter [iss] was missing."
 }
