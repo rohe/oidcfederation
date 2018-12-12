@@ -1156,7 +1156,7 @@ Content-Type: application/json
           <t>The RP MUST authentication at the authentication endpoint
             using the private_key_jwt method described in the client
             authentication section of
-            <xref target="OpenID.core">OIDC core</xref>.
+            <xref target="OpenID.Core">OIDC core</xref>.
           </t>
           <t>
             <figure>
