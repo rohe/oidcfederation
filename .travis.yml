@@ -1,17 +1,35 @@
 sudo: required
-language: python
+language: node_js
 
 python:
-- 2.7
+- 3.6
 
 cache: pip
 
+node_js:
+- '0.11'
+
 script:
+  - node -v
   - mkdir public
-  - xml2rfc -V
   - xml2rfc draft/oidcfed.hf.xml --text -o public/oidcfed-05.txt
   - xml2rfc draft/oidcfed.hf.xml --html -o public/oidcfed-05.html
 
+services:
+- docker
 install:
-- pip install --upgrade pip
-- pip install xml2rfc
+- pip install --user --upgrade pip
+- pip install --user xml2rfc
+
+deploy:
+  provider: gcs
+  access_key_id: GOOGN4TO2PHZD2BOMBDOM7VX
+  secret_access_key:
+    secure: KhMEah8Yl5iDj/ixSgeUbM2cNgN0HxoP8X57yJzOfqhWwRFIxm/EIilxywbTMe/lfQU5qio5I103ajKvvqEH3NzZB3zkgRBD+w6KWC7OhgWb5kIAUsnw7X5PUDCstZzAnM/uHAuzTiWORSGYRRzqolDDf5tHPJlEc+MMyqhYvH3Litc+ExZrXlVt5F3ExyeP2XJ+NdflwJZWVYNiirQKQxeXo7guCIcqE+9H0BZ6rt2/ttsaeH31qLXGETtBtkcZLrZ9SiTaU1XamGdaqr5RJzz9hqOhS0Ax/PTgNlX/7+Zctie3T0VTjxJY0O7nYcAcgEilaQYQr565Td7HCufftcgX+nz35a2kvpjukEFHG3HNLxrMLVjGr7aXJIMPw0AfDlj5NK4GcpeEWEDRkMCJt9ykF1gB/HB7jjng29Ox39PgQdtJR11iFJNax5mzrqWFDbGizev6UC3knttnkeVUHz2dnHMFOUM6Aj0BHXAwQD8uH+ctCV1qycHKVStXZwyV2zhL3IGKSCsuHdXCqZ4JKbqNMUEahLr39VUhGqH3TmFWem2A8KeAT7pCY6EMvFwp6NYlWhO6JBDWPGd3Dm+yYPMFB1eacgmzSnIqsUtEluIjssCsmxFwP3XCHLY21yHCTebAe7oDEQVTPyc3M/o8VsVw8FZQjZahsQ4slRQDvzQ=
+  bucket: openid-connect
+  local-dir: public
+  skip_cleanup: true
+  overwrite: true
+  acl: public-read
+  on:
+    repo: rohe/oidcfederation
