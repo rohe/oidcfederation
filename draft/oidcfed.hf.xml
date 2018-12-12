@@ -393,8 +393,7 @@
         </t>
 
         <t>All parameters defined in section 3 of
-          <xref
-                  target="OpenID.Discovery">OpenID Connect Discovery 1.0
+          <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0
           </xref>
         </t>
 
@@ -407,6 +406,11 @@
               is intended to be used in the user interface, being recognized by
               the end users that would be using the provider to
               authenticate.
+            </t>
+            <t hangText="federation_registration_endpoint">OPTIONAL.
+              URL of the OP's Federation specific Dynamic Client Registration
+              Endpoint. If the OpenID Provider supports explicit client
+              registration this claim is REQUIRED.
             </t>
           </list>
         </t>
