@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <?xml-stylesheet type='text/xsl' href='http://xml2rfc.tools.ietf.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
-    "http://xml2rfc.tools.ietf.org/authoring/rfc2629.dtd">
+        "http://xml2rfc.tools.ietf.org/authoring/rfc2629.dtd">
 <!--
   NOTE:  This XML file is input used to produce the authoritative copy of an
   OpenID Foundation specification.  The authoritative copy is the HTML output.
@@ -157,7 +157,7 @@
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
           "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
           document are to be interpreted as described in <xref
-              target="RFC2119">RFC 2119</xref>.
+                  target="RFC2119">RFC 2119</xref>.
         </t>
       </section>
     </section>
@@ -219,7 +219,8 @@
             specific metadata claims that represent the leaf node. To resolve
             the resulting metadata for a leaf node, the compound metadata
             documents included in the trust chain are merged by the <xref
-                target="flattening-metadata">metadata flattening process</xref>.
+                    target="flattening-metadata">metadata flattening
+              process</xref>.
             The
             keys of the JSON object represent the metadata type identifier, and
             their value MUST be a JSON object representing the metadata
@@ -236,7 +237,7 @@
             whether the subject is considered a leaf node. A leaf node is not
             trusted to issue statements about other entities then itself. If
             this property is left out, it is considered to be <spanx
-                style="verb">false</spanx>.
+                    style="verb">false</spanx>.
           </t>
 
           <t hangText="sub_meta">OPTIONAL. If present, an JSON object
@@ -246,7 +247,7 @@
             leaf nodes, while the metadata in sub_meta refers to the immediate
             subject, which may be an intermediate trust issuer.
             <vspace
-                blankLines="1"/>
+                    blankLines="1"/>
             <list style="hanging">
               <t hangText="name">OPTIONAL. String. The human readable name
                 describing the subject entity. This may be, for example, the
@@ -326,9 +327,10 @@
           entity statement. How the configuration is stored and the exact format
           is out of the scope of this specification, but it is recommended to
           allow the user to configure a list of entries containing <spanx
-              style="verb">sub</spanx>, <spanx style="verb">jwks
+                  style="verb">sub</spanx>, <spanx style="verb">jwks
           </spanx> and <spanx
-              style="verb">metadata</spanx>. When the compound metadata from the
+                  style="verb">metadata</spanx>. When the compound metadata from
+          the
           trust chain is resolved, metadata from the local trust root can be
           applied in the <xref target="flattening-metadata">metadata flattening
             process</xref>. This allows the configuration of a provider to put
@@ -364,7 +366,7 @@
         </t>
 
         <t>All parameters defined in section 2 of <xref
-            target="OpenID.Registration">OpenID Connect Dynamic Client
+                target="OpenID.Registration">OpenID Connect Dynamic Client
           Registration 1.0
         </xref> are allowed in a metadata statement.
         </t>
@@ -392,7 +394,7 @@
 
         <t>All parameters defined in section 3 of
           <xref
-              target="OpenID.Discovery">OpenID Connect Discovery 1.0
+                  target="OpenID.Discovery">OpenID Connect Discovery 1.0
           </xref>
         </t>
 
@@ -444,7 +446,7 @@
 
       <t>The federation API endpoint of an entity is resolved from the entity
         identifier. The Federation API endpoint is found using the <xref
-            target="RFC5785">Well known URIs
+                target="RFC5785">Well known URIs
         </xref> specification, with the suffix
         <spanx style="verb">openid-federation</spanx>. The scheme, host and port
         is taken directly from the entity identifier combined with the following
@@ -455,12 +457,13 @@
         operations. Fetching entities is one of the operations, and the only one
         that all entities are REQUIRED to support. All the other operations is
         OPTIONAL. The list of defined operations for the
-        <spanx style="verb">op</spanx> parameter may be extended in a future.
+        <spanx style="verb">op</spanx>
+        parameter may be extended in a future.
       </t>
 
       <t>While all operations in the specification make use of a GET request,
         other operations may choose to use other HTTP methods. If the <spanx
-            style="verb">op
+                style="verb">op
         </spanx> parameter is left out, it is considered to be a
         fetch entity statements request. Unless otherwise mentioned or agreed
         upon, requests to the federation API does not need to be
@@ -510,15 +513,6 @@
                 parameter to form the entity statement specifically for this
                 target, in which the <spanx style="verb">aud</spanx> claim also
                 should be present in the entity statement it self.
-              </t>
-
-              <t hangText="prefetch">OPTIONAL. If left out, it is assumed to
-                be <spanx style="verb">false</spanx>. If set to <spanx
-                    style="verb">true</spanx>, it indicates that the requester
-                would
-                like the API to prefetch entity statements that may be relevant
-                for consumer to establish a trust chain, and may save the
-                consumer from performing additional API requests.
               </t>
             </list>
           </t>
@@ -1006,7 +1000,7 @@ Content-Type: application/json
           <t>
             Given the metadata statements ms[n] (n=i, ..., 0).
             Start by assigning m_res = ms[i]
-            </t>
+          </t>
           <t>
             then for every claim in ms_j (j=i-1, ... 0):
             <list style="symbols">
@@ -1016,7 +1010,7 @@ Content-Type: application/json
                 of the claim in ms_res with the value of the claim in ms[j] if
                 and only if the value in ms[j] is a subset of the value in
                 ms_res.
-                </t>
+              </t>
             </list>
           </t>
         </list>
@@ -1141,10 +1135,6 @@ Content-Type: application/json
 |    |                                       |    |
 ------                                       ------     ]]></artwork>
 
-          <postamble>After the discovery and registration is completed a first
-            time, those steps SHOULD only be repeated if any changes occur (see
-            notes in respective sections below).
-          </postamble>
         </figure>
 
         <t>The client_id of the RP MUST be set identical to the RP entity
@@ -1155,7 +1145,6 @@ Content-Type: application/json
           client_secret. Instead the implicit registration model requires the RP
           to make use of asymmetric cryptography.
         </t>
-
         <t>The RP MUST host a Federation API that allows the OP to fetch the
           entity statements.
         </t>
@@ -1163,6 +1152,29 @@ Content-Type: application/json
         <section title="The Authentication Request">
           <t>The authentication request as specified in OpenID Connect
             Core.
+          </t>
+          <t>The RP MUST authentication at the authentication endpoint
+            using the private_key_jwt method described in the client
+            authentication section of
+            <xref target="OpenID.core">OIDC core</xref>.
+          </t>
+          <t>
+            <figure>
+              <preamble>An authorization request example</preamble>
+              <artwork><![CDATA[
+GET /authorization?
+  redirect_uri=https%3A%2F%2Fexample.com%2Fauthz_cb
+  &scope=openid+profile+email+address+phone
+  &response_type=code
+  &nonce=4LX0mFMxdBjkGmtx7a8WIOnB&state=JpRTpu9eGXiP4thsK ...
+  &state=YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ
+  &client_id=https%3A%2F%2Flocalhost%3A8090%2Firp
+  &client_assertion=eyJhbGciOiJSUzI1NiIs ... qx7xHcvPOdIhnpg
+  &client_assertion_type=
+    urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
+  HTTP/1.1
+Host: https://example.org
+            ]]></artwork></figure>
           </t>
         </section>
 
@@ -1183,14 +1195,18 @@ Content-Type: application/json
             <xref target="OpenID.Registration">OpenID Connect Dynamic Client
               Registration 1.0</xref>.
           </t>
+          <t>
+            Once the OP has the RP's metadata it can verify the clients
+            authentication.
+          </t>
         </section>
 
         <section title="Authentication Error Response">
           <t>If the OP fails to establish trust with the RP, it should use the
-            <spanx style="verb">error_description</spanx>
+            <spanx style="verb">invalid_request</spanx>
             error code, and an
             <spanx style="verb">error_description</spanx>
-            that aids the RP to fix what is wrong.
+            that aids the RP to understand what is wrong.
           </t>
         </section>
 
@@ -1199,7 +1215,7 @@ Content-Type: application/json
             token endpoint. The RP MUST authenticate the request by including
             the <spanx style="verb">private_key_jwt</spanx> parameter, as
             described in Section 9 of
-            <xref target="OpenID.Core">OpenID Connect Core </xref>.
+            <xref target="OpenID.Core">OpenID Connect Core</xref>.
           </t>
         </section>
       </section>
@@ -1209,15 +1225,17 @@ Content-Type: application/json
       <t>This method involves performing an explicit registration of a new
         client the first time a Relying Party interacts with an OpenID
         Provider using something that basically foolws the steps in <xref
-            target="OpenID.Registration">OpenID Connect Dynamic Client
-          Registration 1.0</xref> but where the client registration request
+                target="OpenID.Registration">OpenID Connect Dynamic Client
+          Registration 1.0
+        </xref> but where the client registration request
         is a signed entity statement.
       </t>
 
       <section title="Provider Discovery">
         <t>The RP will start by gathering the OPs metadata using the
           process specified in <xref target="resolving_trust">Resolving trust
-            chain and metadata</xref> above.
+            chain and metadata
+          </xref> above.
         </t>
       </section>
 
@@ -1387,7 +1405,7 @@ Content-Type: application/json
     <section title="Expiration times">
       <t>There are a number of expiration times that MUST considered:
         <list
-            style="empty">
+                style="empty">
           <t>Each signature has a expirattion time.</t>
 
           <t>A relying party registration has a expiration time.</t>
@@ -1538,7 +1556,7 @@ Content-Type: application/json
     </references>
 
     <section
-        title="Illustrative example of OpenID Connect flow using implicit client registration">
+            title="Illustrative example of OpenID Connect flow using implicit client registration">
       <t>A service Foodle would like to offer its services to all identity
         providers in eduGAIN. Foodle is managed and registered by the university
         NTNU. NTNU is part of the Norwegian Feide federation. Foodle is also
@@ -1548,7 +1566,8 @@ Content-Type: application/json
 
       <section title="Initial setup of Foodle">
         <t>The Foodle service chooses to use the entity identifier <spanx
-            style="verb">https://foodl.org/</spanx>. And upon deployment, Foodle
+                style="verb">https://foodl.org/</spanx>. And upon deployment,
+          Foodle
           is setup with an RSA key pair, with the following public key:
         </t>
 
@@ -1653,7 +1672,7 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
 
         <t>After the discovery process, Foodle knows that the user would like
           to login using the OpenID provider with entity identifier <spanx
-              style="verb">https://www.umu.se/openid</spanx>.
+                  style="verb">https://www.umu.se/openid</spanx>.
         </t>
       </section>
 
@@ -1924,7 +1943,11 @@ Content-Type: application/json
   &scope=openid%20profile%20email
   &client_id=https%3A%2F%2Ffoodl.org%2F
   &state=2ff7e589-3848-46da-a3d2-949e1235e671
-  &redirect_uri=https%3A%2F%2Ffoodl.org%2Fopenid%2Fcallback HTTP/1.1
+  &redirect_uri=https%3A%2F%2Ffoodl.org%2Fopenid%2Fcallback
+  &client_assertion=eyJhbGciOiJSUzI1NiIs ... qx7xHcvPOdIhnpg
+  &client_assertion_type=
+    urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
+  HTTP/1.1
 Host: idp.umu.se
 ]]></artwork>
         </figure>
@@ -2019,7 +2042,7 @@ Host: idp.umu.se
     </section>
 
     <section
-        title="Illustrative example of OpenID Connect flow using explicit client registration">
+            title="Illustrative example of OpenID Connect flow using explicit client registration">
       <t>
         A research project has pooled resources and bought an extremely rare
         and expensive equipment (EREE) that MUST be accessible by all project
@@ -2036,7 +2059,7 @@ Host: idp.umu.se
       </t>
       <section title="Initial setup of the EREE service">
         <t>The EREE service choose to use the entity identifier <spanx
-            style="verb">https://srv.eree.example.org/</spanx>. And upon
+                style="verb">https://srv.eree.example.org/</spanx>. And upon
           deployment, EREE is setup with a Elliptic Curve key pair, with the
           following public key:
         </t>
@@ -2116,7 +2139,7 @@ Host: idp.umu.se
         </t>
       </section>
       <section
-          title="The EPEE RP discovers and initiates explicit registration">
+              title="The EPEE RP discovers and initiates explicit registration">
         <section title="The EPEE RP discovers the OpenID provider">
           <t>
             Using the entity ID (issuer ID) of the identity provider the service
