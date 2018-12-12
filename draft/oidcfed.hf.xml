@@ -173,7 +173,6 @@
         entities in a trust chain we refer to as intermediate entities. The
         local configured trust root, we refer to as the trust anchor.
       </t>
-
       <t>
         <list style="hanging">
           <t hangText="iss">REQUIRED. The entity identifier of the entity that
@@ -208,11 +207,13 @@
 
           <t hangText="authority_hints">OPTIONAL. A JSON object where the keys
             are the entity id's of the intermediate entities that may issue an
-            entity statement
-            about the issuer entity. The value MUST be a JSON array of entities
-            that is further up in the trust chain. The array may be an empty
-            list. The JSON array can be used to simplify the selection of trust
-            chains without the need for following all possible trust chains.
+            entity statement about the issuer entity. The value MUST be a
+            JSON array of entities that the issuer of the entity statement
+            regards as trust anchors and that can be reached if one follows the
+            path that starts with the intermediate.
+            The array may be an empty list.
+            The JSON array can be used to simplify the selection of trust
+            chains without the need for following all possible trust paths.
           </t>
 
           <t hangText="metadata">REQUIRED. JSON object including protocol
@@ -322,6 +323,9 @@
       </figure>
 
       <section title="The trust anchor">
+        <t>A trust anchor is an entity that you trust will issue correct
+          statements
+        </t>
         <t>In order to configure trust when deploying a software component, it
           is recommended to align that configuration with the semantics of an
           entity statement. How the configuration is stored and the exact format
@@ -812,7 +816,15 @@ Content-Type: application/json
         and -- if there are multiple valid trust chains and if the
         application demands it -- choose one.
       </t>
-
+      <t>
+        <spanx style="verb">Note</spanx> that a trust chain may contain more
+        then one trust anchor. For instance:
+        <list style="symbols">
+          <t>the organization it belongs to, (Ume&aring; University)</t>
+          <t>the federation the organization is a member (SWAMID) of and</t>
+          <t>a interfederation that the federation is a member of (EduGAIN)</t>
+        </list>
+      </t>
       <section anchor="fetching-es"
                title="Fetching entity statements to establish a trust chain">
         <t>Depending on the circumstances the Consumer may either be
@@ -836,10 +848,12 @@ Content-Type: application/json
           entity statements it already has fetched during this
           process (loop prevention).
         </t>
-
+        <t>Once the Consumer has found a trust anchor it wants to use it MUST
+          fetch the trust anchor's self-signed entity statement
+        </t>
         <t>A successful operation will return one or more lists of
-          entity statements. Each of the lists terminating in an entity
-          statement issued by a trusted trust anchor.
+          entity statements. Each of the lists terminating in a self-signed
+          entity statement issued by a trust anchor.
         </t>
         <t>
           If there is no path from the remote peer to at least one of the
@@ -851,15 +865,15 @@ Content-Type: application/json
                anchor="trust_chain_validation">
         <t>A trust chain consists of an ordered list of entity statements that
           starts with the self issued entity statement (ES[0]) of the remote
-          peer and ends with an entity statement signed by a trusted trust
-          anchor
-          (ES[i]).
+          peer and ends with a self issued entity statement signed by a
+          trusted trust anchor (ES[i]).
         </t>
         <t>
-          Except for the self-signed entity statement (ES[0]) each entity
+          Except for the remote peer's self-signed entity statement (ES[0])
+          and the trust anchor's (ES[i]) each entity
           statement refers back to the one preceding it, such that the
           *sub* in one entity statement (ES[j]) is the *iss* in the immediate
-          preceding (ES[j-1]).
+          preceding (ES[j-1]), j=1,...,i-1 .
         </t>
         <t>
           A trust chain without any intermediate entities is also valid.
@@ -868,19 +882,22 @@ Content-Type: application/json
           To validate the chain, the following steps are done for each entity
           statement ES[j]
           j=i,..,0 :
-          <list style="numbers">
+          <list style="symbols">
             <t>
               Verify that the statement contains all the required claims.
-            </t>
-            <t>
-              If j &lt; i: Verify that the *iss* in ES[j] is the same as the
-              *sub* in ES[j+1]
             </t>
             <t>
               Verify that *iat* has a value in the past
             </t>
             <t>
               Verify that *exp* has value that is in the future.
+            </t>
+            <t>
+              For j=0,i verify that *iss* == *sub*.
+            </t>
+            <t>
+              F j=1,...,i-1: Verify that the *iss* in ES[j] is the same as the
+              *sub* in ES[j+1]
             </t>
             <t>
               Verify the signature
@@ -899,6 +916,13 @@ Content-Type: application/json
             </t>
           </list>
         </t>
+        <t>Verifying the signature is a much more expensive
+          operation then verifying the correctness of the statement and the
+          timestamps. An implementer MAY there for chose to not verify the
+          signature until all the other checks has been done. That does not
+          mean that any information in the chain of statements can be used
+          before the signature has be validated.
+          </t>
       </section>
 
       <section title="Choosing one of the valid trust chains">
@@ -1178,7 +1202,8 @@ GET /authorization?
     urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
   HTTP/1.1
 Host: https://example.org
-            ]]></artwork></figure>
+            ]]></artwork>
+            </figure>
           </t>
         </section>
 
