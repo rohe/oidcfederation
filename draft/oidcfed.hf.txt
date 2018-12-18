@@ -603,8 +603,8 @@ Hedberg, et al.           Expires June 21, 2019                [Page 10]
    type  REQUIRED.  The metadata type to resolve.  In this document we
       use the metadata types listed in Metadata (Section 3).
 
-
-
+   anchor  REQUIRED.  The trust anchor the remote peer MUST use when
+      resolving the metadata.
 
 
 
@@ -696,13 +696,13 @@ Hedberg, et al.           Expires June 21, 2019                [Page 12]
       should contain only intermediate nodes.
 
    metadata_claims  OPTIONAL.  A comma separated list of claim names
-      that the requester would like to get for each entity.  If left out
-      or an empty string, the response should contain an empty object
-      for each of the known entities.  The set of claim names that can
-      be used are defined in metadata (Section 3).  *Note* that while
-      "type" and "sub_is_leaf" can be used to filter out which entities
-      to return this only affects what is returned about each returned
-      entity.
+      that the requester would like to get values for for each entity.
+      If left out or an empty string, the response should contain an
+      empty object for each of the known entities.  The set of claim
+      names that can be used are defined in metadata (Section 3).
+      *Note* that while "type" and "sub_is_leaf" can be used to filter
+      out which entities to return this only affects what is returned
+      about each returned entity.
 
    The following is a non-normative example of an API request for trust
    negotiation:
@@ -809,7 +809,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 14]
    The next step is to iterate through the list of intermediates listed
    in "authority_hints" , ignoring the authority hints that ends in an
    unknown trust anchor, requesting an entity statement about the remote
-   peer from the intermediate.  If the received entity statement
+   peer from each of the intermediates.  If a received entity statement
    contains an authority hint this process is repeated.  This time with
    the *iss* set to the intermediates entity ID and the *sub* to be the
    *iss* of the previous query.  The Consumer should never attempt to
@@ -859,13 +859,11 @@ Hedberg, et al.           Expires June 21, 2019                [Page 15]
 
    o  For j=1,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub']
 
-   o  Verify the signature
+   o  For j=0,...,i-1: Verify the signature of ES[j] using the public
+      key carried in ES[j+1]['jwks'].
 
-      *  if j < i: verify the signature using the public key carried in
-         the *jwks* claim in ES[j+1].
-
-      *  if j == i: verify the signature with the configured public key
-         of the trust anchor.
+   o  For j == i: verify the signature with the configured public key of
+      the trust anchor.
 
    Verifying the signature is a much more expensive operation then
    verifying the correctness of the statement and the timestamps.  An
@@ -888,6 +886,8 @@ Hedberg, et al.           Expires June 21, 2019                [Page 15]
    expiration time (exp) set.  The expiration time of the whole trust
    chain is the expiration time that is in the future and closest in
    time to the present time of all the available expiration times.
+
+
 
 
 

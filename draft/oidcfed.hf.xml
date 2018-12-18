@@ -862,8 +862,8 @@ Content-Type: application/json
           <spanx style="verb">authority_hints</spanx>
           , ignoring the authority
           hints that ends in an unknown trust anchor, requesting an entity
-          statement about the remote peer from the intermediate.
-          If the received entity statement contains an authority hint this
+          statement about the remote peer from each of the intermediates.
+          If a received entity statement contains an authority hint this
           process is repeated. This time with the *iss* set to the
           intermediates entity ID and the *sub* to be the *iss* of the previous
           query.
@@ -917,19 +917,14 @@ Content-Type: application/json
             <t>
               For j=1,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub']
             </t>
-            <t>
-              Verify the signature
-              <list style="symbols">
-                <t>
-                  if j &lt; i: verify the signature using the public key carried
-                  in the *jwks* claim in ES[j+1].
-                </t>
-                <t>
-                  if j == i: verify the signature with the configured public
-                  key of the trust anchor.
-                </t>
-              </list>
-            </t>
+              <t>
+                For j=0,...,i-1: Verify the signature of ES[j] using the public
+                key carried in ES[j+1]['jwks'].
+              </t>
+              <t>
+                For j == i: verify the signature with the configured public
+                key of the trust anchor.
+              </t>
           </list>
         </t>
         <t>Verifying the signature is a much more expensive

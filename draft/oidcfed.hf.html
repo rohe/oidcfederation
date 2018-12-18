@@ -936,6 +936,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
 <dd style="margin-left: 8">REQUIRED. The entity identifier of the entity the information is requested for.  </dd>
 <dt>type</dt>
 <dd style="margin-left: 8">REQUIRED. The metadata type to resolve.  In this document we use the metadata types listed in <a href="#metadata" class="xref">Metadata</a>.  </dd>
+<dt>anchor</dt>
+<dd style="margin-left: 8">REQUIRED. The trust anchor the remote peer MUST use when resolving the metadata.  </dd>
 </dl>
 
 <p> </p>
@@ -996,7 +998,7 @@ Content-Type: application/json
 <dt>sub_is_leaf</dt>
 <dd style="margin-left: 8">OPTIONAL. If left out, result should include both leaf nodes and intermediate nodes. If set to <samp>true</samp>, the response should contain only leaf nodes. If set to <samp>false</samp>, the response should contain only intermediate nodes.  </dd>
 <dt>metadata_claims</dt>
-<dd style="margin-left: 8">OPTIONAL. A comma separated list of claim names that the requester would like to get for each entity. If left out or an empty string, the response should contain an empty object for each of the known entities.  The set of claim names that can be used are defined in <a href="#metadata" class="xref">metadata</a>.  *Note* that while <samp>type</samp> and <samp>sub_is_leaf</samp> can be used to filter out which entities to return this only affects what is returned about each returned entity.  </dd>
+<dd style="margin-left: 8">OPTIONAL. A comma separated list of claim names that the requester would like to get values for for each entity. If left out or an empty string, the response should contain an empty object for each of the known entities.  The set of claim names that can be used are defined in <a href="#metadata" class="xref">metadata</a>.  *Note* that while <samp>type</samp> and <samp>sub_is_leaf</samp> can be used to filter out which entities to return this only affects what is returned about each returned entity.  </dd>
 </dl>
 
 <p> </p>
@@ -1068,7 +1070,7 @@ Content-Type: application/json
 <a href="#rfc.section.5.1">5.1.</a> <a href="#fetching-es" id="fetching-es">Fetching entity statements to establish a trust chain</a>
 </h1>
 <p id="rfc.section.5.1.p.1">Depending on the circumstances the Consumer may either be handed the remote peer's self-issued entity statement or it may have to fetch it by itself. If it needs to fetch it, it will use the process described in <a href="#fetch_statement" class="xref">Fetch Entity Statements</a> with both *iss* and *sub* set to the entity ID of the remote peer.  </p>
-<p id="rfc.section.5.1.p.2">The next step is to iterate through the list of intermediates listed in <samp>authority_hints</samp> , ignoring the authority hints that ends in an unknown trust anchor, requesting an entity statement about the remote peer from the intermediate.  If the received entity statement contains an authority hint this process is repeated. This time with the *iss* set to the intermediates entity ID and the *sub* to be the *iss* of the previous query.  The Consumer should never attempt to fetch entity statements it already has fetched during this process (loop prevention).  </p>
+<p id="rfc.section.5.1.p.2">The next step is to iterate through the list of intermediates listed in <samp>authority_hints</samp> , ignoring the authority hints that ends in an unknown trust anchor, requesting an entity statement about the remote peer from each of the intermediates.  If a received entity statement contains an authority hint this process is repeated. This time with the *iss* set to the intermediates entity ID and the *sub* to be the *iss* of the previous query.  The Consumer should never attempt to fetch entity statements it already has fetched during this process (loop prevention).  </p>
 <p id="rfc.section.5.1.p.3">Once the Consumer has found a trust anchor it wants to use it MUST complete the trust chain by fetching the trust anchor's self-signed entity statement.  </p>
 <p id="rfc.section.5.1.p.4">A successful operation will return one or more lists of entity statements. Each of the lists terminating in a self-signed entity statement issued by a trust anchor.  </p>
 <p id="rfc.section.5.1.p.5">If there is no path from the remote peer to at least one of the trusted trust anchors then the list will be empty and there is no way of establishing trust in the remote peer's information.  </p>
@@ -1088,12 +1090,8 @@ Content-Type: application/json
 </li>
 <li>For j=0,i verify that *iss* == *sub*.  </li>
 <li>For j=1,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub'] </li>
-<li>Verify the signature <ul>
-<li>if j &lt; i: verify the signature using the public key carried in the *jwks* claim in ES[j+1].  </li>
-<li>if j == i: verify the signature with the configured public key of the trust anchor.  </li>
-</ul>
-<p> </p>
-</li>
+<li>For j=0,...,i-1: Verify the signature of ES[j] using the public key carried in ES[j+1]['jwks'].  </li>
+<li>For j == i: verify the signature with the configured public key of the trust anchor.  </li>
 </ul>
 
 <p> </p>
