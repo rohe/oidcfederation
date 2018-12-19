@@ -608,25 +608,30 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
 
         <section title="Trust negotiation Request">
           <t>Resolving metadata for a specific type of metadata, for a given
-            peer. The result may tell what operations, scopes and claims the
-            relying party is allowed to use.
+            peer. The result may for instance tell an RP what operations,
+            scopes and claims an OP would allow the RP to use if a specific
+            trust anchor was used.
           </t>
-
+          <t>
+            *Note* that when asking about an RPs this only works in the case
+            that the RP and the federation supports implicit client
+            registration.
+          </t>
           <t>
             <list style="hanging">
               <t hangText="op">REQUIRED. MUST be set to <spanx style="verb">
                 resolve_metadata</spanx>.
               </t>
 
-              <t hangText="iss">REQUIRED. The entity identifier of the entity
-                who's view is requested. Because of the
+              <t hangText="respondent">REQUIRED. The entity identifier of the
+                entity who's view is requested. Because of the
                 normalization of the URL, multiple issuers may resolve to a
                 shared federation API. This parameter makes it explicit exactly
                 which issuer we want to interact with.
               </t>
 
               <t hangText="peer">REQUIRED. The entity identifier of the entity
-                the information is requested for.
+                the information is requested for. This must be a leaf entity.
               </t>
 
               <t hangText="type">REQUIRED. The metadata type to resolve.
@@ -647,7 +652,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
               <artwork><![CDATA[
 GET /.well-known/openid-federation?
 op=resolve_metadata&
-iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
+respondent=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
 type=openid_provider&
 peer=https%3A%2F%2Fidp.umu.se%2Fopenid HTTP/1.1
 Host: openid.sunet.se
