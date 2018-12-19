@@ -6,5 +6,5 @@ A document that describes how to do a multilateral federation with OpenID Connec
 
 A text and HTML version is automatically generated on each commit:
 
-* [oidcfed-06.html](https://storage.googleapis.com/openid-connect/oidcfed-05.html)
-* [oidcfed-06.txt](https://storage.googleapis.com/openid-connect/oidcfed-05.txt)
+* [oidcfed.html](https://storage.googleapis.com/openid-connect/oidcfed.html)
+* [oidcfed.txt](https://storage.googleapis.com/openid-connect/oidcfed.txt)

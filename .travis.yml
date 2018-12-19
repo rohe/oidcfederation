@@ -12,8 +12,8 @@ node_js:
 script:
   - node -v
   - mkdir public
-  - xml2rfc draft/oidcfed.hf.xml --text -o public/oidcfed-06.txt
-  - xml2rfc draft/oidcfed.hf.xml --html -o public/oidcfed-06.html
+  - xml2rfc draft/oidcfed.hf.xml --text -o public/oidcfed.txt
+  - xml2rfc draft/oidcfed.hf.xml --html -o public/oidcfed.html
 
 services:
 - docker
