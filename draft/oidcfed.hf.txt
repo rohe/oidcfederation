@@ -12,10 +12,10 @@
                                                                Microsoft
                                                               J. Bradley
                                                                   Yubico
-                                                       December 18, 2018
+                                                       December 28, 2018
 
 
-                OpenID Connect Federation 1.0 - draft 06
+                OpenID Connect Federation 1.0 - draft 07
                       openid-connect-federation-06
 
 Abstract
@@ -53,7 +53,7 @@ Table of Contents
 
 
 
-Hedberg, et al.           Expires June 21, 2019                 [Page 1]
+Hedberg, et al.           Expires July 1, 2019                  [Page 1]
 
                         OpenID Connect Federation          December 2018
 
@@ -109,7 +109,7 @@ Hedberg, et al.           Expires June 21, 2019                 [Page 1]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                 [Page 2]
+Hedberg, et al.           Expires July 1, 2019                  [Page 2]
 
                         OpenID Connect Federation          December 2018
 
@@ -165,7 +165,7 @@ Hedberg, et al.           Expires June 21, 2019                 [Page 2]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                 [Page 3]
+Hedberg, et al.           Expires July 1, 2019                  [Page 3]
 
                         OpenID Connect Federation          December 2018
 
@@ -174,7 +174,7 @@ Hedberg, et al.           Expires June 21, 2019                 [Page 3]
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-   document are to be interpreted as described in BCP 14 [RFC2119].
+   document are to be interpreted as described in RFC 2119 [RFC2119].
 
 1.2.  Terminology
 
@@ -221,7 +221,7 @@ Hedberg, et al.           Expires June 21, 2019                 [Page 3]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                 [Page 4]
+Hedberg, et al.           Expires July 1, 2019                  [Page 4]
 
                         OpenID Connect Federation          December 2018
 
@@ -277,7 +277,7 @@ Hedberg, et al.           Expires June 21, 2019                 [Page 4]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                 [Page 5]
+Hedberg, et al.           Expires July 1, 2019                  [Page 5]
 
                         OpenID Connect Federation          December 2018
 
@@ -333,7 +333,7 @@ Hedberg, et al.           Expires June 21, 2019                 [Page 5]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                 [Page 6]
+Hedberg, et al.           Expires July 1, 2019                  [Page 6]
 
                         OpenID Connect Federation          December 2018
 
@@ -389,7 +389,7 @@ Hedberg, et al.           Expires June 21, 2019                 [Page 6]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                 [Page 7]
+Hedberg, et al.           Expires July 1, 2019                  [Page 7]
 
                         OpenID Connect Federation          December 2018
 
@@ -445,7 +445,7 @@ Hedberg, et al.           Expires June 21, 2019                 [Page 7]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                 [Page 8]
+Hedberg, et al.           Expires July 1, 2019                  [Page 8]
 
                         OpenID Connect Federation          December 2018
 
@@ -501,7 +501,7 @@ Hedberg, et al.           Expires June 21, 2019                 [Page 8]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                 [Page 9]
+Hedberg, et al.           Expires July 1, 2019                  [Page 9]
 
                         OpenID Connect Federation          December 2018
 
@@ -557,7 +557,7 @@ Hedberg, et al.           Expires June 21, 2019                 [Page 9]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 10]
+Hedberg, et al.           Expires July 1, 2019                 [Page 10]
 
                         OpenID Connect Federation          December 2018
 
@@ -613,7 +613,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 10]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 11]
+Hedberg, et al.           Expires July 1, 2019                 [Page 11]
 
                         OpenID Connect Federation          December 2018
 
@@ -669,7 +669,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 11]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 12]
+Hedberg, et al.           Expires July 1, 2019                 [Page 12]
 
                         OpenID Connect Federation          December 2018
 
@@ -725,7 +725,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 12]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 13]
+Hedberg, et al.           Expires July 1, 2019                 [Page 13]
 
                         OpenID Connect Federation          December 2018
 
@@ -781,7 +781,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 13]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 14]
+Hedberg, et al.           Expires July 1, 2019                 [Page 14]
 
                         OpenID Connect Federation          December 2018
 
@@ -837,7 +837,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 14]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 15]
+Hedberg, et al.           Expires July 1, 2019                 [Page 15]
 
                         OpenID Connect Federation          December 2018
 
@@ -893,7 +893,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 15]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 16]
+Hedberg, et al.           Expires July 1, 2019                 [Page 16]
 
                         OpenID Connect Federation          December 2018
 
@@ -949,7 +949,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 16]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 17]
+Hedberg, et al.           Expires July 1, 2019                 [Page 17]
 
                         OpenID Connect Federation          December 2018
 
@@ -1005,7 +1005,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 17]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 18]
+Hedberg, et al.           Expires July 1, 2019                 [Page 18]
 
                         OpenID Connect Federation          December 2018
 
@@ -1061,7 +1061,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 18]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 19]
+Hedberg, et al.           Expires July 1, 2019                 [Page 19]
 
                         OpenID Connect Federation          December 2018
 
@@ -1117,7 +1117,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 19]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 20]
+Hedberg, et al.           Expires July 1, 2019                 [Page 20]
 
                         OpenID Connect Federation          December 2018
 
@@ -1173,7 +1173,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 20]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 21]
+Hedberg, et al.           Expires July 1, 2019                 [Page 21]
 
                         OpenID Connect Federation          December 2018
 
@@ -1229,7 +1229,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 21]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 22]
+Hedberg, et al.           Expires July 1, 2019                 [Page 22]
 
                         OpenID Connect Federation          December 2018
 
@@ -1285,7 +1285,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 22]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 23]
+Hedberg, et al.           Expires July 1, 2019                 [Page 23]
 
                         OpenID Connect Federation          December 2018
 
@@ -1341,7 +1341,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 23]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 24]
+Hedberg, et al.           Expires July 1, 2019                 [Page 24]
 
                         OpenID Connect Federation          December 2018
 
@@ -1397,7 +1397,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 24]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 25]
+Hedberg, et al.           Expires July 1, 2019                 [Page 25]
 
                         OpenID Connect Federation          December 2018
 
@@ -1453,7 +1453,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 25]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 26]
+Hedberg, et al.           Expires July 1, 2019                 [Page 26]
 
                         OpenID Connect Federation          December 2018
 
@@ -1509,7 +1509,7 @@ A.1.  Initial Setup of Foodle
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 27]
+Hedberg, et al.           Expires July 1, 2019                 [Page 27]
 
                         OpenID Connect Federation          December 2018
 
@@ -1565,7 +1565,7 @@ A.2.  Federation Setup
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 28]
+Hedberg, et al.           Expires July 1, 2019                 [Page 28]
 
                         OpenID Connect Federation          December 2018
 
@@ -1621,7 +1621,7 @@ A.4.  Foodle Discovers the OP
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 29]
+Hedberg, et al.           Expires July 1, 2019                 [Page 29]
 
                         OpenID Connect Federation          December 2018
 
@@ -1677,7 +1677,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 29]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 30]
+Hedberg, et al.           Expires July 1, 2019                 [Page 30]
 
                         OpenID Connect Federation          December 2018
 
@@ -1733,7 +1733,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 30]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 31]
+Hedberg, et al.           Expires July 1, 2019                 [Page 31]
 
                         OpenID Connect Federation          December 2018
 
@@ -1789,7 +1789,7 @@ A.5.  Resolving the OP's Trust Chain
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 32]
+Hedberg, et al.           Expires July 1, 2019                 [Page 32]
 
                         OpenID Connect Federation          December 2018
 
@@ -1845,7 +1845,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 32]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 33]
+Hedberg, et al.           Expires July 1, 2019                 [Page 33]
 
                         OpenID Connect Federation          December 2018
 
@@ -1901,7 +1901,7 @@ A.6.  Extracting the OP metadata
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 34]
+Hedberg, et al.           Expires July 1, 2019                 [Page 34]
 
                         OpenID Connect Federation          December 2018
 
@@ -1957,7 +1957,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 34]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 35]
+Hedberg, et al.           Expires July 1, 2019                 [Page 35]
 
                         OpenID Connect Federation          December 2018
 
@@ -2013,7 +2013,7 @@ A.7.  RP Sends Authentication Request (Implicit Registration)
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 36]
+Hedberg, et al.           Expires July 1, 2019                 [Page 36]
 
                         OpenID Connect Federation          December 2018
 
@@ -2069,7 +2069,7 @@ A.8.  OP Fetches Entity Statements
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 37]
+Hedberg, et al.           Expires July 1, 2019                 [Page 37]
 
                         OpenID Connect Federation          December 2018
 
@@ -2125,7 +2125,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 37]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 38]
+Hedberg, et al.           Expires July 1, 2019                 [Page 38]
 
                         OpenID Connect Federation          December 2018
 
@@ -2181,7 +2181,7 @@ B.1.  Initial Setup of the EREE Service
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 39]
+Hedberg, et al.           Expires July 1, 2019                 [Page 39]
 
                         OpenID Connect Federation          December 2018
 
@@ -2237,7 +2237,7 @@ B.3.1.  The EPEE RP Discovers the OpenID Provider
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 40]
+Hedberg, et al.           Expires July 1, 2019                 [Page 40]
 
                         OpenID Connect Federation          December 2018
 
@@ -2293,7 +2293,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 40]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 41]
+Hedberg, et al.           Expires July 1, 2019                 [Page 41]
 
                         OpenID Connect Federation          December 2018
 
@@ -2349,7 +2349,7 @@ B.3.2.  Resolving the OP's Trust Chain
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 42]
+Hedberg, et al.           Expires July 1, 2019                 [Page 42]
 
                         OpenID Connect Federation          December 2018
 
@@ -2405,7 +2405,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 42]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 43]
+Hedberg, et al.           Expires July 1, 2019                 [Page 43]
 
                         OpenID Connect Federation          December 2018
 
@@ -2461,7 +2461,7 @@ B.3.4.  Extracting the OP's Metadata
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 44]
+Hedberg, et al.           Expires July 1, 2019                 [Page 44]
 
                         OpenID Connect Federation          December 2018
 
@@ -2517,7 +2517,7 @@ B.3.5.  EPEE RP Does Federated Client Registration
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 45]
+Hedberg, et al.           Expires July 1, 2019                 [Page 45]
 
                         OpenID Connect Federation          December 2018
 
@@ -2573,7 +2573,7 @@ Hedberg, et al.           Expires June 21, 2019                [Page 45]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 46]
+Hedberg, et al.           Expires July 1, 2019                 [Page 46]
 
                         OpenID Connect Federation          December 2018
 
@@ -2629,7 +2629,7 @@ B.4.1.  The OP Gathers the RPs Trust Chains
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 47]
+Hedberg, et al.           Expires July 1, 2019                 [Page 47]
 
                         OpenID Connect Federation          December 2018
 
@@ -2685,7 +2685,7 @@ B.4.3.  Extracting RP Metadata
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 48]
+Hedberg, et al.           Expires July 1, 2019                 [Page 48]
 
                         OpenID Connect Federation          December 2018
 
@@ -2741,7 +2741,7 @@ B.4.4.  Constructing the Registration Response
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 49]
+Hedberg, et al.           Expires July 1, 2019                 [Page 49]
 
                         OpenID Connect Federation          December 2018
 
@@ -2797,7 +2797,7 @@ B.5.  The RP Deals With the Registration Response
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 50]
+Hedberg, et al.           Expires July 1, 2019                 [Page 50]
 
                         OpenID Connect Federation          December 2018
 
@@ -2853,7 +2853,7 @@ Appendix C.  Notices
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 51]
+Hedberg, et al.           Expires July 1, 2019                 [Page 51]
 
                         OpenID Connect Federation          December 2018
 
@@ -2909,7 +2909,7 @@ Authors' Addresses
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 52]
+Hedberg, et al.           Expires July 1, 2019                 [Page 52]
 
                         OpenID Connect Federation          December 2018
 
@@ -2965,4 +2965,4 @@ Hedberg, et al.           Expires June 21, 2019                [Page 52]
 
 
 
-Hedberg, et al.           Expires June 21, 2019                [Page 53]
+Hedberg, et al.           Expires July 1, 2019                 [Page 53]
