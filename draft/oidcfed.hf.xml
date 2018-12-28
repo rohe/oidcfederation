@@ -87,9 +87,9 @@
     <keyword>OIDC</keyword>
 
     <abstract>
-      <t>The OpenID Connect standard specifies how a Relying Party (RP)
+      <t>The OpenID Connect standard specifies how an Relying Party (RP)
         can discover metadata about an OpenID Provider (OP), and then
-        register to obtain relying party credentials. The discovery and
+        register to obtain RP credentials. The discovery and
         registration process does not involve any mechanisms of
         dynamically establishing trust in the exchanged information, but
         instead rely on out-of-band trust establishment.
@@ -99,46 +99,43 @@
         participants of the federation must be able to trust information
         provided about other participants in the federation. OpenID
         Connect Federations specifies how trust can be dynamically
-        obtained by resolving trust based on a common trusted third party.
+        obtained by resolving trust from a common trusted third party.
       </t>
 
-      <t>While this specification is primarily targeting OpenID Connect and
-        identity federations, it is designed to allow for re-use by
-        other protocols and in other use cases.
+      <t>While this specification is primarily targeting OpenID Connect,
+        it is designed to allow for re-use by other
+        protocols and in other use cases.
       </t>
     </abstract>
   </front>
 
   <middle>
     <section anchor="Introduction" title="Introduction">
-      <t>This specification describes how two entities that wants to
-        interact can dynamically fetch and and resolve trust and metadata
-        about each other, for a given protocol, by the use of third party
-        trust issuers.
+      <t>This specification describes how two entities that would like to
+        interact can dynamically fetch and and resolve trust and metadata for a
+        given protocol through the use of third party trust issuers. A trust
+        issuer is an entity whose main purpose is to issue trust statements
+        about
+        entities, such as OpenID relying party and providers. An identity
+        federation can be realized using this specification by the use of one or
+        more levels of trust issuers. This specification does not mandates a
+        specific way or restrict how a federation may be built. Instead, the
+        specification provides the basic technical trust infrastructure building
+        blocks needed to build a dynamic and distributed trust network such as a
+        federation.
       </t>
 
-      <t>An identity federation can be realized using this specification by
-        the use of one or more levels of trust issuers. A trust issuer is an
-        entity, which main purpose is to issue trust statements about entities,
-        such as OpenID relying party and providers. This specification does not
-        mandate a specific way or restrict how a federation may be built.
-        Instead the specification provides the basic technical trust
-        infrastructure building blocks needed to build a dynamic and
-        distributed trust network such as a federation.
+      <t>All entities in an OpenID Connect federation, including the trust
+        issuers, MUST have a globally unique identifier.
       </t>
 
-      <t>All entities in a federation, including the trust issuers, MUST have
-        a globally unique identifier.
-      </t>
-
-      <t>Note that a real-world entity like an organisation, a company may be
+      <t>Note that a company, as with any real-world organization, may be
         represented by more than one entity in a federation.
       </t>
 
       <t>The OpenID Connect Federation trust chains are relying on
-        cryptographically signed <xref target="RFC7517">JWT</xref> documents,
-        and the trust chain does not at all rely on TLS in order to
-        establish trust.
+        cryptographically signed JWT documents, and the trust chain does not at
+        all rely on TLS in order to establish trust.
       </t>
 
       <section title="Requirements Language">
@@ -148,11 +145,36 @@
                   target="RFC2119">RFC 2119</xref>.
         </t>
       </section>
+      <section title="Terminology">
+        <t>
+          This specification uses the terms
+          "Claim Name", "Claim Value", "JSON Web Token (JWT)",
+          defined by <xref target="RFC7517">JSON Web Token (JWT)</xref>, the
+          terms "OpenID Provider (OP)" and "Relying Party (RP)" by
+          <xref target="OpenID.Core">OIDC core</xref>
+        </t>
+        <t>
+          This specification also defines the following terms:
+          <list style="hanging">
+            <t hangText="Entity statement">
+              An entity statement is always a signed JWT. An entity statement is
+              issued by a entity, and concerns a subject entity.
+            </t>
+            <t hangText="Trust Anchor">
+              An entity that represents a trusted third party.
+            </t>
+            <t hangText="Trust Chain">
+              A sequence of entity statements that represents a chain of
+              statements starting at a leaf entity and ending in a trust anchor.
+            </t>
+          </list>
+        </t>
+      </section>
     </section>
     <section title="Components" anchor="components">
       <section anchor="entity-statement" title="Entity Statement ">
         <t>An entity statement is always a signed JWT. An entity statement is
-          issued by a entity, and concerns a subject entity.
+          issued by an entity, and concerns a subject entity.
           All entities in a federation MUST be prepared to publish an entity
           statement about itself.
         </t>
@@ -165,10 +187,18 @@
 
             <t hangText="sub">REQUIRED. The entity identifier of the subject</t>
 
-            <t hangText="iat">REQUIRED. The time the statement was issued.</t>
+            <t hangText="iat">REQUIRED. The time the statement was issued.
+              Its value is a JSON number representing the number of seconds from
+              1970-01-01T0:0:0Z as measured in UTC until the date/time.
+              See <xref target="RFC3339">RFC 3339</xref>for
+              details regarding date/times in general and UTC in particular.
+            </t>
 
-            <t hangText="exp">REQUIRED. The time the signed statement
-              expires.
+            <t hangText="exp">REQUIRED.
+              Expiration time on or after which the statement MUST NOT be
+              accepted for processing. Its value is a JSON number representing
+              the number of seconds from 1970-01-01T0:0:0Z as measured in UTC
+              until the date/time.
             </t>
 
             <t hangText="jwks">REQUIRED. A <xref target="RFC7517">JSON Web Key
@@ -182,26 +212,25 @@
             </t>
 
             <t hangText="authority_hints">OPTIONAL. A JSON object where the keys
-              are the entity id's of intermediate entities that may issue an
+              are the entity id's of the intermediate entities that may issue an
               entity statement about the issuer entity. The value MUST be a
-              JSON array of entities that the issuer of the entity statement
-              regards as trust anchors and that can be reached if one follows
-              the paths that starts with the intermediates.
+              JSON array of entities that is further up in the trust chain.
               The array may be an empty list.
               The JSON array can be used to simplify the selection of trust
-              chains without the need for following all possible trust paths.
+              chains without the need for following all possible trust chains.
             </t>
 
             <t hangText="metadata">OPTIONAL. JSON object including protocol
-              specific metadata claims that represent the leaf nodes. To resolve
-              the resulting metadata for a leaf node, the compound metadata
+              specific metadata claims that represent the leaf entities. To
+              resolve
+              the resulting metadata for a leaf entity, the compound metadata
               documents included in the trust chain are merged by the <xref
                       target="flattening-metadata">metadata flattening
                 process</xref>.
               The keys of the JSON object represent the metadata type
               identifier, and their value MUST be a JSON object representing
               the metadata according to the metadata schema of that metadata
-              type. To allow for the leaf node to resolve a specific metadata
+              type. To allow for the leaf entity to resolve a specific metadata
               type, all intermediate entities
               in the trust chain MUST contain a metadata document for this
               specific type. See <xref target="metadata">section about
@@ -215,22 +244,26 @@
             </t>
 
             <t hangText="sub_is_leaf">OPTIONAL. Boolean value that indicates
-              whether the subject is considered a leaf node. A leaf node is not
+              whether the subject is considered a leaf entity. A leaf entity is
+              not
               trusted to issue statements about other entities then itself. If
               this property is left out, it is considered to be <spanx
                       style="verb">false</spanx>.
             </t>
 
-            <t hangText="sub_meta">OPTIONAL. If present, an JSON object
+            <t hangText="sub_meta">OPTIONAL. If present, a JSON object
               containing one or more of the properties listed below. This is
               metadata describing the subject of this entity statement. The
               metadata included in the metadata claim is always referring to the
               leaf nodes, while the metadata in sub_meta refers to the immediate
               subject, which may be an intermediate trust issuer.
+              <vspace
+                      blankLines="1"/>
               <list style="hanging">
-                <t hangText="name">OPTIONAL. String. A human readable name
+                <t hangText="name">OPTIONAL. String. The human readable name
                   describing the subject entity. This may be, for example, the
-                  name of an organization.
+                  name
+                  of an organization.
                 </t>
 
                 <t hangText="contacts">OPTIONAL. The precise format of this
@@ -388,8 +421,7 @@
         with additional properties relevant in a federated context.
       </t>
 
-      <section title="OpenID Connect Relying Party Metadata"
-               anchor="RP_metadata">
+      <section title="RP Metadata" anchor="RP_metadata">
         <t>The metadata type identifier is <spanx style="verb">
           openid_client</spanx>.
         </t>
@@ -405,21 +437,21 @@
             <t hangText="allowed_scopes"><vspace/>RECOMMENDED. JSON array
               containing a list of the
               <xref target="RFC6749">RFC6749</xref>
-              scope values that a relying party may ask for.
+              scope values that a RP may ask for.
             </t>
 
             <t hangText="allowed_claims"><vspace/>RECOMMENDED. JSON array
-              containing a list of the Claim Names of the Claims that a OpenID
-              RP may ask for.
+              containing a list of the Claim Names of the Claims that an RP may
+              ask for.
             </t>
             <t hangText="organization_name"><vspace/>OPTIONAL. A human readable
-              name representing the organization owning the OpenID Client.
+              name representing the organization owning the RP.
             </t>
           </list>
         </t>
       </section>
 
-      <section title="OpenID Connect Provider Metadata" anchor="OP_metadata">
+      <section title="OP Metadata" anchor="OP_metadata">
         <t>The metadata type identifier is <spanx style="verb">
           openid_provider</spanx>.
         </t>
@@ -434,16 +466,15 @@
         <t>
           <list style="hanging">
             <t hangText="organization_name"><vspace/>OPTIONAL. A human readable
-              name representing the organization owning the OpenID Provider. It
-              is intended to be used in the user interface, being recognized by
-              the end users that would be using the provider to
-              authenticate.
+              name representing the organization owning the OP. It is
+              intended to be used in the user interface, being recognized by
+              the end users that would be using the OP to authenticate.
             </t>
             <t hangText="federation_registration_endpoint">OPTIONAL.
               URL of the OP's Federation specific Dynamic Client Registration
-              Endpoint. If the OpenID Provider supports explicit client
+              Endpoint. If the OP supports explicit client
               registration as described in <xref target="explicit">explicit
-                registration</xref>, this claim is REQUIRED.
+                registration</xref>, then this claim is REQUIRED.
             </t>
           </list>
         </t>
@@ -484,7 +515,7 @@
     <section title="The Federation API">
       <t>All entities that are expected
         to publish entity statements about themselves or other entities, MUST
-        provide a Federation API endpoint.
+        expose a Federation API endpoint.
       </t>
 
       <t>The federation API endpoint of an entity is resolved from the entity
@@ -499,23 +530,24 @@
         included when constructing the URL above, one API endpoint may
         serve as the federation API endpoint for several entities.
       </t>
-      <t>The Federation API is an HTTP API that may support multiple
+      <t>The Federation API is an HTTPS API that may support multiple
         operations. Fetching entities is one of the operations, and the only one
         that all Federation API endpoints are REQUIRED to support. All the
-        other operations are
-        OPTIONAL. The list of defined operations may be extended in a future.
+        other operations is OPTIONAL. The list of defined operations may be
+        extended in a future.
       </t>
 
       <t>While all operations in the specification make use of a GET request,
         other operations may choose to use other HTTP methods. If the <spanx
-                style="verb">op</spanx> parameter is left out, it is considered
+                style="verb">op
+        </spanx> parameter is left out, it is considered
         to be a
         fetch entity statements request. Unless otherwise mentioned or agreed
         upon, requests to the federation API does not need to be
         authenticated.
       </t>
 
-      <section title="Fetching entity statement (REQUIRED)">
+      <section title="Fetching Entity Statement (REQUIRED)">
         <t>Fetching entity statement is used to collect entity statements
           one by one in order to gather trust chains.
         </t>
@@ -548,15 +580,15 @@
               <t hangText="sub">OPTIONAL. The entity identifier of the subject
                 for which you would like an entity statement issued. If this
                 parameter is left out, it is considered to be the same as the
-                issuer, and indicates a request for a self issued
+                issuer, and would indicate a request for a self issued
                 statement.
               </t>
 
               <t hangText="aud">OPTIONAL. The entity identifier of the
                 requester. The issuing entity may choose to include this
                 parameter to form the entity statement specifically for this
-                target, in which case the <spanx style="verb">aud</spanx> claim
-                also MUST be present in the entity statement.
+                target, in which the <spanx style="verb">aud</spanx> claim also
+                should be present in the entity statement it self.
               </t>
             </list>
           </t>
@@ -576,7 +608,7 @@ Host: openid.sunet.se
         </section>
 
         <section title="Fetch Entity Statements Response">
-          <t>A positive response is a signed entity statements in which case
+          <t>A positive response is a signed entity statement where
             the content type MUST be set to <spanx style="verb">
               application/jose</spanx>.
             If it is negative response it will be a JSON object and the
@@ -601,12 +633,12 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
         </section>
       </section>
 
-      <section title="Trust negotiation (OPTIONAL)">
+      <section title="Trust Negotiation (OPTIONAL)">
         <t>An entity may use the trust negotiation operation in order to fetch
           resolved metadata about it self as seen/trusted by a remote peer.
         </t>
 
-        <section title="Trust negotiation Request">
+        <section title="Trust Negotiation Request">
           <t>Resolving metadata for a specific type of metadata, for a given
             peer. The result may for instance tell an RP what operations,
             scopes and claims an OP would allow the RP to use if a specific
@@ -624,10 +656,10 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
               </t>
 
               <t hangText="respondent">REQUIRED. The entity identifier of the
-                entity who's view is requested. Because of the
+                entity whose metadata are requested. Because of the
                 normalization of the URL, multiple issuers may resolve to a
                 shared federation API. This parameter makes it explicit exactly
-                which issuer we want to interact with.
+                which issuer is expected.
               </t>
 
               <t hangText="peer">REQUIRED. The entity identifier of the entity
@@ -662,7 +694,7 @@ Host: openid.sunet.se
           </t>
         </section>
 
-        <section title="Trust negotiation Response">
+        <section title="Trust Negotiation Response">
           <t>The response is a generated flattened metadata of the type
             specified in the request.
           </t>
@@ -698,7 +730,7 @@ Content-Type: application/json
         </section>
       </section>
 
-      <section title="Entity listings (OPTIONAL)">
+      <section title="Entity Listings (OPTIONAL)">
         <t>An entity may query another entity for a list of all the
           entities that that entity is prepared to issue statements about.
         </t>
@@ -716,7 +748,7 @@ Content-Type: application/json
                 from which an entity listing is requested. Because of the
                 normalization of the URL, multiple issuers may resolve to a
                 shared federation API. This parameter makes it explicit exactly
-                which issuer we want to interact with.
+                which issuer is expected.
               </t>
 
               <t hangText="type">OPTIONAL. Provide this parameter to filter
@@ -725,9 +757,9 @@ Content-Type: application/json
               </t>
 
               <t hangText="sub_is_leaf">OPTIONAL. If left out, result should
-                include both leaf nodes and intermediate nodes. If set to
+                include both leaf entities and intermediate nodes. If set to
                 <spanx style="verb">true</spanx>,
-                the response should contain only leaf nodes. If set to
+                the response should contain only leaf entities. If set to
                 <spanx style="verb">false</spanx>, the
                 response should contain only intermediate nodes.
               </t>
@@ -768,7 +800,7 @@ Host: openid.sunet.se
         <section title="Entity Listing Response">
           <t>The response MUST contain an JSON object where the known entity
             identifiers are the property keys, and a JSON object with the
-            requested claims as the property values. Requested claims that the
+            requested claims is the property value. Requested claims that the
             responder is not able to provide should be left out.
           </t>
 
@@ -840,8 +872,9 @@ Content-Type: application/json
     </section>
 
     <section anchor="resolving_trust"
-             title="Resolving trust chain and metadata">
-      <t>An entity (the Consumer) that wants to establish trust with a remote
+             title="Resolving Trust Chain and Metadata">
+      <t>An entity (e.g., the Consumer) that wants to establish trust with a
+        remote
         peer, must have the remote peer's entity identifier and a list of
         entity ID's of trusted trust anchors together with the public version
         of their signing keys. The Consumer will first have to fetch
@@ -852,8 +885,8 @@ Content-Type: application/json
         application demands it -- choose one.
       </t>
       <section anchor="fetching-es"
-               title="Fetching entity statements to establish a trust chain">
-        <t>Depending on the circumstances the Consumer may either be
+               title="Fetching Entity Statements to Establish a Trust Chain">
+        <t>Depending on the circumstances, the Consumer may either be
           handed the remote peer's self-issued entity statement or it may
           have to fetch it by itself. If it needs to fetch it, it will use the
           process described in <xref target="fetch_statement">Fetch Entity
@@ -866,9 +899,9 @@ Content-Type: application/json
           intermediates listed in
           <spanx style="verb">authority_hints</spanx>
           , ignoring the authority
-          hints that ends in an unknown trust anchor, requesting an entity
+          hints that end in an unknown trust anchor, requesting an entity
           statement about the remote peer from each of the intermediates.
-          If a received entity statement contains an authority hint this
+          If the received entity statement contains an authority hint this
           process is repeated. This time with the *iss* set to the
           intermediates entity ID and the *sub* to be the *iss* of the previous
           query.
@@ -890,7 +923,7 @@ Content-Type: application/json
           way of establishing trust in the remote peer's information.
         </t>
       </section>
-      <section title="Validating the trust chains"
+      <section title="Validating the Trust Chains"
                anchor="trust_chain_validation">
         <t>As described in
           <xref target="trust_chain">The trust chain</xref>
@@ -922,14 +955,14 @@ Content-Type: application/json
             <t>
               For j=1,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub']
             </t>
-              <t>
-                For j=0,...,i-1: Verify the signature of ES[j] using the public
-                key carried in ES[j+1]['jwks'].
-              </t>
-              <t>
-                For j == i: verify the signature with the configured public
-                key of the trust anchor.
-              </t>
+            <t>
+              For j=0,...,i-1: Verify the signature of ES[j] using the public
+              key carried in ES[j+1]['jwks'].
+            </t>
+            <t>
+              For j == i: verify the signature with the configured public
+              key of the trust anchor.
+            </t>
           </list>
         </t>
         <t>Verifying the signature is a much more expensive
@@ -943,7 +976,7 @@ Content-Type: application/json
         </t>
       </section>
 
-      <section title="Choosing one of the valid trust chains">
+      <section title="Choosing One of the Valid Trust Chains">
         <t>If multiple valid trust chains are found, the Consumer will
           need to decide on which one to use.
         </t>
@@ -954,7 +987,7 @@ Content-Type: application/json
       </section>
 
       <section anchor="trust_lifetime"
-               title="Calculating the lifetime of a trust chain">
+               title="Calculating the Lifetime of a Trust Chain">
         <t>Each entity statement in a trust chain is signed and MUST have a
           expiration time (exp) set. The expiration time of the whole trust
           chain is the expiration time that is in the future and closest in time
@@ -963,7 +996,7 @@ Content-Type: application/json
       </section>
     </section>
 
-    <section title="Updating metadata, key-rollover and revocation">
+    <section title="Updating Metadata, Key Rollover, and Revocation">
       <t>This specification allows for a smooth process of updating metadata
         and public keys.
       </t>
@@ -978,7 +1011,7 @@ Content-Type: application/json
         in the trust chain.
       </t>
 
-      <section title="Protocol key roll-over">
+      <section title="Protocol Key Rollover">
         <t>If a leaf entity publishes its public keys in the metadata part
           using *jwks* setting an expiration time on the self-signed entity
           statement can be used to control how often the remote party is
@@ -990,7 +1023,7 @@ Content-Type: application/json
         </t>
       </section>
 
-      <section title="Key rollover for a trust anchor">
+      <section title="Key Rollover for a Trust Anchor">
         <t>A trust anchor must publish a self-signed entity statement about
           itself. As described above in <xref target="trust_chain">The
             trust chain
@@ -1013,7 +1046,9 @@ Content-Type: application/json
               Switch to signing with the new keys.
             </t>
             <t>
-              After a reasonable time period remove the old keys
+              After a reasonable time period remove the old keys. What is
+              regarded as a resonable time is dependent on the security profile
+              and risk assessment of the trust anchor
             </t>
           </list>
         </t>
@@ -1025,8 +1060,8 @@ Content-Type: application/json
 
       <section title="Revocation">
         <t>
-          Since we expect the consumers to check the trust chain at regular
-          reasonable frequent times we feel that we do not need to specify a
+          Since the consumers are expected to check the trust chain at regular,
+          reasonably frequent times, this specification does not specify a
           standard revocation process. Specific federations may make a
           different choice and will then have to add such a process.
         </t>
@@ -1034,7 +1069,7 @@ Content-Type: application/json
     </section>
 
     <section anchor="flattening-metadata"
-             title="Flattening metadata from the chain of entity statements">
+             title="Flattening Metadata From the Chain of Entity Statements">
       <t>The metadata for a specific entity can be constructed by starting
         with the information in ES[i] and then adding the information from the
         statements ES[i-1] to ES[0] using the following rules:
@@ -1043,10 +1078,10 @@ Content-Type: application/json
             We define the specific metadata information in an entity statement
             ES[j] to be called ms[j]. This would be information in
             *metadata*/*openid_client* as specified in
-            <xref target="RP_metadata">OpenID Connect Relying Party Metadata
+            <xref target="RP_metadata">RP Metadata
             </xref>
             and
-            <xref target="OP_metadata">OpenID Connect Provider Metadata</xref>.
+            <xref target="OP_metadata">OP Metadata</xref>.
           </t>
           <t>
             Given the metadata statements ms[n] (n=i, ..., 0).
@@ -1055,9 +1090,9 @@ Content-Type: application/json
           <t>
             then for every claim in ms_j (j=i-1, ... 0):
             <list style="symbols">
-              <t>If the claim does not appear in ms_res add it to m_res.</t>
+              <t>If the claim does not appear in ms_res, add it to m_res.</t>
               <t>
-                If the claim appears in ms_res then replace the value
+                If the claim appears in ms_res, then replace the value
                 of the claim in ms_res with the value of the claim in ms[j] if
                 and only if the value in ms[j] is a subset of the value in
                 ms_res.
@@ -1066,8 +1101,6 @@ Content-Type: application/json
           </t>
         </list>
       </t>
-
-
       <t>A subset is defined as:
         <list style="hanging">
           <t hangText="String">
@@ -1101,9 +1134,9 @@ Content-Type: application/json
         </list>
       </t>
 
-      <t>The following is a non-normative example of a set of relying
-        party-specific metadata statements that together form the metadata for
-        an entity:
+      <t>
+        The following is a non-normative example of a set of RP specific
+        metadata statements that together form the metadata for an entity:
         <figure>
           <preamble>ms[2]</preamble>
 
@@ -1157,15 +1190,15 @@ Content-Type: application/json
 
     <section title="OpenID Connect Communication">
       <t>This section describes how the trust framework in this specification
-        is used to establish trust between an OpenID Relying Party and an OpenID
-        Provider that has no explicit configuration or registration in advance.
+        is used to establish trust between an RP and an OP
+        that has no explicit configuration or registration in advance.
       </t>
 
-      <t>There is two alternative approaches to establish trust between a
-        Relying Party and a Provider, what we call implicit and explicit
+      <t>There is two alternative approaches to establish trust between an
+        RP and an OP, what we call implicit and explicit
         registration. Members of a federation or a community
         should agree upon which one to use. While implementations should
-        support both methods, deployments may choose to disable one
+        support both methods, deployments may choose to disable the use of one
         of them.
       </t>
 
@@ -1230,7 +1263,7 @@ Host: https://example.org
           </t>
         </section>
 
-        <section title="Processing the authentication request">
+        <section title="Processing the Authentication Request">
           <t>When the OP receives an incoming authentication request,
             the OP supports OpenID Connect Federation and the incoming client_id
             is a valid URL, the OP should try to resolve and fetch trust
@@ -1239,7 +1272,7 @@ Host: https://example.org
               statements</xref>.
           </t>
 
-          <t>The OP should validate the possible trust chains as described in
+          <t>The OP should validate the possible trust chains, as described in
             <xref target="trust_chain_validation">Trust chain validation</xref>
             and resolve the RP metadata with type
             <spanx style="verb">openid_client</spanx>.
@@ -1268,8 +1301,8 @@ Host: https://example.org
 
       <section title="Explicit Registration" anchor="explicit">
         <t>This method involves performing an explicit registration of a new
-          client the first time a Relying Party interacts with an OpenID
-          Provider using something that basically follows the steps in
+          client the first time a RP interacts with an OP
+          using something that basically follows the steps in
           <xref target="OpenID.Registration">OpenID Connect Dynamic Client
             Registration 1.0
           </xref>
@@ -1279,15 +1312,15 @@ Host: https://example.org
 
         <section title="Provider Discovery">
           <t>The RP will start by gathering the OPs metadata using the
-            process specified in <xref target="resolving_trust">Resolving trust
-              chain and metadata
+            process specified in <xref target="resolving_trust">Resolving Trust
+              Chains and Metadata
             </xref> above.
           </t>
         </section>
 
         <section anchor="Clireg" title="Client Registration">
           <section anchor="Cliregreq" title="Client Registration Request">
-            <t>The OP MUST support dynamic relying party registration. That it
+            <t>The OP MUST support dynamic client registration. That it
               does so is signaled by having the claim
               <spanx style="verb">federation_registration_endpoint</spanx>
               in the metadata.
@@ -1322,7 +1355,7 @@ Host: https://example.org
           </section>
 
           <section anchor="cliregresp" title="Client Registration Response">
-            <section title="The OP constructing response">
+            <section title="The OP Constructing Response">
               <t>
                 <list style="numbers">
                   <t>After the OP receives the request, it collects and
@@ -1365,28 +1398,28 @@ Host: https://example.org
               </t>
             </section>
 
-            <section title="The RP parsing the response">
+            <section title="The RP Parsing the Response">
               <t>
                 <list style="numbers">
-                  <t>The RP Verifies the correctness of the received entity
+                  <t>The RP verifies the correctness of the received entity
                     statement, making sure that the trust chains starting at the
                     authority_hints terminates in trust anchors that were
                     referenced in the entity statement it sent to the OP.
                   </t>
 
-                  <t>The RP can *NOT* flatten the metadata using the trust
-                    chains
-                    that the OP provides. This since the trust chain provided
+                  <t>The RP MUST NOT flatten the metadata using the trust
+                    chains that the OP provides because the trust chain provided
                     by the OP is not valid for the RPs metadata.
-                    It has to do it using one of its own trust chains
-                    that ends in the trust anchor that the OP chose.
-                    When it has done the flattening then it store
+                    The RP MUST only flatten the metadata using one of its own
+                    trust chains that ends in the trust anchor that the OP chose
+                    .
+                    When it has done the flattening, it then stores
                     the configuration and can continue communicating with the OP
                     using the agreed on metadata.
                   </t>
 
                   <t>At this point the RP also knows which trust chain it should
-                    use when evaluating the OPs metadata. So now it can
+                    use when evaluating the OPs metadata. It can therefore
                     flatten the OPs metadata using the relevant trust chain
                     and store the result as the OPs metadata.
                   </t>
@@ -1403,27 +1436,26 @@ Host: https://example.org
 
         <section title="After client registration">
           <t>A client registration using this specification is not expected to
-            be valid for ever. The entity statements exchanged all have
-            expiration times. Which means that the registration will eventually
-            time out. An OP can also for some reason decided that a client
-            registration is not valid anymore. To this can be added that the
-            entities in the federation, for a number of reasons, over time may
-            change how fast their signature will expire, thereby increasing or
-            decreasing the lifetime of a trust chain.
+            be valid forever. The entity statements exchanged all have
+            expiration times, which means that the registration will eventually
+            time out. An OP can also for administrative reasons decide that a
+            client registration is not valid anymore. An example of this could
+            be that the OP leaves a federation.
           </t>
 
-          <section title="What the RP MUST do">
+          <section title="What the RP MUST Do">
             <t>At regular intervals the RP MUST:
               <list style="numbers">
                 <t>Starting with the OPs entity statement, resolve and verify
-                  the trust chains it chose to use when constructing the
-                  registration request. If those trust chains don't exist
+                  the trust chains it choses to use when constructing the
+                  registration request. If those trust chains do not exist
                   anymore or do not verify, then the registration should be
                   regarded as invalid and a new registration process should be
                   started.
                 </t>
 
-                <t>If the OPs entity statement was OK it must now verify that
+                <t>If the OPs entity statement was properly formed it must now
+                  verify that
                   the entity statement it received about itself from the OP is
                   still valid. Again, if that is not the case the registration
                   should be regarded as invalid and a new registration process
@@ -1433,7 +1465,7 @@ Host: https://example.org
             </t>
           </section>
 
-          <section title="What the OP MUST do">
+          <section title="What the OP MUST Do">
             <t>At regular intervals the OP MUST:
               <list style="numbers">
                 <t>
@@ -1451,11 +1483,10 @@ Host: https://example.org
           </section>
         </section>
 
-        <section title="Expiration times">
+        <section title="Expiration Times">
           <t>An OP MUST NOT assign a expiration time
-            to a relying party's registration that is later then the trust
-            chains
-            expiration time.
+            to a RP's registration that is later then the trust
+            chains expiration time.
           </t>
         </section>
       </section>
@@ -1473,8 +1504,6 @@ Host: https://example.org
       </t>
     </section>
 
-    <!-- Possibly a 'Contributors' section ... -->
-
     <section anchor="IANA" title="IANA Considerations">
       <t>TBD</t>
     </section>
@@ -1484,21 +1513,7 @@ Host: https://example.org
     </section>
   </middle>
 
-  <!--  *****BACK MATTER ***** -->
-
   <back>
-    <!-- References split into informative and normative -->
-
-    <!-- There are 2 ways to insert reference entries from the citation libraries:
-     1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
-     2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
-        (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
-
-     Both are cited textually in the same manner: by using xref elements.
-     If you use the PI option, xml2rfc will, by default, try to find included files in the same
-     directory as the including file. You can also define the XML_LIBRARY environment variable
-     with a value containing a set of directories to search.  These can be either in the local
-     filing system or remote ones accessed by http (http://domain/dir/... ).-->
 
     <references title="Normative References">
       <?rfc include="reference.RFC.2119"?>
@@ -1509,15 +1524,12 @@ Host: https://example.org
 
       <?rfc include="reference.RFC.7517"?>
 
-      <?rfc include="reference.RFC.6962"?>
-
       <?rfc include="reference.RFC.6749"?>
-
-      <?rfc include="reference.RFC.7033"?>
 
       <?rfc include="reference.RFC.8414"?>
 
       <?rfc include="reference.RFC.7591"?>
+      <?rfc include="reference.RFC.3339"?>
 
       <reference anchor="OpenID.Core"
                  target="http://openid.net/specs/openid-connect-core-1_0.html">
@@ -1603,15 +1615,15 @@ Host: https://example.org
     </references>
 
     <section
-            title="Illustrative example of OpenID Connect flow using implicit client registration">
-      <t>A service Foodle would like to offer its services to all identity
-        providers in eduGAIN. Foodle is managed and registered by the university
+            title="Illustrative Example of OpenID Connect Flow Using Implicit Client Registration">
+      <t>A service Foodle would like to offer its services to all OPs in
+        eduGAIN. Foodle is managed and registered by the university
         NTNU. NTNU is part of the Norwegian Feide federation. Foodle is also
         directly trusted in the Swedish SWAMID federation. Both Feide and SWAMID
         are part of the international eduGAIN federation.
       </t>
 
-      <section title="Initial setup of Foodle">
+      <section title="Initial Setup of Foodle">
         <t>The Foodle service chooses to use the entity identifier <spanx
                 style="verb">https://foodl.org/</spanx>. And upon deployment,
           Foodle
@@ -1642,7 +1654,7 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
         </t>
       </section>
 
-      <section title="Federation setup">
+      <section title="Federation Setup">
         <t>How trust is established and entities becomes part of a federation
           is out of scope of this specification. It could involve some kind
           of non-technical contract, agreement or term of use that is
@@ -1672,8 +1684,7 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
             <t>eduGAIN issues an entity statement about SWAMID</t>
 
             <t>SWAMID issues an entity statement about the university of Umea
-              - an OpenID provider for employees and students at the university
-              of Umea
+              - an OP for employees and students at the university of Umea
             </t>
           </list>
           Foodle has a local trust root configuration that looks like
@@ -1709,24 +1720,24 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
         </figure>
       </section>
 
-      <section title="User chooses to login at Foodle">
+      <section title="User Chooses to Login at Foodle">
         <t>Let us assume a student from Ume&aring; would like to login at
           Foodle. Some sort of discovery process involves the end user choosing
-          an OpenID provider. OpenID Discovery using the e-mail address is one
-          option. Foodle presenting a list of available providers for the user
+          an OPs. OpenID Discovery using the e-mail address is one
+          option. Foodle presenting a list of available OPs for the user
           to choose from is another.
         </t>
 
         <t>After the discovery process, Foodle knows that the user would like
-          to login using the OpenID provider with entity identifier <spanx
+          to login using the OP with entity identifier <spanx
                   style="verb">https://www.umu.se/openid</spanx>.
         </t>
       </section>
 
-      <section title="Foodle discovers the OpenID provider">
-        <t>Foodle normalizes the entity identifier of the OpenID Provider, and
+      <section title="Foodle Discovers the OP">
+        <t>Foodle normalizes the entity identifier of the OP, and
           performs a request to fetch the self-issued entity statement using the
-          Federation API of the OpenID provider.
+          Federation API of the OP.
         </t>
 
         <figure>
@@ -1795,16 +1806,16 @@ Content-Type: application/json
         </figure>
       </section>
 
-      <section title="Resolving the provider trust chain">
-        <t>In order to establish trust with this provider, the Foodle service
-          provider would need to fetch sufficient entity statements to represent
+      <section title="Resolving the OP's Trust Chain">
+        <t>In order to establish trust with this OP, the Foodle RP
+          would need to fetch sufficient entity statements to represent
           a complete chain from the self-issued statement to the locally
           configured trust root, which contains SWAMID.
         </t>
 
         <t>The information found in the authority_hints is critical in order
           to dynamically discover the trust chain. If such hints are not
-          present, the relying party may resume to fixed configured trust roots
+          present, the RP may resume to fixed configured trust roots
           to ask for trust statements.
         </t>
 
@@ -1907,12 +1918,12 @@ Content-Type: application/json
         </t>
       </section>
 
-      <section title="Extracting the provider metadata"
-               anchor="extracting_provider_metadata">
+      <section title="Extracting the OP metadata"
+               anchor="extracting_op_metadata">
         <t>The output from the trust chain validation is an ordered list of
           entity statements. In order to extract the needed metadata, we need to
           look at the metadata type relevant in the given context. In this case,
-          we are establishing trust with an OpenID Provider, and we take a look
+          we are establishing trust with an OP, and we take a look
           at the <spanx style="verb">openid_provider</spanx> metadata object of
           the trust chain:
         </t>
@@ -1975,11 +1986,10 @@ Content-Type: application/json
         </figure>
       </section>
 
-      <section title="RP sends authentication request (implicit registration)">
+      <section title="RP Sends Authentication Request (Implicit Registration)">
         <t>Foodle after establishing trust with the University of Ume&aring;
           and extracted a resulting set of metadata, will send an authentication
-          request to the OpenID provider. This example involves the implicit
-          registration.
+          request to the OP. This example involves the implicit registration.
         </t>
 
         <t>Here is an example of an authentication request:</t>
@@ -1999,15 +2009,15 @@ Host: idp.umu.se
 ]]></artwork>
         </figure>
 
-        <t>The provider receiving this authentication request will, unless the
+        <t>The OP receiving this authentication request will, unless the
           RP is cached or statically configured, start to dynamically fetch and
           establish trust with the RP.
         </t>
       </section>
 
-      <section title="Provider fetches entity statements">
-        <t>The provider needs to establish a trust chain for the RP from which a
-          authentication was received. The provider in this example has the
+      <section title="OP Fetches Entity Statements">
+        <t>The OP needs to establish a trust chain for the RP from which a
+          authentication was received. The OP in this example has the
           following configured trust root:
         </t>
 
@@ -2064,8 +2074,8 @@ Host: idp.umu.se
         </figure>
       </section>
 
-      <section title="Provider fetches entity statements">
-        <t>The provider starts to resolve metadata for the client identifier
+      <section title="RP Fetches Entity Statements">
+        <t>The RP starts to resolve metadata for the client identifier
           https://foodl.org/ by fetching the self-issued entity statement using
           the Federation API.
         </t>
@@ -2089,7 +2099,7 @@ Host: idp.umu.se
     </section>
 
     <section
-            title="Illustrative example of OpenID Connect flow using explicit client registration">
+            title="Illustrative Example of OpenID Connect Flow Using Explicit Client Registration">
       <t>
         A research project has pooled resources and bought an extremely rare
         and expensive equipment (EREE) that MUST be accessible by all project
@@ -2104,7 +2114,7 @@ Host: idp.umu.se
         Since the EREE equipment is placed in Sweden the EREE service is also
         member of the SWAMID federation.
       </t>
-      <section title="Initial setup of the EREE service">
+      <section title="Initial Setup of the EREE Service">
         <t>The EREE service choose to use the entity identifier <spanx
                 style="verb">https://srv.eree.example.org/</spanx>. And upon
           deployment, EREE is setup with a Elliptic Curve key pair, with the
@@ -2178,18 +2188,18 @@ Host: idp.umu.se
           public part of the federations signing keys.
         </t>
       </section>
-      <section title="Researcher wants to start a job at the EPEE service">
+      <section title="Researcher Wants to Start a Job at the EPEE Service">
         <t>A researcher from Ume&aring; wants to access the EPEE service.
           The EPEE service provides a discovery service which allows the
-          researcher to chose which identity provider to use. In this case
+          researcher to chose which OP to use. In this case
           https://op.umu.se/ .
         </t>
       </section>
       <section
-              title="The EPEE RP discovers and initiates explicit registration">
-        <section title="The EPEE RP discovers the OpenID provider">
+              title="The EPEE RP Discovers and Initiates Explicit Registration">
+        <section title="The EPEE RP Discovers the OpenID Provider">
           <t>
-            Using the entity ID (issuer ID) of the identity provider the service
+            Using the entity ID (issuer ID) of the OP the service
             performs a fetch entity statement request as described in
             <xref target="fetch_statement">Fetch Entity Statement</xref>
           </t>
@@ -2284,9 +2294,9 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFVOUxUbkpzTjJ4VVRYQkZSM040T1Z...
             </figure>
           </t>
         </section>
-        <section title="Resolving the provider trust chain">
+        <section title="Resolving the OP's Trust Chain">
           <t>
-            In order to establish trust with this provider, the EEPE service
+            In order to establish trust with this OP, the EEPE service
             provider would need to fetch sufficient entity statements to
             represent a complete chain from the self issued statement to the
             trust anchor that represents the EPEE federations.
@@ -2369,10 +2379,10 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             </list>
           </t>
         </section>
-        <section title="Validating the trust chain">
+        <section title="Validating the Trust Chain">
           <t>These two entity statements are sufficient to establish a path from
             the local configured trust anchor which trust the EPEE federation,
-            to the self-issued statement from the Identity provider at the
+            to the self-issued statement from the OP at the
             University
             of Ume&aring;. Here are the steps performed to validate the trust
             chain as described in
@@ -2406,12 +2416,12 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             </list>
           </t>
         </section>
-        <section title="Extracting the provider metadata">
+        <section title="Extracting the OP's Metadata">
           <t>
             The output from the trust chain validation is an ordered list of
             entity statements. In order to extract the needed metadata, we need
             to look at the metadata type relevant in the given context. In this
-            case, we are establishing trust with an OpenID Provider, and we take
+            case, we are establishing trust with an OP, and we take
             a look at the *openid_provider* metadata object of the trust chain:
             <figure>
               <artwork>
@@ -2457,7 +2467,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             will return the second item as the result.
           </t>
         </section>
-        <section title="EPEE RP does federated client registration">
+        <section title="EPEE RP Does Federated Client Registration">
           <t>
             Now when the RP has trusted information about the OP it can do a
             dynamic client registration. To that end it collects information
@@ -2508,7 +2518,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
       "scope": [
         "openid",
         "profile",
-        "email",Extracting the provider metadata
+        "email",
         "address",
         "phone"
       ],
@@ -2527,8 +2537,8 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
           </t>
         </section>
       </section>
-      <section title="The OP deals with a client registration request">
-        <section title="The OP gathers the RPs trust chains">
+      <section title="The OP Deals With a Client Registration Request">
+        <section title="The OP Gathers the RPs Trust Chains">
           <t>
             To collect the trust chains the OP uses the *authority_hints* in the
             self-signed entity statement it received from the RP (the client
@@ -2608,14 +2618,14 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
             </figure>
           </t>
         </section>
-        <section title="Validating trust chain">
+        <section title="Validating the Trust Chain">
           <t>
             The process here is the one described in
             <xref target="trust_chain_validation">validating the trust
               chain</xref>.
           </t>
         </section>
-        <section title="Extracting RP metadata">
+        <section title="Extracting RP Metadata">
           <t>
             The OP does
             <xref target="flattening-metadata">flattening</xref>
@@ -2648,7 +2658,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
             </figure>
           </t>
         </section>
-        <section title="Constructing the registration response">
+        <section title="Constructing the Registration Response">
           <t>
             Happy with the information in the client registration request the
             OP takes the flattened metadata and creates an entity statement by
@@ -2698,7 +2708,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
           </t>
         </section>
       </section>
-      <section title="The RP deals with the registration response">
+      <section title="The RP Deals With the Registration Response">
         <t>
           The RP MUST collect the trust chain ending in the EPEE trust anchor
           and
@@ -2717,7 +2727,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
           sending the registration request. If that was not the case but the
           RP chose to send a registration request with more than one
           authority_hint then this is the time when then RP can flatten and
-          store the provider metadata. This since the OP MUST choose one and
+          store the OP metadata. This since the OP MUST choose one and
           only one authority (=trust anchor) for the registration response.
         </t>
       </section>
