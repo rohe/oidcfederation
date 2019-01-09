@@ -114,9 +114,8 @@
       <t>This specification describes how two entities that would like to
         interact can dynamically fetch and and resolve trust and metadata for a
         given protocol through the use of third party trust issuers. A trust
-        issuer is an entity whose main purpose is to issue trust statements
-        about
-        entities, such as OpenID relying party and providers. An identity
+        issuer is an entity whose main purpose is to issue entity statements
+        about entities, such as OpenID relying party and providers. An identity
         federation can be realized using this specification by the use of one or
         more levels of trust issuers. This specification does not mandates a
         specific way or restrict how a federation may be built. Instead, the
@@ -125,8 +124,8 @@
         federation.
       </t>
 
-      <t>All entities in an OpenID Connect federation, including the trust
-        issuers, MUST have a globally unique identifier.
+      <t>All entities in an OpenID Connect federation MUST have a globally
+        unique identifier.
       </t>
 
       <t>Note that a company, as with any real-world organization, may be
@@ -156,9 +155,18 @@
         <t>
           This specification also defines the following terms:
           <list style="hanging">
+            <t hangText="Entity">
+              Something that has a separate and distinct existence and that can
+              be identified in a context.
+            </t>
+            <t hangText="Leaf Entity">
+              An entity defined by a certain protocol. E.g. OpenID
+              Provider/Relying Party.
+            </t>
             <t hangText="Entity statement">
               An entity statement is always a signed JWT. An entity statement is
-              issued by a entity, and concerns a subject entity.
+              issued by an entity, and concerns a subject entity and leaf
+              entities.
             </t>
             <t hangText="Trust Anchor">
               An entity that represents a trusted third party.
@@ -174,14 +182,16 @@
     <section title="Components" anchor="components">
       <section anchor="entity-statement" title="Entity Statement ">
         <t>An entity statement is always a signed JWT. An entity statement is
-          issued by an entity, and concerns a subject entity.
+          issued by an entity and concerns a subject entity and leaf entities
+          in a federation.
           All entities in a federation MUST be prepared to publish an entity
           statement about itself.
         </t>
         <t>
           <list style="hanging">
             <t hangText="iss">REQUIRED. The entity identifier of the entity that
-              issues the statement. If the iss and the sub are identical, the
+              issues the statement. If the <spanx style="verb">iss</spanx> and
+              the <spanx style="verb">sub</spanx> are identical, the
               issuer is making a statement about itself.
             </t>
 
@@ -202,10 +212,9 @@
             </t>
 
             <t hangText="jwks">REQUIRED. A <xref target="RFC7517">JSON Web Key
-              Set (JWKS)
-            </xref> representing the public part of the subject
+              Set (JWKS)</xref> representing the public part of the subject
               entity's signing keys. The corresponding private key is
-              used by a leaf entity to sign an entity statement about itself,
+              used by leaf entities to sign entity statements about them self,
               and intermediate entities to sign statements about other entities.
               The keys that can be found here are primarily intended to sign
               entity statements, and should not be used in other protocols.
@@ -222,10 +231,9 @@
 
             <t hangText="metadata">OPTIONAL. JSON object including protocol
               specific metadata claims that represent the leaf entities. To
-              resolve
-              the resulting metadata for a leaf entity, the compound metadata
-              documents included in the trust chain are merged by the <xref
-                      target="flattening-metadata">metadata flattening
+              resolve the resulting metadata for a leaf entity, the compound
+              metadata documents included in the trust chain are merged by
+              the <xref target="flattening-metadata">metadata flattening
                 process</xref>.
               The keys of the JSON object represent the metadata type
               identifier, and their value MUST be a JSON object representing
@@ -245,34 +253,30 @@
 
             <t hangText="sub_is_leaf">OPTIONAL. Boolean value that indicates
               whether the subject is considered a leaf entity. A leaf entity is
-              not
-              trusted to issue statements about other entities then itself. If
-              this property is left out, it is considered to be <spanx
-                      style="verb">false</spanx>.
+              not trusted to issue statements about other entities then
+              itself. If this property is left out, it is considered to be
+              <spanx style="verb">false</spanx>.
             </t>
 
             <t hangText="sub_meta">OPTIONAL. If present, a JSON object
               containing one or more of the properties listed below. This is
               metadata describing the subject of this entity statement. The
-              metadata included in the metadata claim is always referring to the
-              leaf nodes, while the metadata in sub_meta refers to the immediate
-              subject, which may be an intermediate trust issuer.
-              <vspace
-                      blankLines="1"/>
+              metadata included in the metadata claim is always referring to
+              leaf entities, while the metadata in sub_meta refers to the
+              immediate subject, which may be an intermediate trust issuer.
+              <vspace blankLines="1"/>
               <list style="hanging">
                 <t hangText="name">OPTIONAL. String. The human readable name
                   describing the subject entity. This may be, for example, the
-                  name
-                  of an organization.
+                  name of an organization.
                 </t>
 
-                <t hangText="contacts">OPTIONAL. The precise format of this
-                  claim is to be proposed by the Research and
-                  Education working group within OIDF.
+                <t hangText="contacts">OPTIONAL. Contact information. The
+                  precise format of this claim is to be decided.
                 </t>
 
                 <t hangText="policy_url">OPTIONAL. URL to documentation of
-                  conditions and policies relevant to this entity
+                  conditions and policies relevant to this entity.
                 </t>
 
                 <t hangText="homepage_url">OPTIONAL. URL to a generic home page
@@ -559,9 +563,9 @@
 
         <section title="Fetch Entity Statements Request"
                  anchor="fetch_statement">
-          <t>The request MUST be an HTTP request using the GET method to a
-            resolved federation API endpoint with the following query string
-            parameters:
+          <t>The request MUST be an HTTP request using the GET method and
+            the https scheme to a resolved federation API endpoint with the
+            following query string parameters:
           </t>
 
           <t>
@@ -636,18 +640,15 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
       <section title="Trust Negotiation (OPTIONAL)">
         <t>An entity may use the trust negotiation operation in order to fetch
           resolved metadata about it self as seen/trusted by a remote peer.
+          The result may for instance tell an RP what operations, scopes and
+          claims an OP would allow the RP to use if a specific trust anchor
+          was used.
         </t>
 
         <section title="Trust Negotiation Request">
-          <t>Resolving metadata for a specific type of metadata, for a given
-            peer. The result may for instance tell an RP what operations,
-            scopes and claims an OP would allow the RP to use if a specific
-            trust anchor was used.
-          </t>
-          <t>
-            *Note* that when asking about an RPs this only works in the case
-            that the RP and the federation supports implicit client
-            registration.
+          <t>The request MUST be an HTTP request using the GET method and
+            the https scheme to a resolved federation API endpoint with the
+            following query string parameters:
           </t>
           <t>
             <list style="hanging">
@@ -657,9 +658,9 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
 
               <t hangText="respondent">REQUIRED. The entity identifier of the
                 entity whose metadata are requested. Because of the
-                normalization of the URL, multiple issuers may resolve to a
-                shared federation API. This parameter makes it explicit exactly
-                which issuer is expected.
+                normalization of the URL, multiple entity identifiers may
+                resolve to a shared federation API. This parameter makes it
+                explicit exactly which entity is expected.
               </t>
 
               <t hangText="peer">REQUIRED. The entity identifier of the entity
@@ -736,19 +737,21 @@ Content-Type: application/json
         </t>
 
         <section title="Entity Listings Request">
-          <t>The following request parameters are allowed in the query part:</t>
-
+          <t>The request MUST be an HTTP request using the GET method and
+            the https scheme to a resolved federation API endpoint with the
+            following query string parameters:
+          </t>
           <t>
             <list style="hanging">
               <t hangText="op">REQUIRED. MUST be set to
                 <spanx style="verb">listing</spanx>.
               </t>
 
-              <t hangText="iss">REQUIRED. The entity identifier of the issuer
+              <t hangText="iss">REQUIRED. The entity identifier of the entity
                 from which an entity listing is requested. Because of the
-                normalization of the URL, multiple issuers may resolve to a
-                shared federation API. This parameter makes it explicit exactly
-                which issuer is expected.
+                normalization of the URL, multiple entity identifiers may
+                resolve to a shared federation API. This parameter makes it
+                explicit exactly which entity is expected.
               </t>
 
               <t hangText="type">OPTIONAL. Provide this parameter to filter
@@ -920,7 +923,8 @@ Content-Type: application/json
         <t>
           If there is no path from the remote peer to at least one of the
           trusted trust anchors then the list will be empty and there is no
-          way of establishing trust in the remote peer's information.
+          way of establishing trust in the remote peer's information. How the
+          Consumer deals with this is out of scope for this specification.
         </t>
       </section>
       <section title="Validating the Trust Chains"
@@ -1047,8 +1051,8 @@ Content-Type: application/json
             </t>
             <t>
               After a reasonable time period remove the old keys. What is
-              regarded as a resonable time is dependent on the security profile
-              and risk assessment of the trust anchor
+              regarded as a reasonable time is dependent on the security profile
+              and risk assessment of the trust anchor.
             </t>
           </list>
         </t>
@@ -1410,7 +1414,7 @@ Host: https://example.org
                   <t>The RP MUST NOT flatten the metadata using the trust
                     chains that the OP provides because the trust chain provided
                     by the OP is not valid for the RPs metadata.
-                    The RP MUST only flatten the metadata using one of its own
+                    The RP MUST flatten the metadata using one of its own
                     trust chains that ends in the trust anchor that the OP chose
                     .
                     When it has done the flattening, it then stores
@@ -1440,28 +1444,33 @@ Host: https://example.org
             expiration times, which means that the registration will eventually
             time out. An OP can also for administrative reasons decide that a
             client registration is not valid anymore. An example of this could
-            be that the OP leaves a federation.
+            be that the OP leaves the federation in use.
           </t>
 
           <section title="What the RP MUST Do">
             <t>At regular intervals the RP MUST:
               <list style="numbers">
                 <t>Starting with the OPs entity statement, resolve and verify
-                  the trust chains it choses to use when constructing the
+                  the trust chains it chooses to use when constructing the
                   registration request. If those trust chains do not exist
                   anymore or do not verify, then the registration should be
                   regarded as invalid and a new registration process should be
                   started.
                 </t>
 
-                <t>If the OPs entity statement was properly formed it must now
-                  verify that
-                  the entity statement it received about itself from the OP is
-                  still valid. Again, if that is not the case the registration
+                <t>If the OPs entity statement was properly formed the RP must
+                  now verify that the entity statement it received about itself
+                  from the OP is still valid.
+                  Again, if that is not the case the registration
                   should be regarded as invalid and a new registration process
                   should be started.
                 </t>
               </list>
+            </t>
+            <t>
+              What is regarded as reasonable intervals will depend on
+              federation policies and risk assessment by the maintainer of
+              the RP.
             </t>
           </section>
 
@@ -1816,7 +1825,7 @@ Content-Type: application/json
         <t>The information found in the authority_hints is critical in order
           to dynamically discover the trust chain. If such hints are not
           present, the RP may resume to fixed configured trust roots
-          to ask for trust statements.
+          to ask for entity statements.
         </t>
 
         <t>In this example, Foodle now fetches an entity statement from SWAMID
