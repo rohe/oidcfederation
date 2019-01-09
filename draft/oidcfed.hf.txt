@@ -12,7 +12,7 @@
                                                                Microsoft
                                                               J. Bradley
                                                                   Yubico
-                                                       December 28, 2018
+                                                         January 9, 2019
 
 
                 OpenID Connect Federation 1.0 - draft 07
@@ -53,9 +53,9 @@ Table of Contents
 
 
 
-Hedberg, et al.           Expires July 1, 2019                  [Page 1]
+Hedberg, et al.           Expires July 13, 2019                 [Page 1]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
      3.4.  OAuth Authorization Server  . . . . . . . . . . . . . . .  10
@@ -109,9 +109,9 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 1]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                  [Page 2]
+Hedberg, et al.           Expires July 13, 2019                 [Page 2]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
      A.9.  RP Fetches Entity Statements  . . . . . . . . . . . . . .  39
@@ -140,7 +140,7 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 2]
    This specification describes how two entities that would like to
    interact can dynamically fetch and and resolve trust and metadata for
    a given protocol through the use of third party trust issuers.  A
-   trust issuer is an entity whose main purpose is to issue trust
+   trust issuer is an entity whose main purpose is to issue entity
    statements about entities, such as OpenID relying party and
    providers.  An identity federation can be realized using this
    specification by the use of one or more levels of trust issuers.
@@ -149,8 +149,8 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 2]
    basic technical trust infrastructure building blocks needed to build
    a dynamic and distributed trust network such as a federation.
 
-   All entities in an OpenID Connect federation, including the trust
-   issuers, MUST have a globally unique identifier.
+   All entities in an OpenID Connect federation MUST have a globally
+   unique identifier.
 
    Note that a company, as with any real-world organization, may be
    represented by more than one entity in a federation.
@@ -165,9 +165,9 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 2]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                  [Page 3]
+Hedberg, et al.           Expires July 13, 2019                 [Page 3]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 1.1.  Requirements Language
@@ -185,9 +185,15 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 3]
 
    This specification also defines the following terms:
 
+   Entity  Something that has a separate and distinct existence and that
+      can be identified in a context.
+
+   Leaf Entity  An entity defined by a certain protocol.  E.g.  OpenID
+      Provider/Relying Party.
+
    Entity statement  An entity statement is always a signed JWT.  An
-      entity statement is issued by a entity, and concerns a subject
-      entity.
+      entity statement is issued by an entity, and concerns a subject
+      entity and leaf entities.
 
    Trust Anchor  An entity that represents a trusted third party.
 
@@ -200,39 +206,39 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 3]
 2.1.  Entity Statement
 
    An entity statement is always a signed JWT.  An entity statement is
-   issued by an entity, and concerns a subject entity.  All entities in
-   a federation MUST be prepared to publish an entity statement about
-   itself.
+   issued by an entity and concerns a subject entity and leaf entities
+   in a federation.  All entities in a federation MUST be prepared to
+   publish an entity statement about itself.
 
    iss  REQUIRED.  The entity identifier of the entity that issues the
-      statement.  If the iss and the sub are identical, the issuer is
-      making a statement about itself.
+      statement.  If the "iss" and the "sub" are identical, the issuer
+      is making a statement about itself.
 
    sub  REQUIRED.  The entity identifier of the subject
 
    iat  REQUIRED.  The time the statement was issued.  Its value is a
       JSON number representing the number of seconds from
+
+
+
+Hedberg, et al.           Expires July 13, 2019                 [Page 4]
+
+                        OpenID Connect Federation           January 2019
+
+
       1970-01-01T0:0:0Z as measured in UTC until the date/time.  See RFC
       3339 [RFC3339]for details regarding date/times in general and UTC
       in particular.
 
    exp  REQUIRED.  Expiration time on or after which the statement MUST
       NOT be accepted for processing.  Its value is a JSON number
-
-
-
-Hedberg, et al.           Expires July 1, 2019                  [Page 4]
-
-                        OpenID Connect Federation          December 2018
-
-
       representing the number of seconds from 1970-01-01T0:0:0Z as
       measured in UTC until the date/time.
 
    jwks  REQUIRED.  A JSON Web Key Set (JWKS) [RFC7517] representing the
       public part of the subject entity's signing keys.  The
-      corresponding private key is used by a leaf entity to sign an
-      entity statement about itself, and intermediate entities to sign
+      corresponding private key is used by leaf entities to sign entity
+      statements about them self, and intermediate entities to sign
       statements about other entities.  The keys that can be found here
       are primarily intended to sign entity statements, and should not
       be used in other protocols.
@@ -268,30 +274,32 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 4]
       to issue statements about other entities then itself.  If this
       property is left out, it is considered to be "false".
 
+
+
+
+Hedberg, et al.           Expires July 13, 2019                 [Page 5]
+
+                        OpenID Connect Federation           January 2019
+
+
    sub_meta  OPTIONAL.  If present, a JSON object containing one or more
       of the properties listed below.  This is metadata describing the
       subject of this entity statement.  The metadata included in the
-      metadata claim is always referring to the leaf nodes, while the
+      metadata claim is always referring to leaf entities, while the
       metadata in sub_meta refers to the immediate subject, which may be
       an intermediate trust issuer.
 
-
-
-Hedberg, et al.           Expires July 1, 2019                  [Page 5]
-
-                        OpenID Connect Federation          December 2018
 
 
       name  OPTIONAL.  String.  The human readable name describing the
          subject entity.  This may be, for example, the name of an
          organization.
 
-      contacts  OPTIONAL.  The precise format of this claim is to be
-         proposed by the Research and Education working group within
-         OIDF.
+      contacts  OPTIONAL.  Contact information.  The precise format of
+         this claim is to be decided.
 
       policy_url  OPTIONAL.  URL to documentation of conditions and
-         policies relevant to this entity
+         policies relevant to this entity.
 
       homepage_url  OPTIONAL.  URL to a generic home page representing
          this entity.
@@ -325,17 +333,9 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 5]
 
 
 
-
-
-
-
-
-
-
-
-Hedberg, et al.           Expires July 1, 2019                  [Page 6]
+Hedberg, et al.           Expires July 13, 2019                 [Page 6]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    Non-normative example of a entity statement, before serialization and
@@ -389,9 +389,9 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 6]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                  [Page 7]
+Hedberg, et al.           Expires July 13, 2019                 [Page 7]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 2.3.  The trust chain
@@ -445,9 +445,9 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 7]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                  [Page 8]
+Hedberg, et al.           Expires July 13, 2019                 [Page 8]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 3.  Metadata
@@ -501,9 +501,9 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 8]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                  [Page 9]
+Hedberg, et al.           Expires July 13, 2019                 [Page 9]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
       being recognized by the end users that would be using the OP to
@@ -557,9 +557,9 @@ Hedberg, et al.           Expires July 1, 2019                  [Page 9]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 10]
+Hedberg, et al.           Expires July 13, 2019                [Page 10]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    the other operations is OPTIONAL.  The list of defined operations may
@@ -582,9 +582,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 10]
 
 4.1.1.  Fetch Entity Statements Request
 
-   The request MUST be an HTTP request using the GET method to a
-   resolved federation API endpoint with the following query string
-   parameters:
+   The request MUST be an HTTP request using the GET method and the
+   https scheme to a resolved federation API endpoint with the following
+   query string parameters:
 
    op OPTIONAL.  If not present MUST be treated as "fetch".
 
@@ -613,9 +613,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 10]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 11]
+Hedberg, et al.           Expires July 13, 2019                [Page 11]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 4.1.2.  Fetch Entity Statements Response
@@ -639,23 +639,23 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 11]
 
    An entity may use the trust negotiation operation in order to fetch
    resolved metadata about it self as seen/trusted by a remote peer.
-
-4.2.1.  Trust Negotiation Request
-
-   Resolving metadata for a specific type of metadata, for a given peer.
    The result may for instance tell an RP what operations, scopes and
    claims an OP would allow the RP to use if a specific trust anchor was
    used.
 
-   *Note* that when asking about an RPs this only works in the case that
-   the RP and the federation supports implicit client registration.
+4.2.1.  Trust Negotiation Request
+
+   The request MUST be an HTTP request using the GET method and the
+   https scheme to a resolved federation API endpoint with the following
+   query string parameters:
 
    op REQUIRED.  MUST be set to "resolve_metadata".
 
    respondent  REQUIRED.  The entity identifier of the entity whose
       metadata are requested.  Because of the normalization of the URL,
-      multiple issuers may resolve to a shared federation API.  This
-      parameter makes it explicit exactly which issuer is expected.
+      multiple entity identifiers may resolve to a shared federation
+      API.  This parameter makes it explicit exactly which entity is
+      expected.
 
    peer  REQUIRED.  The entity identifier of the entity the information
       is requested for.  This must be a leaf entity.
@@ -669,9 +669,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 11]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 12]
+Hedberg, et al.           Expires July 13, 2019                [Page 12]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    The following is a non-normative example of an API request for trust
@@ -725,21 +725,24 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 12]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 13]
+Hedberg, et al.           Expires July 13, 2019                [Page 13]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 4.3.1.  Entity Listings Request
 
-   The following request parameters are allowed in the query part:
+   The request MUST be an HTTP request using the GET method and the
+   https scheme to a resolved federation API endpoint with the following
+   query string parameters:
 
    op REQUIRED.  MUST be set to "listing".
 
-   iss  REQUIRED.  The entity identifier of the issuer from which an
+   iss  REQUIRED.  The entity identifier of the entity from which an
       entity listing is requested.  Because of the normalization of the
-      URL, multiple issuers may resolve to a shared federation API.
-      This parameter makes it explicit exactly which issuer is expected.
+      URL, multiple entity identifiers may resolve to a shared
+      federation API.  This parameter makes it explicit exactly which
+      entity is expected.
 
    type  OPTIONAL.  Provide this parameter to filter the results to
       entity statements that contain entries for this specific metadata
@@ -778,12 +781,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 13]
 
 
 
-
-
-
-Hedberg, et al.           Expires July 1, 2019                 [Page 14]
+Hedberg, et al.           Expires July 13, 2019                [Page 14]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    A non-normative example of a response:
@@ -837,9 +837,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 14]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 15]
+Hedberg, et al.           Expires July 13, 2019                [Page 15]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 5.  Resolving Trust Chain and Metadata
@@ -882,7 +882,8 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 15]
 
    If there is no path from the remote peer to at least one of the
    trusted trust anchors then the list will be empty and there is no way
-   of establishing trust in the remote peer's information.
+   of establishing trust in the remote peer's information.  How the
+   Consumer deals with this is out of scope for this specification.
 
 5.2.  Validating the Trust Chains
 
@@ -892,10 +893,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 15]
 
 
 
-
-Hedberg, et al.           Expires July 1, 2019                 [Page 16]
+Hedberg, et al.           Expires July 13, 2019                [Page 16]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    that it is a proper trust chain using the rules laid out in that
@@ -949,9 +949,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 16]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 17]
+Hedberg, et al.           Expires July 13, 2019                [Page 17]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 6.  Updating Metadata, Key Rollover, and Revocation
@@ -997,17 +997,17 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 17]
    3.  Switch to signing with the new keys.
 
    4.  After a reasonable time period remove the old keys.  What is
-       regarded as a resonable time is dependent on the security profile
-       and risk assessment of the trust anchor
+       regarded as a reasonable time is dependent on the security
+       profile and risk assessment of the trust anchor.
 
    It has to be taken into considerations that clients may have manually
    configured pubic keys as part of configuration.
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 18]
+Hedberg, et al.           Expires July 13, 2019                [Page 18]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 6.3.  Revocation
@@ -1061,9 +1061,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 18]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 19]
+Hedberg, et al.           Expires July 13, 2019                [Page 19]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
       The dictionary A is a subset of the dictionary B if every key in A
@@ -1117,9 +1117,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 19]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 20]
+Hedberg, et al.           Expires July 13, 2019                [Page 20]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 8.  OpenID Connect Communication
@@ -1173,9 +1173,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 20]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 21]
+Hedberg, et al.           Expires July 13, 2019                [Page 21]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    An authorization request example
@@ -1229,9 +1229,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 21]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 22]
+Hedberg, et al.           Expires July 13, 2019                [Page 22]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 8.2.1.  Provider Discovery
@@ -1285,9 +1285,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 22]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 23]
+Hedberg, et al.           Expires July 13, 2019                [Page 23]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    3.  At this point, if there already exists a client registration
@@ -1314,11 +1314,11 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 23]
 
    2.  The RP MUST NOT flatten the metadata using the trust chains that
        the OP provides because the trust chain provided by the OP is not
-       valid for the RPs metadata.  The RP MUST only flatten the
-       metadata using one of its own trust chains that ends in the trust
-       anchor that the OP chose .  When it has done the flattening, it
-       then stores the configuration and can continue communicating with
-       the OP using the agreed on metadata.
+       valid for the RPs metadata.  The RP MUST flatten the metadata
+       using one of its own trust chains that ends in the trust anchor
+       that the OP chose .  When it has done the flattening, it then
+       stores the configuration and can continue communicating with the
+       OP using the agreed on metadata.
 
    3.  At this point the RP also knows which trust chain it should use
        when evaluating the OPs metadata.  It can therefore flatten the
@@ -1336,14 +1336,14 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 23]
    times, which means that the registration will eventually time out.
    An OP can also for administrative reasons decide that a client
    registration is not valid anymore.  An example of this could be that
-   the OP leaves a federation.
+   the OP leaves the federation in use.
 
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 24]
+Hedberg, et al.           Expires July 13, 2019                [Page 24]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 8.2.3.1.  What the RP MUST Do
@@ -1351,16 +1351,19 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 24]
    At regular intervals the RP MUST:
 
    1.  Starting with the OPs entity statement, resolve and verify the
-       trust chains it choses to use when constructing the registration
+       trust chains it chooses to use when constructing the registration
        request.  If those trust chains do not exist anymore or do not
        verify, then the registration should be regarded as invalid and a
        new registration process should be started.
 
-   2.  If the OPs entity statement was properly formed it must now
+   2.  If the OPs entity statement was properly formed the RP must now
        verify that the entity statement it received about itself from
        the OP is still valid.  Again, if that is not the case the
        registration should be regarded as invalid and a new registration
        process should be started.
+
+   What is regarded as reasonable intervals will depend on federation
+   policies and risk assessment by the maintainer of the RP.
 
 8.2.3.2.  What the OP MUST Do
 
@@ -1394,12 +1397,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 24]
 
 
 
-
-
-
-Hedberg, et al.           Expires July 1, 2019                 [Page 25]
+Hedberg, et al.           Expires July 13, 2019                [Page 25]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 10.  IANA Considerations
@@ -1453,9 +1453,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 25]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 26]
+Hedberg, et al.           Expires July 13, 2019                [Page 26]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    [RFC7517]  Jones, M., "JSON Web Key (JWK)", RFC 7517,
@@ -1509,9 +1509,9 @@ A.1.  Initial Setup of Foodle
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 27]
+Hedberg, et al.           Expires July 13, 2019                [Page 27]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 A.2.  Federation Setup
@@ -1565,9 +1565,9 @@ A.2.  Federation Setup
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 28]
+Hedberg, et al.           Expires July 13, 2019                [Page 28]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    [
@@ -1621,9 +1621,9 @@ A.4.  Foodle Discovers the OP
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 29]
+Hedberg, et al.           Expires July 13, 2019                [Page 29]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    HTTP/1.1 200 OK
@@ -1677,9 +1677,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 29]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 30]
+Hedberg, et al.           Expires July 13, 2019                [Page 30]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    {
@@ -1733,9 +1733,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 30]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 31]
+Hedberg, et al.           Expires July 13, 2019                [Page 31]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 A.5.  Resolving the OP's Trust Chain
@@ -1747,7 +1747,7 @@ A.5.  Resolving the OP's Trust Chain
 
    The information found in the authority_hints is critical in order to
    dynamically discover the trust chain.  If such hints are not present,
-   the RP may resume to fixed configured trust roots to ask for trust
+   the RP may resume to fixed configured trust roots to ask for entity
    statements.
 
    In this example, Foodle now fetches an entity statement from SWAMID
@@ -1789,9 +1789,9 @@ A.5.  Resolving the OP's Trust Chain
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 32]
+Hedberg, et al.           Expires July 13, 2019                [Page 32]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    {
@@ -1845,9 +1845,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 32]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 33]
+Hedberg, et al.           Expires July 13, 2019                [Page 33]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    o  Check that the sub from the trust configuration matches the iss
@@ -1901,9 +1901,9 @@ A.6.  Extracting the OP metadata
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 34]
+Hedberg, et al.           Expires July 13, 2019                [Page 34]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    [
@@ -1957,9 +1957,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 34]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 35]
+Hedberg, et al.           Expires July 13, 2019                [Page 35]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    {
@@ -2013,9 +2013,9 @@ A.7.  RP Sends Authentication Request (Implicit Registration)
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 36]
+Hedberg, et al.           Expires July 13, 2019                [Page 36]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 A.8.  OP Fetches Entity Statements
@@ -2069,9 +2069,9 @@ A.8.  OP Fetches Entity Statements
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 37]
+Hedberg, et al.           Expires July 13, 2019                [Page 37]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    [
@@ -2125,9 +2125,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 37]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 38]
+Hedberg, et al.           Expires July 13, 2019                [Page 38]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 A.9.  RP Fetches Entity Statements
@@ -2181,9 +2181,9 @@ B.1.  Initial Setup of the EREE Service
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 39]
+Hedberg, et al.           Expires July 13, 2019                [Page 39]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    The EPEE service is provided files containing authority_hints by its
@@ -2237,9 +2237,9 @@ B.3.1.  The EPEE RP Discovers the OpenID Provider
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 40]
+Hedberg, et al.           Expires July 13, 2019                [Page 40]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
     GET
@@ -2293,9 +2293,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 40]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 41]
+Hedberg, et al.           Expires July 13, 2019                [Page 41]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
            "authorization_code",
@@ -2349,9 +2349,9 @@ B.3.2.  Resolving the OP's Trust Chain
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 42]
+Hedberg, et al.           Expires July 13, 2019                [Page 42]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    GET
@@ -2405,9 +2405,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 42]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 43]
+Hedberg, et al.           Expires July 13, 2019                [Page 43]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    o  The federation does not have any restrictions on what the OP can
@@ -2461,9 +2461,9 @@ B.3.4.  Extracting the OP's Metadata
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 44]
+Hedberg, et al.           Expires July 13, 2019                [Page 44]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    [
@@ -2517,9 +2517,9 @@ B.3.5.  EPEE RP Does Federated Client Registration
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 45]
+Hedberg, et al.           Expires July 13, 2019                [Page 45]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    {
@@ -2573,9 +2573,9 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 45]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 46]
+Hedberg, et al.           Expires July 13, 2019                [Page 46]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    Next it self-signs this statement and sends it as a client
@@ -2629,9 +2629,9 @@ B.4.1.  The OP Gathers the RPs Trust Chains
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 47]
+Hedberg, et al.           Expires July 13, 2019                [Page 47]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    {
@@ -2685,9 +2685,9 @@ B.4.3.  Extracting RP Metadata
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 48]
+Hedberg, et al.           Expires July 13, 2019                [Page 48]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    {
@@ -2741,9 +2741,9 @@ B.4.4.  Constructing the Registration Response
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 49]
+Hedberg, et al.           Expires July 13, 2019                [Page 49]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    {
@@ -2797,9 +2797,9 @@ B.5.  The RP Deals With the Registration Response
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 50]
+Hedberg, et al.           Expires July 13, 2019                [Page 50]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    If the RP is OK with what the OP decided on regarding the RPs
@@ -2853,9 +2853,9 @@ Appendix C.  Notices
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 51]
+Hedberg, et al.           Expires July 13, 2019                [Page 51]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
 Appendix D.  Document History
@@ -2909,9 +2909,9 @@ Authors' Addresses
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 52]
+Hedberg, et al.           Expires July 13, 2019                [Page 52]
 
-                        OpenID Connect Federation          December 2018
+                        OpenID Connect Federation           January 2019
 
 
    Michael B. Jones
@@ -2965,4 +2965,4 @@ Hedberg, et al.           Expires July 1, 2019                 [Page 52]
 
 
 
-Hedberg, et al.           Expires July 1, 2019                 [Page 53]
+Hedberg, et al.           Expires July 13, 2019                [Page 53]
