@@ -972,7 +972,7 @@ Content-Type: application/json
         </t>
 
         <t>It has to be taken into considerations that clients may have
-          manually configured pubic keys as part of configuration.
+          manually configured public keys as part of configuration.
         </t>
       </section>
 
