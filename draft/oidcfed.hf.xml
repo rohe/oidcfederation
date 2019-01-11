@@ -112,12 +112,12 @@
   <middle>
     <section anchor="Introduction" title="Introduction">
       <t>This specification describes how two entities that would like to
-        interact can dynamically fetch and and resolve trust and metadata for a
+        interact can dynamically fetch and resolve trust and metadata for a
         given protocol through the use of third party trust issuers. A trust
-        issuer is an entity whose main purpose is to issue entity statements
+        issuer is an entity whose main purpose is to issue statements
         about entities, such as OpenID relying party and providers. An identity
         federation can be realized using this specification by the use of one or
-        more levels of trust issuers. This specification does not mandates a
+        more levels of trust issuers. This specification does not mandate a
         specific way or restrict how a federation may be built. Instead, the
         specification provides the basic technical trust infrastructure building
         blocks needed to build a dynamic and distributed trust network such as a
@@ -132,7 +132,7 @@
         represented by more than one entity in a federation.
       </t>
 
-      <t>The OpenID Connect Federation trust chains are relying on
+      <t>OpenID Connect Federation trust chains rely on
         cryptographically signed JWT documents, and the trust chain does not at
         all rely on TLS in order to establish trust.
       </t>
@@ -160,9 +160,9 @@
               be identified in a context.
             </t>
             <t hangText="Entity statement">
-              An entity statement is always a signed JWT. An entity statement is
+              An entity statement is
               issued by an entity, and concerns a subject entity and leaf
-              entities.
+              entities. An entity statement is always a signed JWT.
             </t>
             <t hangText="Intermediate entity">
               A entity that issues
@@ -177,8 +177,8 @@
               An entity that represents a trusted third party.
             </t>
             <t hangText="Trust Chain">
-              A sequence of entity statements that represents a chain of
-              statements starting at a leaf entity and ending in a trust anchor.
+              A sequence of entity statements that represents a trusted chain
+              starting at a leaf entity and ending in a trust anchor.
             </t>
           </list>
         </t>
@@ -186,16 +186,19 @@
     </section>
     <section title="Components" anchor="components">
       <section anchor="entity-statement" title="Entity Statement ">
-        <t>An entity statement is always a signed JWT. An entity statement is
+        <t>An entity statement is
           issued by an entity and concerns a subject entity and leaf entities
-          in a federation.
+          in a federation. An entity statement is always a signed JWT.
           All entities in a federation MUST be prepared to publish an entity
-          statement about itself.
+          statement about themselves.
+        </t>
+        <t>
+            An entity statment is composed of the following claims:
         </t>
         <t>
           <list style="hanging">
-            <t hangText="iss">REQUIRED. The entity identifier of the entity that
-              issues the statement. If the <spanx style="verb">iss</spanx> and
+            <t hangText="iss">REQUIRED. The entity identifier of the issuer of
+              the statement. If the <spanx style="verb">iss</spanx> and
               the <spanx style="verb">sub</spanx> are identical, the
               issuer is making a statement about itself.
             </t>
@@ -205,7 +208,7 @@
             <t hangText="iat">REQUIRED. The time the statement was issued.
               Its value is a JSON number representing the number of seconds from
               1970-01-01T0:0:0Z as measured in UTC until the date/time.
-              See <xref target="RFC3339">RFC 3339</xref>for
+              See <xref target="RFC3339">RFC 3339</xref> for
               details regarding date/times in general and UTC in particular.
             </t>
 
@@ -219,7 +222,7 @@
             <t hangText="jwks">REQUIRED. A <xref target="RFC7517">JSON Web Key
               Set (JWKS)</xref> representing the public part of the subject
               entity's signing keys. The corresponding private key is
-              used by leaf entities to sign entity statements about them self,
+              used by leaf entities to sign entity statements about themselves,
               and intermediate entities to sign statements about other entities.
               The keys that can be found here are primarily intended to sign
               entity statements, and should not be used in other protocols.
@@ -228,7 +231,7 @@
             <t hangText="authority_hints">OPTIONAL. A JSON object where the keys
               are the entity id's of the intermediate entities that may issue an
               entity statement about the issuer entity. The value MUST be a
-              JSON array of entities that is further up in the trust chain.
+              JSON array of entities that are further up in the trust chain.
               The array may be an empty list.
               The JSON array can be used to simplify the selection of trust
               chains without the need for following all possible trust chains.
@@ -258,7 +261,7 @@
 
             <t hangText="sub_is_leaf">OPTIONAL. Boolean value that indicates
               whether the subject is considered a leaf entity. A leaf entity is
-              not trusted to issue statements about other entities then
+              not trusted to issue statements about other entities than
               itself. If this property is left out, it is considered to be
               <spanx style="verb">false</spanx>.
             </t>
@@ -344,15 +347,15 @@
         </figure>
       </section>
 
-      <section title="The trust anchor">
-        <t>A trust anchor is an entity that a number of entities trust will
-          issue correct statements. Why they chose to trust this entity is out
+      <section title="Trust anchor">
+        <t>A trust anchor is an entity trusted by a number of other entities
+          to issue correct statements. Why they choose to trust this entity is out
           of scope for this document.
         </t>
       </section>
-      <section title="The trust chain" anchor="trust_chain">
+      <section title="Trust chain" anchor="trust_chain">
         <t>
-          In an OIDC Identity Federation, entities that together builds a
+          In an OIDC Identity Federation, entities that together build a
           trust chain can be categorized as:
           <list style="hanging">
             <t hangText="Trust anchor">An entity that represents a trusted
@@ -363,14 +366,14 @@
             <t hangText="Intermediate">Neither a leaf nor a trust anchor</t>
           </list>
           A trust chain begins with a leaf entity's self-signed entity
-          statement has zero or more entity statements
-          issued by intermediates about subordinates and ends with a
+          statement, has zero or more entity statements
+          issued by intermediates about subordinates, and ends with an
           entity statement about the trust anchor (in the case with zero
           intermediates) or an intermediate issued by the trust anchor
           and finally a self-signed entity statement about the trust anchor.
         </t>
         <t>A simple example: If we have an RP that belongs to organisation A
-          who is a member of federation F the trust chain for such a setup
+          who is a member of federation F, the trust chain for such a setup
           will contain the following entity statements:
           <list style="numbers">
             <t>
@@ -384,8 +387,8 @@
               F
             </t>
             <t>
-              A self-signed entity statement about Federation F by Federation
-              F.
+              A self-signed entity statement about Federation F published
+              by Federation F.
             </t>
           </list>
         </t>
@@ -540,9 +543,9 @@
         serve as the federation API endpoint for several entities.
       </t>
       <t>The Federation API is an HTTPS API that may support multiple
-        operations. Fetching entities is one of the operations, and the only one
+        operations. Fetching entity statements is one of the operations, and the only one
         that all Federation API endpoints are REQUIRED to support. All the
-        other operations is OPTIONAL. The list of defined operations may be
+        other operations are OPTIONAL. The list of defined operations may be
         extended in a future.
       </t>
 
@@ -597,7 +600,7 @@
                 requester. The issuing entity may choose to include this
                 parameter to form the entity statement specifically for this
                 target, in which the <spanx style="verb">aud</spanx> claim also
-                should be present in the entity statement it self.
+                SHOULD be present in the entity statement self.
               </t>
             </list>
           </t>
@@ -644,7 +647,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
 
       <section title="Trust Negotiation (OPTIONAL)">
         <t>An entity may use the trust negotiation operation in order to fetch
-          resolved metadata about it self as seen/trusted by a remote peer.
+          resolved metadata about itself as seen/trusted by a remote peer.
           The result may for instance tell an RP what operations, scopes and
           claims an OP would allow the RP to use if a specific trust anchor
           was used.
@@ -938,7 +941,7 @@ Content-Type: application/json
           <xref target="trust_chain">The trust chain</xref>
           a trust chain consists of an ordered list of entity
           statements. So which ever way the Consumer has acquired the set of
-          entity statements it must no verify that it is a proper trust chain
+          entity statements it must now verify that it is a proper trust chain
           using the rules laid out in that section.
         </t>
         <t>
@@ -977,11 +980,11 @@ Content-Type: application/json
         <t>Verifying the signature is a much more expensive
           operation then verifying the correctness of the statement and the
           timestamps. An implementer MAY therefor chose to not verify the
-          signature until all the other checks has been done.
+          signature until all the other checks have been done.
         </t>
         <t>
           No information in the chain of statements should be used
-          before the signature chain has be validated.
+          before the signature chain has been validated.
         </t>
       </section>
 
@@ -1062,8 +1065,8 @@ Content-Type: application/json
           </list>
         </t>
 
-        <t>It has to be taken into considerations that clients may have
-          manually configured pubic keys as part of configuration.
+        <t>It has to be taken into consideration that clients may have
+          manually configured pubic keys as part of their configuration.
         </t>
       </section>
 
@@ -1094,10 +1097,10 @@ Content-Type: application/json
           </t>
           <t>
             Given the metadata statements ms[n] (n=i, ..., 0).
-            Start by assigning m_res = ms[i]
+            Start by assigning ms_res = ms[i]
           </t>
           <t>
-            then for every claim in ms_j (j=i-1, ... 0):
+            then for every claim in ms[j] (j=i-1, ... 0):
             <list style="symbols">
               <t>If the claim does not appear in ms_res, add it to m_res.</t>
               <t>
@@ -1246,7 +1249,7 @@ Content-Type: application/json
           <t>The authentication request as specified in OpenID Connect
             Core.
           </t>
-          <t>The RP MUST authentication at the authentication endpoint
+          <t>The RP MUST authenticate at the authentication endpoint
             using the private_key_jwt method described in the client
             authentication section of
             <xref target="OpenID.Core">OIDC core</xref>.
