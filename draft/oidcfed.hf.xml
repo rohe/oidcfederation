@@ -159,14 +159,19 @@
               Something that has a separate and distinct existence and that can
               be identified in a context.
             </t>
-            <t hangText="Leaf Entity">
-              An entity defined by a certain protocol. E.g. OpenID
-              Provider/Relying Party.
-            </t>
             <t hangText="Entity statement">
               An entity statement is always a signed JWT. An entity statement is
               issued by an entity, and concerns a subject entity and leaf
               entities.
+            </t>
+            <t hangText="Intermediate entity">
+              A entity that issues
+              an entity statement that appears somewhere in between those
+              issued by the trust anchor and the leaf entity in a trust chain.
+            </t>
+            <t hangText="Leaf Entity">
+              An entity defined by a certain protocol. E.g. OpenID
+              Provider/Relying Party.
             </t>
             <t hangText="Trust Anchor">
               An entity that represents a trusted third party.
