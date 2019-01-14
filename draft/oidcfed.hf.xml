@@ -1085,12 +1085,12 @@ Content-Type: application/json
         <list style="symbols">
           <t>
             We define the specific metadata information in an entity statement
-            ES[j] to be called ms[j]. This would be information in
+            ES[j] to be called ms[j]. This could for instance be information in
             *metadata*/*openid_client* as specified in
             <xref target="RP_metadata">RP Metadata
-            </xref>
-            and
-            <xref target="OP_metadata">OP Metadata</xref>.
+            </xref>, *metadata*/*openid_provider* as specified in
+            <xref target="OP_metadata">OP Metadata</xref> or other types of
+            metadata specified by other protocols.
           </t>
           <t>
             Given the metadata statements ms[n] (n=i, ..., 0).
