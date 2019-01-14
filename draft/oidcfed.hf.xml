@@ -997,10 +997,10 @@ Content-Type: application/json
 
       <section anchor="trust_lifetime"
                title="Calculating the Lifetime of a Trust Chain">
-        <t>Each entity statement in a trust chain is signed and MUST have a
+        <t>
+          Each entity statement in a trust chain is signed and MUST have a
           expiration time (exp) set. The expiration time of the whole trust
-          chain is the expiration time that is in the future and closest in time
-          to the present time of all the available expiration times.
+          chain is set to the minimum value of exp within the chain.
         </t>
       </section>
     </section>
