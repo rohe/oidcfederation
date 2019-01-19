@@ -193,7 +193,7 @@
           statement about themselves.
         </t>
         <t>
-            An entity statment is composed of the following claims:
+          An entity statment is composed of the following claims:
         </t>
         <t>
           <list style="hanging">
@@ -220,7 +220,8 @@
             </t>
 
             <t hangText="jwks">REQUIRED. A <xref target="RFC7517">JSON Web Key
-              Set (JWKS)</xref> representing the public part of the subject
+              Set (JWKS)
+            </xref> representing the public part of the subject
               entity's signing keys. The corresponding private key is
               used by leaf entities to sign entity statements about themselves,
               and intermediate entities to sign statements about other entities.
@@ -238,59 +239,23 @@
             </t>
 
             <t hangText="metadata">OPTIONAL. JSON object including protocol
-              specific metadata claims that represent the leaf entities. To
-              resolve the resulting metadata for a leaf entity, the compound
-              metadata documents included in the trust chain are merged by
-              the <xref target="flattening-metadata">metadata flattening
-                process</xref>.
+              specific metadata claims that represent the leaf entities.
               The keys of the JSON object represent the metadata type
               identifier, and their value MUST be a JSON object representing
               the metadata according to the metadata schema of that metadata
-              type. To allow for the leaf entity to resolve a specific metadata
-              type, all intermediate entities
-              in the trust chain MUST contain a metadata document for this
-              specific type. See <xref target="metadata">section about
-                metadata</xref>. An entity statement may contain multiple
+              type. An entity statement may contain multiple
               metadata statements, but only one for each metadata type.
-              <vspace blankLines="1"/>
-              If absent this entity statement should just be ignored when
-              doing flattening.
-              <vspace blankLines="1"/>
-              If present and empty it blocks flattening of any metadata type.
             </t>
-
+            <t hangText="metadata_policy">OPTIONAL. JSON object that describes
+              a policy that MUST be applied to a leaf entity's metadata.
+              An entity statement may contain multiple
+              metadata policy statements, but only one for each metadata type.
+            </t>
             <t hangText="sub_is_leaf">OPTIONAL. Boolean value that indicates
               whether the subject is considered a leaf entity. A leaf entity is
-              not trusted to issue statements about other entities than
-              itself. If this property is left out, it is considered to be
+              not trusted to issue policy statements about other entities. If
+              this property is left out, it is considered to be
               <spanx style="verb">false</spanx>.
-            </t>
-
-            <t hangText="sub_meta">OPTIONAL. If present, a JSON object
-              containing one or more of the properties listed below. This is
-              metadata describing the subject of this entity statement. The
-              metadata included in the metadata claim is always referring to
-              leaf entities, while the metadata in sub_meta refers to the
-              immediate subject, which may be an intermediate trust issuer.
-              <vspace blankLines="1"/>
-              <list style="hanging">
-                <t hangText="name">OPTIONAL. String. The human readable name
-                  describing the subject entity. This may be, for example, the
-                  name of an organization.
-                </t>
-
-                <t hangText="contacts">OPTIONAL. Contact information. The
-                  precise format of this claim is to be decided.
-                </t>
-
-                <t hangText="policy_url">OPTIONAL. URL to documentation of
-                  conditions and policies relevant to this entity.
-                </t>
-
-                <t hangText="homepage_url">OPTIONAL. URL to a generic home page
-                  representing this entity.
-                </t>
-              </list>
             </t>
           </list>
         </t>
@@ -310,17 +275,19 @@
   "sub": "https://ntnu.no",
   "iat": 1516239022,
   "exp": 1516298022,
-  "metadata": {
+  "metadata_policy": {
     "openid_provider": {
-      "issuer": "https://ntnu.no",
-      "organization_name": "NTNU",
-      "id_token_signing_alg_values_supported": ["RS256", "RS384",
-                                                "RS512"]
+      "issuer": {"value": "https://ntnu.no"},
+      "organization_name": {"value": "NTNU"},
+      "id_token_signing_alg_values_supported":
+        {"subset_of": ["RS256", "RS384", "RS512"]}
     },
     "openid_client": {
-      "organization_name": "NTNU",
-      "grant_types_supported": ["authorization_code", "implicit"],
-      "scopes": ["openid", "profile", "email", "phone"]
+      "organization_name": {"value": "NTNU"},
+      "grant_types_supported": {
+        "subset_of": ["authorization_code", "implicit"]},
+      "scopes": {
+        "subset_of": ["openid", "profile", "email", "phone"]}
     }
   },
   "jwks": {
@@ -349,7 +316,8 @@
 
       <section title="Trust anchor">
         <t>A trust anchor is an entity trusted by a number of other entities
-          to issue correct statements. Why they choose to trust this entity is out
+          to issue correct statements. Why they choose to trust this entity is
+          out
           of scope for this document.
         </t>
       </section>
@@ -522,8 +490,346 @@
           <spanx style="verb">oauth_resource</spanx>.
         </t>
       </section>
-    </section>
+      <section title="Federation Entity">
+        <t>The metadata type identifier is
+          <spanx style="verb">federation_entity</spanx>.
+        </t>
+        <t>
+          The following properties are allowed:
+          <list style="hanging">
+            <t hangText="name">OPTIONAL. String. The human readable name
+              describing the subject entity. This may be, for example, the
+              name
+              of an organization.
+            </t>
 
+            <t hangText="contacts">OPTIONAL. JSON array with one or more
+              strings. Contact persons at the entity.
+            </t>
+
+            <t hangText="policy_url">OPTIONAL. URL to documentation of
+              conditions and policies relevant to this entity
+            </t>
+
+            <t hangText="homepage_url">OPTIONAL. URL to a generic home page
+              representing this entity.
+            </t>
+          </list>
+        </t>
+      </section>
+    </section>
+    <section title="Applying policy to metadata">
+      <t>The metadata for a specific entity can be constructed by starting
+        with the information in leaf entity's entity statement and then
+        applying the polices defined by the trust anchor and possible
+        intermediates starting with the trust anchor.
+      </t>
+      <section title="Policy language">
+        <t>
+          Policies are expressed using a JSON object.
+        </t>
+        <t>
+          There are a number of keywords defined that represents different
+          actions/checks that MUST be applied to the metadata.
+        </t>
+        <t>
+          These keywords are:
+          <list style="hanging">
+            <t hangText="subset_of">
+              <vspace/>
+              The resulting value of the claim will be the intersection of the
+              values specified here and the values of the claim. For
+              instance, the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "response_types": {
+    "subset_of": ["code", "code token", "code id_token"]}
+]]></artwork>
+              </figure>
+
+              if applied to a metadata statement with:
+              <figure>
+                <artwork><![CDATA[
+  "response_types": ["code", "code id_token token", "code id_token"]
+]]></artwork>
+              </figure>
+              will result in the statement:
+
+              <figure>
+                <artwork><![CDATA[
+  "response_types": ["code", "code id_token"]
+]]></artwork>
+              </figure>
+            </t>
+            <t hangText="one_of">
+              <vspace/>
+              The value of the claim MUST be one of the ones listed here.
+              As an example, if the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "request_object_signing_alg": {
+    "one_of": ["ES256", "ES384", "ES512"]}
+]]></artwork>
+              </figure>
+
+              is applied to the metadata statement
+              <figure>
+                <artwork><![CDATA[
+  "request_object_signing_alg": "ES384"
+]]></artwork>
+              </figure>
+              the result will be:
+
+              <figure>
+                <artwork><![CDATA[
+  "request_object_signing_alg": "ES384"
+]]></artwork>
+              </figure>
+            </t>
+            <t hangText="add">
+              <vspace/>
+              Disregarding what value the claim had, the
+              value specified here will be added to the metadata statement.
+              As an example, if the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "contacts": {
+    "add": "support@federation.example.com"}
+]]></artwork>
+              </figure>
+
+              is applied to the metadata statement
+              <figure>
+                <artwork><![CDATA[
+  "contacts": "support@org.example.com"
+]]></artwork>
+              </figure>
+              the result will be:
+
+              <figure>
+                <artwork><![CDATA[
+  "contacts": ["support@org.example.com",
+               "support@federation.example.com"]
+]]></artwork>
+              </figure>
+
+            </t>
+            <t hangText="value">
+              <vspace/>
+              Disregarding what value the claim had,
+              if any, the claims value will be set to what is specified here.
+              As an example, if the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": {
+    "value": true}
+]]></artwork>
+              </figure>
+
+              is applied to a metadata statement with no such claim
+              the result will be that the metadata statement after apply the
+              policy contains the claim:
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": true
+              ]]></artwork>
+              </figure>
+            </t>
+            <t hangText="default">
+              <vspace/>
+              If no value is assigned to this claim then the claims value
+              will be set to what is specified here.
+              As an example, if the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": {
+    "default": true }
+]]></artwork>
+              </figure>
+
+              is applied to a metadata statement with the claim
+
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": false
+]]></artwork>
+              </figure>
+
+              then the metadata statement will afterwards contain:
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": false
+              ]]></artwork>
+              </figure>
+            </t>
+            <t hangText="regexp">
+              <vspace/>
+              Matches the claim value against a regular expression.
+              If the value does not match it will be removed.
+              The variant of regular expression used is POSIX BRE.
+              As an example, if the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "op_policy_uri": {
+    "regexp": "^https:\/\/[\w-]+\.example\.com\/[\w-]+\.html"
+]]></artwork>
+              </figure>
+
+              is applied to a metadata statement with the claim
+
+              <figure>
+                <artwork><![CDATA[
+  "op_policy_uri": "https://foo.example.com/policy.html"
+              ]]></artwork>
+              </figure>
+
+              the metadata statement will afterwards still contain the claim
+              because the value matched the regular expression:
+              <figure>
+                <artwork><![CDATA[
+  "op_policy_uri": "https://foo.example.com/policy.html"
+              ]]></artwork>
+              </figure>
+            </t>
+            <t hangText="essential">
+              <vspace/>
+              If 'true' then claim MUST have a value. *essential* can be
+              combined with all the other types.
+              <figure>
+                <artwork><![CDATA[
+  "tos_uri": {
+    "essential": true}
+]]></artwork>
+              </figure>
+              Means that applying the policies to a metadata statement MUST
+              result in this claim having a value.
+            </t>
+          </list>
+        </t>
+      </section>
+      <section title="Policy combinations">
+        <t>
+          Some policy types can be combined with others.
+          <list style="hanging">
+            <t hangText="default">
+              <vspace/>
+              Can be combined with *one_of*, *reg_exp* and
+              *subset_of*.
+            </t>
+            <t hangText="essential">
+              <vspace/>
+              Can be combined with all the others. If
+              *essential* is not present the interpretation is that
+              essential=true.
+            </t>
+          </list>
+        </t>
+      </section>
+      <section title="Combining Policies">
+        <t>
+          If there are more then one metadata policy in a trust chain then
+          the policies MUST be combined before they are applied to the
+          metadata statement.
+          These are the policy types that can be combined when combining 2
+          policies:
+          <list style="hanging">
+            <t hangText="set_of">
+              <vspace/>
+              The result of combining 2 *set_of* policies is the intersection of
+              the values.
+            </t>
+            <t hangText="one_of">
+              <vspace/>
+              The result of combining 2 *one_of* policies is the intersection of
+              the values.
+            </t>
+            <t hangText="add">
+              <vspace/>
+              The result of combining 2 *add* policies is the union of the
+              values.
+            </t>
+          </list>
+          All the other policy types can NOT be combined.
+        </t>
+      </section>
+      <section title="Enforcing Policy">
+        <t>
+          If applying a policy to a metadata statement results in some claims
+          having all their values removed and it is essential that a
+          claim has a value then such a metadata statement MUST
+          be regraded as broken and MUST NOT be used.
+        </t>
+      </section>
+      <section title="Extending the policy language">
+        <t>
+          There might be parties that wants to extend the policy language
+          defined here, therefor if software compliant with this specification
+          encounters a key word it doesn't understand it MUST refuse to apply
+          the policy.
+        </t>
+      </section>
+      <section title="Policy example">
+        <t>
+          The following is a non-normative example of a set of policies being
+          applied to an RP's metadata.
+          <figure>
+            <preamble>The RP's metadata</preamble>
+            <artwork><![CDATA[
+{
+  "contacts": ["rp_admins@cs.example.com"],
+  "redirect_uris": ["https://cs.example.com/rp1"],
+  "response_types: ["code"]
+}            ]]></artwork>
+          </figure>
+          <figure>
+            <preamble>The federations policy for RPs</preamble>
+
+            <artwork><![CDATA[
+{
+  "scopes": {
+    "subset_of": ["openid", "eduperson"]},
+  "response_types": {
+    "subset_of": ["code", "code id_token"]}
+}
+            ]]></artwork>
+          </figure>
+          <figure>
+            <preamble>The organisations policy for RPs</preamble>
+            <artwork><![CDATA[
+{
+  "contacts": {
+    "add": "helpdesk@example.com"},
+  "logo_uri": {
+    "one_of": ["https://example.com/logo_small.jpg",
+               "https://example.com/logo_big.jpg"],
+    "default": "https://example.com/logo_small.jpg"
+  },
+  "policy_uri": {
+    "value": "https://example.com/policy.html"},
+  "tos_uri": {
+    "value": "https://example.com/tos.html"}
+}
+            ]]></artwork>
+          </figure>
+          The metadata for the entity in question, policies
+          above, would then be:
+          <figure>
+            <preamble>sum(ms[n]), (n=0...2)</preamble>
+
+            <artwork><![CDATA[{
+  "contacts": ["rp_admins@cs.example.com", "helpdesk@example.com"],
+  "logo_uri": "https://example.com/logo_small.jpg",
+  "policy_uri": "https://example.com/policy.html",
+  "tos_uri": "https://example.com/tos.html"
+  "rp_scopes": ["openid", "eduperson"],
+  "response_types": ["code"],
+  "redirect_uris": ["https://cs.example.com/rp1"],
+}
+]]></artwork>
+          </figure>
+        </t>
+      </section>
+    </section>
     <section title="The Federation API">
       <t>All entities that are expected
         to publish entity statements about themselves or other entities, MUST
@@ -543,7 +849,8 @@
         serve as the federation API endpoint for several entities.
       </t>
       <t>The Federation API is an HTTPS API that may support multiple
-        operations. Fetching entity statements is one of the operations, and the only one
+        operations. Fetching entity statements is one of the operations, and the
+        only one
         that all Federation API endpoints are REQUIRED to support. All the
         other operations are OPTIONAL. The list of defined operations may be
         extended in a future.
@@ -704,8 +1011,9 @@ Host: openid.sunet.se
         </section>
 
         <section title="Trust Negotiation Response">
-          <t>The response is a generated flattened metadata of the type
-            specified in the request.
+          <t>The response is a metadata statement that is the result of
+            applying the metadata polices in the trust chain on the entity's
+            metadata.
           </t>
 
           <figure>
@@ -1080,126 +1388,6 @@ Content-Type: application/json
       </section>
     </section>
 
-    <section anchor="flattening-metadata"
-             title="Flattening Metadata From the Chain of Entity Statements">
-      <t>The metadata for a specific entity can be constructed by starting
-        with the information in ES[i] and then adding the information from the
-        statements ES[i-1] to ES[0] using the following rules:
-        <list style="symbols">
-          <t>
-            We define the specific metadata information in an entity statement
-            ES[j] to be called ms[j]. This could for instance be information in
-            *metadata*/*openid_client* as specified in
-            <xref target="RP_metadata">RP Metadata
-            </xref>, *metadata*/*openid_provider* as specified in
-            <xref target="OP_metadata">OP Metadata</xref> or other types of
-            metadata specified by other protocols.
-          </t>
-          <t>
-            Given the metadata statements ms[n] (n=i, ..., 0).
-            Start by assigning ms_res = ms[i]
-          </t>
-          <t>
-            then for every claim in ms[j] (j=i-1, ... 0):
-            <list style="symbols">
-              <t>If the claim does not appear in ms_res, add it to m_res.</t>
-              <t>
-                If the claim appears in ms_res, then replace the value
-                of the claim in ms_res with the value of the claim in ms[j] if
-                and only if the value in ms[j] is a subset of the value in
-                ms_res.
-              </t>
-            </list>
-          </t>
-        </list>
-      </t>
-      <t>A subset is defined as:
-        <list style="hanging">
-          <t hangText="String">
-            <vspace/>
-            One string is a subset of another
-            string if it is exactly the same, byte by byte.
-          </t>
-
-          <t hangText="Simple lists">
-            <vspace/>
-            An array A is a subset of B if every element in A is a subset of
-            an element in B.
-          </t>
-
-          <t hangText="Booleans">
-            <vspace/>
-            Boolean A is a subset of B if A is equal to B.
-          </t>
-
-          <t hangText="Integer/Floats">
-            <vspace/>
-            The number A is a subset of the number B if A is less or equal to B.
-          </t>
-
-          <t hangText="Associative array/dictionary">
-            <vspace/>
-            The dictionary A
-            is a subset of the dictionary B if every key in A is in B and the
-            value of A[x] is a subset of B[x].
-          </t>
-        </list>
-      </t>
-
-      <t>
-        The following is a non-normative example of a set of RP specific
-        metadata statements that together form the metadata for an entity:
-        <figure>
-          <preamble>ms[2]</preamble>
-
-          <artwork><![CDATA[
-{
-  "contacts": ["helpdesk@example.com"],
-  "logo_uri": "https://example.com/logo.jpg",
-  "policy_uri": "https://example.com/policy.html",
-  "tos_uri": "https://example.com/tos.html"
-}
-            ]]></artwork>
-        </figure>
-        <figure>
-          <preamble>ms[1]</preamble>
-
-          <artwork><![CDATA[
-{
-  "rp_scopes": ["openid", "eduperson"],
-  "response_types": ["code", "code id_token"],
-}
-            ]]></artwork>
-        </figure>
-        <figure>
-          <preamble>ms[0]</preamble>
-
-          <artwork><![CDATA[
-{
-  "contacts": ["rp_admins@cs.example.com"],
-  "redirect_uris": ["https://cs.example.com/rp1"],
-  "response_types: ["code"]
-}            ]]></artwork>
-        </figure>
-        The metadata for the entity in question, using the rules
-        above, would then be:
-        <figure>
-          <preamble>sum(ms[n]), (n=0...2)</preamble>
-
-          <artwork><![CDATA[{
-  "contacts": ["helpdesk@example.com"],
-  "logo_uri": "https://example.com/logo.jpg",
-  "policy_uri": "https://example.com/policy.html",
-  "tos_uri": "https://example.com/tos.html"
-  "rp_scopes": ["openid", "eduperson"],
-  "response_types": ["code"],
-  "redirect_uris": ["https://cs.example.com/rp1"],
-}
-]]></artwork>
-        </figure>
-      </t>
-    </section>
-
     <section title="OpenID Connect Communication">
       <t>This section describes how the trust framework in this specification
         is used to establish trust between an RP and an OP
@@ -1419,21 +1607,22 @@ Host: https://example.org
                     referenced in the entity statement it sent to the OP.
                   </t>
 
-                  <t>The RP MUST NOT flatten the metadata using the trust
+                  <t>The RP MUST NOT apply metadata policies from the trust
                     chains that the OP provides because the trust chain provided
                     by the OP is not valid for the RPs metadata.
-                    The RP MUST flatten the metadata using one of its own
+                    The RP MUST policies to the metadata using one of its own
                     trust chains that ends in the trust anchor that the OP chose
                     .
-                    When it has done the flattening, it then stores
+                    When it has metadata policies, it then stores
                     the configuration and can continue communicating with the OP
                     using the agreed on metadata.
                   </t>
 
                   <t>At this point the RP also knows which trust chain it should
                     use when evaluating the OPs metadata. It can therefore
-                    flatten the OPs metadata using the relevant trust chain
-                    and store the result as the OPs metadata.
+                    apply the metadata policies on the OPs metadata using the
+                    relevant trust chain and store the result as the OPs
+                    metadata.
                   </t>
 
                   <t>If the RP was not OK, for some reason, with the received
@@ -1704,35 +1893,27 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
               - an OP for employees and students at the university of Umea
             </t>
           </list>
-          Foodle has a local trust root configuration that looks like
-          this (notice that the exact format and content on the trust root
-          configuration is out of scope of this specification):
+          Foodle has a local trust root configuration that contains public
+          signing keys for known federations:
         </t>
 
         <figure>
+          <preamble>"https://www.sunet.se/swamid"</preamble>
           <artwork><![CDATA[[
-  {
-    "sub": "https://www.sunet.se/swamid",
-    "sub_meta": {"name": "SWAMID"},
-    "metadata": {
-      "openid_provider": {
-        "loa_max": "http://swamid.se/LoA/substantial"}
-    },
-    "jwks": {
-      "keys": [
-        {
-          "kty": "RSA",
-          "alg": "RS256",
-          "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
-          "e": "AQAB",
-          "key_ops": ["verify"],
-          "ext": true,
-          "kid": "swamid",
-          "use": "sig"
-        }
-      ]
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "alg": "RS256",
+      "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
+      "e": "AQAB",
+      "key_ops": ["verify"],
+      "ext": true,
+      "kid": "swamid",
+      "use": "sig"
     }
-  }
+  ]
+}
 ]]]></artwork>
         </figure>
       </section>
@@ -1861,18 +2042,23 @@ Content-Type: application/json
           <artwork><![CDATA[{
   "iat": 1539174048,
   "exp": 1539177648,
-  "metadata": {
+  "metadata_policy": {
     "openid_provider": {
-      "subject_types_supported": ["pairwise"],
-      "id_token_signing_alg_values_supported": ["RS256", "RS512"],
-      "organization": "University of Ume?",
-      "contacts": ["legal@umu.se", "technical@umu.se"]
+      "subject_types_supported": {
+        "value": ["pairwise"]},
+      "id_token_signing_alg_values_supported":{
+          "subset_of": ["RS256", "RS512"],
+          "default: ["RS256", "RS512"]
+        }
+      "organization": {
+        "value": "University of Ume&aring;"},
+      "contacts": {
+        "add": ["legal@umu.se", "technical@umu.se"]}
     },
-    "openid_client": {}
+    "openid_client": {},
   },
   "iss": "https://www.sunet.se/swamid",
   "sub": "https://umu.se/openid",
-  "sub_meta": {"name": "University of Ume?"},
   "jwks": {
     "keys": [
       {
@@ -1898,8 +2084,8 @@ Content-Type: application/json
 
         <t>These two entity statements are sufficient to establish a path from
           the local configured trust anchor which trust SWAMID, to the
-          self-issued statement from the University of Ume&aring;. Here are the
-          steps performed to validate the trust chain:
+          self-issued statement from the University of Ume&aring;.
+          Here are the steps performed to validate the trust chain:
         </t>
 
         <t>
@@ -1909,7 +2095,8 @@ Content-Type: application/json
             </t>
 
             <t>Use these keys to validate the signature of the signed entity
-              statement issued by SWAMID about the University of Ume&aring;
+              statement issued by SWAMID about the University of
+              Ume&aring;
             </t>
 
             <t>Check that the sub from the trust configuration matches the iss
@@ -1920,8 +2107,8 @@ Content-Type: application/json
               the signing keys of the University of Ume&aring;
             </t>
 
-            <t>Validate the self-signed statement from University of Ume&aring;
-              using the keys found above.
+            <t>Validate the self-signed statement from University of
+              Ume&aring; using the keys found above.
             </t>
 
             <t>Check that the sub from the previous statement matches the iss
@@ -1940,48 +2127,70 @@ Content-Type: application/json
         <t>The output from the trust chain validation is an ordered list of
           entity statements. In order to extract the needed metadata, we need to
           look at the metadata type relevant in the given context. In this case,
-          we are establishing trust with an OP, and we take a look
-          at the <spanx style="verb">openid_provider</spanx> metadata object of
-          the trust chain:
+          we are establishing trust with an OP, and we take the
+          <spanx style="verb">openid_provider</spanx>
+          metadata object from the
+          entity statement published by the OP and the policy statements from
+          the other entities in the trust chain:
         </t>
-
-        <figure>
-          <artwork><![CDATA[[
-  {"loa_max": "http://swamid.se/LoA/substantial"},
-  {
-    "subject_types_supported": ["pairwise"],
-    "id_token_signing_alg_values_supported": ["RS256", "RS512"],
-    "organization": "University of Ume?",
-    "contacts": ["legal@umu.se", "technical@umu.se"]
-  },
-  {
-    "authorization_endpoint":
-      "https://idp.umu.se/openid/authorization",
-    "token_endpoint": "https://idp.umu.se/openid/token",
-    "response_types_supported": ["code", "code id_token", "token"],
-    "grant_types_supported": [
-      "authorization_code",
-      "implicit",
-      "urn:ietf:params:oauth:grant-type:jwt-bearer"
-    ],
-    "subject_types_supported": ["pairwise", "public"],
-    "id_token_signing_alg_values_supported": ["RS256"],
-    "logo_uri":
-        "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-    "policy_uri":
-        "https://www.umu.se/en/about-the-website/legal-information/",
-    "loa_max": "http://eidas.europa.eu/LoA/high"
-  }
+        <t>
+          <figure>
+            <preamble>SWAMID's metadata policy for
+              an openid_provider
+            </preamble>
+            <artwork><![CDATA[[
+{"loa_max":
+  {"value":"http://swamid.se/LoA/substantial"}}
 ]]]></artwork>
-        </figure>
+          </figure>
 
-        <t>The metadata flattening process converts this to a single metadata
-          object. The resulting metadata in this case would be:
+          <figure>
+            <preamble>UMU's metadata policy for an openid_provider</preamble>
+            <artwork><![CDATA[[
+{
+  "subject_types_supported": {"value": ["pairwise"]},
+  "id_token_signing_alg_values_supported":
+    {
+      "subset_of": ["RS256", "RS512"],
+      "default: ["RS256", "RS512"]
+    }
+  "organization": {"value": "University of Ume&aring;"},
+  "contacts": {"add": ["legal@umu.se", "technical@umu.se"]}
+}
+]]]></artwork>
+          </figure>
+          and finally
+          <figure>
+            <preamble>The OP's metadata statement</preamble>
+            <artwork><![CDATA[[
+{
+  "authorization_endpoint":
+    "https://idp.umu.se/openid/authorization",
+  "token_endpoint": "https://idp.umu.se/openid/token",
+  "response_types_supported": ["code", "code id_token", "token"],
+  "grant_types_supported": [
+    "authorization_code",
+    "implicit",
+    "urn:ietf:params:oauth:grant-type:jwt-bearer"
+  ],
+  "subject_types_supported": ["pairwise", "public"],
+  "id_token_signing_alg_values_supported": ["RS256"],
+  "logo_uri":
+      "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+  "policy_uri":
+      "https://www.umu.se/en/about-the-website/legal-information/",
+  "loa_max": "http://eidas.europa.eu/LoA/high"
+}
+]]]></artwork>
+          </figure>
         </t>
-
-        <figure>
-          <artwork><![CDATA[{
-  "organization": "University of Ume?",
+        <t>Applying the metadata policies to the metadata
+          produces the following result:
+        </t>
+        <t>
+          <figure>
+            <artwork><![CDATA[{
+  "organization": "University of Ume&aring;",
   "contacts": ["legal@umu.se", "technical@umu.se"],
   "logo_uri":
     "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
@@ -2000,19 +2209,22 @@ Content-Type: application/json
   "id_token_signing_alg_values_supported": ["RS256"],
   "loa_max": "http://swamid.se/LoA/substantial"
 }]]></artwork>
-        </figure>
+          </figure>
+        </t>
       </section>
 
       <section title="RP Sends Authentication Request (Implicit Registration)">
-        <t>Foodle after establishing trust with the University of Ume&aring;
-          and extracted a resulting set of metadata, will send an authentication
-          request to the OP. This example involves the implicit registration.
+        <t>Foodle after establishing trust with the University of
+          Ume&aring;
+          and extracted metadata and a set of metadata policies, will send an
+          authentication request to the OP. This example involves the
+          implicit registration.
         </t>
 
-        <t>Here is an example of an authentication request:</t>
+        <t>Here is an example of an authentication request:
 
-        <figure>
-          <artwork><![CDATA[GET /authorize?
+          <figure>
+            <artwork><![CDATA[GET /authorize?
   response_type=code
   &scope=openid%20profile%20email
   &client_id=https%3A%2F%2Ffoodl.org%2F
@@ -2024,8 +2236,8 @@ Content-Type: application/json
   HTTP/1.1
 Host: idp.umu.se
 ]]></artwork>
-        </figure>
-
+          </figure>
+        </t>
         <t>The OP receiving this authentication request will, unless the
           RP is cached or statically configured, start to dynamically fetch and
           establish trust with the RP.
@@ -2034,61 +2246,52 @@ Host: idp.umu.se
 
       <section title="OP Fetches Entity Statements">
         <t>The OP needs to establish a trust chain for the RP from which a
-          authentication was received. The OP in this example has the
-          following configured trust root:
+          authentication was received. The OP in this example are configured
+          with public key of 2 federations:
         </t>
+        <t>
+          <figure>
+            <preamble>"https://edugain.org/oidc"</preamble>
+            <artwork><![CDATA[[
+ {
+  "keys": [
+    {
+      "kty": "RSA",
+      "use": "sig",
+      "alg": "RS256",
+      "n": "qnd5_krrHKzuJzb5_YEt4sP-YOGSbf[...]",
+      "e": "AQAB",
+      "key_ops": ["verify"],
+      "ext": true,
+      "kid": "edugain"
+    }
+  ]
+}
+        ]]></artwork>
+          </figure>
 
-        <figure>
-          <artwork><![CDATA[[
-  {
-    "sub": "https://edugain.org/oidc",
-    "metadata": {
-      "openid_client": {
-        "rp_scopes": ["openid", "userid-targetedid", "eduperson"],
-        "response_types": ["code", "code id_token"]
-      }
-    },
-    "jwks": {
-      "keys": [
-        {
-          "kty": "RSA",
-          "use": "sig",
-          "alg": "RS256",
-          "n": "qnd5_krrHKzuJzb5_YEt4sP-YOGSbf[...]",
-          "e": "AQAB",
-          "key_ops": ["verify"],
-          "ext": true,
-          "kid": "edugain"
-        }
-      ]
+          and
+
+          <figure>
+            <preamble>"https://www.sunet.se/swamid"</preamble>
+            <artwork><![CDATA[[
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "alg": "RS256",
+      "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
+      "e": "AQAB",
+      "key_ops": ["verify"],
+      "ext": true,
+      "kid": "swamid",
+      "use": "sig"
     }
-  },
-  {
-    "sub": "https://www.sunet.se/swamid",
-    "metadata": {
-      "openid_client": {
-        "rp_scopes": ["openid", "userid-persistent", "fs"],
-        "response_types": ["code", "code id_token"]
-      }
-    },
-    "jwks": {
-      "keys": [
-        {
-          "kty": "RSA",
-          "alg": "RS256",
-          "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
-          "e": "AQAB",
-          "key_ops": ["verify"],
-          "ext": true,
-          "kid": "swamid",
-          "use": "sig"
-        }
-      ]
-    }
-  }
-]
-]]></artwork>
-        </figure>
+  ]
+}
+        ]]></artwork>
+          </figure>
+        </t>
       </section>
 
       <section title="RP Fetches Entity Statements">
@@ -2390,8 +2593,8 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
               </t>
               <t>
                 The federation does not have any restrictions on what the OP can
-                be configured to do. This means that flattening is going to be
-                very easy.
+                be configured to do. This means that there are no metadata
+                policies to apply to the metadata statement.
               </t>
             </list>
           </t>
@@ -2439,12 +2642,21 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             entity statements. In order to extract the needed metadata, we need
             to look at the metadata type relevant in the given context. In this
             case, we are establishing trust with an OP, and we take
-            a look at the *openid_provider* metadata object of the trust chain:
+            a look at the *openid_provider* metadata and metadata_policy objects
+            of the trust chain:
             <figure>
+              <preamble>Metadata polices</preamble>
               <artwork>
-                <![CDATA[
-[
-  {},
+                <![CDATA[[
+  {}
+                ]]></artwork>
+            </figure>
+
+            <figure>
+              <preamble>Metadata statement</preamble>
+              <artwork>
+                <![CDATA[[
+
   {
     "authorization_endpoint":
     "https://op.umu.se/authorization",
@@ -2474,14 +2686,13 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
     "token_endpoint": "https://op.umu.se/token",
     "userinfo_endpoint": "https://op.umu.se/user"
   }
-]
-              ]]>
-              </artwork>
+
+              ]]></artwork>
             </figure>
           </t>
           <t>
-            Since the first item in this list is empty the flattening process
-            will return the second item as the result.
+            Since there is no metadata policy defined, the response will just
+            be the metadata statement as it is.
           </t>
         </section>
         <section title="EPEE RP Does Federated Client Registration">
@@ -2518,30 +2729,29 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
       }
     ]
   },
-  "metadata": {
+  "metadata_policy": {
     "openid_client": {
-      "application_name": "rphandler",
-      "application_type": "web",
-      "contacts": [
-        "ops@example.org"
-      ],
-      "jwks_uri": "https://rp.eree.example.org/static/jwks.json",
-      "redirect_uris": [
+      "application_name": {"value": "rphandler"},
+      "application_type": {"value": "web"},
+      "contacts": {"value":["ops@example.org"],
+      "jwks_uri": {
+        "value":"https://rp.eree.example.org/static/jwks.json"},
+      "redirect_uris": {"value":[
         "https://rp.eree.example.org/authz_cb"
-      ],
-      "response_types": [
-        "code"
-      ],
-      "scope": [
+      ]},
+      "response_types": {"value": ["code"]},
+      "scope": {"value":[
         "openid",
         "profile",
         "email",
         "address",
         "phone"
-      ],
-      "token_endpoint_auth_method": "private_key_jwt"
+      ]},
+      "token_endpoint_auth_method": {
+        "value": "private_key_jwt"
     }
   },
+  "iss": "https://eree.example.org",
   "sub": "https://rp.eree.example.org"
 }
               ]]>
@@ -2644,9 +2854,8 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
         </section>
         <section title="Extracting RP Metadata">
           <t>
-            The OP does
-            <xref target="flattening-metadata">flattening</xref>
-            on the information in the trust chain and comes up with:
+            The OP applies the metadata policies on the leaf entity's
+            metadata, all from the trust chain and comes up with:
             <figure>
               <artwork>
                 <![CDATA[
@@ -2678,8 +2887,8 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
         <section title="Constructing the Registration Response">
           <t>
             Happy with the information in the client registration request the
-            OP takes the flattened metadata and creates an entity statement by
-            add *sub* and *authority_hints*:
+            OP takes the processed metadata and creates an entity statement by
+            adding *sub* and *authority_hints*:
             <figure>
               <artwork>
                 <![CDATA[
@@ -2729,7 +2938,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
         <t>
           The RP MUST collect the trust chain ending in the EPEE trust anchor
           and
-          verify the correctness of the trust chain but refrain from flattening
+          verify the correctness of the trust chain but refrain from processing
           the metadata. This since the entity statement issued by the EPEE
           federation about the UmU OP are only valid for that entity and not
           for the EPEE RP.
@@ -2742,10 +2951,10 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
         <t>
           In this example the RP decided on one specific trust anchor before
           sending the registration request. If that was not the case but the
-          RP chose to send a registration request with more than one
-          authority_hint then this is the time when then RP can flatten and
-          store the OP metadata. This since the OP MUST choose one and
-          only one authority (=trust anchor) for the registration response.
+          RP had chosen to send a registration request with more than one
+          authority_hint then this by time the RP could not apply any
+          metadata polices to the metadata statement since it would not know
+          which to use.
         </t>
       </section>
     </section>
