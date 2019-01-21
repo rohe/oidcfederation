@@ -80,7 +80,7 @@
       </address>
     </author>
 
-    <date day="9" month="January" year="2019"/>
+    <date day="19" month="January" year="2019"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -1722,20 +1722,20 @@ Host: https://example.org
   <back>
 
     <references title="Normative References">
-      <?rfc include="reference.RFC.2119"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
 
-      <?rfc include="reference.RFC.7515"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7515.xml"?>
 
-      <?rfc include="reference.RFC.5785"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5785.xml"?>
 
-      <?rfc include="reference.RFC.7517"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7517.xml"?>
 
-      <?rfc include="reference.RFC.6749"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749.xml"?>
 
-      <?rfc include="reference.RFC.8414"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8414.xml"?>
 
-      <?rfc include="reference.RFC.7591"?>
-      <?rfc include="reference.RFC.3339"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7591.xml"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"?>
 
       <reference anchor="OpenID.Core"
                  target="http://openid.net/specs/openid-connect-core-1_0.html">
