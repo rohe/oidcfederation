@@ -12,7 +12,7 @@
   document and not a private document, as the private="..." declaration could
   be taken to indicate.
 -->
-<rfc category="std" docName="openid-connect-federation-06" ipr="none">
+<rfc category="std" docName="openid-connect-federation-07" ipr="none">
   <?rfc toc="yes" ?>
 
   <?rfc tocdepth="3" ?>
@@ -173,7 +173,7 @@
               An entity defined by a certain protocol. E.g. OpenID
               Provider/Relying Party.
             </t>
-            <t hangText="Trust Anchor">
+            <t hangText="Trust Anchor" anchor="trust anchor">
               An entity that represents a trusted third party.
             </t>
             <t hangText="Trust Chain">
@@ -239,7 +239,7 @@
             </t>
 
             <t hangText="metadata">OPTIONAL. JSON object including protocol
-              specific metadata claims that represent the leaf entities.
+              specific metadata claims that represent the issuers metadata.
               The keys of the JSON object represent the metadata type
               identifier, and their value MUST be a JSON object representing
               the metadata according to the metadata schema of that metadata
@@ -247,9 +247,16 @@
               metadata statements, but only one for each metadata type.
             </t>
             <t hangText="metadata_policy">OPTIONAL. JSON object that describes
-              a policy that MUST be applied to a leaf entity's metadata.
-              An entity statement may contain multiple
-              metadata policy statements, but only one for each metadata type.
+              a metadata policy.
+              The keys of the JSON object are the metadata type
+              identifier, and their value MUST be a JSON object representing
+              the metadata according to the metadata schema of that metadata
+              type. An entity statement may contain multiple
+              metadata statements, but only one for each metadata type.
+              If the metadata type identifier is
+              <spanx style="verb">federation_entity</spanx> then the policy
+              MUST be applied to the immediate subordinate in the trust chain
+              unless that is a leaf entity.
             </t>
             <t hangText="sub_is_leaf">OPTIONAL. Boolean value that indicates
               whether the subject is considered a leaf entity. A leaf entity is
@@ -314,13 +321,6 @@
         </figure>
       </section>
 
-      <section title="Trust anchor">
-        <t>A trust anchor is an entity trusted by a number of other entities
-          to issue correct statements. Why they choose to trust this entity is
-          out
-          of scope for this document.
-        </t>
-      </section>
       <section title="Trust chain" anchor="trust_chain">
         <t>
           In an OIDC Identity Federation, entities that together build a
@@ -336,8 +336,9 @@
           A trust chain begins with a leaf entity's self-signed entity
           statement, has zero or more entity statements
           issued by intermediates about subordinates, and ends with an
-          entity statement about the trust anchor (in the case with zero
-          intermediates) or an intermediate issued by the trust anchor
+          entity statement issued by the trust anchor about the top-most
+          intermediate (if there are intermediates) or the leaf entity
+          (if there are no intermediates)
           and finally a self-signed entity statement about the trust anchor.
         </t>
         <t>A simple example: If we have an RP that belongs to organisation A
@@ -372,7 +373,8 @@
               ES[j]['iss'] == ES[j+1]['sub'], j=0,...,i-1
             </t>
             <t>
-              There MUST always be a signing key carried in the jwks claim in
+              There MUST always be a signing key carried in the
+              <spanx style="verb">jwks</spanx> claim in
               ES[j] that can be used to verify the signature of ES[j-1],
               j=i,...,1 .
             </t>
@@ -414,16 +416,6 @@
 
         <t>To that list is added:
           <list style="hanging">
-            <t hangText="allowed_scopes"><vspace/>RECOMMENDED. JSON array
-              containing a list of the
-              <xref target="RFC6749">RFC6749</xref>
-              scope values that a RP may ask for.
-            </t>
-
-            <t hangText="allowed_claims"><vspace/>RECOMMENDED. JSON array
-              containing a list of the Claim Names of the Claims that an RP may
-              ask for.
-            </t>
             <t hangText="organization_name"><vspace/>OPTIONAL. A human readable
               name representing the organization owning the RP.
             </t>
@@ -494,13 +486,17 @@
         <t>The metadata type identifier is
           <spanx style="verb">federation_entity</spanx>.
         </t>
+        <t>Intermediates in a trust chain are of this type</t>
+        <t>
+          Note that the information carried here is not bound to any
+          specific protocol but of a general nature.
+        </t>
         <t>
           The following properties are allowed:
           <list style="hanging">
             <t hangText="name">OPTIONAL. String. The human readable name
               describing the subject entity. This may be, for example, the
-              name
-              of an organization.
+              name of an organization.
             </t>
 
             <t hangText="contacts">OPTIONAL. JSON array with one or more
@@ -553,7 +549,7 @@
   "response_types": ["code", "code id_token token", "code id_token"]
 ]]></artwork>
               </figure>
-              will result in the statement:
+              will update the claim in the metadata statement to be:
 
               <figure>
                 <artwork><![CDATA[
@@ -578,7 +574,7 @@
   "request_object_signing_alg": "ES384"
 ]]></artwork>
               </figure>
-              the result will be:
+              the resulting claim statement will be:
 
               <figure>
                 <artwork><![CDATA[
@@ -589,7 +585,8 @@
             <t hangText="add">
               <vspace/>
               Disregarding what value the claim had, the
-              value specified here will be added to the metadata statement.
+              value specified here will be added to the claim in the
+              metadata statement.
               As an example, if the Claim policy:
               <figure>
                 <artwork><![CDATA[
@@ -598,13 +595,13 @@
 ]]></artwork>
               </figure>
 
-              is applied to the metadata statement
+              is applied to the following claim in the metadata statement:
               <figure>
                 <artwork><![CDATA[
   "contacts": "support@org.example.com"
 ]]></artwork>
               </figure>
-              the result will be:
+              the end result will be the claim:
 
               <figure>
                 <artwork><![CDATA[
@@ -661,6 +658,15 @@
   "require_auth_time": false
               ]]></artwork>
               </figure>
+              if on the other hand the metadata statement did not contain a
+              <spanx style="verb">require_auth_time</spanx> claim then the
+              following claim statement would be added to the metadata
+              statement:
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": true
+              ]]></artwork>
+              </figure>
             </t>
             <t hangText="regexp">
               <vspace/>
@@ -701,13 +707,14 @@
     "essential": true}
 ]]></artwork>
               </figure>
-              Means that applying the policies to a metadata statement MUST
-              result in this claim having a value.
+              The upshot of applying this policies to a metadata statement
+              is that the metadata statement MUST contain such a claim
+              otherwise the metadata statement is incorrect.
             </t>
           </list>
         </t>
       </section>
-      <section title="Policy combinations">
+      <section title="Policy Type Combinations">
         <t>
           Some policy types can be combined with others.
           <list style="hanging">
@@ -719,8 +726,8 @@
             <t hangText="essential">
               <vspace/>
               Can be combined with all the others. If
-              *essential* is not present the interpretation is that
-              essential=true.
+              <spanx style="verb">essential</spanx> is not present that is
+              the same as stating essential=true.
             </t>
           </list>
         </t>
@@ -730,6 +737,13 @@
           If there are more then one metadata policy in a trust chain then
           the policies MUST be combined before they are applied to the
           metadata statement.
+        </t>
+        <t>Using the notation we have previously defined metadata policies
+          are combined starting with ES[i] and then adding the policies from
+          ES[j] j=i-1,..,1 before applying the combined policy to the entity's
+          metadata
+        </t>
+        <t>
           These are the policy types that can be combined when combining 2
           policies:
           <list style="hanging">
@@ -749,8 +763,72 @@
               values.
             </t>
           </list>
-          All the other policy types can NOT be combined.
+          All the other policy types can NOT be combined. Which means that
+          whatever a superior specifies are what goes.
         </t>
+        <section title="Polciy combination example">
+          <t>
+            <figure>
+              <preamble>A federations policy for RPs</preamble>
+              <artwork><![CDATA[
+{
+  "scopes": {
+    "subset_of": ["openid", "eduperson", "phone"],
+    "default": ["openid", "eduperson"]},
+  "id_token_signed_response_alg": {
+    "one_of": ["ES256", "ES384", "ES512"],
+    "default": "ES256"},
+  "contacts: {
+    "add": "helpdesk@federation.example.org"},
+   "application_type": {
+    "value": "web"}
+}
+              ]]></artwork>
+          </figure>
+            <figure>
+              <preamble>An organisations policy for RPs</preamble>
+              <artwork><![CDATA[
+{
+  "scopes": {
+    "subset_of": ["openid", "eduperson", "address"],
+    "default": ["openid", "eduperson"]},
+  "id_token_signed_response_alg": {
+    "one_of": ["ES256", "ES384"],
+    "default": "ES256"},
+  "contacts: {
+    "add": "helpdesk@org.example.org"},
+  "application_type": {
+    "one_of": ["web", "native"]}
+}
+              ]]></artwork>
+          </figure>
+            The combined metadata policy then becomes:
+            <figure>
+              <artwork><![CDATA[
+{
+  "scopes": {
+    "subset_of": ["openid", "eduperson"],
+    "default": ["openid", "eduperson"]},
+  "id_token_signed_response_alg": {
+    "one_of": ["ES256", "ES384"],
+    "default": "ES256"},
+  "contacts: {
+    "add": ["helpdesk@federation.example.org"],
+            "helpdesk@org.example.org"]},
+  "application_type": {
+    "value": "web"}
+}
+              ]]></artwork>
+          </figure>
+
+          </t>
+          <t>
+            If after combining a *default* value for a claim policy is not a
+            subset of a <spanx style="verb">subset_of</spanx> or an
+            <spanx style="verb">one_of</spanx> defined for that claim, then an
+            error MUST be raised and the trust chain NOT used.
+          </t>
+        </section>
       </section>
       <section title="Enforcing Policy">
         <t>
@@ -763,7 +841,8 @@
       <section title="Extending the policy language">
         <t>
           There might be parties that wants to extend the policy language
-          defined here, therefor if software compliant with this specification
+          defined here. If that happens then the rule is that if
+          software compliant with this specification
           encounters a key word it doesn't understand it MUST refuse to apply
           the policy.
         </t>
@@ -811,10 +890,9 @@
 }
             ]]></artwork>
           </figure>
-          The metadata for the entity in question, policies
-          above, would then be:
+          The metadata for the entity in question after applying the policies
+          above, would then become:
           <figure>
-            <preamble>sum(ms[n]), (n=0...2)</preamble>
 
             <artwork><![CDATA[{
   "contacts": ["rp_admins@cs.example.com", "helpdesk@example.com"],
