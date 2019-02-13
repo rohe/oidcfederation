@@ -4,7 +4,4 @@
 
 A document that describes how to do a multilateral federation with OpenID Connect (OIDC).
 
-A text and HTML version is automatically generated on each commit:
-
-* [oidcfed.html](https://storage.googleapis.com/openid-connect/oidcfed.html)
-* [oidcfed.txt](https://storage.googleapis.com/openid-connect/oidcfed.txt)
+Text and HTML versions can be found in the draft directory.

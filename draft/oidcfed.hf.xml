@@ -12,7 +12,7 @@
   document and not a private document, as the private="..." declaration could
   be taken to indicate.
 -->
-<rfc category="std" docName="openid-connect-federation-06" ipr="none">
+<rfc category="std" docName="openid-connect-federation-07" ipr="none">
   <?rfc toc="yes" ?>
 
   <?rfc tocdepth="3" ?>
@@ -29,7 +29,7 @@
 
   <front>
     <title abbrev="OpenID Connect Federation">OpenID Connect Federation 1.0 -
-      draft 06
+      draft 07
     </title>
 
     <author fullname="Roland Hedberg" initials="R." role="editor"
@@ -80,30 +80,30 @@
       </address>
     </author>
 
-    <date day="3" month="December" year="2018"/>
+    <date day="19" month="January" year="2019"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
     <keyword>OIDC</keyword>
 
     <abstract>
-      <t>The OpenID Connect standard specifies how a Relying Party (RP)
+      <t>The OpenID Connect standard specifies how an Relying Party (RP)
         can discover metadata about an OpenID Provider (OP), and then
-        register to obtain relying party credentials. The discovery and
+        register to obtain RP credentials. The discovery and
         registration process does not involve any mechanisms of
         dynamically establishing trust in the exchanged information, but
-        instead rely on-out-of band trust establishment.
+        instead rely on out-of-band trust establishment.
       </t>
 
       <t>In an identity federation context, this is not sufficient. The
         participants of the federation must be able to trust information
         provided about other participants in the federation. OpenID
         Connect Federations specifies how trust can be dynamically
-        obtained from resolving trust from a common trusted third party.
+        obtained by resolving trust from a common trusted third party.
       </t>
 
       <t>While this specification is primarily targeting OpenID Connect,
-        it is designed in order to allow for re-use by other
+        it is designed to allow for re-use by other
         protocols and in other use cases.
       </t>
     </abstract>
@@ -112,45 +112,29 @@
   <middle>
     <section anchor="Introduction" title="Introduction">
       <t>This specification describes how two entities that would like to
-        interact can dynamically fetch and and resolve trust and metadata for a
-        given protocol, by the use of third party trust issuers.
+        interact can dynamically fetch and resolve trust and metadata for a
+        given protocol through the use of third party trust issuers. A trust
+        issuer is an entity whose main purpose is to issue statements
+        about entities, such as OpenID relying party and providers. An identity
+        federation can be realized using this specification by the use of one or
+        more levels of trust issuers. This specification does not mandate a
+        specific way or restrict how a federation may be built. Instead, the
+        specification provides the basic technical trust infrastructure building
+        blocks needed to build a dynamic and distributed trust network such as a
+        federation.
       </t>
 
-      <t>An identity federation can be realized using this specification by
-        the use of one or more levels of trust issuers. A trust issuer is an
-        entity, which main purpose is to issue trust statements about entities,
-        such as OpenID relying party and providers. This specification does not
-        mandates a specific way or restrict how a federation may be built.
-        Instead the specification provides the basic technical trust
-        infrastructure building blocks needed to build a dynamic and
-        distributed trust network such as a federation.
+      <t>All entities in an OpenID Connect federation MUST have a globally
+        unique identifier.
       </t>
 
-      <t>An entity will typically configure a local trust root to include the
-        identifier and the certificate of a trusted third party &ndash; the
-        federation. All entities involved in OpenID Connect Federation,
-        including the trust issuers, will have their own unique identifier. This
-        identifier is used to dynamically fetch entity statements. As a complete
-        chain of entity statements is obtained, connecting the local trust root
-        to the target entity, the entity may resolve the resulting trusted
-        metadata, by flattening the metadata found in the trust chain.
-      </t>
-
-      <t>Note that a real-world entity like an organisation, a company may be
+      <t>Note that a company, as with any real-world organization, may be
         represented by more than one entity in a federation.
       </t>
 
-      <t>The OpenID Connect Federation trust chains are relying on
+      <t>OpenID Connect Federation trust chains rely on
         cryptographically signed JWT documents, and the trust chain does not at
         all rely on TLS in order to establish trust.
-      </t>
-
-      <t>OpenID Connect Federation may very well be used for other purposes
-        than building traditional identity federations. One of them could be to
-        build an OpenID Connect deployment where the key rollover process does
-        not fall back to TLS. Another could be allowing traditionally
-        public/native clients, such as medical devices, to generate its own key
-        pair, and use asymmetric crypto to increase the overall security.
       </t>
 
       <section title="Requirements Language">
@@ -160,143 +144,157 @@
                   target="RFC2119">RFC 2119</xref>.
         </t>
       </section>
+      <section title="Terminology">
+        <t>
+          This specification uses the terms
+          "Claim Name", "Claim Value", "JSON Web Token (JWT)",
+          defined by <xref target="RFC7517">JSON Web Token (JWT)</xref>, the
+          terms "OpenID Provider (OP)" and "Relying Party (RP)" by
+          <xref target="OpenID.Core">OIDC core</xref>
+        </t>
+        <t>
+          This specification also defines the following terms:
+          <list style="hanging">
+            <t hangText="Entity">
+              Something that has a separate and distinct existence and that can
+              be identified in a context.
+            </t>
+            <t hangText="Entity statement">
+              An entity statement is
+              issued by an entity, and concerns a subject entity and leaf
+              entities. An entity statement is always a signed JWT.
+            </t>
+            <t hangText="Intermediate entity">
+              A entity that issues
+              an entity statement that appears somewhere in between those
+              issued by the trust anchor and the leaf entity in a trust chain.
+            </t>
+            <t hangText="Leaf Entity">
+              An entity defined by a certain protocol. E.g. OpenID
+              Provider/Relying Party.
+            </t>
+            <t hangText="Trust Anchor" anchor="trust anchor">
+              An entity that represents a trusted third party.
+            </t>
+            <t hangText="Trust Chain">
+              A sequence of entity statements that represents a trusted chain
+              starting at a leaf entity and ending in a trust anchor.
+            </t>
+          </list>
+        </t>
+      </section>
     </section>
+    <section title="Components" anchor="components">
+      <section anchor="entity-statement" title="Entity Statement ">
+        <t>An entity statement is
+          issued by an entity and concerns a subject entity and leaf entities
+          in a federation. An entity statement is always a signed JWT.
+          All entities in a federation MUST be prepared to publish an entity
+          statement about themselves.
+        </t>
+        <t>
+          An entity statment is composed of the following claims:
+        </t>
+        <t>
+          <list style="hanging">
+            <t hangText="iss">REQUIRED. The entity identifier of the issuer of
+              the statement. If the <spanx style="verb">iss</spanx> and
+              the <spanx style="verb">sub</spanx> are identical, the
+              issuer is making a statement about itself.
+            </t>
 
-    <section anchor="entity-statement" title="Entity Statement ">
-      <t>An entity statement is always a signed JWT. An entity statement is
-        issued by the <spanx style="verb">iss</spanx>, and the statement
-        considers the subject entity, the <spanx style="verb">sub</spanx>. To be
-        able to resolve trust and metadata, one need to know the identifier of
-        the target entity &ndash; we refer to this as the leaf entity. The leaf
-        entity will always sign a statement about itself, and give some hints to
-        other entities that may want to issue statements about itself. All other
-        entities in a trust chain we refer to as intermediate entities. The
-        local configured trust root, we refer to as the trust anchor.
-      </t>
+            <t hangText="sub">REQUIRED. The entity identifier of the subject</t>
 
-      <t>
-        <list style="hanging">
-          <t hangText="iss">REQUIRED. The entity identifier of the entity that
-            issues the statement. If the iss and the sub are identical, the
-            issuer is making a statement about itself.
-          </t>
+            <t hangText="iat">REQUIRED. The time the statement was issued.
+              Its value is a JSON number representing the number of seconds from
+              1970-01-01T0:0:0Z as measured in UTC until the date/time.
+              See <xref target="RFC3339">RFC 3339</xref> for
+              details regarding date/times in general and UTC in particular.
+            </t>
 
-          <t hangText="sub">REQUIRED. The entity identifier of the subject</t>
+            <t hangText="exp">REQUIRED.
+              Expiration time on or after which the statement MUST NOT be
+              accepted for processing. Its value is a JSON number representing
+              the number of seconds from 1970-01-01T0:0:0Z as measured in UTC
+              until the date/time.
+            </t>
 
-          <t hangText="iat">REQUIRED. The time the statement was issued.</t>
+            <t hangText="jwks">REQUIRED. A <xref target="RFC7517">JSON Web Key
+              Set (JWKS)
+            </xref> representing the public part of the subject
+              entity's signing keys. The corresponding private key is
+              used by leaf entities to sign entity statements about themselves,
+              and intermediate entities to sign statements about other entities.
+              The keys that can be found here are primarily intended to sign
+              entity statements, and should not be used in other protocols.
+            </t>
 
-          <t hangText="exp">REQUIRED. The time the signed statement
-            expires.
-          </t>
+            <t hangText="authority_hints">OPTIONAL. A JSON object where the keys
+              are the entity id's of the intermediate entities that may issue an
+              entity statement about the issuer entity. The value MUST be a
+              JSON array of entities that are further up in the trust chain.
+              The array may be an empty list.
+              The JSON array can be used to simplify the selection of trust
+              chains without the need for following all possible trust chains.
+            </t>
 
-          <t hangText="jwks">REQUIRED. A <xref target="RFC7517">JSON Web Key
-            Set (JWKS)
-          </xref> representing the public part of the subject
-            entity's signing keys.<vspace blankLines="1"/>These keys are used to
-            verify the identity of the subject. A corresponding private key is
-            used by the leaf entity to sign an entity statement about itself,
-            and intermediate entities to sign statements about other entities.
-            The keys that can be found here are primarily intended to sign
-            entity
-            statements, and can not be used in other protocols, unless the
-            metadata type specification explicitly states how the keys can be
-            used. In OpenID Connect, the jwks keys cannot be used within the
-            Authorization/AccessToken/RefreshToken/UserInfo requests and
-            responses. Instead OpenID Connect specific metadata includes claims
-            for this purpose.
-          </t>
+            <t hangText="metadata">OPTIONAL. JSON object including protocol
+              specific metadata claims that represent the issuers metadata.
+              The keys of the JSON object represent the metadata type
+              identifier, and their value MUST be a JSON object representing
+              the metadata according to the metadata schema of that metadata
+              type. An entity statement may contain multiple
+              metadata statements, but only one for each metadata type.
+            </t>
+            <t hangText="metadata_policy">OPTIONAL. JSON object that describes
+              a metadata policy.
+              The keys of the JSON object are the metadata type
+              identifier, and their value MUST be a JSON object representing
+              the metadata according to the metadata schema of that metadata
+              type. An entity statement may contain multiple
+              metadata statements, but only one for each metadata type.
+              If the metadata type identifier is
+              <spanx style="verb">federation_entity</spanx> then the policy
+              MUST be applied to the immediate subordinate in the trust chain
+              unless that is a leaf entity.
+            </t>
+            <t hangText="sub_is_leaf">OPTIONAL. Boolean value that indicates
+              whether the subject is considered a leaf entity. A leaf entity is
+              not trusted to issue policy statements about other entities. If
+              this property is left out, it is considered to be
+              <spanx style="verb">false</spanx>.
+            </t>
+          </list>
+        </t>
 
-          <t hangText="authority_hints">OPTIONAL. A JSON object where the keys
-            are the entity id's of the intermediate entities that may issue an
-            entity statement
-            about the issuer entity. The value MUST be a JSON array of entities
-            that is further up in the trust chain. The array may be an empty
-            list. The JSON array can be used to simplify the selection of trust
-            chains without the need for following all possible trust chains.
-          </t>
+        <t>The entity statement is signed using the private key of the issuer
+          entity, in the form of a <xref target="RFC7515">JSON Web Signature
+            (JWS)</xref>.
+        </t>
 
-          <t hangText="metadata">REQUIRED. JSON object including protocol
-            specific metadata claims that represent the leaf node. To resolve
-            the resulting metadata for a leaf node, the compound metadata
-            documents included in the trust chain are merged by the <xref
-                    target="flattening-metadata">metadata flattening
-              process</xref>.
-            The
-            keys of the JSON object represent the metadata type identifier, and
-            their value MUST be a JSON object representing the metadata
-            according
-            to the metadata schema of that metadata type. To allow for the leaf
-            node to resolve a specific metadata type, all intermediate entities
-            in the trust chain MUST contain a metadata document for this
-            specific type. See <xref target="metadata">section about
-              metadata</xref>. An entity statement may contain multiple metadata
-            statements, but only one for each metadata type.
-          </t>
+        <figure>
+          <preamble>Non-normative example of a entity statement, before
+            serialization and adding a signature.
+          </preamble>
 
-          <t hangText="sub_is_leaf">OPTIONAL. Boolean value that indicates
-            whether the subject is considered a leaf node. A leaf node is not
-            trusted to issue statements about other entities then itself. If
-            this property is left out, it is considered to be <spanx
-                    style="verb">false</spanx>.
-          </t>
-
-          <t hangText="sub_meta">OPTIONAL. If present, an JSON object
-            containing one or more of the properties listed below. This is
-            metadata describing the subject of this entity statement. The
-            metadata included in the metadata claim is always referring to the
-            leaf nodes, while the metadata in sub_meta refers to the immediate
-            subject, which may be an intermediate trust issuer.
-            <vspace
-                    blankLines="1"/>
-            <list style="hanging">
-              <t hangText="name">OPTIONAL. String. The human readable name
-                describing the subject entity. This may be, for example, the
-                name
-                of an organization.
-              </t>
-
-              <t hangText="contacts">OPTIONAL. JSON array with one or more
-                strings. Contact persons at the entity.
-              </t>
-
-              <t hangText="policy_url">OPTIONAL. URL to documentation of
-                conditions and policies relevant to this entity
-              </t>
-
-              <t hangText="homepage_url">OPTIONAL. URL to a generic home page
-                representing this entity.
-              </t>
-            </list>
-          </t>
-        </list>
-      </t>
-
-      <t>The entity statement is signed using the private key of the issuer
-        entity, in the form of a <xref target="RFC7515">JSON Web Signature
-          (JWS)</xref>.
-      </t>
-
-      <figure>
-        <preamble>Non-normative example of a entity statement, before
-          serialization and adding a signature.
-        </preamble>
-
-        <artwork><![CDATA[{
+          <artwork><![CDATA[{
   "iss": "https://feide.no",
   "sub": "https://ntnu.no",
   "iat": 1516239022,
   "exp": 1516298022,
-  "metadata": {
+  "metadata_policy": {
     "openid_provider": {
-      "issuer": "https://ntnu.no",
-      "organization": "NTNU",
-      "id_token_signing_alg_values_supported": ["RS256", "RS384",
-                                                "RS512"]
+      "issuer": {"value": "https://ntnu.no"},
+      "organization_name": {"value": "NTNU"},
+      "id_token_signing_alg_values_supported":
+        {"subset_of": ["RS256", "RS384", "RS512"]}
     },
     "openid_client": {
-      "organization": "NTNU",
-      "grant_types_supported": ["authorization_code", "implicit"],
-      "scopes": ["openid", "profile", "email", "phone"]
+      "organization_name": {"value": "NTNU"},
+      "grant_types_supported": {
+        "subset_of": ["authorization_code", "implicit"]},
+      "scopes": {
+        "subset_of": ["openid", "profile", "email", "phone"]}
     }
   },
   "jwks": {
@@ -314,35 +312,81 @@
     ]
   },
   "authority_hints": {
-    "https://edugain.org/federation": []
+    "https://edugain.org/federation": [
+      "https://edugain.org/federation"
+    ]
   }
 }]]></artwork>
 
-        <postamble>(postamble)</postamble>
-      </figure>
+        </figure>
+      </section>
 
-      <section title="The trust anchor">
-        <t>In order to configure trust when deploying a software component, it
-          is recommended to align that configuration with the semantics of an
-          entity statement. How the configuration is stored and the exact format
-          is out of the scope of this specification, but it is recommended to
-          allow the user to configure a list of entries containing <spanx
-                  style="verb">sub</spanx>, <spanx style="verb">jwks
-          </spanx> and <spanx
-                  style="verb">metadata</spanx>. When the compound metadata from
-          the
-          trust chain is resolved, metadata from the local trust root can be
-          applied in the <xref target="flattening-metadata">metadata flattening
-            process</xref>. This allows the configuration of a provider to put
-          trust limitations applied to all metadata resolved for the various
-          trust roots. For example, a provider may trust a large federation with
-          a metadata limitation of only releasing the name and userid, and no
-          other scopes or claims. The provider may add other trust roots with a
-          more limited target group to allow for more scopes and claims.
+      <section title="Trust chain" anchor="trust_chain">
+        <t>
+          In an OIDC Identity Federation, entities that together build a
+          trust chain can be categorized as:
+          <list style="hanging">
+            <t hangText="Trust anchor">An entity that represents a trusted
+              third party
+            </t>
+            <t hangText="Leaf">In an OIDC Identity federation an RP or an OP
+            </t>
+            <t hangText="Intermediate">Neither a leaf nor a trust anchor</t>
+          </list>
+          A trust chain begins with a leaf entity's self-signed entity
+          statement, has zero or more entity statements
+          issued by intermediates about subordinates, and ends with an
+          entity statement issued by the trust anchor about the top-most
+          intermediate (if there are intermediates) or the leaf entity
+          (if there are no intermediates)
+          and finally a self-signed entity statement about the trust anchor.
+        </t>
+        <t>A simple example: If we have an RP that belongs to organisation A
+          who is a member of federation F, the trust chain for such a setup
+          will contain the following entity statements:
+          <list style="numbers">
+            <t>
+              A self-signed entity statement about the RP published by the RP
+            </t>
+            <t>
+              An entity statement about the RP published by Organisation A
+            </t>
+            <t>
+              An entity statement about Organisation A published by Federation
+              F
+            </t>
+            <t>
+              A self-signed entity statement about Federation F published
+              by Federation F.
+            </t>
+          </list>
+        </t>
+        <t>
+          A trust chain MUST always be possible to order such that:
+          If we name the entity statements ES[0] (the leaf entity's
+          self-signed entity statement) to ES[i] (the trust anchors
+          self-signed entity statement), i>0 then:
+          <list style="symbols">
+            <t>
+              The *iss* entity in one entity statement is always the *sub*
+              entity in the next.
+              ES[j]['iss'] == ES[j+1]['sub'], j=0,...,i-1
+            </t>
+            <t>
+              There MUST always be a signing key carried in the
+              <spanx style="verb">jwks</spanx> claim in
+              ES[j] that can be used to verify the signature of ES[j-1],
+              j=i,...,1 .
+            </t>
+          </list>
+        </t>
+        <t>
+          The signing key that MUST be used to verify ES[i] is distributed
+          from the trust anchors to the leaf entities in
+          some secure out-of-band's way not described in this document.
         </t>
       </section>
     </section>
-
     <section anchor="metadata" title="Metadata">
       <t>The OpenID Connect Federations specification does allow new metadata
         types to be defined, to support use cases outside OpenID Connect. The
@@ -359,8 +403,7 @@
         with additional properties relevant in a federated context.
       </t>
 
-      <section title="OpenID Connect Relying Party Metadata"
-               anchor="RP_metadata">
+      <section title="RP Metadata" anchor="RP_metadata">
         <t>The metadata type identifier is <spanx style="verb">
           openid_client</spanx>.
         </t>
@@ -373,22 +416,15 @@
 
         <t>To that list is added:
           <list style="hanging">
-            <t hangText="allowed_scopes"><vspace/>RECOMMENDED. JSON array
-              containing a list of the
-              <xref target="RFC6749">RFC6749</xref>
-              scope values that a relying party may ask for.
-            </t>
-
-            <t hangText="allowed_claims"><vspace/>RECOMMENDED. JSON array
-              containing a list of the Claim Names of the Claims that a OpenID
-              RP may ask for.
+            <t hangText="organization_name"><vspace/>OPTIONAL. A human readable
+              name representing the organization owning the RP.
             </t>
           </list>
         </t>
       </section>
 
-      <section title="OpenID Connect Provider Metadata" anchor="OP_metadata">
-        <t>The metadata type identifier is an <spanx style="verb">
+      <section title="OP Metadata" anchor="OP_metadata">
+        <t>The metadata type identifier is <spanx style="verb">
           openid_provider</spanx>.
         </t>
 
@@ -401,16 +437,16 @@
 
         <t>
           <list style="hanging">
-            <t hangText="organizationName"><vspace/>OPTIONAL. A human readable
-              name representing the organization owning the OpenID Provider. It
-              is intended to be used in the user interface, being recognized by
-              the end users that would be using the provider to
-              authenticate.
+            <t hangText="organization_name"><vspace/>OPTIONAL. A human readable
+              name representing the organization owning the OP. It is
+              intended to be used in the user interface, being recognized by
+              the end users that would be using the OP to authenticate.
             </t>
             <t hangText="federation_registration_endpoint">OPTIONAL.
               URL of the OP's Federation specific Dynamic Client Registration
-              Endpoint. If the OpenID Provider supports explicit client
-              registration this claim is REQUIRED.
+              Endpoint. If the OP supports explicit client
+              registration as described in <xref target="explicit">explicit
+                registration</xref>, then this claim is REQUIRED.
             </t>
           </list>
         </t>
@@ -424,28 +460,458 @@
 
       <section title="OAuth Authorization Server">
         <t>The metadata type identifier is
-          <spanx style="verb">oauth_as</spanx>.
+          <spanx style="verb">oauth_service</spanx>.
         </t>
+        <t>All parameters defined in section 2 of
+          <xref target="RFC8414">RFC 8414</xref>
+        </t>
+
       </section>
 
       <section title="OAuth Client">
         <t>The metadata type identifier is <spanx style="verb">
           oauth_client</spanx>.
         </t>
+        <t>All parameters defined in section 2 of
+          <xref target="RFC7591">RFC 7591</xref>
+        </t>
       </section>
 
       <section title="OAuth Protected Resources">
         <t>The metadata type identifier is
-          <spanx style="verb">oauth_api</spanx>.
+          <spanx style="verb">oauth_resource</spanx>.
+        </t>
+      </section>
+      <section title="Federation Entity">
+        <t>The metadata type identifier is
+          <spanx style="verb">federation_entity</spanx>.
+        </t>
+        <t>Intermediates in a trust chain are of this type</t>
+        <t>
+          Note that the information carried here is not bound to any
+          specific protocol but of a general nature.
+        </t>
+        <t>
+          The following properties are allowed:
+          <list style="hanging">
+            <t hangText="name">OPTIONAL. String. The human readable name
+              describing the subject entity. This may be, for example, the
+              name of an organization.
+            </t>
+
+            <t hangText="contacts">OPTIONAL. JSON array with one or more
+              strings. Contact persons at the entity.
+            </t>
+
+            <t hangText="policy_url">OPTIONAL. URL to documentation of
+              conditions and policies relevant to this entity
+            </t>
+
+            <t hangText="homepage_url">OPTIONAL. URL to a generic home page
+              representing this entity.
+            </t>
+          </list>
         </t>
       </section>
     </section>
+    <section title="Applying policy to metadata">
+      <t>The metadata for a specific entity can be constructed by starting
+        with the information in leaf entity's entity statement and then
+        applying the polices defined by the trust anchor and possible
+        intermediates starting with the trust anchor.
+      </t>
+      <section title="Policy language">
+        <t>
+          Policies are expressed using a JSON object.
+        </t>
+        <t>
+          There are a number of keywords defined that represents different
+          actions/checks that MUST be applied to the metadata.
+        </t>
+        <t>
+          These keywords are:
+          <list style="hanging">
+            <t hangText="subset_of">
+              <vspace/>
+              The resulting value of the claim will be the intersection of the
+              values specified here and the values of the claim. For
+              instance, the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "response_types": {
+    "subset_of": ["code", "code token", "code id_token"]}
+]]></artwork>
+              </figure>
 
+              if applied to a metadata statement with:
+              <figure>
+                <artwork><![CDATA[
+  "response_types": ["code", "code id_token token", "code id_token"]
+]]></artwork>
+              </figure>
+              will update the claim in the metadata statement to be:
+
+              <figure>
+                <artwork><![CDATA[
+  "response_types": ["code", "code id_token"]
+]]></artwork>
+              </figure>
+            </t>
+            <t hangText="one_of">
+              <vspace/>
+              The value of the claim MUST be one of the ones listed here.
+              As an example, if the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "request_object_signing_alg": {
+    "one_of": ["ES256", "ES384", "ES512"]}
+]]></artwork>
+              </figure>
+
+              is applied to the metadata statement
+              <figure>
+                <artwork><![CDATA[
+  "request_object_signing_alg": "ES384"
+]]></artwork>
+              </figure>
+              the resulting claim statement will be:
+
+              <figure>
+                <artwork><![CDATA[
+  "request_object_signing_alg": "ES384"
+]]></artwork>
+              </figure>
+            </t>
+            <t hangText="add">
+              <vspace/>
+              Disregarding what value the claim had, the
+              value specified here will be added to the claim in the
+              metadata statement.
+              As an example, if the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "contacts": {
+    "add": "support@federation.example.com"}
+]]></artwork>
+              </figure>
+
+              is applied to the following claim in the metadata statement:
+              <figure>
+                <artwork><![CDATA[
+  "contacts": "support@org.example.com"
+]]></artwork>
+              </figure>
+              the end result will be the claim:
+
+              <figure>
+                <artwork><![CDATA[
+  "contacts": ["support@org.example.com",
+               "support@federation.example.com"]
+]]></artwork>
+              </figure>
+
+            </t>
+            <t hangText="value">
+              <vspace/>
+              Disregarding what value the claim had,
+              if any, the claims value will be set to what is specified here.
+              As an example, if the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": {
+    "value": true}
+]]></artwork>
+              </figure>
+
+              is applied to a metadata statement with no such claim
+              the result will be that the metadata statement after apply the
+              policy contains the claim:
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": true
+              ]]></artwork>
+              </figure>
+            </t>
+            <t hangText="default">
+              <vspace/>
+              If no value is assigned to this claim then the claims value
+              will be set to what is specified here.
+              As an example, if the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": {
+    "default": true }
+]]></artwork>
+              </figure>
+
+              is applied to a metadata statement with the claim
+
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": false
+]]></artwork>
+              </figure>
+
+              then the metadata statement will afterwards contain:
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": false
+              ]]></artwork>
+              </figure>
+              if on the other hand the metadata statement did not contain a
+              <spanx style="verb">require_auth_time</spanx> claim then the
+              following claim statement would be added to the metadata
+              statement:
+              <figure>
+                <artwork><![CDATA[
+  "require_auth_time": true
+              ]]></artwork>
+              </figure>
+            </t>
+            <t hangText="regexp">
+              <vspace/>
+              Matches the claim value against a regular expression.
+              If the value does not match it will be removed.
+              The variant of regular expression used is POSIX BRE.
+              As an example, if the Claim policy:
+              <figure>
+                <artwork><![CDATA[
+  "op_policy_uri": {
+    "regexp": "^https:\/\/[\w-]+\.example\.com\/[\w-]+\.html"
+]]></artwork>
+              </figure>
+
+              is applied to a metadata statement with the claim
+
+              <figure>
+                <artwork><![CDATA[
+  "op_policy_uri": "https://foo.example.com/policy.html"
+              ]]></artwork>
+              </figure>
+
+              the metadata statement will afterwards still contain the claim
+              because the value matched the regular expression:
+              <figure>
+                <artwork><![CDATA[
+  "op_policy_uri": "https://foo.example.com/policy.html"
+              ]]></artwork>
+              </figure>
+            </t>
+            <t hangText="essential">
+              <vspace/>
+              If 'true' then claim MUST have a value. *essential* can be
+              combined with all the other types.
+              <figure>
+                <artwork><![CDATA[
+  "tos_uri": {
+    "essential": true}
+]]></artwork>
+              </figure>
+              The upshot of applying this policies to a metadata statement
+              is that the metadata statement MUST contain such a claim
+              otherwise the metadata statement is incorrect.
+            </t>
+          </list>
+        </t>
+      </section>
+      <section title="Policy Type Combinations">
+        <t>
+          Some policy types can be combined with others.
+          <list style="hanging">
+            <t hangText="default">
+              <vspace/>
+              Can be combined with *one_of*, *reg_exp* and
+              *subset_of*.
+            </t>
+            <t hangText="essential">
+              <vspace/>
+              Can be combined with all the others. If
+              <spanx style="verb">essential</spanx> is not present that is
+              the same as stating essential=true.
+            </t>
+          </list>
+        </t>
+      </section>
+      <section title="Combining Policies">
+        <t>
+          If there are more then one metadata policy in a trust chain then
+          the policies MUST be combined before they are applied to the
+          metadata statement.
+        </t>
+        <t>Using the notation we have previously defined metadata policies
+          are combined starting with ES[i] and then adding the policies from
+          ES[j] j=i-1,..,1 before applying the combined policy to the entity's
+          metadata
+        </t>
+        <t>
+          These are the policy types that can be combined when combining 2
+          policies:
+          <list style="hanging">
+            <t hangText="set_of">
+              <vspace/>
+              The result of combining 2 *set_of* policies is the intersection of
+              the values.
+            </t>
+            <t hangText="one_of">
+              <vspace/>
+              The result of combining 2 *one_of* policies is the intersection of
+              the values.
+            </t>
+            <t hangText="add">
+              <vspace/>
+              The result of combining 2 *add* policies is the union of the
+              values.
+            </t>
+          </list>
+          All the other policy types can NOT be combined. Which means that
+          whatever a superior specifies are what goes.
+        </t>
+        <section title="Polciy combination example">
+          <t>
+            <figure>
+              <preamble>A federations policy for RPs</preamble>
+              <artwork><![CDATA[
+{
+  "scopes": {
+    "subset_of": ["openid", "eduperson", "phone"],
+    "default": ["openid", "eduperson"]},
+  "id_token_signed_response_alg": {
+    "one_of": ["ES256", "ES384", "ES512"],
+    "default": "ES256"},
+  "contacts: {
+    "add": "helpdesk@federation.example.org"},
+   "application_type": {
+    "value": "web"}
+}
+              ]]></artwork>
+          </figure>
+            <figure>
+              <preamble>An organisations policy for RPs</preamble>
+              <artwork><![CDATA[
+{
+  "scopes": {
+    "subset_of": ["openid", "eduperson", "address"],
+    "default": ["openid", "eduperson"]},
+  "id_token_signed_response_alg": {
+    "one_of": ["ES256", "ES384"],
+    "default": "ES256"},
+  "contacts: {
+    "add": "helpdesk@org.example.org"},
+  "application_type": {
+    "one_of": ["web", "native"]}
+}
+              ]]></artwork>
+          </figure>
+            The combined metadata policy then becomes:
+            <figure>
+              <artwork><![CDATA[
+{
+  "scopes": {
+    "subset_of": ["openid", "eduperson"],
+    "default": ["openid", "eduperson"]},
+  "id_token_signed_response_alg": {
+    "one_of": ["ES256", "ES384"],
+    "default": "ES256"},
+  "contacts: {
+    "add": ["helpdesk@federation.example.org"],
+            "helpdesk@org.example.org"]},
+  "application_type": {
+    "value": "web"}
+}
+              ]]></artwork>
+          </figure>
+
+          </t>
+          <t>
+            If after combining a *default* value for a claim policy is not a
+            subset of a <spanx style="verb">subset_of</spanx> or an
+            <spanx style="verb">one_of</spanx> defined for that claim, then an
+            error MUST be raised and the trust chain NOT used.
+          </t>
+        </section>
+      </section>
+      <section title="Enforcing Policy">
+        <t>
+          If applying a policy to a metadata statement results in some claims
+          having all their values removed and it is essential that a
+          claim has a value then such a metadata statement MUST
+          be regraded as broken and MUST NOT be used.
+        </t>
+      </section>
+      <section title="Extending the policy language">
+        <t>
+          There might be parties that wants to extend the policy language
+          defined here. If that happens then the rule is that if
+          software compliant with this specification
+          encounters a key word it doesn't understand it MUST refuse to apply
+          the policy.
+        </t>
+      </section>
+      <section title="Policy example">
+        <t>
+          The following is a non-normative example of a set of policies being
+          applied to an RP's metadata.
+          <figure>
+            <preamble>The RP's metadata</preamble>
+            <artwork><![CDATA[
+{
+  "contacts": ["rp_admins@cs.example.com"],
+  "redirect_uris": ["https://cs.example.com/rp1"],
+  "response_types: ["code"]
+}            ]]></artwork>
+          </figure>
+          <figure>
+            <preamble>The federations policy for RPs</preamble>
+
+            <artwork><![CDATA[
+{
+  "scopes": {
+    "subset_of": ["openid", "eduperson"]},
+  "response_types": {
+    "subset_of": ["code", "code id_token"]}
+}
+            ]]></artwork>
+          </figure>
+          <figure>
+            <preamble>The organisations policy for RPs</preamble>
+            <artwork><![CDATA[
+{
+  "contacts": {
+    "add": "helpdesk@example.com"},
+  "logo_uri": {
+    "one_of": ["https://example.com/logo_small.jpg",
+               "https://example.com/logo_big.jpg"],
+    "default": "https://example.com/logo_small.jpg"
+  },
+  "policy_uri": {
+    "value": "https://example.com/policy.html"},
+  "tos_uri": {
+    "value": "https://example.com/tos.html"}
+}
+            ]]></artwork>
+          </figure>
+          The metadata for the entity in question after applying the policies
+          above, would then become:
+          <figure>
+
+            <artwork><![CDATA[{
+  "contacts": ["rp_admins@cs.example.com", "helpdesk@example.com"],
+  "logo_uri": "https://example.com/logo_small.jpg",
+  "policy_uri": "https://example.com/policy.html",
+  "tos_uri": "https://example.com/tos.html"
+  "rp_scopes": ["openid", "eduperson"],
+  "response_types": ["code"],
+  "redirect_uris": ["https://cs.example.com/rp1"],
+}
+]]></artwork>
+          </figure>
+        </t>
+      </section>
+    </section>
     <section title="The Federation API">
-      <t>Given the entity identifier, the endpoint of the federation API
-        endpoint of the entity is easily derived. All entities that are expected
-        to expose entity statements about themselves or other entities, MUST
-        implement a Federation API.
+      <t>All entities that are expected
+        to publish entity statements about themselves or other entities, MUST
+        expose a Federation API endpoint.
       </t>
 
       <t>The federation API endpoint of an entity is resolved from the entity
@@ -456,40 +922,43 @@
         is taken directly from the entity identifier combined with the following
         path: <spanx style="verb">/.well-known/openid-federation</spanx>.
       </t>
-
-      <t>The Federation API is an HTTP API that may support multiple
-        operations. Fetching entities is one of the operations, and the only one
-        that all entities are REQUIRED to support. All the other operations is
-        OPTIONAL. The list of defined operations for the
-        <spanx style="verb">op</spanx>
-        parameter may be extended in a future.
+      <t>*Note* that since the path component of a entity ID is not
+        included when constructing the URL above, one API endpoint may
+        serve as the federation API endpoint for several entities.
+      </t>
+      <t>The Federation API is an HTTPS API that may support multiple
+        operations. Fetching entity statements is one of the operations, and the
+        only one
+        that all Federation API endpoints are REQUIRED to support. All the
+        other operations are OPTIONAL. The list of defined operations may be
+        extended in a future.
       </t>
 
       <t>While all operations in the specification make use of a GET request,
         other operations may choose to use other HTTP methods. If the <spanx
                 style="verb">op
-        </spanx> parameter is left out, it is considered to be a
+        </spanx> parameter is left out, it is considered
+        to be a
         fetch entity statements request. Unless otherwise mentioned or agreed
         upon, requests to the federation API does not need to be
         authenticated.
       </t>
 
-      <section title="Fetching entity statement (REQUIRED)">
-        <t>Fetching entity statement is used to collect entity statements and
-          a valid trust chain in order to establish trust with a remote
-          peer.
+      <section title="Fetching Entity Statement (REQUIRED)">
+        <t>Fetching entity statement is used to collect entity statements
+          one by one in order to gather trust chains.
         </t>
 
         <t>In order to fetch an entity statement, an entity needs to know the
-          identifier of the entity to ask, and the identifier of the entity that
-          you want the statement to be about.
+          identifier of the entity to ask (the issuer), and the identifier of
+          the entity that you want the statement to be about (the subject).
         </t>
 
         <section title="Fetch Entity Statements Request"
                  anchor="fetch_statement">
-          <t>The request MUST be an HTTP request using the GET method to a
-            resolved federation API endpoint with the following query string
-            parameters:
+          <t>The request MUST be an HTTP request using the GET method and
+            the https scheme to a resolved federation API endpoint with the
+            following query string parameters:
           </t>
 
           <t>
@@ -516,14 +985,14 @@
                 requester. The issuing entity may choose to include this
                 parameter to form the entity statement specifically for this
                 target, in which the <spanx style="verb">aud</spanx> claim also
-                should be present in the entity statement it self.
+                SHOULD be present in the entity statement self.
               </t>
             </list>
           </t>
 
           <figure>
             <preamble>The following is a non-normative example of an API
-              request for entity statement:
+              request for an entity statement:
             </preamble>
 
             <artwork><![CDATA[
@@ -532,12 +1001,11 @@ iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation HTTP/1.1
 Host: openid.sunet.se
 ]]></artwork>
 
-            <postamble>(postamble)</postamble>
           </figure>
         </section>
 
         <section title="Fetch Entity Statements Response">
-          <t>A positive response is a signed entity statements in which case
+          <t>A positive response is a signed entity statement where
             the content type MUST be set to <spanx style="verb">
               application/jose</spanx>.
             If it is negative response it will be a JSON object and the
@@ -551,7 +1019,7 @@ Host: openid.sunet.se
             <preamble>A non-normative example of a response:</preamble>
 
             <artwork><![CDATA[200 OK
-Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
+Last-Modified: Mon, 17 Dec 2018 11:15:56 GMT
 Content-Type: application/jose
 
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
@@ -562,45 +1030,42 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
         </section>
       </section>
 
-      <section title="Trust negotiation (OPTIONAL)">
+      <section title="Trust Negotiation (OPTIONAL)">
         <t>An entity may use the trust negotiation operation in order to fetch
-          a resolved metadata of it self as seen/trusted by a remote peer. The
-          remote peer will fetch the metadata and necessary trust chain to the
-          requester, and perform metadata flattening. The remote peer should
-          include it own trust root configuration when generating the resulting
-          metadata. The metadata returned should be the same as the one used in
-          the software.
+          resolved metadata about itself as seen/trusted by a remote peer.
+          The result may for instance tell an RP what operations, scopes and
+          claims an OP would allow the RP to use if a specific trust anchor
+          was used.
         </t>
 
-        <section title="Trust negotiation Request">
-          <t>Resolving metadata for a specific type of metadata, for a given
-            peer. The relying party may ask a specific provider to resolve the
-            relying party openid_client metadata with its own configured trust
-            root. The result may tell what operations, scopes and claims the
-            relying party is allowed to use.
+        <section title="Trust Negotiation Request">
+          <t>The request MUST be an HTTP request using the GET method and
+            the https scheme to a resolved federation API endpoint with the
+            following query string parameters:
           </t>
-
           <t>
             <list style="hanging">
               <t hangText="op">REQUIRED. MUST be set to <spanx style="verb">
                 resolve_metadata</spanx>.
               </t>
 
-              <t hangText="iss">REQUIRED. The entity identifier of the entity
-                who's metadata are requested. Because of the
-                normalization of the URL, multiple issuers may resolve to a
-                shared federation API. This parameter makes it explicit exactly
-                which issuer we want to interact with.
+              <t hangText="respondent">REQUIRED. The entity identifier of the
+                entity whose metadata are requested. Because of the
+                normalization of the URL, multiple entity identifiers may
+                resolve to a shared federation API. This parameter makes it
+                explicit exactly which entity is expected.
               </t>
 
               <t hangText="peer">REQUIRED. The entity identifier of the entity
-                the information is requested for.
+                the information is requested for. This must be a leaf entity.
               </t>
 
               <t hangText="type">REQUIRED. The metadata type to resolve.
-                In this document we use the metadata types,
-                <spanx style="verb">openid_client</spanx>
-                and <spanx style="verb">openid_provider</spanx>.
+                In this document we use the metadata types listed in
+                <xref target="metadata">Metadata</xref>.
+              </t>
+              <t hangText="anchor">REQUIRED. The trust anchor the remote peer
+                MUST use when resolving the metadata.
               </t>
             </list>
           </t>
@@ -613,7 +1078,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
               <artwork><![CDATA[
 GET /.well-known/openid-federation?
 op=resolve_metadata&
-iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
+respondent=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
 type=openid_provider&
 peer=https%3A%2F%2Fidp.umu.se%2Fopenid HTTP/1.1
 Host: openid.sunet.se
@@ -623,9 +1088,10 @@ Host: openid.sunet.se
           </t>
         </section>
 
-        <section title="Trust negotiation Response">
-          <t>The response is a generated flattened metadata of the type
-            specified in the request.
+        <section title="Trust Negotiation Response">
+          <t>The response is a metadata statement that is the result of
+            applying the metadata polices in the trust chain on the entity's
+            metadata.
           </t>
 
           <figure>
@@ -652,34 +1118,34 @@ Content-Type: application/json
     "urn:ietf:params:oauth:grant-type:jwt-bearer"
   ],
   "subject_types_supported": ["pairwise"],
-  "id_token_signing_alg_values_supported": ["RS256"],
-  "LoaMax": "http://swamid.se/LoA/substantial",
-  "expires": 8776635
+  "id_token_signing_alg_values_supported": ["RS256"]
 }
 ]]></artwork>
           </figure>
         </section>
       </section>
 
-      <section title="Entity listings (OPTIONAL)">
+      <section title="Entity Listings (OPTIONAL)">
         <t>An entity may query another entity for a list of all the
           entities that that entity is prepared to issue statements about.
         </t>
 
         <section title="Entity Listings Request">
-          <t>The following request parameters are allowed in the query part:</t>
-
+          <t>The request MUST be an HTTP request using the GET method and
+            the https scheme to a resolved federation API endpoint with the
+            following query string parameters:
+          </t>
           <t>
             <list style="hanging">
               <t hangText="op">REQUIRED. MUST be set to
                 <spanx style="verb">listing</spanx>.
               </t>
 
-              <t hangText="iss">REQUIRED. The entity identifier of the issuer
+              <t hangText="iss">REQUIRED. The entity identifier of the entity
                 from which an entity listing is requested. Because of the
-                normalization of the URL, multiple issuers may resolve to a
-                shared federation API. This parameter makes it explicit exactly
-                which issuer we want to interact with.
+                normalization of the URL, multiple entity identifiers may
+                resolve to a shared federation API. This parameter makes it
+                explicit exactly which entity is expected.
               </t>
 
               <t hangText="type">OPTIONAL. Provide this parameter to filter
@@ -688,18 +1154,24 @@ Content-Type: application/json
               </t>
 
               <t hangText="sub_is_leaf">OPTIONAL. If left out, result should
-                include both leaf nodes and intermediate nodes. If set to
-                <spanx style="verb">true</spanx>
-                ,
-                the response should contain only leaf nodes. If set to
+                include both leaf entities and intermediate nodes. If set to
+                <spanx style="verb">true</spanx>,
+                the response should contain only leaf entities. If set to
                 <spanx style="verb">false</spanx>, the
                 response should contain only intermediate nodes.
               </t>
 
-              <t hangText="claims">OPTIONAL. A comma separated list of claim
-                names that the requester would like to get for each entity. If
-                left out or an empty string, the response should contain an
-                empty object for each of the known entities.
+              <t hangText="metadata_claims">OPTIONAL. A comma separated list of
+                claim names that the requester would like to get values for
+                for each entity. If left out or an empty string, the response
+                should contain an empty object for each of the known entities.
+                The set of claim names that can be used are defined in
+                <xref target="metadata">metadata</xref>.
+                *Note* that while <spanx style="verb">type</spanx> and
+                <spanx style="verb">sub_is_leaf</spanx>
+                can be used to filter
+                out which entities to return this only affects what is returned
+                about each returned entity.
               </t>
             </list>
           </t>
@@ -713,8 +1185,8 @@ Content-Type: application/json
 GET /.well-known/openid-federation?
 op=listing&
 iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
-type=openid_provider&
-claims=client_name HTTP/1.1
+type=openid_client&
+metadata_claims=client_name HTTP/1.1
 Host: openid.sunet.se
 ]]></artwork>
             </figure>
@@ -752,18 +1224,14 @@ Content-Type: application/json
         </section>
       </section>
 
-      <section title="Force refreshing of entity statements">
-        <t>TBD.</t>
-      </section>
-
       <section title="Generic Error Response" anchor="error_response">
         <t>If the request was malformed, or some error occurred during
           processing of the request, the following standardized error format
           should be used regardless of the operation specified.
         </t>
-        <t>The HTTP response code MUST be something else than 200, giving an
+        <t>The HTTP response code MUST be something in 400/500-range, giving an
           indication of the type of error. The response body MUST be a JSON
-          object conatining the claims below and the content type MUST
+          object containing the claims below and the content type MUST
           be set to <spanx style="verb">application/json</spanx>.:
         </t>
 
@@ -801,8 +1269,9 @@ Content-Type: application/json
     </section>
 
     <section anchor="resolving_trust"
-             title="Resolving trust chain and metadata">
-      <t>An entity (the Consumer) that wants to establish trust with a remote
+             title="Resolving Trust Chain and Metadata">
+      <t>An entity (e.g., the Consumer) that wants to establish trust with a
+        remote
         peer, must have the remote peer's entity identifier and a list of
         entity ID's of trusted trust anchors together with the public version
         of their signing keys. The Consumer will first have to fetch
@@ -812,10 +1281,9 @@ Content-Type: application/json
         and -- if there are multiple valid trust chains and if the
         application demands it -- choose one.
       </t>
-
       <section anchor="fetching-es"
-               title="Fetching entity statements to establish a trust chain">
-        <t>Depending on the circumstances the Consumer may either be
+               title="Fetching Entity Statements to Establish a Trust Chain">
+        <t>Depending on the circumstances, the Consumer may either be
           handed the remote peer's self-issued entity statement or it may
           have to fetch it by itself. If it needs to fetch it, it will use the
           process described in <xref target="fetch_statement">Fetch Entity
@@ -825,9 +1293,11 @@ Content-Type: application/json
         </t>
 
         <t>The next step is to iterate through the list of
-          intermediates listed in authority_hints, ignoring the authority
+          intermediates listed in
+          <spanx style="verb">authority_hints</spanx>
+          , ignoring the authority
           hints that end in an unknown trust anchor, requesting an entity
-          statement about the remote peer from the intermediate.
+          statement about the remote peer from each of the intermediates.
           If the received entity statement contains an authority hint this
           process is repeated. This time with the *iss* set to the
           intermediates entity ID and the *sub* to be the *iss* of the previous
@@ -836,72 +1306,75 @@ Content-Type: application/json
           entity statements it already has fetched during this
           process (loop prevention).
         </t>
-
+        <t>Once the Consumer has found a trust anchor it wants to use it MUST
+          complete the trust chain by fetching the trust anchor's self-signed
+          entity statement.
+        </t>
         <t>A successful operation will return one or more lists of
-          entity statements. Each of the lists terminating in an entity
-          statement issued by a trusted trust anchor.
+          entity statements. Each of the lists terminating in a self-signed
+          entity statement issued by a trust anchor.
         </t>
         <t>
           If there is no path from the remote peer to at least one of the
           trusted trust anchors then the list will be empty and there is no
-          way of establishing trust in the remote peer's information.
+          way of establishing trust in the remote peer's information. How the
+          Consumer deals with this is out of scope for this specification.
         </t>
       </section>
-      <section title="Validating the trust chains"
+      <section title="Validating the Trust Chains"
                anchor="trust_chain_validation">
-        <t>A trust chain consists of an ordered list of entity statements that
-          starts with the self issued entity statement (ES[0]) of the remote
-          peer and ends with an entity statement signed by a trusted trust
-          anchor
-          (ES[i]).
+        <t>As described in
+          <xref target="trust_chain">The trust chain</xref>
+          a trust chain consists of an ordered list of entity
+          statements. So which ever way the Consumer has acquired the set of
+          entity statements it must now verify that it is a proper trust chain
+          using the rules laid out in that section.
         </t>
         <t>
-          Except for the self-signed entity statement (ES[0]) each entity
-          statement refers back to the one preceding it, such that the
-          *sub* in one entity statement (ES[j]) is the *iss* in the immediate
-          preceding (ES[j-1]).
-        </t>
-        <t>
-          A trust chain without any intermediate entities is also valid.
-        </t>
-        <t>
-          To validate the chain, the following steps are done for each entity
-          statement ES[j]
-          j=i,..,0 :
-          <list style="numbers">
+          To validate the chain, the following must be done:
+          <list style="symbols">
             <t>
-              Verify that the statement contains all the required claims.
-            </t>
-            <t>
-              If j &lt; i: Verify that the *iss* in ES[j] is the same as the
-              *sub* in ES[j+1]
-            </t>
-            <t>
-              Verify that *iat* has a value in the past
-            </t>
-            <t>
-              Verify that *exp* has value that is in the future.
-            </t>
-            <t>
-              Verify the signature
-            </t>
-            <t>
+              For each entity statement ES[j] j=i,..,0 :
               <list style="symbols">
                 <t>
-                  if j &lt; i: verify the signature using the public key carried
-                  in the *jwks* claim in ES[j+1].
+                  Verify that the statement contains all the required claims.
                 </t>
                 <t>
-                  if j == i: verify the signature with the configured public
-                  key of the trust anchor.
+                  Verify that *iat* has a value in the past
+                </t>
+                <t>
+                  Verify that *exp* has a value that is in the future.
                 </t>
               </list>
             </t>
+            <t>
+              For j=0,i verify that *iss* == *sub*.
+            </t>
+            <t>
+              For j=1,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub']
+            </t>
+            <t>
+              For j=0,...,i-1: Verify the signature of ES[j] using the public
+              key carried in ES[j+1]['jwks'].
+            </t>
+            <t>
+              For j == i: verify the signature with the configured public
+              key of the trust anchor.
+            </t>
           </list>
+        </t>
+        <t>Verifying the signature is a much more expensive
+          operation then verifying the correctness of the statement and the
+          timestamps. An implementer MAY therefor chose to not verify the
+          signature until all the other checks have been done.
+        </t>
+        <t>
+          No information in the chain of statements should be used
+          before the signature chain has been validated.
         </t>
       </section>
 
-      <section title="Choosing one of the valid trust chains">
+      <section title="Choosing One of the Valid Trust Chains">
         <t>If multiple valid trust chains are found, the Consumer will
           need to decide on which one to use.
         </t>
@@ -912,16 +1385,16 @@ Content-Type: application/json
       </section>
 
       <section anchor="trust_lifetime"
-               title="Calculating the lifetime of a trust chain">
-        <t>Each entity statement in a trust chain is signed and MUST have a
+               title="Calculating the Lifetime of a Trust Chain">
+        <t>
+          Each entity statement in a trust chain is signed and MUST have a
           expiration time (exp) set. The expiration time of the whole trust
-          chain is the expiration time that is in the future and closest in time
-          to the present time.
+          chain is set to the minimum value of exp within the chain.
         </t>
       </section>
     </section>
 
-    <section title="Updating metadata, key-rollover and revocation">
+    <section title="Updating Metadata, Key Rollover, and Revocation">
       <t>This specification allows for a smooth process of updating metadata
         and public keys.
       </t>
@@ -936,18 +1409,23 @@ Content-Type: application/json
         in the trust chain.
       </t>
 
-      <section title="Protocol key roll-over">
+      <section title="Protocol Key Rollover">
         <t>If a leaf entity publishes its public keys in the metadata part
           using *jwks* setting an expiration time on the self-signed entity
           statement can be used to control how often the remote party is
           fetching an updated version of the public key.
         </t>
+        <t>If a leaf entity uses *jwks_uri* the remote party will in the normal
+          OIDC way fetch the keys anew from the *jwks_uri* URI when it
+          discovers that the entity uses a key it has never seen before.
+        </t>
       </section>
 
-      <section title="Key rollover for a trust anchor">
+      <section title="Key Rollover for a Trust Anchor">
         <t>A trust anchor must publish a self-signed entity statement about
-          itself. Such an entity statement may be part of a trust cahin or
-          it might not.
+          itself. As described above in <xref target="trust_chain">The
+            trust chain
+          </xref> it should be at the end of the trust chain.
           The trust anchor SHOULD set a reasonable expiration
           time on that statement, such that the consumers will re-fetch the
           entity statement at reasonable intervals. If the trust root wants to
@@ -958,171 +1436,51 @@ Content-Type: application/json
               anchors signing keys.
             </t>
             <t>
-              Keep signing the entity statement using the entity statement
-              using the old keys for a long enough time period to allow all
+              Keep signing the entity statement using
+              the old keys for a long enough time period to allow all
               subordinates to have gotten access to the new keys.
             </t>
             <t>
               Switch to signing with the new keys.
             </t>
             <t>
-              After a reasonable time period remove the old keys
+              After a reasonable time period remove the old keys. What is
+              regarded as a reasonable time is dependent on the security profile
+              and risk assessment of the trust anchor.
             </t>
           </list>
         </t>
 
-        <t>It has to be taken into considerations that clients may have
-          manually configured pubic keys as part of configuration.
+        <t>It has to be taken into consideration that clients may have
+          manually configured pubic keys as part of their configuration.
         </t>
       </section>
 
       <section title="Revocation">
         <t>
-          Since we expect the consumers to check the trust chain at regular
-          reasonable frequent times we feel that we do not need to specify a
+          Since the consumers are expected to check the trust chain at regular,
+          reasonably frequent times, this specification does not specify a
           standard revocation process. Specific federations may make a
           different choice and will then have to add such a process.
         </t>
       </section>
     </section>
 
-    <section anchor="flattening-metadata"
-             title="Flattening metadata from the chain of entity statements">
-      <t>The metadata for a specific entity can be constructed by starting
-        with the information in ES[i] and then adding the information from the
-        statements ES[i-1] to ES[0] using the following rules:
-        <list style="symbols">
-          <t>
-            We define the specific metadata information in an entity statement
-            ES[j] to be called ms[j]. This would be information in
-            *metadata*/*openid_client* as specified in
-            <xref target="RP_metadata">OpenID Connect Relying Party Metadata
-            </xref>
-            and
-            <xref target="OP_metadata">OpenID Connect Provider Metadata</xref>.
-          </t>
-          <t>
-            Given the metadata statements ms[n] (n=i, ..., 0).
-            Start by assigning m_res = ms[i]
-          </t>
-          <t>
-            then for every claim in ms_j (j=i-1, ... 0):
-            <list style="symbols">
-              <t>If the claim does not appear in ms_res add it to m_res.</t>
-              <t>
-                If the claim appears in ms_res then replace the value
-                of the claim in ms_res with the value of the claim in ms[j] if
-                and only if the value in ms[j] is a subset of the value in
-                ms_res.
-              </t>
-            </list>
-          </t>
-        </list>
-      </t>
-
-
-      <t>A subset is defined as:
-        <list style="hanging">
-          <t hangText="String">
-            <vspace/>
-            One string is a subset of another
-            string if it is exactly the same, byte by byte.
-          </t>
-
-          <t hangText="Simple lists">
-            <vspace/>
-            An array A is a subset of B if every element in A is a subset of
-            an element in B.
-          </t>
-
-          <t hangText="Booleans">
-            <vspace/>
-            Boolean A is a subset of B if A is equal to B.
-          </t>
-
-          <t hangText="Integer/Floats">
-            <vspace/>
-            The number A is a subset of the number B if A is less or equal to B.
-          </t>
-
-          <t hangText="Associative array/dictionary">
-            <vspace/>
-            The dictionary A
-            is a subset of the dictionary B if every key in A is in B and the
-            value of A[x] is a subset of B[x].
-          </t>
-        </list>
-      </t>
-
-      <t>The following is a non-normative example of a set of relying
-        party-specific metadata statements that together form the metadata for
-        an entity:
-        <figure>
-          <preamble>ms[2]</preamble>
-
-          <artwork><![CDATA[
-{
-  "contacts": ["helpdesk@example.com"],
-  "logo_uri": "https://example.com/logo.jpg",
-  "policy_uri": "https://example.com/policy.html",
-  "tos_uri": "https://example.com/tos.html"
-}
-            ]]></artwork>
-        </figure>
-        <figure>
-          <preamble>ms[1]</preamble>
-
-          <artwork><![CDATA[
-{
-  "rp_scopes": ["openid", "eduperson"],
-  "response_types": ["code", "code id_token"],
-}
-            ]]></artwork>
-        </figure>
-        <figure>
-          <preamble>ms[0]</preamble>
-
-          <artwork><![CDATA[
-{
-  "contacts": ["rp_admins@cs.example.com"],
-  "redirect_uris": ["https://cs.example.com/rp1"],
-  "response_types: ["code"]
-}            ]]></artwork>
-        </figure>
-        The metadata for the entity in question, using the rules
-        above, would then be:
-        <figure>
-          <preamble>sum(ms[n]), (n=0...2)</preamble>
-
-          <artwork><![CDATA[{
-  "contacts": ["helpdesk@example.com"],
-  "logo_uri": "https://example.com/logo.jpg",
-  "policy_uri": "https://example.com/policy.html",
-  "tos_uri": "https://example.com/tos.html"
-  "rp_scopes": ["openid", "eduperson"],
-  "response_types": ["code"],
-  "redirect_uris": ["https://cs.example.com/rp1"],
-}
-]]></artwork>
-        </figure>
-      </t>
-    </section>
-
     <section title="OpenID Connect Communication">
       <t>This section describes how the trust framework in this specification
-        is used to establish trust between an OpenID Relying Party and an OpenID
-        Provider that has no explicit configuration or registration in advance.
+        is used to establish trust between an RP and an OP
+        that has no explicit configuration or registration in advance.
       </t>
 
-      <t>There is two alternative approaches to establish trust between a
-        Relying Party and a Provider, what we call implicit and explicit
+      <t>There is two alternative approaches to establish trust between an
+        RP and an OP, what we call implicit and explicit
         registration. Members of a federation or a community
         should agree upon which one to use. While implementations should
         support both methods, deployments may choose to disable the use of one
         of them.
       </t>
 
-      <section title="Implicit Registration">
+      <section title="Implicit Registration" anchor="implicit">
         <t/>
 
         <figure>
@@ -1157,7 +1515,7 @@ Content-Type: application/json
           <t>The authentication request as specified in OpenID Connect
             Core.
           </t>
-          <t>The RP MUST authentication at the authentication endpoint
+          <t>The RP MUST authenticate at the authentication endpoint
             using the private_key_jwt method described in the client
             authentication section of
             <xref target="OpenID.Core">OIDC core</xref>.
@@ -1178,20 +1536,24 @@ GET /authorization?
     urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
   HTTP/1.1
 Host: https://example.org
-            ]]></artwork></figure>
+            ]]></artwork>
+            </figure>
           </t>
         </section>
 
-        <section title="Processing the authentication request">
+        <section title="Processing the Authentication Request">
           <t>When the OP receives an incoming authentication request,
             the OP supports OpenID Connect Federation and the incoming client_id
-            is a valid URL, the OP should try to resolve and fetch the entity
+            is a valid URL, the OP should try to resolve and fetch trust
+            chains starting with the RP's entity
             statement as described in <xref target="fetching-es">fetching entity
               statements</xref>.
           </t>
 
-          <t>The OP should validate the possible trust chains, and resolve the
-            RP metadata with type <spanx style="verb">openid_client</spanx>.
+          <t>The OP should validate the possible trust chains, as described in
+            <xref target="trust_chain_validation">Trust chain validation</xref>
+            and resolve the RP metadata with type
+            <spanx style="verb">openid_client</spanx>.
           </t>
 
           <t>The OP should consider the resolved metadata of the RP, and
@@ -1213,213 +1575,206 @@ Host: https://example.org
             that aids the RP to understand what is wrong.
           </t>
         </section>
-
-        <section title="Authentication at the Token endpoint">
-          <t>The RP will have to use asymmetric crypto to authenticate to the
-            token endpoint. The RP MUST authenticate the request by including
-            the <spanx style="verb">private_key_jwt</spanx> parameter, as
-            described in Section 9 of
-            <xref target="OpenID.Core">OpenID Connect Core</xref>.
-          </t>
-        </section>
       </section>
-    </section>
 
-    <section title="Explicit Registration">
-      <t>This method involves performing an explicit registration of a new
-        client the first time a Relying Party interacts with an OpenID
-        Provider using something that basically foolws the steps in <xref
-                target="OpenID.Registration">OpenID Connect Dynamic Client
-          Registration 1.0
-        </xref> but where the client registration request
-        is a signed entity statement.
-      </t>
-
-      <section title="Provider Discovery">
-        <t>The RP will start by gathering the OPs metadata using the
-          process specified in <xref target="resolving_trust">Resolving trust
-            chain and metadata
-          </xref> above.
+      <section title="Explicit Registration" anchor="explicit">
+        <t>This method involves performing an explicit registration of a new
+          client the first time a RP interacts with an OP
+          using something that basically follows the steps in
+          <xref target="OpenID.Registration">OpenID Connect Dynamic Client
+            Registration 1.0
+          </xref>
+          but where the client registration request
+          is a signed entity statement.
         </t>
-      </section>
 
-      <section anchor="Clireg" title="Client Registration">
-        <section anchor="Cliregreq" title="Client Registration Request">
-          <t>The OP MUST support dynamic relying party registration. That it
-            does so is signaled by having the claim
-            <spanx style="verb">federation_registration_endpoint</spanx>
-            in the metadata.
-          </t>
-
-          <t>Given that the OP supports dynamic registration the RP
-            progresses as follows:
-            <list style="numbers">
-              <t>Once it has the list of acceptable trust chains for the OP
-                it MUST choose the subset it wants to progress with. The
-                subset can be as small as one trust chain but it can also
-                contain more than one.
-              </t>
-
-              <t>Based on the trust anchors referenced in the subset of
-                trust chains, the RP will choose a set of authority_hints from
-                its own set that terminates in those trust anchors.
-              </t>
-
-              <t>The RP will now construct a self-signed entity statement
-                where the metadata statement chosen is influenced by the OPs
-                metadata and the authority_hints included are picked by the
-                process described above.
-              </t>
-
-              <t>The entity statement is sent to the
-                <spanx style="verb">federation_registration_endpoint</spanx>
-                defined in this document.
-              </t>
-            </list>
+        <section title="Provider Discovery">
+          <t>The RP will start by gathering the OPs metadata using the
+            process specified in <xref target="resolving_trust">Resolving Trust
+              Chains and Metadata
+            </xref> above.
           </t>
         </section>
 
-        <section anchor="cliregresp" title="Client Registration Response">
-          <section title="The OP constructing response">
-            <t>
+        <section anchor="Clireg" title="Client Registration">
+          <section anchor="Cliregreq" title="Client Registration Request">
+            <t>The OP MUST support dynamic client registration. That it
+              does so is signaled by having the claim
+              <spanx style="verb">federation_registration_endpoint</spanx>
+              in the metadata.
+            </t>
+
+            <t>Given that the OP supports dynamic registration the RP
+              progresses as follows:
               <list style="numbers">
-                <t>After the OP receives the request, it collects and evaluates
-                  the trust chains starting with the authority_hints in the
-                  registration request.
-                  After it has verified at least one trust chain it
-                  can verify that the signature on the received registration
-                  request is correct.
+                <t>Once it has the list of acceptable trust chains for the OP
+                  it MUST choose the subset it wants to progress with. The
+                  subset can be as small as one trust chain but it can also
+                  contain more than one.
                 </t>
 
-                <t>If it finds more then one acceptable trust chain it MUST
-                  chose one trust anchor from those chains as the one it will
-                  proceed with.
+                <t>Based on the trust anchors referenced in the subset of
+                  trust chains, the RP will choose a set of authority_hints from
+                  its own set that terminates in those trust anchors.
                 </t>
 
-                <t>At this point, if there already exists a client
-                  registration under the same entity_id then that registration
-                  MUST be regarded as invalid. *Note* that key material from the
-                  previous registration MUST be kept to make key rollover
-                  possible.
+                <t>The RP will now construct a self-signed entity statement
+                  where the metadata statement chosen is influenced by the OPs
+                  metadata and the authority_hints included are picked by the
+                  process described above.
                 </t>
 
-                <t>The OP will now construct an entity statement containing a
-                  description of the part of the RP's metadata that the OP finds
-                  acceptable.
-                  *Note* that the client_id the OP chooses does not have to be
-                  the same as the entity_id of the RP.
-                  To the entity statement it will add one or more
-                  authority_hints, from its collection, that terminate in the
-                  trust anchor chosen above.
-                </t>
-
-                <t>It will sign and return the registration response (a signed
-                  entity statement) to the RP.
+                <t>The entity statement is sent to the
+                  <spanx style="verb">federation_registration_endpoint</spanx>
+                  defined in this document.
                 </t>
               </list>
             </t>
           </section>
 
-          <section title="The RP parsing the response">
-            <t>
+          <section anchor="cliregresp" title="Client Registration Response">
+            <section title="The OP Constructing Response">
+              <t>
+                <list style="numbers">
+                  <t>After the OP receives the request, it collects and
+                    evaluates
+                    the trust chains starting with the authority_hints in the
+                    registration request.
+                    After it has verified at least one trust chain it
+                    can verify that the signature on the received registration
+                    request is correct.
+                  </t>
+
+                  <t>If it finds more then one acceptable trust chain it MUST
+                    chose one trust anchor from those chains as the one it will
+                    proceed with.
+                  </t>
+
+                  <t>At this point, if there already exists a client
+                    registration under the same entity_id then that registration
+                    MUST be regarded as invalid. *Note* that key material from
+                    the
+                    previous registration MUST be kept to make key rollover
+                    possible.
+                  </t>
+
+                  <t>The OP will now construct an metadata policy that if
+                    applied to the RP's metadata statement will result in
+                    metadata that the OP finds acceptable.
+                    *Note* that the client_id the OP chooses does not have to be
+                    the same as the entity_id of the RP.
+                    To the entity statement it will add one or more
+                    authority_hints, from its collection, that terminate in the
+                    trust anchor chosen above.
+                  </t>
+
+                  <t>It will sign and return the registration response (a signed
+                    entity statement) to the RP.
+                  </t>
+                </list>
+              </t>
+            </section>
+
+            <section title="The RP Parsing the Response">
+              <t>
+                <list style="numbers">
+                  <t>The RP verifies the correctness of the received entity
+                    statement, making sure that the trust chains starting at the
+                    authority_hints terminates in trust anchors that were
+                    referenced in the entity statement it sent to the OP.
+                  </t>
+
+                  <t>The RP MUST NOT apply metadata policies from the trust
+                    chains that the OP provides because those are not valid for
+                    the RPs metadata.
+                    The RP MUST apply policies to the metadata using one of its
+                    own trust chains that ends in the trust anchor that the OP
+                    chose. Once it has applied those policies it can the apply
+                    the policy returned from the OP.
+                    When it has applied all the metadata policies to its
+                    metadata statement, it then stores
+                    the result and can continue communicating with the OP
+                    using the agreed on metadata.
+                  </t>
+
+                  <t>At this point the RP also knows which trust chain it should
+                    use when evaluating the OPs metadata. It can therefore
+                    apply the metadata policies on the OPs metadata using the
+                    relevant trust chain and store the result as the OPs
+                    metadata.
+                  </t>
+
+                  <t>If the RP was not OK, for some reason, with the received
+                    entity statement then it has the choice to restart the
+                    registration process or to give up.
+                  </t>
+                </list>
+              </t>
+            </section>
+          </section>
+        </section>
+
+        <section title="After client registration">
+          <t>A client registration using this specification is not expected to
+            be valid forever. The entity statements exchanged all have
+            expiration times, which means that the registration will eventually
+            time out. An OP can also for administrative reasons decide that a
+            client registration is not valid anymore. An example of this could
+            be that the OP leaves the federation in use.
+          </t>
+
+          <section title="What the RP MUST Do">
+            <t>At regular intervals the RP MUST:
               <list style="numbers">
-                <t>The RP Verifies the correctness of the received entity
-                  statement, making sure that the trust chains starting at the
-                  authority_hints terminates in trust anchors that were
-                  referenced in the entity statement it sent to the OP.
+                <t>Starting with the OPs entity statement, resolve and verify
+                  the trust chains it chooses to use when constructing the
+                  registration request. If those trust chains do not exist
+                  anymore or do not verify, then the registration should be
+                  regarded as invalid and a new registration process should be
+                  started.
                 </t>
 
-                <t>The RP can *NOT* flatten the metadata using the trust chains
-                  that the OP provides. This since the trust chain provided
-                  by the OP is not valid for the RPs metadata.
-                  It has to do it using one of its own trust chains
-                  that ends in the trust anchor that the OP chose.
-                  When it has done the flattening then it store
-                  the configuration and can continue communicating with the OP
-                  using the agreed on metadata.
+                <t>If the OPs entity statement was properly formed the RP must
+                  now verify that the entity statement it received about itself
+                  from the OP is still valid.
+                  Again, if that is not the case the registration
+                  should be regarded as invalid and a new registration process
+                  should be started.
                 </t>
+              </list>
+            </t>
+            <t>
+              What is regarded as reasonable intervals will depend on
+              federation policies and risk assessment by the maintainer of
+              the RP.
+            </t>
+          </section>
 
-                <t>At this point the RP also knows which trust chain it should
-                  use when evaluating the OPs metadata. So now it can
-                  flatten the OPs metadata using the relevant trust chain
-                  and store the result as the OPs metadata.
+          <section title="What the OP MUST Do">
+            <t>At regular intervals the OP MUST:
+              <list style="numbers">
+                <t>
+                  If the signature on the registration request has expired it
+                  MUST mark the registration as invalid and demand that the
+                  RP MUST re-register. Else
                 </t>
-
-                <t>If the RP was not OK, for some reason, with the received
-                  entity statement then it has the choice to restart the
-                  registration process or to give up.
+                <t>
+                  starting with the RPs client registration request, the OP MUST
+                  verify that there still is a valid trust chain terminating in
+                  the trust anchor the OP chose during the registration process.
                 </t>
               </list>
             </t>
           </section>
         </section>
-      </section>
 
-      <section title="After client registration">
-        <t>A client registration using this specification is not expected to
-          be valid for ever. The entity statements exchanged all have
-          expiration times. Which means that the registration will eventually
-          time out. An OP can also for some reason decided that a client
-          registration is not valid anymore. To this can be added that the
-          entities in the federation, for a number of reasons, over time may
-          change how fast their signature will expire, thereby increasing or
-          decreasing the lifetime of a trust chain.
-        </t>
-
-        <section title="What the RP MUST do">
-          <t>At regular intervals the RP MUST:
-            <list style="numbers">
-              <t>Starting with the OPs entity statement, resolve and verify
-                the trust chains it chose to use when constructing the
-                registration request. If those trust chains don't exist
-                anymore or do not verify, then the registration should be
-                regarded as invalid and a new registration process should be
-                started.
-              </t>
-
-              <t>If the OPs entity statement was OK it must now verify that
-                the entity statement it received about itself from the OP is
-                still valid. Again, if that is not the case the registration
-                should be regarded as invalid and a new registration process
-                should be started.
-              </t>
-            </list>
-          </t>
-        </section>
-
-        <section title="What the OP MUST do">
-          <t>At regular intervals the OP MUST:
-            <list style="numbers">
-              <t>
-                If the signature on the registration request has expired it
-                MUST mark the registration as invalid and demand that the
-                RP MUST re-register. Else
-              </t>
-              <t>
-                starting with the RPs client registration request, the OP MUST
-                verify that there still is a valid trust chain terminating in
-                the trust anchor the OP chose during the registration process.
-              </t>
-            </list>
+        <section title="Expiration Times">
+          <t>An OP MUST NOT assign a expiration time
+            to a RP's registration that is later then the trust
+            chains expiration time.
           </t>
         </section>
       </section>
-    </section>
-
-    <section title="Expiration times">
-      <t>There are a number of expiration times that MUST considered:
-        <list
-                style="empty">
-          <t>Each signature has a expirattion time.</t>
-
-          <t>A relying party registration has a expiration time.</t>
-        </list>
-      </t>
-
-      <t>Taking this into consideration, an OP MUST NOT assign a expiration time
-        to a relying party registration that is after the expiration time of
-        the metadata statement signatures.
-      </t>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -1434,8 +1789,6 @@ Host: https://example.org
       </t>
     </section>
 
-    <!-- Possibly a 'Contributors' section ... -->
-
     <section anchor="IANA" title="IANA Considerations">
       <t>TBD</t>
     </section>
@@ -1445,36 +1798,23 @@ Host: https://example.org
     </section>
   </middle>
 
-  <!--  *****BACK MATTER ***** -->
-
   <back>
-    <!-- References split into informative and normative -->
-
-    <!-- There are 2 ways to insert reference entries from the citation libraries:
-     1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
-     2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
-        (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
-
-     Both are cited textually in the same manner: by using xref elements.
-     If you use the PI option, xml2rfc will, by default, try to find included files in the same
-     directory as the including file. You can also define the XML_LIBRARY environment variable
-     with a value containing a set of directories to search.  These can be either in the local
-     filing system or remote ones accessed by http (http://domain/dir/... ).-->
 
     <references title="Normative References">
-      <?rfc include="reference.RFC.2119"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
 
-      <?rfc include="reference.RFC.7515"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7515.xml"?>
 
-      <?rfc include="reference.RFC.5785"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5785.xml"?>
 
-      <?rfc include="reference.RFC.7517"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7517.xml"?>
 
-      <?rfc include="reference.RFC.6962"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749.xml"?>
 
-      <?rfc include="reference.RFC.6749"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8414.xml"?>
 
-      <?rfc include="reference.RFC.7033"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7591.xml"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"?>
 
       <reference anchor="OpenID.Core"
                  target="http://openid.net/specs/openid-connect-core-1_0.html">
@@ -1560,15 +1900,15 @@ Host: https://example.org
     </references>
 
     <section
-            title="Illustrative example of OpenID Connect flow using implicit client registration">
-      <t>A service Foodle would like to offer its services to all identity
-        providers in eduGAIN. Foodle is managed and registered by the university
+            title="Illustrative Example of OpenID Connect Flow Using Implicit Client Registration">
+      <t>A service Foodle would like to offer its services to all OPs in
+        eduGAIN. Foodle is managed and registered by the university
         NTNU. NTNU is part of the Norwegian Feide federation. Foodle is also
         directly trusted in the Swedish SWAMID federation. Both Feide and SWAMID
         are part of the international eduGAIN federation.
       </t>
 
-      <section title="Initial setup of Foodle">
+      <section title="Initial Setup of Foodle">
         <t>The Foodle service chooses to use the entity identifier <spanx
                 style="verb">https://foodl.org/</spanx>. And upon deployment,
           Foodle
@@ -1599,7 +1939,7 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
         </t>
       </section>
 
-      <section title="Federation setup">
+      <section title="Federation Setup">
         <t>How trust is established and entities becomes part of a federation
           is out of scope of this specification. It could involve some kind
           of non-technical contract, agreement or term of use that is
@@ -1629,61 +1969,52 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
             <t>eduGAIN issues an entity statement about SWAMID</t>
 
             <t>SWAMID issues an entity statement about the university of Umea
-              - an OpenID provider for employees and students at the university
-              of Umea
+              - an OP for employees and students at the university of Umea
             </t>
           </list>
-          Foodle has a local trust root configuration that looks like
-          this (notice that the exact format and content on the trust root
-          configuration is out of scope of this specification):
+          Foodle has a local trust root configuration that contains public
+          signing keys for known federations:
         </t>
 
         <figure>
+          <preamble>"https://www.sunet.se/swamid"</preamble>
           <artwork><![CDATA[[
-  {
-    "sub": "https://www.sunet.se/swamid",
-    "sub_meta": {"name": "SWAMID"},
-    "metadata": {
-      "openid_provider": {
-        "loa_max": "http://swamid.se/LoA/substantial"}
-    },
-    "jwks": {
-      "keys": [
-        {
-          "kty": "RSA",
-          "alg": "RS256",
-          "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
-          "e": "AQAB",
-          "key_ops": ["verify"],
-          "ext": true,
-          "kid": "swamid",
-          "use": "sig"
-        }
-      ]
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "alg": "RS256",
+      "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
+      "e": "AQAB",
+      "key_ops": ["verify"],
+      "ext": true,
+      "kid": "swamid",
+      "use": "sig"
     }
-  }
+  ]
+}
 ]]]></artwork>
         </figure>
       </section>
 
-      <section title="User chooses to login at Foodle">
+      <section title="User Chooses to Login at Foodle">
         <t>Let us assume a student from Ume&aring; would like to login at
           Foodle. Some sort of discovery process involves the end user choosing
-          an OpenID provider. OpenID Discovery using the e-mail address is one
-          option. Foodle presenting a list of available providers for the user
+          an OPs. OpenID Discovery using the e-mail address is one
+          option. Foodle presenting a list of available OPs for the user
           to choose from is another.
         </t>
 
         <t>After the discovery process, Foodle knows that the user would like
-          to login using the OpenID provider with entity identifier <spanx
+          to login using the OP with entity identifier <spanx
                   style="verb">https://www.umu.se/openid</spanx>.
         </t>
       </section>
 
-      <section title="Foodle discovers the OpenID provider">
-        <t>Foodle normalizes the entity identifier of the OpenID Provider, and
+      <section title="Foodle Discovers the OP">
+        <t>Foodle normalizes the entity identifier of the OP, and
           performs a request to fetch the self-issued entity statement using the
-          Federation API of the OpenID provider.
+          Federation API of the OP.
         </t>
 
         <figure>
@@ -1752,17 +2083,17 @@ Content-Type: application/json
         </figure>
       </section>
 
-      <section title="Resolving the provider trust chain">
-        <t>In order to establish trust with this provider, the Foodle service
-          provider would need to fetch sufficient entity statements to represent
+      <section title="Resolving the OP's Trust Chain">
+        <t>In order to establish trust with this OP, the Foodle RP
+          would need to fetch sufficient entity statements to represent
           a complete chain from the self-issued statement to the locally
           configured trust root, which contains SWAMID.
         </t>
 
         <t>The information found in the authority_hints is critical in order
           to dynamically discover the trust chain. If such hints are not
-          present, the relying party may resume to fixed configured trust roots
-          to ask for trust statements.
+          present, the RP may resume to fixed configured trust roots
+          to ask for entity statements.
         </t>
 
         <t>In this example, Foodle now fetches an entity statement from SWAMID
@@ -1790,18 +2121,23 @@ Content-Type: application/json
           <artwork><![CDATA[{
   "iat": 1539174048,
   "exp": 1539177648,
-  "metadata": {
+  "metadata_policy": {
     "openid_provider": {
-      "subject_types_supported": ["pairwise"],
-      "id_token_signing_alg_values_supported": ["RS256", "RS512"],
-      "organization": "University of Ume?",
-      "contacts": ["legal@umu.se", "technical@umu.se"]
+      "subject_types_supported": {
+        "value": ["pairwise"]},
+      "id_token_signing_alg_values_supported":{
+          "subset_of": ["RS256", "RS512"],
+          "default: ["RS256", "RS512"]
+        }
+      "organization": {
+        "value": "University of Ume&aring;"},
+      "contacts": {
+        "add": ["legal@umu.se", "technical@umu.se"]}
     },
-    "openid_client": {}
+    "openid_client": {},
   },
   "iss": "https://www.sunet.se/swamid",
   "sub": "https://umu.se/openid",
-  "sub_meta": {"name": "University of Ume?"},
   "jwks": {
     "keys": [
       {
@@ -1827,8 +2163,8 @@ Content-Type: application/json
 
         <t>These two entity statements are sufficient to establish a path from
           the local configured trust anchor which trust SWAMID, to the
-          self-issued statement from the University of Ume&aring;. Here are the
-          steps performed to validate the trust chain:
+          self-issued statement from the University of Ume&aring;.
+          Here are the steps performed to validate the trust chain:
         </t>
 
         <t>
@@ -1838,7 +2174,8 @@ Content-Type: application/json
             </t>
 
             <t>Use these keys to validate the signature of the signed entity
-              statement issued by SWAMID about the University of Ume&aring;
+              statement issued by SWAMID about the University of
+              Ume&aring;
             </t>
 
             <t>Check that the sub from the trust configuration matches the iss
@@ -1849,8 +2186,8 @@ Content-Type: application/json
               the signing keys of the University of Ume&aring;
             </t>
 
-            <t>Validate the self-signed statement from University of Ume&aring;
-              using the keys found above.
+            <t>Validate the self-signed statement from University of
+              Ume&aring; using the keys found above.
             </t>
 
             <t>Check that the sub from the previous statement matches the iss
@@ -1864,53 +2201,75 @@ Content-Type: application/json
         </t>
       </section>
 
-      <section title="Extracting the provider metadata"
-               anchor="extracting_provider_metadata">
+      <section title="Extracting the OP metadata"
+               anchor="extracting_op_metadata">
         <t>The output from the trust chain validation is an ordered list of
           entity statements. In order to extract the needed metadata, we need to
           look at the metadata type relevant in the given context. In this case,
-          we are establishing trust with an OpenID Provider, and we take a look
-          at the <spanx style="verb">openid_provider</spanx> metadata object of
-          the trust chain:
+          we are establishing trust with an OP, and we take the
+          <spanx style="verb">openid_provider</spanx>
+          metadata object from the
+          entity statement published by the OP and the policy statements from
+          the other entities in the trust chain:
         </t>
-
-        <figure>
-          <artwork><![CDATA[[
-  {"loa_max": "http://swamid.se/LoA/substantial"},
-  {
-    "subject_types_supported": ["pairwise"],
-    "id_token_signing_alg_values_supported": ["RS256", "RS512"],
-    "organization": "University of Ume?",
-    "contacts": ["legal@umu.se", "technical@umu.se"]
-  },
-  {
-    "authorization_endpoint":
-      "https://idp.umu.se/openid/authorization",
-    "token_endpoint": "https://idp.umu.se/openid/token",
-    "response_types_supported": ["code", "code id_token", "token"],
-    "grant_types_supported": [
-      "authorization_code",
-      "implicit",
-      "urn:ietf:params:oauth:grant-type:jwt-bearer"
-    ],
-    "subject_types_supported": ["pairwise", "public"],
-    "id_token_signing_alg_values_supported": ["RS256"],
-    "logo_uri":
-        "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-    "policy_uri":
-        "https://www.umu.se/en/about-the-website/legal-information/",
-    "loa_max": "http://eidas.europa.eu/LoA/high"
-  }
+        <t>
+          <figure>
+            <preamble>SWAMID's metadata policy for
+              an openid_provider
+            </preamble>
+            <artwork><![CDATA[[
+{"loa_max":
+  {"value":"http://swamid.se/LoA/substantial"}}
 ]]]></artwork>
-        </figure>
+          </figure>
 
-        <t>The metadata flattening process converts this to a single metadata
-          object. The resulting metadata in this case would be:
+          <figure>
+            <preamble>UMU's metadata policy for an openid_provider</preamble>
+            <artwork><![CDATA[[
+{
+  "subject_types_supported": {"value": ["pairwise"]},
+  "id_token_signing_alg_values_supported":
+    {
+      "subset_of": ["RS256", "RS512"],
+      "default: ["RS256", "RS512"]
+    }
+  "organization": {"value": "University of Ume&aring;"},
+  "contacts": {"add": ["legal@umu.se", "technical@umu.se"]}
+}
+]]]></artwork>
+          </figure>
+          and finally
+          <figure>
+            <preamble>The OP's metadata statement</preamble>
+            <artwork><![CDATA[[
+{
+  "authorization_endpoint":
+    "https://idp.umu.se/openid/authorization",
+  "token_endpoint": "https://idp.umu.se/openid/token",
+  "response_types_supported": ["code", "code id_token", "token"],
+  "grant_types_supported": [
+    "authorization_code",
+    "implicit",
+    "urn:ietf:params:oauth:grant-type:jwt-bearer"
+  ],
+  "subject_types_supported": ["pairwise", "public"],
+  "id_token_signing_alg_values_supported": ["RS256"],
+  "logo_uri":
+      "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
+  "policy_uri":
+      "https://www.umu.se/en/about-the-website/legal-information/",
+  "loa_max": "http://eidas.europa.eu/LoA/high"
+}
+]]]></artwork>
+          </figure>
         </t>
-
-        <figure>
-          <artwork><![CDATA[{
-  "organization": "University of Ume?",
+        <t>Applying the metadata policies to the metadata
+          produces the following result:
+        </t>
+        <t>
+          <figure>
+            <artwork><![CDATA[{
+  "organization": "University of Ume&aring;",
   "contacts": ["legal@umu.se", "technical@umu.se"],
   "logo_uri":
     "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
@@ -1929,20 +2288,22 @@ Content-Type: application/json
   "id_token_signing_alg_values_supported": ["RS256"],
   "loa_max": "http://swamid.se/LoA/substantial"
 }]]></artwork>
-        </figure>
+          </figure>
+        </t>
       </section>
 
-      <section title="RP sends authentication request (implicit registration)">
-        <t>Foodle after establishing trust with the University of Ume&aring;
-          and extracted a resulting set of metadata, will send an authentication
-          request to the OpenID provider. This example involves the implicit
-          registration.
+      <section title="RP Sends Authentication Request (Implicit Registration)">
+        <t>Foodle after establishing trust with the University of
+          Ume&aring;
+          and extracted metadata and a set of metadata policies, will send an
+          authentication request to the OP. This example involves the
+          implicit registration.
         </t>
 
-        <t>Here is an example of an authentication request:</t>
+        <t>Here is an example of an authentication request:
 
-        <figure>
-          <artwork><![CDATA[GET /authorize?
+          <figure>
+            <artwork><![CDATA[GET /authorize?
   response_type=code
   &scope=openid%20profile%20email
   &client_id=https%3A%2F%2Ffoodl.org%2F
@@ -1954,75 +2315,66 @@ Content-Type: application/json
   HTTP/1.1
 Host: idp.umu.se
 ]]></artwork>
-        </figure>
-
-        <t>The provider receiving this authentication request will, unless the
+          </figure>
+        </t>
+        <t>The OP receiving this authentication request will, unless the
           RP is cached or statically configured, start to dynamically fetch and
           establish trust with the RP.
         </t>
       </section>
 
-      <section title="Provider fetches entity statements">
-        <t>The provider needs to establish a trust chain for the RP from which a
-          authentication was received. The provider in this example has the
-          following configured trust root:
+      <section title="OP Fetches Entity Statements">
+        <t>The OP needs to establish a trust chain for the RP from which a
+          authentication was received. The OP in this example are configured
+          with public key of 2 federations:
         </t>
+        <t>
+          <figure>
+            <preamble>"https://edugain.org/oidc"</preamble>
+            <artwork><![CDATA[[
+ {
+  "keys": [
+    {
+      "kty": "RSA",
+      "use": "sig",
+      "alg": "RS256",
+      "n": "qnd5_krrHKzuJzb5_YEt4sP-YOGSbf[...]",
+      "e": "AQAB",
+      "key_ops": ["verify"],
+      "ext": true,
+      "kid": "edugain"
+    }
+  ]
+}
+        ]]></artwork>
+          </figure>
 
-        <figure>
-          <artwork><![CDATA[[
-  {
-    "sub": "https://edugain.org/oidc",
-    "metadata": {
-      "openid_client": {
-        "rp_scopes": ["openid", "userid-targetedid", "eduperson"],
-        "response_types": ["code", "code id_token"]
-      }
-    },
-    "jwks": {
-      "keys": [
-        {
-          "kty": "RSA",
-          "use": "sig",
-          "alg": "RS256",
-          "n": "qnd5_krrHKzuJzb5_YEt4sP-YOGSbf[...]",
-          "e": "AQAB",
-          "key_ops": ["verify"],
-          "ext": true,
-          "kid": "edugain"
-        }
-      ]
+          and
+
+          <figure>
+            <preamble>"https://www.sunet.se/swamid"</preamble>
+            <artwork><![CDATA[[
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "alg": "RS256",
+      "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
+      "e": "AQAB",
+      "key_ops": ["verify"],
+      "ext": true,
+      "kid": "swamid",
+      "use": "sig"
     }
-  },
-  {
-    "sub": "https://www.sunet.se/swamid",
-    "metadata": {
-      "openid_client": {
-        "rp_scopes": ["openid", "userid-persistent", "fs"],
-        "response_types": ["code", "code id_token"]
-      }
-    },
-    "jwks": {
-      "keys": [
-        {
-          "kty": "RSA",
-          "alg": "RS256",
-          "n": "v6xydqciFKGfvQaqYGmk9A7etbfvNY[...]",
-          "e": "AQAB",
-          "key_ops": ["verify"],
-          "ext": true,
-          "kid": "swamid",
-          "use": "sig"
-        }
-      ]
-    }
-  }
-]
-]]></artwork>
-        </figure>
+  ]
+}
+        ]]></artwork>
+          </figure>
+        </t>
       </section>
 
-      <section title="Provider fetches entity statements">
-        <t>The provider starts to resolve metadata for the client identifier
+      <section title="RP Fetches Entity Statements">
+        <t>The RP starts to resolve metadata for the client identifier
           https://foodl.org/ by fetching the self-issued entity statement using
           the Federation API.
         </t>
@@ -2046,7 +2398,7 @@ Host: idp.umu.se
     </section>
 
     <section
-            title="Illustrative example of OpenID Connect flow using explicit client registration">
+            title="Illustrative Example of OpenID Connect Flow Using Explicit Client Registration">
       <t>
         A research project has pooled resources and bought an extremely rare
         and expensive equipment (EREE) that MUST be accessible by all project
@@ -2061,7 +2413,7 @@ Host: idp.umu.se
         Since the EREE equipment is placed in Sweden the EREE service is also
         member of the SWAMID federation.
       </t>
-      <section title="Initial setup of the EREE service">
+      <section title="Initial Setup of the EREE Service">
         <t>The EREE service choose to use the entity identifier <spanx
                 style="verb">https://srv.eree.example.org/</spanx>. And upon
           deployment, EREE is setup with a Elliptic Curve key pair, with the
@@ -2135,18 +2487,18 @@ Host: idp.umu.se
           public part of the federations signing keys.
         </t>
       </section>
-      <section title="Researcher wants to start a job at the EPEE service">
+      <section title="Researcher Wants to Start a Job at the EPEE Service">
         <t>A researcher from Ume&aring; wants to access the EPEE service.
           The EPEE service provides a discovery service which allows the
-          researcher to chose which identity provider to use. In this case
+          researcher to chose which OP to use. In this case
           https://op.umu.se/ .
         </t>
       </section>
       <section
-              title="The EPEE RP discovers and initiates explicit registration">
-        <section title="The EPEE RP discovers the OpenID provider">
+              title="The EPEE RP Discovers and Initiates Explicit Registration">
+        <section title="The EPEE RP Discovers the OpenID Provider">
           <t>
-            Using the entity ID (issuer ID) of the identity provider the service
+            Using the entity ID (issuer ID) of the OP the service
             performs a fetch entity statement request as described in
             <xref target="fetch_statement">Fetch Entity Statement</xref>
           </t>
@@ -2241,9 +2593,9 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFVOUxUbkpzTjJ4VVRYQkZSM040T1Z...
             </figure>
           </t>
         </section>
-        <section title="Resolving the provider trust chain">
+        <section title="Resolving the OP's Trust Chain">
           <t>
-            In order to establish trust with this provider, the EEPE service
+            In order to establish trust with this OP, the EEPE service
             provider would need to fetch sufficient entity statements to
             represent a complete chain from the self issued statement to the
             trust anchor that represents the EPEE federations.
@@ -2320,16 +2672,16 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
               </t>
               <t>
                 The federation does not have any restrictions on what the OP can
-                be configured to do. This means that flattening is going to be
-                very easy.
+                be configured to do. This means that there are no metadata
+                policies to apply to the metadata statement.
               </t>
             </list>
           </t>
         </section>
-        <section title="Validating the trust chain">
+        <section title="Validating the Trust Chain">
           <t>These two entity statements are sufficient to establish a path from
             the local configured trust anchor which trust the EPEE federation,
-            to the self-issued statement from the Identity provider at the
+            to the self-issued statement from the OP at the
             University
             of Ume&aring;. Here are the steps performed to validate the trust
             chain as described in
@@ -2363,18 +2715,27 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             </list>
           </t>
         </section>
-        <section title="Extracting the provider metadata">
+        <section title="Extracting the OP's Metadata">
           <t>
             The output from the trust chain validation is an ordered list of
             entity statements. In order to extract the needed metadata, we need
             to look at the metadata type relevant in the given context. In this
-            case, we are establishing trust with an OpenID Provider, and we take
-            a look at the *openid_provider* metadata object of the trust chain:
+            case, we are establishing trust with an OP, and we take
+            a look at the *openid_provider* metadata and metadata_policy objects
+            of the trust chain:
             <figure>
+              <preamble>Metadata polices</preamble>
               <artwork>
-                <![CDATA[
-[
-  {},
+                <![CDATA[[
+  {}
+                ]]></artwork>
+            </figure>
+
+            <figure>
+              <preamble>Metadata statement</preamble>
+              <artwork>
+                <![CDATA[[
+
   {
     "authorization_endpoint":
     "https://op.umu.se/authorization",
@@ -2404,17 +2765,16 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
     "token_endpoint": "https://op.umu.se/token",
     "userinfo_endpoint": "https://op.umu.se/user"
   }
-]
-              ]]>
-              </artwork>
+
+              ]]></artwork>
             </figure>
           </t>
           <t>
-            Since the first item in this list is empty the flattening process
-            will return the second item as the result.
+            Since there is no metadata policy defined, the response will just
+            be the metadata statement as it is.
           </t>
         </section>
-        <section title="EPEE RP does federated client registration">
+        <section title="EPEE RP Does Federated Client Registration">
           <t>
             Now when the RP has trusted information about the OP it can do a
             dynamic client registration. To that end it collects information
@@ -2450,28 +2810,21 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
   },
   "metadata": {
     "openid_client": {
-      "application_name": "rphandler",
       "application_type": "web",
-      "contacts": [
-        "ops@example.org"
-      ],
-      "jwks_uri": "https://rp.eree.example.org/static/jwks.json",
-      "redirect_uris": [
-        "https://rp.eree.example.org/authz_cb"
-      ],
+      "request_object_signing_alg": "ES256",
       "response_types": [
         "code"
       ],
       "scope": [
         "openid",
-        "profile",
-        "email",Extracting the provider metadata
-        "address",
-        "phone"
+        "email"
       ],
-      "token_endpoint_auth_method": "private_key_jwt"
+      "token_endpoint_auth_method": "private_key_jwt",
+      "token_endpoint_auth_signing_alg": "ES256",
+      "userinfo_signed_response_alg": "ES256"
     }
   },
+  "iss": "https://rp.eree.example.org",
   "sub": "https://rp.eree.example.org"
 }
               ]]>
@@ -2484,8 +2837,8 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
           </t>
         </section>
       </section>
-      <section title="The OP deals with a client registration request">
-        <section title="The OP gathers the RPs trust chains">
+      <section title="The OP Deals With a Client Registration Request">
+        <section title="The OP Gathers the RPs Trust Chains">
           <t>
             To collect the trust chains the OP uses the *authority_hints* in the
             self-signed entity statement it received from the RP (the client
@@ -2565,18 +2918,17 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
             </figure>
           </t>
         </section>
-        <section title="Validating trust chain">
+        <section title="Validating the Trust Chain">
           <t>
             The process here is the one described in
             <xref target="trust_chain_validation">validating the trust
               chain</xref>.
           </t>
         </section>
-        <section title="Extracting RP metadata">
+        <section title="Extracting RP Metadata">
           <t>
-            The OP does
-            <xref target="flattening-metadata">flattening</xref>
-            on the information in the trust chain and comes up with:
+            The OP applies the metadata policies on the leaf entity's
+            metadata, all from the trust chain and comes up with:
             <figure>
               <artwork>
                 <![CDATA[
@@ -2605,11 +2957,11 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
             </figure>
           </t>
         </section>
-        <section title="Constructing the registration response">
+        <section title="Constructing the Registration Response">
           <t>
             Happy with the information in the client registration request the
-            OP takes the flattened metadata and creates an entity statement by
-            add *sub* and *authority_hints*:
+            OP constructs its metadata policy and creates an entity statement by
+            adding *sub* and *authority_hints*:
             <figure>
               <artwork>
                 <![CDATA[
@@ -2622,29 +2974,9 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
   "exp": 1543931097,
   "iat": 1543326297,
   "iss": "https://op.umu.se",
-  "kid": "QU9LTnJsN2xUTXBFR3N4OVZOeTlyejFrWWthYWlaTllYMDRXSkN...",
-  "metadata": {
+  "metadata_policy": {
     "openid_client": {
-      "application_name": "EPEE",
-      "application_type": "web",
-      "contacts": [
-        "ops@epee.example.org"
-      ],
-      "jwks_uri": "https://rp.eree.example.org/static/jwks.json",
-      "redirect_uris": [
-        "https://rp.eree.example.org/authz_cb"
-      ],
-      "request_object_signing_alg": "ES256",
-      "response_types": [
-        "code"
-      ],
-      "scope": [
-        "openid",
-        "email"
-      ],
-      "token_endpoint_auth_method": "private_key_jwt",
-      "token_endpoint_auth_signing_alg": "ES256",
-      "userinfo_signed_response_alg": "ES256"
+      "client_id": {"value": "FjeL1yco_Iu7VZoeDk"}
     }
   },
   "sub": "https://rp.eree.example.org"
@@ -2655,11 +2987,11 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
           </t>
         </section>
       </section>
-      <section title="The RP deals with the registration response">
+      <section title="The RP Deals With the Registration Response">
         <t>
           The RP MUST collect the trust chain ending in the EPEE trust anchor
           and
-          verify the correctness of the trust chain but refrain from flattening
+          verify the correctness of the trust chain but refrain from processing
           the metadata. This since the entity statement issued by the EPEE
           federation about the UmU OP are only valid for that entity and not
           for the EPEE RP.
@@ -2672,10 +3004,10 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
         <t>
           In this example the RP decided on one specific trust anchor before
           sending the registration request. If that was not the case but the
-          RP chose to send a registration request with more than one
-          authority_hint then this is the time when then RP can flatten and
-          store the provider metadata. This since the OP MUST choose one and
-          only one authority (=trust anchor) for the registration response.
+          RP had chosen to send a registration request with more than one
+          authority_hint then this by time the RP could not apply any
+          metadata polices to the metadata statement since it would not know
+          which to use.
         </t>
       </section>
     </section>
@@ -2721,6 +3053,12 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>-07
+        <list style="symbols">
+          <t>Split metadata into metadata and metadata_policy</t>
+          <t>Updated example</t>
+        </list>
+      </t>
       <t>-06
         <list style="symbols">
           <t>Some rewrite</t>
