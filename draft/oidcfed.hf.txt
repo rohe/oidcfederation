@@ -1299,12 +1299,12 @@ Table of Contents
        as invalid. *Note* that key material from the previous
        registration MUST be kept to make key rollover possible.
 
-   4.  The OP will now construct an entity statement containing a
-       description of the part of the RP's metadata that the OP finds
-       acceptable.  *Note* that the client_id the OP chooses does not
-       have to be the same as the entity_id of the RP.  To the entity
-       statement it will add one or more authority_hints, from its
-       collection, that terminate in the trust anchor chosen above.
+   4.  The OP will now construct an metadata policy that if applied to
+       the RP's metadata statement will result in metadata that the OP
+       finds acceptable.  *Note* that the client_id the OP chooses does
+       not have to be the same as the entity_id of the RP.  To the
+       entity statement it will add one or more authority_hints, from
+       its collection, that terminate in the trust anchor chosen above.
 
    5.  It will sign and return the registration response (a signed
        entity statement) to the RP.
@@ -1317,12 +1317,14 @@ Table of Contents
        statement it sent to the OP.
 
    2.  The RP MUST NOT apply metadata policies from the trust chains
-       that the OP provides because the trust chain provided by the OP
-       is not valid for the RPs metadata.  The RP MUST policies to the
-       metadata using one of its own trust chains that ends in the trust
-       anchor that the OP chose .  When it has metadata policies, it
-       then stores the configuration and can continue communicating with
-       the OP using the agreed on metadata.
+       that the OP provides because those are not valid for the RPs
+       metadata.  The RP MUST apply policies to the metadata using one
+       of its own trust chains that ends in the trust anchor that the OP
+       chose.  Once it has applied those policies it can the apply the
+       policy returned from the OP.  When it has applied all the
+       metadata policies to its metadata statement, it then stores the
+       result and can continue communicating with the OP using the
+       agreed on metadata.
 
    3.  At this point the RP also knows which trust chain it should use
        when evaluating the OPs metadata.  It can therefore apply the
@@ -2217,29 +2219,23 @@ B.3.5.  EPEE RP Does Federated Client Registration
          }
        ]
      },
-     "metadata_policy": {
+     "metadata": {
        "openid_client": {
-         "application_name": {"value": "rphandler"},
-         "application_type": {"value": "web"},
-         "contacts": {"value":["ops@example.org"],
-         "jwks_uri": {
-           "value":"https://rp.eree.example.org/static/jwks.json"},
-         "redirect_uris": {"value":[
-           "https://rp.eree.example.org/authz_cb"
-         ]},
-         "response_types": {"value": ["code"]},
-         "scope": {"value":[
+         "application_type": "web",
+         "request_object_signing_alg": "ES256",
+         "response_types": [
+           "code"
+         ],
+         "scope": [
            "openid",
-           "profile",
-           "email",
-           "address",
-           "phone"
-         ]},
-         "token_endpoint_auth_method": {
-           "value": "private_key_jwt"
+           "email"
+         ],
+         "token_endpoint_auth_method": "private_key_jwt",
+         "token_endpoint_auth_signing_alg": "ES256",
+         "userinfo_signed_response_alg": "ES256"
        }
      },
-     "iss": "https://eree.example.org",
+     "iss": "https://rp.eree.example.org",
      "sub": "https://rp.eree.example.org"
    }
 
@@ -2351,7 +2347,7 @@ B.4.3.  Extracting RP Metadata
 B.4.4.  Constructing the Registration Response
 
    Happy with the information in the client registration request the OP
-   takes the processed metadata and creates an entity statement by
+   constructs its metadata policy and creates an entity statement by
    adding *sub* and *authority_hints*:
 
 
@@ -2364,29 +2360,9 @@ B.4.4.  Constructing the Registration Response
      "exp": 1543931097,
      "iat": 1543326297,
      "iss": "https://op.umu.se",
-     "kid": "QU9LTnJsN2xUTXBFR3N4OVZOeTlyejFrWWthYWlaTllYMDRXSkN...",
-     "metadata": {
+     "metadata_policy": {
        "openid_client": {
-         "application_name": "EPEE",
-         "application_type": "web",
-         "contacts": [
-           "ops@epee.example.org"
-         ],
-         "jwks_uri": "https://rp.eree.example.org/static/jwks.json",
-         "redirect_uris": [
-           "https://rp.eree.example.org/authz_cb"
-         ],
-         "request_object_signing_alg": "ES256",
-         "response_types": [
-           "code"
-         ],
-         "scope": [
-           "openid",
-           "email"
-         ],
-         "token_endpoint_auth_method": "private_key_jwt",
-         "token_endpoint_auth_signing_alg": "ES256",
-         "userinfo_signed_response_alg": "ES256"
+         "client_id": {"value": "FjeL1yco_Iu7VZoeDk"}
        }
      },
      "sub": "https://rp.eree.example.org"
@@ -2451,6 +2427,12 @@ Appendix C.  Notices
 Appendix D.  Document History
 
    [[ To be removed from the final specification ]]
+
+   -07
+
+   *  Split metadata into metadata and metadata_policy
+
+   *  Updated example
 
    -06
 

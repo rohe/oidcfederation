@@ -3022,10 +3022,9 @@ Host: https://example.org
                     possible.
                   <a href="#section-8.2.2.2.1-1.3" class="pilcrow">¶</a>
 </li>
-                <li id="section-8.2.2.2.1-1.4">The OP will now construct an entity statement containing a
-                    description of the part of the RP's metadata that the OP
-                    finds
-                    acceptable.
+                <li id="section-8.2.2.2.1-1.4">The OP will now construct an metadata policy that if
+                    applied to the RP's metadata statement will result in
+                    metadata that the OP finds acceptable.
                     *Note* that the client_id the OP chooses does not have to be
                     the same as the entity_id of the RP.
                     To the entity statement it will add one or more
@@ -3051,13 +3050,15 @@ Host: https://example.org
                   <a href="#section-8.2.2.2.2-1.1" class="pilcrow">¶</a>
 </li>
                 <li id="section-8.2.2.2.2-1.2">The RP MUST NOT apply metadata policies from the trust
-                    chains that the OP provides because the trust chain provided
-                    by the OP is not valid for the RPs metadata.
-                    The RP MUST policies to the metadata using one of its own
-                    trust chains that ends in the trust anchor that the OP chose
-                    .
-                    When it has metadata policies, it then stores
-                    the configuration and can continue communicating with the OP
+                    chains that the OP provides because those are not valid for
+                    the RPs metadata.
+                    The RP MUST apply policies to the metadata using one of its
+                    own trust chains that ends in the trust anchor that the OP
+                    chose. Once it has applied those policies it can the apply
+                    the policy returned from the OP.
+                    When it has applied all the metadata policies to its
+                    metadata statement, it then stores
+                    the result and can continue communicating with the OP
                     using the agreed on metadata.
                   <a href="#section-8.2.2.2.2-1.2" class="pilcrow">¶</a>
 </li>
@@ -4196,29 +4197,23 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
       }
     ]
   },
-  "metadata_policy": {
+  "metadata": {
     "openid_client": {
-      "application_name": {"value": "rphandler"},
-      "application_type": {"value": "web"},
-      "contacts": {"value":["ops@example.org"],
-      "jwks_uri": {
-        "value":"https://rp.eree.example.org/static/jwks.json"},
-      "redirect_uris": {"value":[
-        "https://rp.eree.example.org/authz_cb"
-      ]},
-      "response_types": {"value": ["code"]},
-      "scope": {"value":[
+      "application_type": "web",
+      "request_object_signing_alg": "ES256",
+      "response_types": [
+        "code"
+      ],
+      "scope": [
         "openid",
-        "profile",
-        "email",
-        "address",
-        "phone"
-      ]},
-      "token_endpoint_auth_method": {
-        "value": "private_key_jwt"
+        "email"
+      ],
+      "token_endpoint_auth_method": "private_key_jwt",
+      "token_endpoint_auth_signing_alg": "ES256",
+      "userinfo_signed_response_alg": "ES256"
     }
   },
-  "iss": "https://eree.example.org",
+  "iss": "https://rp.eree.example.org",
   "sub": "https://rp.eree.example.org"
 }
               
@@ -4373,7 +4368,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
           </h3>
 <p id="section-b.4.4-1">
             Happy with the information in the client registration request the
-            OP takes the processed metadata and creates an entity statement by
+            OP constructs its metadata policy and creates an entity statement by
             adding *sub* and *authority_hints*:
           <a href="#section-b.4.4-1" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-b.4.4-2">
@@ -4388,29 +4383,9 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
   "exp": 1543931097,
   "iat": 1543326297,
   "iss": "https://op.umu.se",
-  "kid": "QU9LTnJsN2xUTXBFR3N4OVZOeTlyejFrWWthYWlaTllYMDRXSkN...",
-  "metadata": {
+  "metadata_policy": {
     "openid_client": {
-      "application_name": "EPEE",
-      "application_type": "web",
-      "contacts": [
-        "ops@epee.example.org"
-      ],
-      "jwks_uri": "https://rp.eree.example.org/static/jwks.json",
-      "redirect_uris": [
-        "https://rp.eree.example.org/authz_cb"
-      ],
-      "request_object_signing_alg": "ES256",
-      "response_types": [
-        "code"
-      ],
-      "scope": [
-        "openid",
-        "email"
-      ],
-      "token_endpoint_auth_method": "private_key_jwt",
-      "token_endpoint_auth_signing_alg": "ES256",
-      "userinfo_signed_response_alg": "ES256"
+      "client_id": {"value": "FjeL1yco_Iu7VZoeDk"}
     }
   },
   "sub": "https://rp.eree.example.org"
@@ -4495,39 +4470,47 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
 <a href="#section-appendix.d" class="section-number selfRef">Appendix D. </a><a href="#name-document-history-2" class="section-name selfRef">Document History</a>
       </h2>
 <p id="section-appendix.d-1">[[ To be removed from the final specification ]]<a href="#section-appendix.d-1" class="pilcrow">¶</a></p>
-<p id="section-appendix.d-2">-06
+<p id="section-appendix.d-2">-07
       <a href="#section-appendix.d-2" class="pilcrow">¶</a></p>
 <ul>
-<li id="section-appendix.d-3.1">Some rewrite<a href="#section-appendix.d-3.1" class="pilcrow">¶</a>
+<li id="section-appendix.d-3.1">Split metadata into metadata and metadata_policy<a href="#section-appendix.d-3.1" class="pilcrow">¶</a>
 </li>
-        <li id="section-appendix.d-3.2">Added example of explicit client registration<a href="#section-appendix.d-3.2" class="pilcrow">¶</a>
+        <li id="section-appendix.d-3.2">Updated example<a href="#section-appendix.d-3.2" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-appendix.d-4">-05
+<p id="section-appendix.d-4">-06
       <a href="#section-appendix.d-4" class="pilcrow">¶</a></p>
 <ul>
-<li id="section-appendix.d-5.1">A major rewrite.<a href="#section-appendix.d-5.1" class="pilcrow">¶</a>
+<li id="section-appendix.d-5.1">Some rewrite<a href="#section-appendix.d-5.1" class="pilcrow">¶</a>
+</li>
+        <li id="section-appendix.d-5.2">Added example of explicit client registration<a href="#section-appendix.d-5.2" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-appendix.d-6">-04
+<p id="section-appendix.d-6">-05
       <a href="#section-appendix.d-6" class="pilcrow">¶</a></p>
 <ul>
-<li id="section-appendix.d-7.1">Changed client metadata names
+<li id="section-appendix.d-7.1">A major rewrite.<a href="#section-appendix.d-7.1" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="section-appendix.d-8">-04
+      <a href="#section-appendix.d-8" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-appendix.d-9.1">Changed client metadata names
             <code>scopes</code>
             to <code>rp_scopes</code> and
             <code>claims</code>
             to <code>rp_claims</code>.
-          <a href="#section-appendix.d-7.1" class="pilcrow">¶</a>
+          <a href="#section-appendix.d-9.1" class="pilcrow">¶</a>
 </li>
-        <li id="section-appendix.d-7.2">Added Open Issues appendix.<a href="#section-appendix.d-7.2" class="pilcrow">¶</a>
+        <li id="section-appendix.d-9.2">Added Open Issues appendix.<a href="#section-appendix.d-9.2" class="pilcrow">¶</a>
 </li>
-        <li id="section-appendix.d-7.3">Added additional references.<a href="#section-appendix.d-7.3" class="pilcrow">¶</a>
+        <li id="section-appendix.d-9.3">Added additional references.<a href="#section-appendix.d-9.3" class="pilcrow">¶</a>
 </li>
-        <li id="section-appendix.d-7.4">Editorial improvements.<a href="#section-appendix.d-7.4" class="pilcrow">¶</a>
+        <li id="section-appendix.d-9.4">Editorial improvements.<a href="#section-appendix.d-9.4" class="pilcrow">¶</a>
 </li>
-        <li id="section-appendix.d-7.5">Added standard Notices section, which is present in all OpenID
+        <li id="section-appendix.d-9.5">Added standard Notices section, which is present in all OpenID
             specifications.
-          <a href="#section-appendix.d-7.5" class="pilcrow">¶</a>
+          <a href="#section-appendix.d-9.5" class="pilcrow">¶</a>
 </li>
       </ul>
 </section>
