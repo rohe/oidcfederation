@@ -720,7 +720,7 @@
           <list style="hanging">
             <t hangText="default">
               <vspace/>
-              Can be combined with *one_of*, *reg_exp* and
+              Can be combined with *one_of*, *regexp* and
               *subset_of*.
             </t>
             <t hangText="essential">
@@ -766,7 +766,7 @@
           All the other policy types can NOT be combined. Which means that
           whatever a superior specifies are what goes.
         </t>
-        <section title="Polciy combination example">
+        <section title="Policy combination example">
           <t>
             <figure>
               <preamble>A federations policy for RPs</preamble>
@@ -1148,30 +1148,12 @@ Content-Type: application/json
                 explicit exactly which entity is expected.
               </t>
 
-              <t hangText="type">OPTIONAL. Provide this parameter to filter
-                the results to entity statements that contain entries for this
-                specific metadata type.
-              </t>
-
               <t hangText="sub_is_leaf">OPTIONAL. If left out, result should
                 include both leaf entities and intermediate nodes. If set to
                 <spanx style="verb">true</spanx>,
                 the response should contain only leaf entities. If set to
                 <spanx style="verb">false</spanx>, the
                 response should contain only intermediate nodes.
-              </t>
-
-              <t hangText="metadata_claims">OPTIONAL. A comma separated list of
-                claim names that the requester would like to get values for
-                for each entity. If left out or an empty string, the response
-                should contain an empty object for each of the known entities.
-                The set of claim names that can be used are defined in
-                <xref target="metadata">metadata</xref>.
-                *Note* that while <spanx style="verb">type</spanx> and
-                <spanx style="verb">sub_is_leaf</spanx>
-                can be used to filter
-                out which entities to return this only affects what is returned
-                about each returned entity.
               </t>
             </list>
           </t>
@@ -1185,8 +1167,7 @@ Content-Type: application/json
 GET /.well-known/openid-federation?
 op=listing&
 iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
-type=openid_client&
-metadata_claims=client_name HTTP/1.1
+type=openid_client HTTP/1.1
 Host: openid.sunet.se
 ]]></artwork>
             </figure>
@@ -1195,10 +1176,8 @@ Host: openid.sunet.se
         </section>
 
         <section title="Entity Listing Response">
-          <t>The response MUST contain an JSON object where the known entity
-            identifiers are the property keys, and a JSON object with the
-            requested claims is the property value. Requested claims that the
-            responder is not able to provide should be left out.
+          <t>The response MUST contain an JSON list with the known entity
+            identifiers.
           </t>
 
           <figure>
@@ -1208,17 +1187,11 @@ Host: openid.sunet.se
 Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
-{
-  "https://ntnu.andreas.labs.uninett.no/": {
-    "client_name": "NTNU Labs"
-  },
-  "https://blackboard.ntnu.no/openid/callback": {
-    "client_name": "Blackboard"
-  },
-  "https://serviceprovider.andreas.labs.uninett.no/application17": {
-    "client_name": "Test application"
-  }
-}
+[
+  "https://ntnu.andreas.labs.uninett.no/",
+  "https://blackboard.ntnu.no/openid/callback",
+  "https://serviceprovider.andreas.labs.uninett.no/application17"
+]
 ]]></artwork>
           </figure>
         </section>
