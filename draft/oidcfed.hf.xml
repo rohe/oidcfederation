@@ -2100,14 +2100,14 @@ Content-Type: application/json
         "value": ["pairwise"]},
       "id_token_signing_alg_values_supported":{
           "subset_of": ["RS256", "RS512"],
-          "default: ["RS256", "RS512"]
+          "default": ["RS256", "RS512"]
         }
       "organization": {
         "value": "University of Ume&aring;"},
       "contacts": {
         "add": ["legal@umu.se", "technical@umu.se"]}
     },
-    "openid_client": {},
+    "openid_client": {}
   },
   "iss": "https://www.sunet.se/swamid",
   "sub": "https://umu.se/openid",
@@ -2204,7 +2204,7 @@ Content-Type: application/json
   "id_token_signing_alg_values_supported":
     {
       "subset_of": ["RS256", "RS512"],
-      "default: ["RS256", "RS512"]
+      "default": ["RS256", "RS512"]
     }
   "organization": {"value": "University of Ume&aring;"},
   "contacts": {"add": ["legal@umu.se", "technical@umu.se"]}

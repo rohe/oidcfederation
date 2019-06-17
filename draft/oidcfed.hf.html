@@ -392,7 +392,7 @@
 <link href="#rfc.section.4.1" rel="Chapter" title="4.1 Policy language">
 <link href="#rfc.section.4.2" rel="Chapter" title="4.2 Policy Type Combinations">
 <link href="#rfc.section.4.3" rel="Chapter" title="4.3 Combining Policies">
-<link href="#rfc.section.4.3.1" rel="Chapter" title="4.3.1 Polciy combination example">
+<link href="#rfc.section.4.3.1" rel="Chapter" title="4.3.1 Policy combination example">
 <link href="#rfc.section.4.4" rel="Chapter" title="4.4 Enforcing Policy">
 <link href="#rfc.section.4.5" rel="Chapter" title="4.5 Extending the policy language">
 <link href="#rfc.section.4.6" rel="Chapter" title="4.6 Policy example">
@@ -460,7 +460,7 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.17.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.22.3 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Solberg, A., Gulliksson, S., Jones, M., and J. Bradley" />
@@ -574,7 +574,7 @@
 </li>
 <li>4.3.   <a href="#rfc.section.4.3">Combining Policies</a>
 </li>
-<ul><li>4.3.1.   <a href="#rfc.section.4.3.1">Polciy combination example</a>
+<ul><li>4.3.1.   <a href="#rfc.section.4.3.1">Policy combination example</a>
 </li>
 </ul><li>4.4.   <a href="#rfc.section.4.4">Enforcing Policy</a>
 </li>
@@ -1025,7 +1025,7 @@
 <dl>
 <dt>default</dt>
 <dd style="margin-left: 8">
-<br> Can be combined with *one_of*, *reg_exp* and *subset_of*.  </dd>
+<br> Can be combined with *one_of*, *regexp* and *subset_of*.  </dd>
 <dt>essential</dt>
 <dd style="margin-left: 8">
 <br> Can be combined with all the others. If <samp>essential</samp> is not present that is the same as stating essential=true.  </dd>
@@ -1052,7 +1052,7 @@
 
 <p> All the other policy types can NOT be combined. Which means that whatever a superior specifies are what goes.  </p>
 <h1 id="rfc.section.4.3.1">
-<a href="#rfc.section.4.3.1">4.3.1.</a> Polciy combination example</h1>
+<a href="#rfc.section.4.3.1">4.3.1.</a> Policy combination example</h1>
 <p></p>
 
 <p>A federations policy for RPs</p>
@@ -1273,12 +1273,8 @@ Content-Type: application/json
 <dd style="margin-left: 8">REQUIRED. MUST be set to <samp>listing</samp>.  </dd>
 <dt>iss</dt>
 <dd style="margin-left: 8">REQUIRED. The entity identifier of the entity from which an entity listing is requested. Because of the normalization of the URL, multiple entity identifiers may resolve to a shared federation API. This parameter makes it explicit exactly which entity is expected.  </dd>
-<dt>type</dt>
-<dd style="margin-left: 8">OPTIONAL. Provide this parameter to filter the results to entity statements that contain entries for this specific metadata type.  </dd>
 <dt>sub_is_leaf</dt>
 <dd style="margin-left: 8">OPTIONAL. If left out, result should include both leaf entities and intermediate nodes. If set to <samp>true</samp>, the response should contain only leaf entities. If set to <samp>false</samp>, the response should contain only intermediate nodes.  </dd>
-<dt>metadata_claims</dt>
-<dd style="margin-left: 8">OPTIONAL. A comma separated list of claim names that the requester would like to get values for for each entity. If left out or an empty string, the response should contain an empty object for each of the known entities.  The set of claim names that can be used are defined in <a href="#metadata" class="xref">metadata</a>.  *Note* that while <samp>type</samp> and <samp>sub_is_leaf</samp> can be used to filter out which entities to return this only affects what is returned about each returned entity.  </dd>
 </dl>
 
 <p> </p>
@@ -1289,29 +1285,22 @@ Content-Type: application/json
 GET /.well-known/openid-federation?
 op=listing&amp;
 iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation&amp;
-type=openid_client&amp;
-metadata_claims=client_name HTTP/1.1
+type=openid_client HTTP/1.1
 Host: openid.sunet.se
 </pre>
 <h1 id="rfc.section.5.3.2">
 <a href="#rfc.section.5.3.2">5.3.2.</a> Entity Listing Response</h1>
-<p id="rfc.section.5.3.2.p.1">The response MUST contain an JSON object where the known entity identifiers are the property keys, and a JSON object with the requested claims is the property value. Requested claims that the responder is not able to provide should be left out.  </p>
+<p id="rfc.section.5.3.2.p.1">The response MUST contain an JSON list with the known entity identifiers.  </p>
 <p>A non-normative example of a response:</p>
 <pre>200 OK
 Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
-{
-  "https://ntnu.andreas.labs.uninett.no/": {
-    "client_name": "NTNU Labs"
-  },
-  "https://blackboard.ntnu.no/openid/callback": {
-    "client_name": "Blackboard"
-  },
-  "https://serviceprovider.andreas.labs.uninett.no/application17": {
-    "client_name": "Test application"
-  }
-}
+[
+  "https://ntnu.andreas.labs.uninett.no/",
+  "https://blackboard.ntnu.no/openid/callback",
+  "https://serviceprovider.andreas.labs.uninett.no/application17"
+]
 </pre>
 <h1 id="rfc.section.5.4">
 <a href="#rfc.section.5.4">5.4.</a> <a href="#error_response" id="error_response">Generic Error Response</a>
@@ -1755,14 +1744,14 @@ Content-Type: application/json
         "value": ["pairwise"]},
       "id_token_signing_alg_values_supported":{
           "subset_of": ["RS256", "RS512"],
-          "default: ["RS256", "RS512"]
+          "default": ["RS256", "RS512"]
         }
       "organization": {
         "value": "University of Ume&amp;aring;"},
       "contacts": {
         "add": ["legal@umu.se", "technical@umu.se"]}
     },
-    "openid_client": {},
+    "openid_client": {}
   },
   "iss": "https://www.sunet.se/swamid",
   "sub": "https://umu.se/openid",
@@ -1814,7 +1803,7 @@ Content-Type: application/json
   "id_token_signing_alg_values_supported":
     {
       "subset_of": ["RS256", "RS512"],
-      "default: ["RS256", "RS512"]
+      "default": ["RS256", "RS512"]
     }
   "organization": {"value": "University of Ume&amp;aring;"},
   "contacts": {"add": ["legal@umu.se", "technical@umu.se"]}
