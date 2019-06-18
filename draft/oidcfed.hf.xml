@@ -264,7 +264,7 @@
               unless that is a leaf entity.
 	      If the metadata type identifier is not
               <spanx style="verb">federation_entity</spanx>, then the policy
-	      MUST be applied to all subordinate notes of that type in the trust chain.
+	      MUST be applied to all subordinate nodes of that type in the trust chain.
 	      Only non-leaf entities contain a <spanx style="verb">metadata_policy</spanx> field.
             </t>
 
@@ -314,7 +314,10 @@
 
         <figure>
           <preamble>Non-normative example of a entity statement, before
-            serialization and adding a signature.
+            serialization and adding a signature.  The example contains
+            a critical extension <spanx style="verb">jti</spanx> (JWT ID) to the
+            entity statement and one critical extension to the policy language
+            <spanx style="verb">regexp</spanx> (Regular expression).
           </preamble>
 
           <artwork><![CDATA[{
@@ -322,12 +325,17 @@
   "sub": "https://ntnu.no",
   "iat": 1516239022,
   "exp": 1516298022,
+  "crit": ["jti"],
+  "jti": "7l2lncFdY6SlhNia",
+  "policy_language_crit": [regexp"],
   "metadata_policy": {
     "openid_provider": {
       "issuer": {"value": "https://ntnu.no"},
       "organization_name": {"value": "NTNU"},
       "id_token_signing_alg_values_supported":
-        {"subset_of": ["RS256", "RS384", "RS512"]}
+        {"subset_of": ["RS256", "RS384", "RS512"]},
+      "op_policy_uri": {
+        "regexp": "^https:\/\/[\w-]+\.example\.com\/[\w-]+\.html"}
     },
     "openid_client": {
       "organization_name": {"value": "NTNU"},
@@ -408,7 +416,7 @@
           self-signed entity statement), i>0 then:
           <list style="symbols">
             <t>
-              The *iss* entity in one entity statement is always the *sub*
+              The <spanx style="verb">iss</spanx> entity in one entity statement is always the <spanx style="verb">sub</spanx>
               entity in the next.
               ES[j]['iss'] == ES[j+1]['sub'], j=0,...,i-1
             </t>
@@ -628,7 +636,8 @@
             </t>
             <t hangText="add">
               <vspace/>
-	      Adds the value specified to the list of values for the metadata statement claim.
+	      Adds the value or values specified to the list of values for the
+          metadata statement claim.
 	      If the specified value is already present in the list,
 	      this operation has no effect.
               As an example, if the Claim policy:
@@ -712,38 +721,9 @@
               ]]></artwork>
               </figure>
             </t>
-            <t hangText="regexp">
-              <vspace/>
-              Matches the claim value against a regular expression.
-              If the value does not match it will be removed.
-              The variant of regular expression used is POSIX BRE.
-              As an example, if the Claim policy:
-              <figure>
-                <artwork><![CDATA[
-  "op_policy_uri": {
-    "regexp": "^https:\/\/[\w-]+\.example\.com\/[\w-]+\.html"
-]]></artwork>
-              </figure>
-
-              is applied to a metadata statement with the claim
-
-              <figure>
-                <artwork><![CDATA[
-  "op_policy_uri": "https://foo.example.com/policy.html"
-              ]]></artwork>
-              </figure>
-
-              the metadata statement will afterwards still contain the claim
-              because the value matched the regular expression:
-              <figure>
-                <artwork><![CDATA[
-  "op_policy_uri": "https://foo.example.com/policy.html"
-              ]]></artwork>
-              </figure>
-            </t>
             <t hangText="essential">
               <vspace/>
-              If 'true' then claim MUST have a value. *essential* can be
+              If 'true' then claim MUST have a value. <spanx style="verb">essential</spanx> can be
               combined with all the other types.
               <figure>
                 <artwork><![CDATA[
@@ -764,8 +744,8 @@
           <list style="hanging">
             <t hangText="default">
               <vspace/>
-              Can be combined with *one_of*, *regexp* and
-              *subset_of*.
+              Can be combined with <spanx style="verb">one_of</spanx> and
+              <spanx style="verb">subset_of</spanx>.
             </t>
             <t hangText="essential">
               <vspace/>
@@ -793,17 +773,17 @@
           <list style="hanging">
             <t hangText="set_of">
               <vspace/>
-              The result of combining 2 *set_of* policies is the intersection of
+              The result of combining 2 <spanx style="verb">set_of</spanx> policies is the intersection of
               the values.
             </t>
             <t hangText="one_of">
               <vspace/>
-              The result of combining 2 *one_of* policies is the intersection of
+              The result of combining 2 <spanx style="verb">one_of</spanx> policies is the intersection of
               the values.
             </t>
             <t hangText="add">
               <vspace/>
-              The result of combining 2 *add* policies is the union of the
+              The result of combining 2 <spanx style="verb">add</spanx> policies is the union of the
               values.
             </t>
           </list>
@@ -867,7 +847,7 @@
 
           </t>
           <t>
-            If after combining a *default* value for a claim policy is not a
+            If after combining a <spanx style="verb">default</spanx> value for a claim policy is not a
             subset of a <spanx style="verb">subset_of</spanx> or an
             <spanx style="verb">one_of</spanx> defined for that claim, then an
             error MUST be raised and the trust chain NOT used.
@@ -1311,7 +1291,7 @@ Content-Type: application/json
           have to fetch it by itself. If it needs to fetch it, it will use the
           process described in <xref target="fetch_statement">Fetch Entity
             Statements
-          </xref> with both *iss* and *sub* set to the entity ID
+          </xref> with both <spanx style="verb">iss</spanx> and <spanx style="verb">sub</spanx> set to the entity ID
           of the remote peer.
         </t>
 
@@ -1322,8 +1302,8 @@ Content-Type: application/json
           hints that end in an unknown trust anchor, requesting an entity
           statement about the remote peer from each of the intermediates.
           If the received entity statement contains an authority hint this
-          process is repeated. This time with the *iss* set to the
-          intermediates entity ID and the *sub* to be the *iss* of the previous
+          process is repeated. This time with the <spanx style="verb">iss</spanx> set to the
+          intermediates entity ID and the <spanx style="verb">sub</spanx> to be the <spanx style="verb">iss</spanx> of the previous
           query.
           The Consumer should never attempt to fetch
           entity statements it already has fetched during this
@@ -1363,15 +1343,15 @@ Content-Type: application/json
                   Verify that the statement contains all the required claims.
                 </t>
                 <t>
-                  Verify that *iat* has a value in the past
+                  Verify that <spanx style="verb">iat</spanx> has a value in the past
                 </t>
                 <t>
-                  Verify that *exp* has a value that is in the future.
+                  Verify that <spanx style="verb">exp</spanx> has a value that is in the future.
                 </t>
               </list>
             </t>
             <t>
-              For j=0,i verify that *iss* == *sub*.
+              For j=0,i verify that <spanx style="verb">iss</spanx> == <spanx style="verb">sub</spanx>.
             </t>
             <t>
               For j=1,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub']
@@ -1434,12 +1414,12 @@ Content-Type: application/json
 
       <section title="Protocol Key Rollover">
         <t>If a leaf entity publishes its public keys in the metadata part
-          using *jwks* setting an expiration time on the self-signed entity
+          using <spanx style="verb">jwks</spanx> setting an expiration time on the self-signed entity
           statement can be used to control how often the remote party is
           fetching an updated version of the public key.
         </t>
-        <t>If a leaf entity uses *jwks_uri* the remote party will in the normal
-          OIDC way fetch the keys anew from the *jwks_uri* URI when it
+        <t>If a leaf entity uses <spanx style="verb">jwks_uri</spanx> the remote party will in the normal
+          OIDC way fetch the keys anew from the <spanx style="verb">jwks_uri</spanx> URI when it
           discovers that the entity uses a key it has never seen before.
         </t>
       </section>
@@ -1455,7 +1435,7 @@ Content-Type: application/json
           roll over its signing keys it would have to:
           <list style="numbers">
             <t>
-              Add the new keys to the *jwks* representing the trust
+              Add the new keys to the <spanx style="verb">jwks</spanx> representing the trust
               anchors signing keys.
             </t>
             <t>
@@ -1675,7 +1655,7 @@ Host: https://example.org
 
                   <t>At this point, if there already exists a client
                     registration under the same entity_id then that registration
-                    MUST be regarded as invalid. *Note* that key material from
+                    MUST be regarded as invalid. <spanx style="verb">Note</spanx> that key material from
                     the
                     previous registration MUST be kept to make key rollover
                     possible.
@@ -1684,7 +1664,7 @@ Host: https://example.org
                   <t>The OP will now construct an metadata policy that if
                     applied to the RP's metadata statement will result in
                     metadata that the OP finds acceptable.
-                    *Note* that the client_id the OP chooses does not have to be
+                    <spanx style="verb">Note</spanx> that the client_id the OP chooses does not have to be
                     the same as the entity_id of the RP.
                     To the entity statement it will add one or more
                     authority_hints, from its collection, that terminate in the
@@ -2625,7 +2605,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFVOUxUbkpzTjJ4VVRYQkZSM040T1Z...
           <t>
             The authority_hints in the self-signed entity statement points to
             2 trust anchors "https://epee.example.org" and "https://swamid.se"
-            of these only the *EPEE* one is interesting. The RP therefor chooses
+            of these only the <spanx style="verb">EPEE</spanx> one is interesting. The RP therefor chooses
             to only follow that trust path. The next step being fetching an
             entity statement about "https://op.umu.se" signed by the EPEE
             federation. This is done by doing a fetch entity statement:
@@ -2689,7 +2669,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             A couple of things worth noting about the response:
             <list style="symbols">
               <t>There is no authority_hint which means this a trust anchor</t>
-              <t>The subject is marked as being a *leaf* which means that
+              <t>The subject is marked as being a <spanx style="verb">leaf</spanx> which means that
                 there can be no entities subordinate to https://op.umu.se
               </t>
               <t>
@@ -2712,7 +2692,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             We start with the signed entity statement issued by EPEE about
             the OP at the University of Ume&aring;
             <list style="numbers">
-              <t>Verify that the *sub* in the entity statement is the OPs entity
+              <t>Verify that the <spanx style="verb">sub</spanx> in the entity statement is the OPs entity
                 ID.
               </t>
               <t>Find the trusted public keys for the EPEE federation in the
@@ -2727,7 +2707,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             Now, we can work on the self-signed entity statement published by
             the OP@UmU.
             <list style="numbers">
-              <t>Verify that the *sub* and the *iss* in the entity statement is
+              <t>Verify that the <spanx style="verb">sub</spanx> and the <spanx style="verb">iss</spanx> in the entity statement is
                 the OPs entity ID.
               </t>
               <t>Using the keys extracted above, verify the signature of the
@@ -2742,7 +2722,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             entity statements. In order to extract the needed metadata, we need
             to look at the metadata type relevant in the given context. In this
             case, we are establishing trust with an OP, and we take
-            a look at the *openid_provider* metadata and metadata_policy objects
+            a look at the <spanx style="verb">openid_provider</spanx> metadata and metadata_policy objects
             of the trust chain:
             <figure>
               <preamble>Metadata polices</preamble>
@@ -2803,7 +2783,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             itself that it wants to register. This should be no different from
             what a normal OIDC RP using dynamic registration does.
 	    To this it adds "federation_type"="explicit", the RP
-            federation signing keys, the *sub* and *authority_hints*.
+            federation signing keys, the <spanx style="verb">sub</spanx> and <spanx style="verb">authority_hints</spanx>.
             Ones it has all that information it
             creates an entity statement. The result of all this work may look
             something like this:
@@ -2855,7 +2835,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             </figure>
           </t>
           <t>Next it self-signs this statement and sends it as a client
-            registration request to the *federation_registration_endpoint* of
+            registration request to the <spanx style="verb">federation_registration_endpoint</spanx> of
             the OP.
           </t>
         </section>
@@ -2863,13 +2843,13 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
       <section title="The OP Deals With a Client Registration Request">
         <section title="The OP Gathers the RPs Trust Chains">
           <t>
-            To collect the trust chains the OP uses the *authority_hints* in the
+            To collect the trust chains the OP uses the <spanx style="verb">authority_hints</spanx> in the
             self-signed entity statement it received from the RP (the client
             registration request).
           </t>
           <t>
             In this case it is only one which points to
-            *https://eree.example.org* . So the OP fetches the entity
+            <spanx style="verb">https://eree.example.org</spanx> . So the OP fetches the entity
             statement that the EPEE federation publishes on the EPEE RP.
             <figure>
               <artwork>
@@ -2985,7 +2965,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
           <t>
             Happy with the information in the client registration request the
             OP constructs its metadata policy and creates an entity statement by
-            adding *sub* and *authority_hints*:
+            adding <spanx style="verb">sub</spanx> and <spanx style="verb">authority_hints</spanx>:
             <figure>
               <artwork>
                 <![CDATA[
@@ -3014,11 +2994,13 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
       <section title="The RP Deals With the Registration Response">
         <t>
           The RP MUST collect the trust chain ending in the EPEE trust anchor
-          and
-          verify the correctness of the trust chain but refrain from processing
+          using the process described in
+          <xref target="resolving_trust">Resolving Trust Chain and Metadata</xref>
+          but refrain from processing
           the metadata. This since the entity statement issued by the EPEE
           federation about the UmU OP are only valid for that entity and not
-          for the EPEE RP.
+          for the EPEE RP. The trust chain should only be used to verify that
+          the entity statement actually comes from the expected OP.
         </t>
         <t>
           If the RP is OK with what the OP decided on regarding the RPs
@@ -3093,6 +3075,11 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
 	  <t>
 	    Discuss localization of human-readable strings.
 	  </t>
+      <t>
+        SAML2 as used in Research and Education federaftions uses post-/prefix
+        matching on metadata in some cases. We might need something
+        similar or just use regular expressions.
+      </t>
         </list>
       </t>
     </section>
