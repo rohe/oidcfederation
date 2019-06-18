@@ -1965,6 +1965,8 @@ Hedberg, et al.              Standards Track                   [Page 35]
    {
      "iat": 1539174048,
      "exp": 1539177648,
+     "iss": "https://umu.se/openid",
+     "sub": "https://umu.se/openid",
      "metadata": {
        "openid_provider": {
          "federation_types_supported": ["implicit", "explicit"],
@@ -1985,8 +1987,6 @@ Hedberg, et al.              Standards Track                   [Page 35]
            "https://www.umu.se/en/website/legal-information/"
        }
      },
-     "iss": "https://umu.se/openid",
-     "sub": "https://umu.se/openid",
      "authority_hints": {
        "https://www.sunet.se/swamid": ["https://edugain.org/oidc"],
        "https://kalmar2.org/openid": []
@@ -2494,6 +2494,7 @@ Hedberg, et al.              Standards Track                   [Page 44]
      "exp": 1543851936,
      "iat": 1543247136,
      "iss": "https://op.umu.se",
+     "sub": "https://op.umu.se",
      "jwks": {
        "keys": [
          {
@@ -2513,7 +2514,6 @@ Hedberg, et al.              Standards Track                   [Page 44]
          "authorization_endpoint":
            "https://op.umu.se/authorization",
          "federation_registration_endpoint":
-           "https://op.umu.se/fedreg",
 
 
 
@@ -2522,6 +2522,7 @@ Hedberg, et al.              Standards Track                   [Page 45]
                         OpenID Connect Federation              June 2019
 
 
+           "https://op.umu.se/fedreg",
          "grant_types_supported": [
            "authorization_code",
            "implicit",
@@ -2546,8 +2547,7 @@ Hedberg, et al.              Standards Track                   [Page 45]
          "token_endpoint": "https://op.umu.se/token",
          "userinfo_endpoint": "https://op.umu.se/user"
        }
-     },
-     "sub": "https://op.umu.se"
+     }
    }
 
 
@@ -2561,7 +2561,7 @@ B.3.2.  Resolving the OP's Trust Chain
    The authority_hints in the self-signed entity statement points to 2
    trust anchors "https://epee.example.org" and "https://swamid.se" of
    these only the "EPEE" one is interesting.  The RP therefor chooses to
-   only follow that trust path.  The next step being fetching an entity
+   only follow that trust path.  The next step being to fetch an entity
    statement about "https://op.umu.se" signed by the EPEE federation.
    This is done by doing a fetch entity statement:
 
@@ -2612,11 +2612,10 @@ Hedberg, et al.              Standards Track                   [Page 46]
          }
        ]
      },
-     "metadata": {
+     "metadata_policy": {
        "openid_provider": {}
      },
-     "sub": "https://op.umu.se",
-     "is_leaf": true
+     "sub": "https://op.umu.se"
    }
 
 
@@ -2626,6 +2625,7 @@ Hedberg, et al.              Standards Track                   [Page 46]
 
    *  The subject is marked as being a "leaf" which means that there can
       be no entities subordinate to https://op.umu.se
+
 
 
 
@@ -2875,21 +2875,19 @@ Hedberg, et al.              Standards Track                   [Page 51]
          }
        ]
      },
-     "metadata": {
+     "metadata_policy": {
        "openid_client": {
          "federation_type": "explicit",
-         "application_type": "web",
-         "request_object_signing_alg": "ES256",
-         "response_types": [
-           "code"
-         ],
-         "scope": [
-           "openid",
-           "email"
-         ],
-         "token_endpoint_auth_method": "private_key_jwt",
-         "token_endpoint_auth_signing_alg": "ES256",
-         "userinfo_signed_response_alg": "ES256"
+         "application_type": {"value": "web"},
+         "request_object_signing_alg": {"value":"ES256"},
+         "response_types": {"subset_of":["code"]},
+         "scope": {"subset_of":["openid","email"]},
+         "token_endpoint_auth_method":
+           {"value": "private_key_jwt"},
+         "token_endpoint_auth_signing_alg":
+           {"value":"ES256"},
+         "userinfo_signed_response_alg":
+           {"value": "ES256"}
        }
      },
      "sub": "https://rp.eree.example.org"
@@ -2905,6 +2903,8 @@ B.4.3.  Extracting RP Metadata
 
    The OP applies the metadata policies on the leaf entity's metadata,
    all from the trust chain and comes up with:
+
+
 
 
 
