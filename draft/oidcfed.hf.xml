@@ -12,7 +12,7 @@
   document and not a private document, as the private="..." declaration could
   be taken to indicate.
 -->
-<rfc category="std" docName="openid-connect-federation-07" ipr="none">
+<rfc category="std" docName="openid-connect-federation-1_0" ipr="none">
   <?rfc toc="yes" ?>
 
   <?rfc tocdepth="3" ?>
@@ -29,7 +29,7 @@
 
   <front>
     <title abbrev="OpenID Connect Federation">OpenID Connect Federation 1.0 -
-      draft 07
+      draft 08
     </title>
 
     <author fullname="Roland Hedberg" initials="R." role="editor"
@@ -80,7 +80,7 @@
       </address>
     </author>
 
-    <date day="15" month="February" year="2019"/>
+    <date day="17" month="June" year="2019"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -236,34 +236,74 @@
               The array may be an empty list.
               The JSON array can be used to simplify the selection of trust
               chains without the need for following all possible trust chains.
+	      <spanx style="verb">authority_hints</spanx> values
+	      may be multiple hops up the chain.
+	      These values will typically be trust anchors.
             </t>
 
             <t hangText="metadata">OPTIONAL. JSON object including protocol
-              specific metadata claims that represent the issuers metadata.
-              The keys of the JSON object represent the metadata type
-              identifier, and their value MUST be a JSON object representing
+              specific metadata claims that represent the entity'ss metadata.
+              Each key of the JSON object represents a metadata type
+              identifier, and each value MUST be a JSON object representing
               the metadata according to the metadata schema of that metadata
               type. An entity statement may contain multiple
               metadata statements, but only one for each metadata type.
+	      Only leaf entities contain a <spanx style="verb">metadata</spanx> field.
             </t>
+
             <t hangText="metadata_policy">OPTIONAL. JSON object that describes
               a metadata policy.
-              The keys of the JSON object are the metadata type
-              identifier, and their value MUST be a JSON object representing
-              the metadata according to the metadata schema of that metadata
+              Each key of the JSON object represents a metadata type
+              identifier, and each value MUST be a JSON object representing
+              the metadata policy according to the metadata schema of that metadata
               type. An entity statement may contain multiple
-              metadata statements, but only one for each metadata type.
+              metadata policy statements, but only one for each metadata type.
               If the metadata type identifier is
               <spanx style="verb">federation_entity</spanx> then the policy
               MUST be applied to the immediate subordinate in the trust chain
               unless that is a leaf entity.
+	      If the metadata type identifier is not
+              <spanx style="verb">federation_entity</spanx>, then the policy
+	      MUST be applied to all subordinate notes of that type in the trust chain.
+	      Only non-leaf entities contain a <spanx style="verb">metadata_policy</spanx> field.
             </t>
-            <t hangText="sub_is_leaf">OPTIONAL. Boolean value that indicates
-              whether the subject is considered a leaf entity. A leaf entity is
-              not trusted to issue policy statements about other entities. If
-              this property is left out, it is considered to be
-              <spanx style="verb">false</spanx>.
-            </t>
+
+            <t hangText="crit">
+	      OPTIONAL.
+	      The <spanx style="verb">crit</spanx> (critical) entity statement claim
+	      indicates that extensions to entity statement claims defined by this specification
+	      are being used that MUST be understood and processed.
+	      It is used in the same way that <spanx style="verb">crit</spanx>
+	      is used for extension JWS header parameters that MUST be understood and processed.
+	      Its value is an array listing the entity statement claims
+	      present in the entity statement that use those extensions.
+	      If any of the listed extension entity statement claims are not
+	      understood and supported by the recipient, then the entity statement is invalid.
+	      Producers MUST NOT include entity statement claim names defined by this specification or
+	      names that do not occur as entity statement claim names in the entity statement
+	      in the <spanx style="verb">crit</spanx> list.
+	      Producers MUST NOT use the empty list <spanx style="verb">[]</spanx>
+	      as the <spanx style="verb">crit</spanx> value.
+	    </t>
+
+            <t hangText="policy_language_crit">
+	      OPTIONAL.
+	      The <spanx style="verb">policy_language_crit</spanx> (critical) entity statement claim
+	      indicates that extensions to the policy language defined by this specification
+	      are being used that MUST be understood and processed.
+	      It is used in the same way that <spanx style="verb">crit</spanx>
+	      is used for extension JWS header parameters that MUST be understood and processed.
+	      Its value is an array listing the policy language extensions
+	      present in the policy language statements that use those extensions.
+	      If any of the listed extension policy language extensions are not
+	      understood and supported by the recipient, then the entity statement is invalid.
+	      Producers MUST NOT include policy language names defined by this specification or
+	      names that do not occur in policy languge statements in the entity statement
+	      in the <spanx style="verb">policy_language_crit</spanx> list.
+	      Producers MUST NOT use the empty list <spanx style="verb">[]</spanx>
+	      as the <spanx style="verb">policy_language_crit</spanx> value.
+	    </t>
+
           </list>
         </t>
 
@@ -416,6 +456,11 @@
 
         <t>To that list is added:
           <list style="hanging">
+	    <t hangText="federation_type"><vspace/>
+	      REQUIRED.  String specifying the federation type being used.
+	      Values defined by this specification are
+	      <spanx style="verb">implicit</spanx> and <spanx style="verb">explicit</spanx>.
+	    </t>
             <t hangText="organization_name"><vspace/>OPTIONAL. A human readable
               name representing the organization owning the RP.
             </t>
@@ -437,6 +482,11 @@
 
         <t>
           <list style="hanging">
+	    <t hangText="federation_types_supported"><vspace/>
+	      REQUIRED.  Array specifying the federation types supported.
+	      Federation type values defined by this specification are
+	      <spanx style="verb">implicit</spanx> and <spanx style="verb">explicit</spanx>.
+	    </t>
             <t hangText="organization_name"><vspace/>OPTIONAL. A human readable
               name representing the organization owning the OP. It is
               intended to be used in the user interface, being recognized by
@@ -449,12 +499,6 @@
                 registration</xref>, then this claim is REQUIRED.
             </t>
           </list>
-        </t>
-      </section>
-
-      <section title="OpenID Connect Discovery">
-        <t>The metadata type identifier is <spanx style="verb">
-          openid_discovery</spanx>.
         </t>
       </section>
 
@@ -584,9 +628,9 @@
             </t>
             <t hangText="add">
               <vspace/>
-              Disregarding what value the claim had, the
-              value specified here will be added to the claim in the
-              metadata statement.
+	      Adds the value specified to the list of values for the metadata statement claim.
+	      If the specified value is already present in the list,
+	      this operation has no effect.
               As an example, if the Claim policy:
               <figure>
                 <artwork><![CDATA[
@@ -843,8 +887,12 @@
           There might be parties that wants to extend the policy language
           defined here. If that happens then the rule is that if
           software compliant with this specification
-          encounters a key word it doesn't understand it MUST refuse to apply
-          the policy.
+          encounters a keyword it doesn't understand it MUST ignore it
+	  unless it is listed in a <spanx style="verb">policy_language_crit</spanx> list,
+	  as is done for JWS header parameters with the <spanx style="verb">crit</spanx> parameter.
+	  If the policy language extension keyword
+	  is listed in the <spanx style="verb">policy_language_crit</spanx> list
+	  and not understood, then the metadata MUST be rejected.
         </t>
       </section>
       <section title="Policy example">
@@ -908,6 +956,7 @@
         </t>
       </section>
     </section>
+
     <section title="The Federation API">
       <t>All entities that are expected
         to publish entity statements about themselves or other entities, MUST
@@ -921,10 +970,10 @@
         <spanx style="verb">openid-federation</spanx>. The scheme, host and port
         is taken directly from the entity identifier combined with the following
         path: <spanx style="verb">/.well-known/openid-federation</spanx>.
-      </t>
-      <t>*Note* that since the path component of a entity ID is not
-        included when constructing the URL above, one API endpoint may
-        serve as the federation API endpoint for several entities.
+	If the entity identifier contains a path, it is concatenated after
+	<spanx style="verb">/.well-known/openid-federation</spanx> in the same manner
+	that path components are concatenated to the well-known identifier in
+	the OAuth 2.0 Authorization Server Metadata <xref target="RFC8414"/> specification.
       </t>
       <t>The Federation API is an HTTPS API that may support multiple
         operations. Fetching entity statements is one of the operations, and the
@@ -936,8 +985,7 @@
 
       <t>While all operations in the specification make use of a GET request,
         other operations may choose to use other HTTP methods. If the <spanx
-                style="verb">op
-        </spanx> parameter is left out, it is considered
+	style="verb">op</spanx> parameter is left out, it is considered
         to be a
         fetch entity statements request. Unless otherwise mentioned or agreed
         upon, requests to the federation API does not need to be
@@ -1080,11 +1128,11 @@ GET /.well-known/openid-federation?
 op=resolve_metadata&
 respondent=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
 type=openid_provider&
+anchor=https%3A%2F%2Fswamid.se&
 peer=https%3A%2F%2Fidp.umu.se%2Fopenid HTTP/1.1
 Host: openid.sunet.se
 ]]></artwork>
             </figure>
-
           </t>
         </section>
 
@@ -1127,7 +1175,9 @@ Content-Type: application/json
 
       <section title="Entity Listings (OPTIONAL)">
         <t>An entity may query another entity for a list of all the
-          entities that that entity is prepared to issue statements about.
+          entities immediately subordinate to that entity
+	  that that entity is prepared to issue statements about.
+	  (In some cases, this may be a very large list.)
         </t>
 
         <section title="Entity Listings Request">
@@ -1148,7 +1198,7 @@ Content-Type: application/json
                 explicit exactly which entity is expected.
               </t>
 
-              <t hangText="sub_is_leaf">OPTIONAL. If left out, result should
+              <t hangText="is_leaf">OPTIONAL. If left out, result should
                 include both leaf entities and intermediate nodes. If set to
                 <spanx style="verb">true</spanx>,
                 the response should contain only leaf entities. If set to
@@ -1661,8 +1711,10 @@ Host: https://example.org
                     chains that the OP provides because those are not valid for
                     the RPs metadata.
                     The RP MUST apply policies to the metadata using one of its
-                    own trust chains that ends in the trust anchor that the OP
-                    chose. Once it has applied those policies it can the apply
+                    own trust chains that ends in the trust anchor that the OP chose.
+		    This trust anchor will be returned as a singleton
+		    <spanx style="verb">authority_hints</spanx> value in the OP's entity statement.
+		    Once it has applied those policies it can the apply
                     the policy returned from the OP.
                     When it has applied all the metadata policies to its
                     metadata statement, it then stores
@@ -1763,7 +1815,12 @@ Host: https://example.org
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>TBD</t>
+      <t>
+	TBD Register federation_types_supported for OP metadata with initial values implicit, explicit.
+      </t>
+      <t>
+	TBD Register federation_type for RP registration metadata.
+      </t>
     </section>
 
     <section anchor="Security" title="Security Considerations">
@@ -1985,16 +2042,16 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
       </section>
 
       <section title="Foodle Discovers the OP">
-        <t>Foodle normalizes the entity identifier of the OP, and
+        <t>Foodle
           performs a request to fetch the self-issued entity statement using the
           Federation API of the OP.
         </t>
 
         <figure>
           <artwork><![CDATA[
-GET /.well-known/openid-federation?
+GET /.well-known/openid-federation/openid?
 iss=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
-Host: umu.se]]></artwork>
+Host: www.umu.se]]></artwork>
         </figure>
 
         <figure>
@@ -2014,6 +2071,7 @@ Content-Type: application/json
   "exp": 1539177648,
   "metadata": {
     "openid_provider": {
+      "federation_types_supported": ["implicit", "explicit"],
       "authorization_endpoint":
         "https://idp.umu.se/openid/authorization",
       "token_endpoint": "https://idp.umu.se/openid/token",
@@ -2028,8 +2086,7 @@ Content-Type: application/json
       "logo_uri":
         "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
       "policy_uri":
-        "https://www.umu.se/en/website/legal-information/",
-      "loa_max": "http://eidas.europa.eu/LoA/high"
+        "https://www.umu.se/en/website/legal-information/"
     }
   },
   "iss": "https://umu.se/openid",
@@ -2129,9 +2186,9 @@ Content-Type: application/json
         </figure>
 
         <t>Notice that the entity statement about University of Ume&aring;
-          also contains an entry for openid_client metadata. This indicates that
-          SWAMID expresses this university to be trusted to issue its own OpenID
-          clients without the need for registering these directly in SWAMID.
+          also contains an entry for openid_client metadata. This metadata policy indicates that
+          SWAMID expresses this university to be trusted to issue its own OpenID clients
+	  and OpenID Providers without the need for registering these directly in SWAMID.
         </t>
 
         <t>These two entity statements are sufficient to establish a path from
@@ -2191,8 +2248,7 @@ Content-Type: application/json
               an openid_provider
             </preamble>
             <artwork><![CDATA[[
-{"loa_max":
-  {"value":"http://swamid.se/LoA/substantial"}}
+{}
 ]]]></artwork>
           </figure>
 
@@ -2230,8 +2286,7 @@ Content-Type: application/json
   "logo_uri":
       "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
   "policy_uri":
-      "https://www.umu.se/en/about-the-website/legal-information/",
-  "loa_max": "http://eidas.europa.eu/LoA/high"
+      "https://www.umu.se/en/about-the-website/legal-information/"
 }
 ]]]></artwork>
           </figure>
@@ -2258,8 +2313,7 @@ Content-Type: application/json
     "urn:ietf:params:oauth:grant-type:jwt-bearer"
   ],
   "subject_types_supported": ["pairwise"],
-  "id_token_signing_alg_values_supported": ["RS256"],
-  "loa_max": "http://swamid.se/LoA/substantial"
+  "id_token_signing_alg_values_supported": ["RS256"]
 }]]></artwork>
           </figure>
         </t>
@@ -2349,13 +2403,7 @@ Host: idp.umu.se
       <section title="RP Fetches Entity Statements">
         <t>The RP starts to resolve metadata for the client identifier
           https://foodl.org/ by fetching the self-issued entity statement using
-          the Federation API.
-        </t>
-
-        <t/>
-
-        <t>uses WebFinger, the metadata API endpoints and the authority_hints
-          in order to establish a full trust chain to the trust root.
+          the Federation API, as described in <xref target="fetching-es"/>.
         </t>
 
         <t>In this case there are two possible trust chains:</t>
@@ -2530,6 +2578,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFVOUxUbkpzTjJ4VVRYQkZSM040T1Z...
   },
   "metadata": {
     "openid_provider": {
+      "federation_types_supported": ["explicit"],
       "authorization_endpoint":
         "https://op.umu.se/authorization",
       "federation_registration_endpoint":
@@ -2630,7 +2679,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
     "openid_provider": {}
   },
   "sub": "https://op.umu.se",
-  "sub_is_leaf": true
+  "is_leaf": true
 }
               ]]>
               </artwork>
@@ -2672,8 +2721,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
               <t>Use these keys to validate the signature of the signed entity
                 statement. Provided that works out OK
               </t>
-              <t>Extract the jwks from the entity statement and convert it to
-                a set of keys
+              <t>Extract the jwks from the entity statement
               </t>
             </list>
             Now, we can work on the self-signed entity statement published by
@@ -2743,8 +2791,8 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             </figure>
           </t>
           <t>
-            Since there is no metadata policy defined, the response will just
-            be the metadata statement as it is.
+            Since there is no metadata policy defined earlier in the trust chain,
+	    the response will just be the metadata statement as it is.
           </t>
         </section>
         <section title="EPEE RP Does Federated Client Registration">
@@ -2753,7 +2801,8 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             dynamic client registration. To that end it collects information
             about
             itself that it wants to register. This should be no different from
-            what a normal OIDC RP does. To this it adds information about the RP
+            what a normal OIDC RP using dynamic registration does.
+	    To this it adds "federation_type"="explicit", the RP
             federation signing keys, the *sub* and *authority_hints*.
             Ones it has all that information it
             creates an entity statement. The result of all this work may look
@@ -2783,6 +2832,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
   },
   "metadata": {
     "openid_client": {
+      "federation_type": "explicit",
       "application_type": "web",
       "request_object_signing_alg": "ES256",
       "response_types": [
@@ -2870,6 +2920,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
   },
   "metadata": {
     "openid_client": {
+      "federation_type": "explicit",
       "application_type": "web",
       "request_object_signing_alg": "ES256",
       "response_types": [
@@ -2985,7 +3036,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
       </section>
     </section>
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2018 The OpenID Foundation.</t>
+      <t>Copyright (c) 2019 The OpenID Foundation.</t>
 
       <t>The OpenID Foundation (OIDF) grants to any Contributor, developer,
         implementer, or other interested party a non-exclusive, royalty free,
@@ -3023,8 +3074,68 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
       </t>
     </section>
 
+    <section anchor="TBD" title="Open Issues">
+      <t>
+	The following open issues remain to be addressed in this specification.
+      </t>
+      <t>
+	<list style="symbols">
+	  <t>
+	    How are federation operator keys retrieved?
+	  </t>
+          <t>
+	    A mechanism is needed for key rotation of federation operator keys
+	    for long-term security and maintainability of federations.
+	  </t>
+	  <t>
+	    A mechanism may be needed for bounding key lifetimes.
+	  </t>
+	  <t>
+	    Discuss localization of human-readable strings.
+	  </t>
+        </list>
+      </t>
+    </section>
+
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-08
+        <list style="symbols">
+          <t>
+	    Incorporated review feedback from Michael B. Jones.
+	    Major changes were as follows.
+	  </t>
+	  <t>
+	    Deleted <spanx style="verb">sub_is_leaf</spanx> entity statement since it was redundant.
+	  </t>
+	  <t>
+	    Added <spanx style="verb">federation_type</spanx> RP registration metadata value
+	    and <spanx style="verb">federation_types_supported</spanx> OP metadata value.
+	  </t>
+	  <t>
+	    Deleted <spanx style="verb">openid_discovery</spanx> metadata type identifier
+	    since its purpose is already served by <spanx style="verb">openid_provider</spanx>.
+	  </t>
+	  <t>
+	    Entity identifer paths are now included when using the Federation API,
+	    enabling use in multi-tenant deployments sharing a common domain name.
+	  </t>
+	  <t>
+	    Renamed <spanx style="verb">sub_is_leaf</spanx> to <spanx style="verb">is_leaf</spanx>
+	    in the Entity Listings Request operation parameters.
+	  </t>
+	  <t>
+	    Added <spanx style="verb">crit</spanx> and <spanx style="verb">policy_language_crit</spanx>,
+	    enabling control over which entity statement and policy language extensions
+	    MUST be understood and processed.
+	  </t>
+	  <t>
+	    Restored Open Issues appendix.
+	  </t>
+        </list>
+      </t>
 
       <t>-07
         <list style="symbols">
