@@ -80,11 +80,13 @@
       </address>
     </author>
 
-    <date day="17" month="June" year="2019"/>
+    <date day="18" month="June" year="2019"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
-    <keyword>OIDC</keyword>
+    <keyword>OpenID</keyword>
+    <keyword>Connect</keyword>
+    <keyword>Federation</keyword>
 
     <abstract>
       <t>The OpenID Connect standard specifies how an Relying Party (RP)
@@ -150,7 +152,7 @@
           "Claim Name", "Claim Value", "JSON Web Token (JWT)",
           defined by <xref target="RFC7517">JSON Web Token (JWT)</xref>, the
           terms "OpenID Provider (OP)" and "Relying Party (RP)" by
-          <xref target="OpenID.Core">OIDC core</xref>
+          <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>
         </t>
         <t>
           This specification also defines the following terms:
@@ -337,7 +339,7 @@
       "op_policy_uri": {
         "regexp": "^https:\/\/[\w-]+\.example\.com\/[\w-]+\.html"}
     },
-    "openid_client": {
+    "openid_relying_party": {
       "organization_name": {"value": "NTNU"},
       "grant_types_supported": {
         "subset_of": ["authorization_code", "implicit"]},
@@ -371,13 +373,13 @@
 
       <section title="Trust chain" anchor="trust_chain">
         <t>
-          In an OIDC Identity Federation, entities that together build a
+          In an OpenID Connect Identity Federation, entities that together build a
           trust chain can be categorized as:
           <list style="hanging">
             <t hangText="Trust anchor">An entity that represents a trusted
               third party
             </t>
-            <t hangText="Leaf">In an OIDC Identity federation an RP or an OP
+            <t hangText="Leaf">In an OpenID Connect Identity Federation, an RP or an OP
             </t>
             <t hangText="Intermediate">Neither a leaf nor a trust anchor</t>
           </list>
@@ -453,13 +455,12 @@
 
       <section title="RP Metadata" anchor="RP_metadata">
         <t>The metadata type identifier is <spanx style="verb">
-          openid_client</spanx>.
+          openid_relying_party</spanx>.
         </t>
 
         <t>All parameters defined in section 2 of <xref
                 target="OpenID.Registration">OpenID Connect Dynamic Client
-          Registration 1.0
-        </xref> are allowed in a metadata statement.
+          Registration 1.0</xref> are allowed in a metadata statement.
         </t>
 
         <t>To that list is added:
@@ -467,7 +468,7 @@
 	    <t hangText="federation_type"><vspace/>
 	      REQUIRED.  String specifying the federation type being used.
 	      Values defined by this specification are
-	      <spanx style="verb">implicit</spanx> and <spanx style="verb">explicit</spanx>.
+	      <spanx style="verb">automatic</spanx> and <spanx style="verb">explicit</spanx>.
 	    </t>
             <t hangText="organization_name"><vspace/>OPTIONAL. A human readable
               name representing the organization owning the RP.
@@ -493,7 +494,7 @@
 	    <t hangText="federation_types_supported"><vspace/>
 	      REQUIRED.  Array specifying the federation types supported.
 	      Federation type values defined by this specification are
-	      <spanx style="verb">implicit</spanx> and <spanx style="verb">explicit</spanx>.
+	      <spanx style="verb">automatic</spanx> and <spanx style="verb">explicit</spanx>.
 	    </t>
             <t hangText="organization_name"><vspace/>OPTIONAL. A human readable
               name representing the organization owning the OP. It is
@@ -555,11 +556,11 @@
               strings. Contact persons at the entity.
             </t>
 
-            <t hangText="policy_url">OPTIONAL. URL to documentation of
-              conditions and policies relevant to this entity
+            <t hangText="policy_uri">OPTIONAL. URL to documentation of
+              conditions and policies relevant to this entity.
             </t>
 
-            <t hangText="homepage_url">OPTIONAL. URL to a generic home page
+            <t hangText="homepage_uri">OPTIONAL. URL to a generic home page
               representing this entity.
             </t>
           </list>
@@ -950,10 +951,21 @@
         <spanx style="verb">openid-federation</spanx>. The scheme, host and port
         is taken directly from the entity identifier combined with the following
         path: <spanx style="verb">/.well-known/openid-federation</spanx>.
+      </t>
+      <t>
 	If the entity identifier contains a path, it is concatenated after
 	<spanx style="verb">/.well-known/openid-federation</spanx> in the same manner
 	that path components are concatenated to the well-known identifier in
 	the OAuth 2.0 Authorization Server Metadata <xref target="RFC8414"/> specification.
+	Of course, in real multi-tenant deployments, in which a the entity ID might be of the form
+	<spanx style="verb">https://multi-teanant-service.example.com/my-tenant-identifier</spanx>
+	the tenant is very likely to not have control over the path
+	<spanx style="verb">https://multi-teanant-service.example.com/.well-known/openid-federation/my-tenant-identifier</spanx>
+	whereas it is very likely to have control over the path 
+	<spanx style="verb">https://multi-teanant-service.example.com/my-tenant-identifier/.well-known/openid-federation</spanx>.
+	Therefore, if using the Federation API at the URL with the tenant path after the well-known part fails,
+	it is RECOMMENDED that callers retry at the URL with the tenant path before the well-known part
+	(even though this violates <xref target="RFC5785"/>).
       </t>
       <t>The Federation API is an HTTPS API that may support multiple
         operations. Fetching entity statements is one of the operations, and the
@@ -965,7 +977,7 @@
 
       <t>While all operations in the specification make use of a GET request,
         other operations may choose to use other HTTP methods. If the <spanx
-	style="verb">op</spanx> parameter is left out, it is considered
+	style="verb">operation</spanx> parameter is left out, it is considered
         to be a
         fetch entity statements request. Unless otherwise mentioned or agreed
         upon, requests to the federation API does not need to be
@@ -991,7 +1003,7 @@
 
           <t>
             <list style="hanging">
-              <t hangText="op">OPTIONAL. If not present MUST be treated as
+              <t hangText="operation">OPTIONAL. If not present, MUST be treated as
                 <spanx style="verb">fetch</spanx>.
               </t>
 
@@ -1073,7 +1085,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
           </t>
           <t>
             <list style="hanging">
-              <t hangText="op">REQUIRED. MUST be set to <spanx style="verb">
+              <t hangText="operation">REQUIRED. MUST be set to <spanx style="verb">
                 resolve_metadata</spanx>.
               </t>
 
@@ -1167,7 +1179,7 @@ Content-Type: application/json
           </t>
           <t>
             <list style="hanging">
-              <t hangText="op">REQUIRED. MUST be set to
+              <t hangText="operation">REQUIRED. MUST be set to
                 <spanx style="verb">listing</spanx>.
               </t>
 
@@ -1197,7 +1209,7 @@ Content-Type: application/json
 GET /.well-known/openid-federation?
 op=listing&
 iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
-type=openid_client HTTP/1.1
+type=openid_relying_party HTTP/1.1
 Host: openid.sunet.se
 ]]></artwork>
             </figure>
@@ -1240,7 +1252,7 @@ Content-Type: application/json
 
         <t>
           <list style="hanging">
-            <t hangText="op">REQUIRED. Which operation was the request
+            <t hangText="operation">REQUIRED. Which operation was the request
               processed as.
             </t>
 
@@ -1260,7 +1272,7 @@ Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
 {
-  "op": "fetch",
+  "operation": "fetch",
   "error": "invalid_request",
   "error_description":
     "Required request parameter [iss] was missing."
@@ -1419,7 +1431,7 @@ Content-Type: application/json
           fetching an updated version of the public key.
         </t>
         <t>If a leaf entity uses <spanx style="verb">jwks_uri</spanx> the remote party will in the normal
-          OIDC way fetch the keys anew from the <spanx style="verb">jwks_uri</spanx> URI when it
+          OpenID Connect way fetch the keys anew from the <spanx style="verb">jwks_uri</spanx> URI when it
           discovers that the entity uses a key it has never seen before.
         </t>
       </section>
@@ -1476,14 +1488,14 @@ Content-Type: application/json
       </t>
 
       <t>There is two alternative approaches to establish trust between an
-        RP and an OP, what we call implicit and explicit
+        RP and an OP, what we call automatic and explicit
         registration. Members of a federation or a community
         should agree upon which one to use. While implementations should
         support both methods, deployments may choose to disable the use of one
         of them.
       </t>
 
-      <section title="Implicit Registration" anchor="implicit">
+      <section title="Automatic Registration" anchor="automatic">
         <t/>
 
         <figure>
@@ -1507,7 +1519,7 @@ Content-Type: application/json
         </t>
 
         <t>Without a registration process, the RP does not have a
-          client_secret. Instead the implicit registration model requires the RP
+          client_secret. Instead the automatic registration model requires the RP
           to make use of asymmetric cryptography.
         </t>
         <t>The RP MUST host a Federation API that allows the OP to fetch the
@@ -1521,7 +1533,7 @@ Content-Type: application/json
           <t>The RP MUST authenticate at the authentication endpoint
             using the private_key_jwt method described in the client
             authentication section of
-            <xref target="OpenID.Core">OIDC core</xref>.
+            <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
           </t>
           <t>
             <figure>
@@ -1556,7 +1568,7 @@ Host: https://example.org
           <t>The OP should validate the possible trust chains, as described in
             <xref target="trust_chain_validation">Trust chain validation</xref>
             and resolve the RP metadata with type
-            <spanx style="verb">openid_client</spanx>.
+            <spanx style="verb">openid_relying_party</spanx>.
           </t>
 
           <t>The OP should consider the resolved metadata of the RP, and
@@ -1585,8 +1597,7 @@ Host: https://example.org
           client the first time a RP interacts with an OP
           using something that basically follows the steps in
           <xref target="OpenID.Registration">OpenID Connect Dynamic Client
-            Registration 1.0
-          </xref>
+            Registration 1.0</xref>
           but where the client registration request
           is a signed entity statement.
         </t>
@@ -1796,7 +1807,7 @@ Host: https://example.org
 
     <section anchor="IANA" title="IANA Considerations">
       <t>
-	TBD Register federation_types_supported for OP metadata with initial values implicit, explicit.
+	TBD Register federation_types_supported for OP metadata with initial values automatic, explicit.
       </t>
       <t>
 	TBD Register federation_type for RP registration metadata.
@@ -1910,7 +1921,7 @@ Host: https://example.org
     </references>
 
     <section
-            title="Illustrative Example of OpenID Connect Flow Using Implicit Client Registration">
+            title="Illustrative Example of OpenID Connect Flow Using Automatic Client Registration">
       <t>A service Foodle would like to offer its services to all OPs in
         eduGAIN. Foodle is managed and registered by the university
         NTNU. NTNU is part of the Norwegian Feide federation. Foodle is also
@@ -2053,7 +2064,7 @@ Content-Type: application/json
   "sub": "https://umu.se/openid",
   "metadata": {
     "openid_provider": {
-      "federation_types_supported": ["implicit", "explicit"],
+      "federation_types_supported": ["automatic", "explicit"],
       "authorization_endpoint":
         "https://idp.umu.se/openid/authorization",
       "token_endpoint": "https://idp.umu.se/openid/token",
@@ -2144,7 +2155,7 @@ Content-Type: application/json
       "contacts": {
         "add": ["legal@umu.se", "technical@umu.se"]}
     },
-    "openid_client": {}
+    "openid_relying_party": {}
   },
   "iss": "https://www.sunet.se/swamid",
   "sub": "https://umu.se/openid",
@@ -2166,8 +2177,8 @@ Content-Type: application/json
         </figure>
 
         <t>Notice that the entity statement about University of Ume&aring;
-          also contains an entry for openid_client metadata. This metadata policy indicates that
-          SWAMID expresses this university to be trusted to issue its own OpenID clients
+          also contains an entry for openid_relying_party metadata. This metadata policy indicates that
+          SWAMID expresses this university to be trusted to issue its own OpenID Relying Parties
 	  and OpenID Providers without the need for registering these directly in SWAMID.
         </t>
 
@@ -2299,12 +2310,12 @@ Content-Type: application/json
         </t>
       </section>
 
-      <section title="RP Sends Authentication Request (Implicit Registration)">
+      <section title="RP Sends Authentication Request (Automatic Registration)">
         <t>Foodle after establishing trust with the University of
           Ume&aring;
           and extracted metadata and a set of metadata policies, will send an
           authentication request to the OP. This example involves the
-          implicit registration.
+          automatic registration.
         </t>
 
         <t>Here is an example of an authentication request:
@@ -2780,7 +2791,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             dynamic client registration. To that end it collects information
             about
             itself that it wants to register. This should be no different from
-            what a normal OIDC RP using dynamic registration does.
+            what a normal OpenID Connect RP using dynamic registration does.
 	    To this it adds "federation_type"="explicit", the RP
             federation signing keys, the <spanx style="verb">sub</spanx> and <spanx style="verb">authority_hints</spanx>.
             Ones it has all that information it
@@ -2810,7 +2821,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
     ]
   },
   "metadata": {
-    "openid_client": {
+    "openid_relying_party": {
       "federation_type": "explicit",
       "application_type": "web",
       "request_object_signing_alg": "ES256",
@@ -2898,7 +2909,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
     ]
   },
   "metadata_policy": {
-    "openid_client": {
+    "openid_relying_party": {
       "federation_type": "explicit",
       "application_type": {"value": "web"},
       "request_object_signing_alg": {"value":"ES256"},
@@ -2976,7 +2987,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
   "iat": 1543326297,
   "iss": "https://op.umu.se",
   "metadata_policy": {
-    "openid_client": {
+    "openid_relying_party": {
       "client_id": {"value": "FjeL1yco_Iu7VZoeDk"}
     }
   },
@@ -3001,7 +3012,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
         </t>
         <t>
           If the RP is OK with what the OP decided on regarding the RPs
-          metadata then it will store this to be used in the following OIDC
+          metadata then it will store this to be used in the following OpenID Connect
           protocol exchange with the OP.
         </t>
         <t>
@@ -3114,6 +3125,20 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
 	    Added <spanx style="verb">crit</spanx> and <spanx style="verb">policy_language_crit</spanx>,
 	    enabling control over which entity statement and policy language extensions
 	    MUST be understood and processed.
+	  </t>
+	  <t>
+	    Renamed <spanx style="verb">openid_client</spanx> to <spanx style="verb">openid_relying_party</spanx>.
+	  </t>
+	  <t>
+	    Renamed <spanx style="verb">implicit</spanx> registration to <spanx style="verb">automatic</spanx> registration
+	    to avoid naming confusion with the implicit grant type.
+	  </t>
+	  <t>
+	    Renamed <spanx style="verb">op</spanx> to <spanx style="verb">operation</spanx>
+	    to avoid naming confusion with the use of "OP" as an acronym for "OpenID Provider".
+	  </t>
+	  <t>
+	    Renamed <spanx style="verb">url</spanx> to <spanx style="verb">uri</spanx> in several identifiers.
 	  </t>
 	  <t>
 	    Restored Open Issues appendix.
