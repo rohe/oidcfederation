@@ -242,6 +242,12 @@
               The keys that can be found here are primarily intended to sign
               entity statements and should not be used in other protocols.
             </t>
+            <t hangText="aud">
+	      <vspace/>
+	      OPTIONAL.
+              The entity statement may be specifically created for a entity.
+              The entity identifier for that entity should appear in this claim.
+            </t>
             <t hangText="authority_hints">
 	      <vspace/>
 	      OPTIONAL. A JSON object where the keys
