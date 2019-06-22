@@ -1749,7 +1749,7 @@ Host: https://example.org
               in the OP's metadata.
             </t>
             <t>
-	      Given that the OP supports dynamic registration, the RP
+	      Given that the OP supports explicit registration, the RP
               progresses as follows:
 	    </t>
 	    <t>
@@ -1839,8 +1839,6 @@ Host: https://example.org
                     the RPs metadata.
                     The RP MUST apply policies to the metadata using one of its
                     own trust chains that ends in the trust anchor that the OP chose.
-		    This trust anchor will be returned as a singleton
-		    <spanx style="verb">authority_hints</spanx> value in the OP's entity statement.
 		    Once it has applied those policies it can the apply
                     the policy returned from the OP.
                     When it has applied all the metadata policies to its
@@ -2202,13 +2200,13 @@ Host: www.umu.se
           <artwork><![CDATA[
 HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQi..."
-]]></artwork>
+"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQi..."
+]></artwork>
         </figure>
 
         <t>
-	  The API endpoint returns a list of signed entity statements. In
-          this case we look for a self-issued statement from the Ume&aring;
+	  The API endpoint returns a signed entity statement. In
+          this case we looked for a self-issued statement from the Ume&aring;
           university. We then decode and inspect the content:
         </t>
         <figure>
