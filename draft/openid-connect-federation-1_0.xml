@@ -1021,7 +1021,7 @@
   "logo_uri": "https://example.com/logo_small.jpg",
   "policy_uri": "https://example.com/policy.html",
   "tos_uri": "https://example.com/tos.html"
-  "rp_scopes": ["openid", "eduperson"],
+  "scopes": ["openid", "eduperson"],
   "response_types": ["code"],
   "redirect_uris": ["https://cs.example.com/rp1"],
 }
