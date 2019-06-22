@@ -2292,8 +2292,8 @@ Host: www.sunet.se
           <artwork><![CDATA[
 HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpY..."
-]]></artwork>
+"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpY..."
+]></artwork>
         </figure>
 
         <t>

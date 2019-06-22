@@ -3683,15 +3683,15 @@ Host: www.sunet.se
 <pre>
 HTTP/1.1 200 OK
 Content-Type: application/json
-["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpY..."
-</pre>
-<a href="#section-a.5-6" class="pilcrow">¶</a>
-</div>
-<p id="section-a.5-7">
-   The decoded version of the entity statement is:
-        <a href="#section-a.5-7" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-a.5-8">
-<pre>
+"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpY..."
+]&gt;&lt;/artwork&gt;
+        &lt;/figure&gt;
+
+        &lt;t&gt;
+          The decoded version of the entity statement is:
+        &lt;/t&gt;
+        &lt;figure&gt;
+          &lt;artwork&gt;&lt;![CDATA[
 {
   "iat": 1539174048,
   "exp": 1539177648,
@@ -3728,56 +3728,56 @@ Content-Type: application/json
   }
 }
 </pre>
-<a href="#section-a.5-8" class="pilcrow">¶</a>
+<a href="#section-a.5-6" class="pilcrow">¶</a>
 </div>
-<p id="section-a.5-9">
+<p id="section-a.5-7">
    Notice that the entity statement about University of Umeae
           also contains an entry for openid_relying_party metadata. This metadata policy indicates that
           SWAMID expresses this university to be trusted to issue its own OpenID Relying Parties
    and OpenID Providers without the need for registering these directly in SWAMID.
-        <a href="#section-a.5-9" class="pilcrow">¶</a></p>
-<p id="section-a.5-10">
+        <a href="#section-a.5-7" class="pilcrow">¶</a></p>
+<p id="section-a.5-8">
    These two entity statements are sufficient to establish a path from
           the locally configured trust anchor which trust SWAMID, to the
           self-issued statement from the University of Umeae.
           Here are the steps performed to validate the trust chain:
-        <a href="#section-a.5-10" class="pilcrow">¶</a></p>
+        <a href="#section-a.5-8" class="pilcrow">¶</a></p>
 <ul>
-<li id="section-a.5-11.1">
+<li id="section-a.5-9.1">
        Find the trusted public keys for SWAMID in the local trust
               configuration.
-            <a href="#section-a.5-11.1" class="pilcrow">¶</a>
+            <a href="#section-a.5-9.1" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-11.2">
+          <li id="section-a.5-9.2">
        Use these keys to validate the signature of the signed entity
               statement issued by SWAMID about the University of
               Umeae.
-            <a href="#section-a.5-11.2" class="pilcrow">¶</a>
+            <a href="#section-a.5-9.2" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-11.3">
+          <li id="section-a.5-9.3">
        Check that the <code>sub</code> from the trust configuration matches the <code>iss</code>
               value of the first entity statement.
-            <a href="#section-a.5-11.3" class="pilcrow">¶</a>
+            <a href="#section-a.5-9.3" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-11.4">
+          <li id="section-a.5-9.4">
        Extract the <code>jwks</code> entry from this entity statement. These are
               the signing keys of the University of Umeae.
-            <a href="#section-a.5-11.4" class="pilcrow">¶</a>
+            <a href="#section-a.5-9.4" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-11.5">
+          <li id="section-a.5-9.5">
        Validate the self-signed statement from University of
               Umeae using the keys found above.
-            <a href="#section-a.5-11.5" class="pilcrow">¶</a>
+            <a href="#section-a.5-9.5" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-11.6">
+          <li id="section-a.5-9.6">
        Check that the <code>sub</code> from the previous statement matches the <code>iss</code>
               of the self-issued statement.
-            <a href="#section-a.5-11.6" class="pilcrow">¶</a>
+            <a href="#section-a.5-9.6" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-11.7">
+          <li id="section-a.5-9.7">
        Check that the self-issued statement has the same values for
        <code>iss</code> and <code>sub</code>.
-            <a href="#section-a.5-11.7" class="pilcrow">¶</a>
+            <a href="#section-a.5-9.7" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
