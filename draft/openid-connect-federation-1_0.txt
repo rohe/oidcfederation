@@ -133,15 +133,15 @@ Hedberg, et al.              Standards Track                    [Page 2]
    Appendix B.  Illustrative Example of OpenID Connect Flow
            Using Explicit Client Registration  . . . . . . . . . . .  44
      B.1.  Initial Setup of the EREE Service . . . . . . . . . . . .  44
-     B.2.  Researcher Wants to Start a Job at the EPEE
+     B.2.  Researcher Wants to Start a Job at the EREE
            Service . . . . . . . . . . . . . . . . . . . . . . . . .  45
-     B.3.  The EPEE RP Discovers and Initiates Explicit
+     B.3.  The EREE RP Discovers and Initiates Explicit
            Registration  . . . . . . . . . . . . . . . . . . . . . .  45
-       B.3.1.  The EPEE RP Discovers the OpenID Provider . . . . . .  45
+       B.3.1.  The EREE RP Discovers the OpenID Provider . . . . . .  45
        B.3.2.  Resolving the OP's Trust Chain  . . . . . . . . . . .  47
        B.3.3.  Validating the Trust Chain  . . . . . . . . . . . . .  48
        B.3.4.  Extracting the OP's Metadata  . . . . . . . . . . . .  49
-       B.3.5.  EPEE RP Does Federated Client Registration  . . . . .  50
+       B.3.5.  EREE RP Does Federated Client Registration  . . . . .  50
      B.4.  The OP Processes a Client Registration Request  . . . . .  51
        B.4.1.  The OP Gathers the RPs Trust Chains . . . . . . . . .  52
        B.4.2.  Validating the Trust Chain  . . . . . . . . . . . . .  53
@@ -2450,8 +2450,8 @@ B.1.  Initial Setup of the EREE Service
      ]
    }
 
-   The EPEE service is provided files containing "authority_hints" by
-   its superiors.  From the EPEE federation it gets:
+   The EREE service is provided files containing "authority_hints" by
+   its superiors.  From the EREE federation it gets:
 
    {"https://eree.example.org":["https://eree.example.org"]}
 
@@ -2474,27 +2474,27 @@ Hedberg, et al.              Standards Track                   [Page 44]
 
    On the federations side:
 
-   *  SWAMID is prepared to issue an entity statement about the EPEE
+   *  SWAMID is prepared to issue an entity statement about the EREE
       service.
 
-   *  The EPEE federation is prepared to issue an entity statement about
-      the EPEE service.
+   *  The EREE federation is prepared to issue an entity statement about
+      the EREE service.
 
-   *  UNINETT is prepared to issue an entity statement about the EPEE
+   *  UNINETT is prepared to issue an entity statement about the EREE
       service.
 
-   And finally, from the federations the EPEE service also receives the
+   And finally, from the federations the EREE service also receives the
    public part of the federations signing keys.
 
-B.2.  Researcher Wants to Start a Job at the EPEE Service
+B.2.  Researcher Wants to Start a Job at the EREE Service
 
-   A researcher from Umeae wants to access the EPEE service.  The EPEE
+   A researcher from Umeae wants to access the EREE service.  The EREE
    service provides a discovery service which allows the researcher to
    choose which OP to use.  In this case, "https://op.umu.se/".
 
-B.3.  The EPEE RP Discovers and Initiates Explicit Registration
+B.3.  The EREE RP Discovers and Initiates Explicit Registration
 
-B.3.1.  The EPEE RP Discovers the OpenID Provider
+B.3.1.  The EREE RP Discovers the OpenID Provider
 
    Using the entity ID (issuer ID) of the OP the service performs a
    fetch entity statement request as described in Section 5.1.1.
@@ -2595,13 +2595,13 @@ B.3.2.  Resolving the OP's Trust Chain
    In order to establish trust with this OP, the EEPE service provider
    would need to fetch sufficient entity statements to represent a
    complete chain from the self-issued statement to the trust anchor
-   that represents the EPEE federations.
+   that represents the EREE federations.
 
    The "authority_hints" in the self-signed entity statement points to 2
    trust anchors "https://epee.example.org" and "https://swamid.se" of
-   these only the "EPEE" one is interesting.  The RP therefore chooses
+   these only the "EREE" one is interesting.  The RP therefore chooses
    to only follow that trust path.  The next step being to fetch an
-   entity statement about "https://op.umu.se" signed by the EPEE
+   entity statement about "https://op.umu.se" signed by the EREE
    federation.  This is done by doing a fetch entity statement:
 
    GET
@@ -2672,11 +2672,11 @@ Hedberg, et al.              Standards Track                   [Page 47]
 B.3.3.  Validating the Trust Chain
 
    These two entity statements are sufficient to establish a path from
-   the locally configured trust anchor which trust the EPEE federation,
+   the locally configured trust anchor which trust the EREE federation,
    to the self-issued statement from the OP at the University of Umeae.
    Here are the steps performed to validate the trust chain, as
    described in Section 6.2.  We start with the signed entity statement
-   issued by EPEE about the OP at the University of Umeae
+   issued by EREE about the OP at the University of Umeae
 
    1.  Verify that the "sub" in the entity statement is the OPs entity
        ID.
@@ -2690,7 +2690,7 @@ Hedberg, et al.              Standards Track                   [Page 48]
                         OpenID Connect Federation              June 2019
 
 
-   2.  Find the trusted public keys for the EPEE federation in the local
+   2.  Find the trusted public keys for the EREE federation in the local
        trust configuration.
 
    3.  Use these keys to validate the signature of the signed entity
@@ -2779,7 +2779,7 @@ Hedberg, et al.              Standards Track                   [Page 49]
    Since there is no metadata policy defined earlier in the trust chain,
    the response will just be the metadata statement as it is.
 
-B.3.5.  EPEE RP Does Federated Client Registration
+B.3.5.  EREE RP Does Federated Client Registration
 
    Now when the RP has trusted information about the OP it can do a
    dynamic client registration.  To that end it collects information
@@ -2866,7 +2866,7 @@ B.4.1.  The OP Gathers the RPs Trust Chains
 
    In this case, there is only one, which points to
    "https://eree.example.org".  Therefore, the OP fetches the entity
-   statement that the EPEE federation publishes on the EPEE RP.
+   statement that the EREE federation publishes on the EREE RP.
 
    GET
    /.well-known/openid-federation?
@@ -2972,7 +2972,7 @@ Hedberg, et al.              Standards Track                   [Page 53]
 
    {
      "application_type": "web",
-     "application_name": "EPEE",
+     "application_name": "EREE",
      "contacts": ["ops@epee.example.org"],
      "jwks_uri": "https://rp.eree.example.org/static/jwks.json",
      "redirect_uris": [
@@ -3028,11 +3028,11 @@ Hedberg, et al.              Standards Track                   [Page 54]
 
 B.5.  The RP Processes the Registration Response
 
-   The RP MUST collect the trust chain ending in the EPEE trust anchor
+   The RP MUST collect the trust chain ending in the EREE trust anchor
    using the process described in Section 6, but refrain from processing
-   the metadata.  This since the entity statement issued by the EPEE
+   the metadata.  This since the entity statement issued by the EREE
    federation about the UmU OP are only valid for that entity and not
-   for the EPEE RP.  The trust chain should only be used to verify that
+   for the EREE RP.  The trust chain should only be used to verify that
    the entity statement actually comes from the expected OP.
 
    If the RP is OK with what the OP decided on regarding the RP's
