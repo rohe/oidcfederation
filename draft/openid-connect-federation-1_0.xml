@@ -270,7 +270,6 @@
               the metadata according to the metadata schema of that metadata
               type. An entity statement may contain multiple
               metadata statements, but only one for each metadata type.
-	      Only leaf entities contain a <spanx style="verb">metadata</spanx> field.
             </t>
             <t hangText="metadata_policy">
 	      <vspace/>
@@ -2133,8 +2132,14 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
 	      eduGAIN issues an entity statement about SWAMID
 	    </t>
             <t>
+          eudGAIN issues an entity statement about itself
+        </t>
+            <t>
 	      SWAMID issues an entity statement about the university of Umea
               - an OP for employees and students at the university of Umea
+            </t>
+            <t>
+                SWAMID issues an entity statement about itself
             </t>
           </list>
 	</t>
@@ -2293,7 +2298,7 @@ Host: www.sunet.se
 HTTP/1.1 200 OK
 Content-Type: application/json
 "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpY..."
-]></artwork>
+]]></artwork>
         </figure>
 
         <t>
@@ -2334,6 +2339,9 @@ Content-Type: application/json
         "use": "sig"
       }
     ]
+  },
+  "authority_hints": {
+    "https://www.sunet.se/swamid": ["https://www.sunet.se/swamid"]
   }
 }
 ]]></artwork>
@@ -2344,8 +2352,62 @@ Content-Type: application/json
           SWAMID expresses this university to be trusted to issue its own OpenID Relying Parties
 	  and OpenID Providers without the need for registering these directly in SWAMID.
         </t>
+          <t>
+         	  The last step then is that Foodle now fetches an entity statement
+              from SWAMID about SWAMID using the Federation API endpoint of
+              SWAMID, discovered in the <spanx style="verb">authority_hints</spanx> claim.
+          </t>
+                  <figure>
+          <artwork><![CDATA[
+GET /.well-known/openid-federation?
+iss=https%3A%2F%2Fwww.sunet.se%2Fswamid&
+sub=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
+Host: www.sunet.se
+]]></artwork>
+        </figure>
+	<t>
+	  Yielding this response:
+	</t>
+        <figure>
+          <artwork><![CDATA[
+HTTP/1.1 200 OK
+Content-Type: application/json
+"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpY..."
+]]></artwork>
+        </figure>
+
+                  <t>
+	  The decoded version of the entity statement is:
+	</t>
+        <figure>
+          <artwork><![CDATA[
+{
+  "iat": 1539174050,
+  "exp": 1539177650,
+  "metadata": {
+    "federation_entity": {
+        "name": "SWAMID",
+        "homepage_uri": "https://swamid.se/index.html"
+    },
+  },
+  "iss": "https://www.sunet.se/swamid",
+  "sub": "https://www.sunet.se/swamid",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "SnJJSVFodkFXOX...",
+        "kty": "RSA",
+        "n": "5uGR_-KKce9ycV6...",
+        "use": "sig"
+      }
+    ]
+  }
+}
+]]></artwork>
+        </figure>
         <t>
-	  These two entity statements are sufficient to establish a path from
+	  These three entity statements are sufficient to establish a path from
           the locally configured trust anchor which trust SWAMID, to the
           self-issued statement from the University of Ume&aring;.
           Here are the steps performed to validate the trust chain:
@@ -2358,8 +2420,18 @@ Content-Type: application/json
             </t>
             <t>
 	      Use these keys to validate the signature of the signed entity
-              statement issued by SWAMID about the University of
-              Ume&aring;.
+              statement issued by SWAMID about SWAMID.
+            </t>
+              <t>
+                  Extract the <spanx style="verb">jwks</spanx> entry from this entity statement.
+                  These are the signing keys of SWAMID. If there are keys in this
+                  field that does not appear in the local trust configuration
+                  add them to the ones that appear in the local trust configuration.
+                  This is a necessary step to allow SWAMID, in this case, to rotate their signing keys.
+              </t>
+            <t>
+	      Use the SWAMID keys to validate the signature of the signed entity
+              statement issued by SWAMID about the University of Ume&aring;.
             </t>
             <t>
 	      Check that the <spanx style="verb">sub</spanx> from the trust configuration matches the <spanx style="verb">iss</spanx>

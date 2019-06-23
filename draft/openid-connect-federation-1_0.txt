@@ -125,34 +125,34 @@ Hedberg, et al.              Standards Track                    [Page 2]
      A.3.  User Chooses to Login at Foodle . . . . . . . . . . . . .  35
      A.4.  Foodle Discovers the OP . . . . . . . . . . . . . . . . .  35
      A.5.  Resolving the OP's Trust Chain  . . . . . . . . . . . . .  37
-     A.6.  Extracting the OP metadata  . . . . . . . . . . . . . . .  39
+     A.6.  Extracting the OP metadata  . . . . . . . . . . . . . . .  40
      A.7.  RP Sends Authentication Request (Automatic
-           Registration) . . . . . . . . . . . . . . . . . . . . . .  41
-     A.8.  OP Fetches Entity Statements  . . . . . . . . . . . . . .  41
-     A.9.  RP Fetches Entity Statements  . . . . . . . . . . . . . .  42
+           Registration) . . . . . . . . . . . . . . . . . . . . . .  42
+     A.8.  OP Fetches Entity Statements  . . . . . . . . . . . . . .  43
+     A.9.  RP Fetches Entity Statements  . . . . . . . . . . . . . .  43
    Appendix B.  Illustrative Example of OpenID Connect Flow
-           Using Explicit Client Registration  . . . . . . . . . . .  42
-     B.1.  Initial Setup of the EREE Service . . . . . . . . . . . .  43
+           Using Explicit Client Registration  . . . . . . . . . . .  44
+     B.1.  Initial Setup of the EREE Service . . . . . . . . . . . .  44
      B.2.  Researcher Wants to Start a Job at the EPEE
-           Service . . . . . . . . . . . . . . . . . . . . . . . . .  44
+           Service . . . . . . . . . . . . . . . . . . . . . . . . .  45
      B.3.  The EPEE RP Discovers and Initiates Explicit
-           Registration  . . . . . . . . . . . . . . . . . . . . . .  44
-       B.3.1.  The EPEE RP Discovers the OpenID Provider . . . . . .  44
-       B.3.2.  Resolving the OP's Trust Chain  . . . . . . . . . . .  45
-       B.3.3.  Validating the Trust Chain  . . . . . . . . . . . . .  47
-       B.3.4.  Extracting the OP's Metadata  . . . . . . . . . . . .  47
-       B.3.5.  EPEE RP Does Federated Client Registration  . . . . .  48
-     B.4.  The OP Processes a Client Registration Request  . . . . .  49
-       B.4.1.  The OP Gathers the RPs Trust Chains . . . . . . . . .  50
-       B.4.2.  Validating the Trust Chain  . . . . . . . . . . . . .  51
-       B.4.3.  Extracting RP Metadata  . . . . . . . . . . . . . . .  51
-       B.4.4.  Constructing the Registration Response  . . . . . . .  52
-     B.5.  The RP Processes the Registration Response  . . . . . . .  53
-   Appendix C.  Notices  . . . . . . . . . . . . . . . . . . . . . .  53
-   Appendix D.  Acknowledgements . . . . . . . . . . . . . . . . . .  54
-   Appendix E.  Open Issues  . . . . . . . . . . . . . . . . . . . .  54
-   Appendix F.  Document History . . . . . . . . . . . . . . . . . .  55
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  56
+           Registration  . . . . . . . . . . . . . . . . . . . . . .  45
+       B.3.1.  The EPEE RP Discovers the OpenID Provider . . . . . .  45
+       B.3.2.  Resolving the OP's Trust Chain  . . . . . . . . . . .  47
+       B.3.3.  Validating the Trust Chain  . . . . . . . . . . . . .  48
+       B.3.4.  Extracting the OP's Metadata  . . . . . . . . . . . .  49
+       B.3.5.  EPEE RP Does Federated Client Registration  . . . . .  50
+     B.4.  The OP Processes a Client Registration Request  . . . . .  51
+       B.4.1.  The OP Gathers the RPs Trust Chains . . . . . . . . .  52
+       B.4.2.  Validating the Trust Chain  . . . . . . . . . . . . .  53
+       B.4.3.  Extracting RP Metadata  . . . . . . . . . . . . . . .  53
+       B.4.4.  Constructing the Registration Response  . . . . . . .  54
+     B.5.  The RP Processes the Registration Response  . . . . . . .  55
+   Appendix C.  Notices  . . . . . . . . . . . . . . . . . . . . . .  55
+   Appendix D.  Acknowledgements . . . . . . . . . . . . . . . . . .  56
+   Appendix E.  Open Issues  . . . . . . . . . . . . . . . . . . . .  56
+   Appendix F.  Document History . . . . . . . . . . . . . . . . . .  57
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  58
 
 1.  Introduction
 
@@ -307,7 +307,6 @@ Hedberg, et al.              Standards Track                    [Page 5]
       JSON object representing the metadata according to the metadata
       schema of that metadata type.  An entity statement may contain
       multiple metadata statements, but only one for each metadata type.
-      Only leaf entities contain a "metadata" field.
 
    metadata_policy
       OPTIONAL.  JSON object that describes a metadata policy.  Each key
@@ -330,6 +329,7 @@ Hedberg, et al.              Standards Track                    [Page 5]
       processed.  It is used in the same way that "crit" is used for
       extension JWS header parameters that MUST be understood and
       processed.  Its value is an array listing the entity statement
+      claims present in the entity statement that use those extensions.
 
 
 
@@ -338,7 +338,6 @@ Hedberg, et al.              Standards Track                    [Page 6]
                         OpenID Connect Federation              June 2019
 
 
-      claims present in the entity statement that use those extensions.
       If any of the listed extension entity statement claims are not
       understood and supported by the recipient, then the entity
       statement is invalid.  Producers MUST NOT include entity statement
@@ -371,6 +370,7 @@ Hedberg, et al.              Standards Track                    [Page 6]
    critical extension "jti" (JWT ID) to the entity statement and one
    critical extension to the policy language "regexp" (Regular
    expression).
+
 
 
 
@@ -1910,8 +1910,12 @@ Hedberg, et al.              Standards Track                   [Page 34]
 
    *  eduGAIN issues an entity statement about SWAMID
 
+   *  eudGAIN issues an entity statement about itself
+
    *  SWAMID issues an entity statement about the university of Umea -
       an OP for employees and students at the university of Umea
+
+   *  SWAMID issues an entity statement about itself
 
    Foodle has a local trust root configuration that contains public
    signing keys for known federations:
@@ -1950,10 +1954,6 @@ A.4.  Foodle Discovers the OP
    Foodle performs a request to fetch the self-issued entity statement
    using the Federation API of the OP.
 
-   GET /.well-known/openid-federation/openid?
-   iss=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
-   Host: www.umu.se
-
 
 
 
@@ -1961,6 +1961,10 @@ Hedberg, et al.              Standards Track                   [Page 35]
 
                         OpenID Connect Federation              June 2019
 
+
+   GET /.well-known/openid-federation/openid?
+   iss=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
+   Host: www.umu.se
 
    Yielding this response:
 
@@ -2006,10 +2010,6 @@ Hedberg, et al.              Standards Track                   [Page 35]
        "https://www.sunet.se/swamid": ["https://edugain.org/oidc"],
        "https://kalmar2.org/openid": []
      },
-     "jwks": {
-       "keys": [
-         {
-           "kty": "RSA",
 
 
 
@@ -2018,6 +2018,10 @@ Hedberg, et al.              Standards Track                   [Page 36]
                         OpenID Connect Federation              June 2019
 
 
+     "jwks": {
+       "keys": [
+         {
+           "kty": "RSA",
            "alg": "RS256",
            "n": "z1V1kyi6qwmXfKsfhVqKUMmQH3AixN...",
            "e": "AQAB",
@@ -2055,13 +2059,9 @@ A.5.  Resolving the OP's Trust Chain
 
    HTTP/1.1 200 OK
    Content-Type: application/json
-   ["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpY..."
+   "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpY..."
 
    The decoded version of the entity statement is:
-
-
-
-
 
 
 
@@ -2107,6 +2107,9 @@ Hedberg, et al.              Standards Track                   [Page 37]
            "use": "sig"
          }
        ]
+     },
+     "authority_hints": {
+       "https://www.sunet.se/swamid": ["https://www.sunet.se/swamid"]
      }
    }
 
@@ -2116,12 +2119,9 @@ Hedberg, et al.              Standards Track                   [Page 37]
    to issue its own OpenID Relying Parties and OpenID Providers without
    the need for registering these directly in SWAMID.
 
-   These two entity statements are sufficient to establish a path from
-   the locally configured trust anchor which trust SWAMID, to the self-
-   issued statement from the University of Umeae.  Here are the steps
-   performed to validate the trust chain:
-
-
+   The last step then is that Foodle now fetches an entity statement
+   from SWAMID about SWAMID using the Federation API endpoint of SWAMID,
+   discovered in the "authority_hints" claim.
 
 
 
@@ -2130,10 +2130,70 @@ Hedberg, et al.              Standards Track                   [Page 38]
                         OpenID Connect Federation              June 2019
 
 
+   GET /.well-known/openid-federation?
+   iss=https%3A%2F%2Fwww.sunet.se%2Fswamid&
+   sub=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
+   Host: www.sunet.se
+
+   Yielding this response:
+
+   HTTP/1.1 200 OK
+   Content-Type: application/json
+   "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpY..."
+
+   The decoded version of the entity statement is:
+
+   {
+     "iat": 1539174050,
+     "exp": 1539177650,
+     "metadata": {
+       "federation_entity": {
+           "name": "SWAMID",
+           "homepage_uri": "https://swamid.se/index.html"
+       },
+     },
+     "iss": "https://www.sunet.se/swamid",
+     "sub": "https://www.sunet.se/swamid",
+     "jwks": {
+       "keys": [
+         {
+           "e": "AQAB",
+           "kid": "SnJJSVFodkFXOX...",
+           "kty": "RSA",
+           "n": "5uGR_-KKce9ycV6...",
+           "use": "sig"
+         }
+       ]
+     }
+   }
+
+   These three entity statements are sufficient to establish a path from
+   the locally configured trust anchor which trust SWAMID, to the self-
+   issued statement from the University of Umeae.  Here are the steps
+   performed to validate the trust chain:
+
    *  Find the trusted public keys for SWAMID in the local trust
       configuration.
 
    *  Use these keys to validate the signature of the signed entity
+      statement issued by SWAMID about SWAMID.
+
+
+
+
+Hedberg, et al.              Standards Track                   [Page 39]
+
+                        OpenID Connect Federation              June 2019
+
+
+   *  Extract the "jwks" entry from this entity statement.  These are
+      the signing keys of SWAMID.  If there are keys in this field that
+      does not appear in the local trust configuration add them to the
+      ones that appear in the local trust configuration.  This is a
+      necessary step to allow SWAMID, in this case, to rotate their
+      signing keys.
+
+   *  Use the SWAMID keys to validate the signature of the signed entity
       statement issued by SWAMID about the University of Umeae.
 
    *  Check that the "sub" from the trust configuration matches the
@@ -2167,6 +2227,21 @@ A.6.  Extracting the OP metadata
 
    UMU's metadata policy for an openid_provider:
 
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.              Standards Track                   [Page 40]
+
+                        OpenID Connect Federation              June 2019
+
+
    {
      "subject_types_supported": {"value": ["pairwise"]},
      "id_token_signing_alg_values_supported":
@@ -2177,14 +2252,6 @@ A.6.  Extracting the OP metadata
      "organization": {"value": "University of Ume&aring;"},
      "contacts": {"add": ["legal@umu.se", "technical@umu.se"]}
    }
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 39]
-
-                        OpenID Connect Federation              June 2019
-
 
    and finally
 
@@ -2211,6 +2278,26 @@ Hedberg, et al.              Standards Track                   [Page 39]
    Applying the metadata policies to the metadata produces the following
    result:
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.              Standards Track                   [Page 41]
+
+                        OpenID Connect Federation              June 2019
+
+
    {
      "organization": "University of Ume&aring;",
      "contacts": ["legal@umu.se", "technical@umu.se"],
@@ -2230,17 +2317,6 @@ Hedberg, et al.              Standards Track                   [Page 39]
      "subject_types_supported": ["pairwise"],
      "id_token_signing_alg_values_supported": ["RS256"]
    }
-
-
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 40]
-
-                        OpenID Connect Federation              June 2019
-
 
 A.7.  RP Sends Authentication Request (Automatic Registration)
 
@@ -2267,6 +2343,17 @@ A.7.  RP Sends Authentication Request (Automatic Registration)
    cached or statically configured, start to dynamically fetch and
    establish trust with the RP.
 
+
+
+
+
+
+
+Hedberg, et al.              Standards Track                   [Page 42]
+
+                        OpenID Connect Federation              June 2019
+
+
 A.8.  OP Fetches Entity Statements
 
    The OP needs to establish a trust chain for the RP from which an
@@ -2289,14 +2376,6 @@ A.8.  OP Fetches Entity Statements
        }
      ]
    }
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 41]
-
-                        OpenID Connect Federation              June 2019
-
 
    and
 
@@ -2323,6 +2402,14 @@ A.9.  RP Fetches Entity Statements
    https://foodl.org/ by fetching the self-issued entity statement using
    the Federation API, as described in Section 6.1.
 
+
+
+
+Hedberg, et al.              Standards Track                   [Page 43]
+
+                        OpenID Connect Federation              June 2019
+
+
    In this case, there are two possible trust chains:
 
    *  eduGAIN -> Feide -> NTNU -> Foodle
@@ -2342,17 +2429,6 @@ Registration
    federations.  Therefore, we have to an EREE service and an EREE
    federation.  Since the EREE equipment is located in Sweden, the EREE
    service is also member of the SWAMID federation.
-
-
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 42]
-
-                        OpenID Connect Federation              June 2019
-
 
 B.1.  Initial Setup of the EREE Service
 
@@ -2383,6 +2459,13 @@ B.1.  Initial Setup of the EREE Service
 
    {"https://swamid.se":["https://swamid.se"]}
 
+
+
+Hedberg, et al.              Standards Track                   [Page 44]
+
+                        OpenID Connect Federation              June 2019
+
+
    and from UNINETT:
 
    {"https://uninett.no":["https://uninett.no"]}
@@ -2402,13 +2485,6 @@ B.1.  Initial Setup of the EREE Service
 
    And finally, from the federations the EPEE service also receives the
    public part of the federations signing keys.
-
-
-
-Hedberg, et al.              Standards Track                   [Page 43]
-
-                        OpenID Connect Federation              June 2019
-
 
 B.2.  Researcher Wants to Start a Job at the EPEE Service
 
@@ -2435,6 +2511,17 @@ B.3.1.  The EPEE RP Discovers the OpenID Provider
 
    The decoded version of the entity statement is:
 
+
+
+
+
+
+
+Hedberg, et al.              Standards Track                   [Page 45]
+
+                        OpenID Connect Federation              June 2019
+
+
    {
      "authority_hints": {
        "https://epee.example.org": [
@@ -2458,14 +2545,6 @@ B.3.1.  The EPEE RP Discovers the OpenID Provider
            "use": "sig",
            "x": "DU6e1SjvW3Gqcd7up-n8s1N6Zlm2cNlZjYqL3O36v1A",
            "y": "pEtk0_fSKN56V-2hDnzFUbaw8-v0QBjNoT2KaZ7pqIc"
-
-
-
-Hedberg, et al.              Standards Track                   [Page 44]
-
-                        OpenID Connect Federation              June 2019
-
-
          }
        ]
      },
@@ -2491,6 +2570,14 @@ Hedberg, et al.              Standards Track                   [Page 44]
          "response_types_supported": [
            "code",
            "code id_token",
+
+
+
+Hedberg, et al.              Standards Track                   [Page 46]
+
+                        OpenID Connect Federation              June 2019
+
+
            "token"
          ],
          "subject_types_supported": [
@@ -2514,14 +2601,6 @@ B.3.2.  Resolving the OP's Trust Chain
    trust anchors "https://epee.example.org" and "https://swamid.se" of
    these only the "EPEE" one is interesting.  The RP therefore chooses
    to only follow that trust path.  The next step being to fetch an
-
-
-
-Hedberg, et al.              Standards Track                   [Page 45]
-
-                        OpenID Connect Federation              June 2019
-
-
    entity statement about "https://op.umu.se" signed by the EPEE
    federation.  This is done by doing a fetch entity statement:
 
@@ -2537,6 +2616,23 @@ Hedberg, et al.              Standards Track                   [Page 45]
    eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
 
    The decoded version of the returned entity statement is:
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.              Standards Track                   [Page 47]
+
+                        OpenID Connect Federation              June 2019
+
 
    {
      "exp": 1543852816,
@@ -2569,15 +2665,6 @@ Hedberg, et al.              Standards Track                   [Page 45]
    *  The subject is marked as being a "leaf" which means that there can
       be no entities subordinate to https://op.umu.se
 
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 46]
-
-                        OpenID Connect Federation              June 2019
-
-
    *  The federation does not have any restrictions on what the OP can
       be configured to do.  This means that there are no metadata
       policies to apply to the metadata statement.
@@ -2593,6 +2680,15 @@ B.3.3.  Validating the Trust Chain
 
    1.  Verify that the "sub" in the entity statement is the OPs entity
        ID.
+
+
+
+
+
+Hedberg, et al.              Standards Track                   [Page 48]
+
+                        OpenID Connect Federation              June 2019
+
 
    2.  Find the trusted public keys for the EPEE federation in the local
        trust configuration.
@@ -2629,7 +2725,23 @@ B.3.4.  Extracting the OP's Metadata
 
 
 
-Hedberg, et al.              Standards Track                   [Page 47]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.              Standards Track                   [Page 49]
 
                         OpenID Connect Federation              June 2019
 
@@ -2685,7 +2797,7 @@ B.3.5.  EPEE RP Does Federated Client Registration
 
 
 
-Hedberg, et al.              Standards Track                   [Page 48]
+Hedberg, et al.              Standards Track                   [Page 50]
 
                         OpenID Connect Federation              June 2019
 
@@ -2741,7 +2853,7 @@ B.4.  The OP Processes a Client Registration Request
 
 
 
-Hedberg, et al.              Standards Track                   [Page 49]
+Hedberg, et al.              Standards Track                   [Page 51]
 
                         OpenID Connect Federation              June 2019
 
@@ -2797,7 +2909,7 @@ B.4.1.  The OP Gathers the RPs Trust Chains
 
 
 
-Hedberg, et al.              Standards Track                   [Page 50]
+Hedberg, et al.              Standards Track                   [Page 52]
 
                         OpenID Connect Federation              June 2019
 
@@ -2853,7 +2965,7 @@ B.4.3.  Extracting RP Metadata
 
 
 
-Hedberg, et al.              Standards Track                   [Page 51]
+Hedberg, et al.              Standards Track                   [Page 53]
 
                         OpenID Connect Federation              June 2019
 
@@ -2909,7 +3021,7 @@ B.4.4.  Constructing the Registration Response
 
 
 
-Hedberg, et al.              Standards Track                   [Page 52]
+Hedberg, et al.              Standards Track                   [Page 54]
 
                         OpenID Connect Federation              June 2019
 
@@ -2965,7 +3077,7 @@ Appendix C.  Notices
 
 
 
-Hedberg, et al.              Standards Track                   [Page 53]
+Hedberg, et al.              Standards Track                   [Page 55]
 
                         OpenID Connect Federation              June 2019
 
@@ -3021,7 +3133,7 @@ Appendix E.  Open Issues
 
 
 
-Hedberg, et al.              Standards Track                   [Page 54]
+Hedberg, et al.              Standards Track                   [Page 56]
 
                         OpenID Connect Federation              June 2019
 
@@ -3077,7 +3189,7 @@ Appendix F.  Document History
 
 
 
-Hedberg, et al.              Standards Track                   [Page 55]
+Hedberg, et al.              Standards Track                   [Page 57]
 
                         OpenID Connect Federation              June 2019
 
@@ -3133,7 +3245,7 @@ Authors' Addresses
 
 
 
-Hedberg, et al.              Standards Track                   [Page 56]
+Hedberg, et al.              Standards Track                   [Page 58]
 
                         OpenID Connect Federation              June 2019
 
@@ -3189,4 +3301,4 @@ Hedberg, et al.              Standards Track                   [Page 56]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 57]
+Hedberg, et al.              Standards Track                   [Page 59]

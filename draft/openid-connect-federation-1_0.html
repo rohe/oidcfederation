@@ -1452,7 +1452,6 @@ caption a[href] {
               the metadata according to the metadata schema of that metadata
               type. An entity statement may contain multiple
               metadata statements, but only one for each metadata type.
-       Only leaf entities contain a <code>metadata</code> field.
             </dd>
           <dt id="section-2.1-3.17">metadata_policy</dt>
           <dd id="section-2.1-3.18">
@@ -3514,9 +3513,17 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
      <a href="#section-a.2-3.6" class="pilcrow">¶</a>
 </li>
           <li id="section-a.2-3.7">
+          eudGAIN issues an entity statement about itself
+        <a href="#section-a.2-3.7" class="pilcrow">¶</a>
+</li>
+          <li id="section-a.2-3.8">
        SWAMID issues an entity statement about the university of Umea
               - an OP for employees and students at the university of Umea
-            <a href="#section-a.2-3.7" class="pilcrow">¶</a>
+            <a href="#section-a.2-3.8" class="pilcrow">¶</a>
+</li>
+          <li id="section-a.2-3.9">
+                SWAMID issues an entity statement about itself
+            <a href="#section-a.2-3.9" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-a.2-4">
@@ -3684,14 +3691,14 @@ Host: www.sunet.se
 HTTP/1.1 200 OK
 Content-Type: application/json
 "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpY..."
-]&gt;&lt;/artwork&gt;
-        &lt;/figure&gt;
-
-        &lt;t&gt;
-          The decoded version of the entity statement is:
-        &lt;/t&gt;
-        &lt;figure&gt;
-          &lt;artwork&gt;&lt;![CDATA[
+</pre>
+<a href="#section-a.5-6" class="pilcrow">¶</a>
+</div>
+<p id="section-a.5-7">
+   The decoded version of the entity statement is:
+        <a href="#section-a.5-7" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-a.5-8">
+<pre>
 {
   "iat": 1539174048,
   "exp": 1539177648,
@@ -3725,59 +3732,130 @@ Content-Type: application/json
         "use": "sig"
       }
     ]
+  },
+  "authority_hints": {
+    "https://www.sunet.se/swamid": ["https://www.sunet.se/swamid"]
   }
 }
 </pre>
-<a href="#section-a.5-6" class="pilcrow">¶</a>
+<a href="#section-a.5-8" class="pilcrow">¶</a>
 </div>
-<p id="section-a.5-7">
+<p id="section-a.5-9">
    Notice that the entity statement about University of Umeae
           also contains an entry for openid_relying_party metadata. This metadata policy indicates that
           SWAMID expresses this university to be trusted to issue its own OpenID Relying Parties
    and OpenID Providers without the need for registering these directly in SWAMID.
-        <a href="#section-a.5-7" class="pilcrow">¶</a></p>
-<p id="section-a.5-8">
-   These two entity statements are sufficient to establish a path from
+        <a href="#section-a.5-9" class="pilcrow">¶</a></p>
+<p id="section-a.5-10">
+            The last step then is that Foodle now fetches an entity statement
+              from SWAMID about SWAMID using the Federation API endpoint of
+              SWAMID, discovered in the <code>authority_hints</code> claim.
+        <a href="#section-a.5-10" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-a.5-11">
+<pre>
+GET /.well-known/openid-federation?
+iss=https%3A%2F%2Fwww.sunet.se%2Fswamid&amp;
+sub=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
+Host: www.sunet.se
+</pre>
+<a href="#section-a.5-11" class="pilcrow">¶</a>
+</div>
+<p id="section-a.5-12">
+   Yielding this response:
+        <a href="#section-a.5-12" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-a.5-13">
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/json
+"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZlaWRlIn0.eyJpY..."
+</pre>
+<a href="#section-a.5-13" class="pilcrow">¶</a>
+</div>
+<p id="section-a.5-14">
+   The decoded version of the entity statement is:
+        <a href="#section-a.5-14" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-a.5-15">
+<pre>
+{
+  "iat": 1539174050,
+  "exp": 1539177650,
+  "metadata": {
+    "federation_entity": {
+        "name": "SWAMID",
+        "homepage_uri": "https://swamid.se/index.html"
+    },
+  },
+  "iss": "https://www.sunet.se/swamid",
+  "sub": "https://www.sunet.se/swamid",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "SnJJSVFodkFXOX...",
+        "kty": "RSA",
+        "n": "5uGR_-KKce9ycV6...",
+        "use": "sig"
+      }
+    ]
+  }
+}
+</pre>
+<a href="#section-a.5-15" class="pilcrow">¶</a>
+</div>
+<p id="section-a.5-16">
+   These three entity statements are sufficient to establish a path from
           the locally configured trust anchor which trust SWAMID, to the
           self-issued statement from the University of Umeae.
           Here are the steps performed to validate the trust chain:
-        <a href="#section-a.5-8" class="pilcrow">¶</a></p>
+        <a href="#section-a.5-16" class="pilcrow">¶</a></p>
 <ul>
-<li id="section-a.5-9.1">
+<li id="section-a.5-17.1">
        Find the trusted public keys for SWAMID in the local trust
               configuration.
-            <a href="#section-a.5-9.1" class="pilcrow">¶</a>
+            <a href="#section-a.5-17.1" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-9.2">
+          <li id="section-a.5-17.2">
        Use these keys to validate the signature of the signed entity
-              statement issued by SWAMID about the University of
-              Umeae.
-            <a href="#section-a.5-9.2" class="pilcrow">¶</a>
+              statement issued by SWAMID about SWAMID.
+            <a href="#section-a.5-17.2" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-9.3">
+          <li id="section-a.5-17.3">
+                  Extract the <code>jwks</code> entry from this entity statement.
+                  These are the signing keys of SWAMID. If there are keys in this
+                  field that does not appear in the local trust configuration
+                  add them to the ones that appear in the local trust configuration.
+                  This is a necessary step to allow SWAMID, in this case, to rotate their signing keys.
+              <a href="#section-a.5-17.3" class="pilcrow">¶</a>
+</li>
+          <li id="section-a.5-17.4">
+       Use the SWAMID keys to validate the signature of the signed entity
+              statement issued by SWAMID about the University of Umeae.
+            <a href="#section-a.5-17.4" class="pilcrow">¶</a>
+</li>
+          <li id="section-a.5-17.5">
        Check that the <code>sub</code> from the trust configuration matches the <code>iss</code>
               value of the first entity statement.
-            <a href="#section-a.5-9.3" class="pilcrow">¶</a>
+            <a href="#section-a.5-17.5" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-9.4">
+          <li id="section-a.5-17.6">
        Extract the <code>jwks</code> entry from this entity statement. These are
               the signing keys of the University of Umeae.
-            <a href="#section-a.5-9.4" class="pilcrow">¶</a>
+            <a href="#section-a.5-17.6" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-9.5">
+          <li id="section-a.5-17.7">
        Validate the self-signed statement from University of
               Umeae using the keys found above.
-            <a href="#section-a.5-9.5" class="pilcrow">¶</a>
+            <a href="#section-a.5-17.7" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-9.6">
+          <li id="section-a.5-17.8">
        Check that the <code>sub</code> from the previous statement matches the <code>iss</code>
               of the self-issued statement.
-            <a href="#section-a.5-9.6" class="pilcrow">¶</a>
+            <a href="#section-a.5-17.8" class="pilcrow">¶</a>
 </li>
-          <li id="section-a.5-9.7">
+          <li id="section-a.5-17.9">
        Check that the self-issued statement has the same values for
        <code>iss</code> and <code>sub</code>.
-            <a href="#section-a.5-9.7" class="pilcrow">¶</a>
+            <a href="#section-a.5-17.9" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
