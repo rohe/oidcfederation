@@ -12,7 +12,7 @@
                                                                Schibsted
                                                               J. Bradley
                                                                   Yubico
-                                                            20 June 2019
+                                                            23 June 2019
 
 
                 OpenID Connect Federation 1.0 - draft 08
