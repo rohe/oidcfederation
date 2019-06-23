@@ -2790,8 +2790,8 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFVOUxUbkpzTjJ4VVRYQkZSM040T1Z...
 	    <artwork><![CDATA[
 {
   "authority_hints": {
-    "https://epee.example.org": [
-      "https://epee.example.org"
+    "https://eree.example.org": [
+      "https://eree.example.org"
     ],
     "https://swamid.se": [
       "https://swamid.se"
@@ -2860,7 +2860,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFVOUxUbkpzTjJ4VVRYQkZSM040T1Z...
           </t>
           <t>
             The <spanx style="verb">authority_hints</spanx> in the self-signed entity statement points to
-            2 trust anchors "https://epee.example.org" and "https://swamid.se"
+            2 trust anchors "https://eree.example.org" and "https://swamid.se"
             of these only the <spanx style="verb">EREE</spanx> one is interesting.
 	    The RP therefore chooses
             to only follow that trust path. The next step being to fetch an
@@ -3126,7 +3126,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
 GET
 /.well-known/openid-federation?
 iss=https%3A%2F%2Feree.example.org&
-sub=https%3A%2F%2Frp.epee.example.org HTTP/1.1
+sub=https%3A%2F%2Frp.eree.example.org HTTP/1.1
 Host: eree.example.org
 ]]></artwork>
 	  </figure>
@@ -3201,7 +3201,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
 {
   "application_type": "web",
   "application_name": "EREE",
-  "contacts": ["ops@epee.example.org"],
+  "contacts": ["ops@eree.example.org"],
   "jwks_uri": "https://rp.eree.example.org/static/jwks.json",
   "redirect_uris": [
     "https://rp.eree.example.org/authz_cb"
