@@ -139,20 +139,20 @@ Hedberg, et al.              Standards Track                    [Page 2]
            Registration  . . . . . . . . . . . . . . . . . . . . . .  45
        B.3.1.  The EREE RP Discovers the OpenID Provider . . . . . .  45
        B.3.2.  Resolving the OP's Trust Chain  . . . . . . . . . . .  47
-       B.3.3.  Validating the Trust Chain  . . . . . . . . . . . . .  48
-       B.3.4.  Extracting the OP's Metadata  . . . . . . . . . . . .  49
-       B.3.5.  EREE RP Does Federated Client Registration  . . . . .  50
-     B.4.  The OP Processes a Client Registration Request  . . . . .  51
-       B.4.1.  The OP Gathers the RPs Trust Chains . . . . . . . . .  52
-       B.4.2.  Validating the Trust Chain  . . . . . . . . . . . . .  53
-       B.4.3.  Extracting RP Metadata  . . . . . . . . . . . . . . .  53
-       B.4.4.  Constructing the Registration Response  . . . . . . .  54
-     B.5.  The RP Processes the Registration Response  . . . . . . .  55
-   Appendix C.  Notices  . . . . . . . . . . . . . . . . . . . . . .  55
-   Appendix D.  Acknowledgements . . . . . . . . . . . . . . . . . .  56
-   Appendix E.  Open Issues  . . . . . . . . . . . . . . . . . . . .  56
-   Appendix F.  Document History . . . . . . . . . . . . . . . . . .  57
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  58
+       B.3.3.  Validating the Trust Chain  . . . . . . . . . . . . .  49
+       B.3.4.  Extracting the OP's Metadata  . . . . . . . . . . . .  50
+       B.3.5.  EREE RP Does Federated Client Registration  . . . . .  51
+     B.4.  The OP Processes a Client Registration Request  . . . . .  52
+       B.4.1.  The OP Gathers the RPs Trust Chains . . . . . . . . .  53
+       B.4.2.  Validating the Trust Chain  . . . . . . . . . . . . .  54
+       B.4.3.  Extracting RP Metadata  . . . . . . . . . . . . . . .  54
+       B.4.4.  Constructing the Registration Response  . . . . . . .  55
+     B.5.  The RP Processes the Registration Response  . . . . . . .  56
+   Appendix C.  Notices  . . . . . . . . . . . . . . . . . . . . . .  56
+   Appendix D.  Acknowledgements . . . . . . . . . . . . . . . . . .  57
+   Appendix E.  Open Issues  . . . . . . . . . . . . . . . . . . . .  57
+   Appendix F.  Document History . . . . . . . . . . . . . . . . . .  58
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  59
 
 1.  Introduction
 
@@ -2524,8 +2524,8 @@ Hedberg, et al.              Standards Track                   [Page 45]
 
    {
      "authority_hints": {
-       "https://epee.example.org": [
-         "https://epee.example.org"
+       "https://eree.example.org": [
+         "https://eree.example.org"
        ],
        "https://swamid.se": [
          "https://swamid.se"
@@ -2592,13 +2592,13 @@ Hedberg, et al.              Standards Track                   [Page 46]
 
 B.3.2.  Resolving the OP's Trust Chain
 
-   In order to establish trust with this OP, the EEPE service provider
+   In order to establish trust with this OP, the EREE service provider
    would need to fetch sufficient entity statements to represent a
    complete chain from the self-issued statement to the trust anchor
    that represents the EREE federations.
 
    The "authority_hints" in the self-signed entity statement points to 2
-   trust anchors "https://epee.example.org" and "https://swamid.se" of
+   trust anchors "https://eree.example.org" and "https://swamid.se" of
    these only the "EREE" one is interesting.  The RP therefore chooses
    to only follow that trust path.  The next step being to fetch an
    entity statement about "https://op.umu.se" signed by the EREE
@@ -2654,34 +2654,34 @@ Hedberg, et al.              Standards Track                   [Page 47]
      "metadata_policy": {
        "openid_provider": {}
      },
-     "sub": "https://op.umu.se"
+     "sub": "https://op.umu.se",
+     "authority_hints": {
+       "https://eree.example.org": [
+         "https://eree.example.org"
+       ]
+     }
    }
 
-   A couple of things worth noting about the response:
-
-   *  There is no "authority_hints" entry, which means this a trust
-      anchor.
-
-   *  The subject is marked as being a "leaf" which means that there can
-      be no entities subordinate to https://op.umu.se
+   A thing worth noting about the response:
 
    *  The federation does not have any restrictions on what the OP can
       be configured to do.  This means that there are no metadata
-      policies to apply to the metadata statement.
+      policies to apply to the metadata statement of the OP.
 
-B.3.3.  Validating the Trust Chain
+   And the final step is to get the federations view of itself.
 
-   These two entity statements are sufficient to establish a path from
-   the locally configured trust anchor which trust the EREE federation,
-   to the self-issued statement from the OP at the University of Umeae.
-   Here are the steps performed to validate the trust chain, as
-   described in Section 6.2.  We start with the signed entity statement
-   issued by EREE about the OP at the University of Umeae
+   GET
+   /.well-known/openid-federation?
+   iss=https%3A%2F%2Feree.example.org&
+   sub=https%3A%2F%2Feree.example.org HTTP/1.1
+   Host: eree.example.org
 
-   1.  Verify that the "sub" in the entity statement is the OPs entity
-       ID.
+   With the response
 
+   HTTP/1.1 200 OK
+   Content-Type: application/json
 
+   eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
 
 
 
@@ -2690,13 +2690,70 @@ Hedberg, et al.              Standards Track                   [Page 48]
                         OpenID Connect Federation              June 2019
 
 
-   2.  Find the trusted public keys for the EREE federation in the local
-       trust configuration.
+   The decoded version of the returned entity statement is:
 
-   3.  Use these keys to validate the signature of the signed entity
-       statement.
+   {
+     "exp": 1543852820,
+     "iat": 1543248020,
+     "iss": "https://eree.example.org/",
+     "sub": "https://eree.example.org/",
+     "jwks": {
+       "keys": [
+         {
+           "crv": "P-256",
+           "kid": "QnRSZUlvUWJ6UHdoU0V0VmFoOWs0d...",
+           "kty": "EC",
+           "x": "Dy8Va4JFw419muNj1gEYb3cF9xNonrY1PfpEEyqKH6A",
+           "y": "lbLVj3opCTspgrySmBVvSPwgxRTCAJUfqZMcN3b0Wvk"
+           "use": "sig",
+         }
+       ]
+     },
+     "metadata": {
+       "federation_entity": {
+           "name": "Extremely rare and expensive equipment",
+           "homepage_uri": "https://www.eree.org/index.html"
+       },
+     }
+   }
 
-   4.  Extract the jwks from the entity statement.
+   A thing worth noting about the response:
+
+   *  There is no "authority_hints" entry, which means this entity
+      statement describes a trust anchor.
+
+B.3.3.  Validating the Trust Chain
+
+   These three entity statements are sufficient to establish a path from
+   the locally configured trust anchor which trust the EREE federation,
+   to the self-issued statement from the OP at the University of Umeae.
+   Here are the steps performed to validate the trust chain, as
+   described in Section 6.2.  We start with the signed entity statement
+   issued by EREE about itself.
+
+   1.  Verify that the "sub" in the entity statement is the EREEs entity
+       ID.
+
+   2.  Extract the "jwks" from the entity statement and add possible
+       extra keys in it to the trusted public keys for the EREE
+       federation.
+
+
+
+
+Hedberg, et al.              Standards Track                   [Page 49]
+
+                        OpenID Connect Federation              June 2019
+
+
+   3.  Move on to the entity statement issued by EREE about the OP.
+       Verify that the "sub" in the entity statement is the OPs entity
+       ID.
+
+   4.  Use the trusted public keys for the EREE federation to validate
+       the signature of the signed entity statement.
+
+   5.  Extract the "jwks" from the entity statement.
 
    Now we can work on the self-signed entity statement published by the
    OP at UmU.
@@ -2740,8 +2797,7 @@ B.3.4.  Extracting the OP's Metadata
 
 
 
-
-Hedberg, et al.              Standards Track                   [Page 49]
+Hedberg, et al.              Standards Track                   [Page 50]
 
                         OpenID Connect Federation              June 2019
 
@@ -2797,7 +2853,7 @@ B.3.5.  EREE RP Does Federated Client Registration
 
 
 
-Hedberg, et al.              Standards Track                   [Page 50]
+Hedberg, et al.              Standards Track                   [Page 51]
 
                         OpenID Connect Federation              June 2019
 
@@ -2853,7 +2909,7 @@ B.4.  The OP Processes a Client Registration Request
 
 
 
-Hedberg, et al.              Standards Track                   [Page 51]
+Hedberg, et al.              Standards Track                   [Page 52]
 
                         OpenID Connect Federation              June 2019
 
@@ -2871,7 +2927,7 @@ B.4.1.  The OP Gathers the RPs Trust Chains
    GET
    /.well-known/openid-federation?
    iss=https%3A%2F%2Feree.example.org&
-   sub=https%3A%2F%2Frp.epee.example.org HTTP/1.1
+   sub=https%3A%2F%2Frp.eree.example.org HTTP/1.1
    Host: eree.example.org
 
    With the response:
@@ -2909,7 +2965,7 @@ B.4.1.  The OP Gathers the RPs Trust Chains
 
 
 
-Hedberg, et al.              Standards Track                   [Page 52]
+Hedberg, et al.              Standards Track                   [Page 53]
 
                         OpenID Connect Federation              June 2019
 
@@ -2965,7 +3021,7 @@ B.4.3.  Extracting RP Metadata
 
 
 
-Hedberg, et al.              Standards Track                   [Page 53]
+Hedberg, et al.              Standards Track                   [Page 54]
 
                         OpenID Connect Federation              June 2019
 
@@ -2973,7 +3029,7 @@ Hedberg, et al.              Standards Track                   [Page 53]
    {
      "application_type": "web",
      "application_name": "EREE",
-     "contacts": ["ops@epee.example.org"],
+     "contacts": ["ops@eree.example.org"],
      "jwks_uri": "https://rp.eree.example.org/static/jwks.json",
      "redirect_uris": [
        "https://rp.eree.example.org/authz_cb"
@@ -3021,7 +3077,7 @@ B.4.4.  Constructing the Registration Response
 
 
 
-Hedberg, et al.              Standards Track                   [Page 54]
+Hedberg, et al.              Standards Track                   [Page 55]
 
                         OpenID Connect Federation              June 2019
 
@@ -3077,7 +3133,7 @@ Appendix C.  Notices
 
 
 
-Hedberg, et al.              Standards Track                   [Page 55]
+Hedberg, et al.              Standards Track                   [Page 56]
 
                         OpenID Connect Federation              June 2019
 
@@ -3133,7 +3189,7 @@ Appendix E.  Open Issues
 
 
 
-Hedberg, et al.              Standards Track                   [Page 56]
+Hedberg, et al.              Standards Track                   [Page 57]
 
                         OpenID Connect Federation              June 2019
 
@@ -3189,7 +3245,7 @@ Appendix F.  Document History
 
 
 
-Hedberg, et al.              Standards Track                   [Page 57]
+Hedberg, et al.              Standards Track                   [Page 58]
 
                         OpenID Connect Federation              June 2019
 
@@ -3245,7 +3301,7 @@ Authors' Addresses
 
 
 
-Hedberg, et al.              Standards Track                   [Page 58]
+Hedberg, et al.              Standards Track                   [Page 59]
 
                         OpenID Connect Federation              June 2019
 
@@ -3301,4 +3357,4 @@ Hedberg, et al.              Standards Track                   [Page 58]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 59]
+Hedberg, et al.              Standards Track                   [Page 60]

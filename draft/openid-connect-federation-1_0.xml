@@ -2853,7 +2853,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFVOUxUbkpzTjJ4VVRYQkZSM040T1Z...
 
         <section title="Resolving the OP's Trust Chain">
           <t>
-            In order to establish trust with this OP, the EEPE service
+            In order to establish trust with this OP, the EREE service
             provider would need to fetch sufficient entity statements to
             represent a complete chain from the self-issued statement to the
             trust anchor that represents the EREE federations.
@@ -2909,59 +2909,125 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
   "metadata_policy": {
     "openid_provider": {}
   },
-  "sub": "https://op.umu.se"
+  "sub": "https://op.umu.se",
+  "authority_hints": {
+    "https://eree.example.org": [
+      "https://eree.example.org"
+    ]
+  }
 }
 ]]></artwork>
 	  </figure>
+                      <t>
+            A thing worth noting about the response:
+	  </t>
+	  <t>
+            <list style="symbols">
+              <t>
+                The federation does not have any restrictions on what the OP can
+                be configured to do. This means that there are no metadata
+                policies to apply to the metadata statement of the OP.
+              </t>
+            </list>
+          </t>
+            <t>
+                And the final step is to get the federations view of itself.
+            </t>
+	  <figure>
+	    <artwork><![CDATA[
+GET
+/.well-known/openid-federation?
+iss=https%3A%2F%2Feree.example.org&
+sub=https%3A%2F%2Feree.example.org HTTP/1.1
+Host: eree.example.org
+]]></artwork>
+	  </figure>
+            <t>With the response</t>
+	  <figure>
+	    <artwork><![CDATA[
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
+]]></artwork>
+	  </figure>
           <t>
-            A couple of things worth noting about the response:
+	    The decoded version of the returned entity statement is:
+	  </t>
+	  <figure>
+	    <artwork><![CDATA[
+{
+  "exp": 1543852820,
+  "iat": 1543248020,
+  "iss": "https://eree.example.org/",
+  "sub": "https://eree.example.org/",
+  "jwks": {
+    "keys": [
+      {
+        "crv": "P-256",
+        "kid": "QnRSZUlvUWJ6UHdoU0V0VmFoOWs0d...",
+        "kty": "EC",
+        "x": "Dy8Va4JFw419muNj1gEYb3cF9xNonrY1PfpEEyqKH6A",
+        "y": "lbLVj3opCTspgrySmBVvSPwgxRTCAJUfqZMcN3b0Wvk"
+        "use": "sig",
+      }
+    ]
+  },
+  "metadata": {
+    "federation_entity": {
+        "name": "Extremely rare and expensive equipment",
+        "homepage_uri": "https://www.eree.org/index.html"
+    },
+  }
+}
+]]></artwork>
+	  </figure>
+
+          <t>
+            A thing worth noting about the response:
 	  </t>
 	  <t>
             <list style="symbols">
               <t>
 		There is no <spanx style="verb">authority_hints</spanx> entry,
-		which means this a trust anchor.
+		which means this entity statement describes a trust anchor.
 	      </t>
-              <t>
-		The subject is marked as being a <spanx style="verb">leaf</spanx> which means that
-                there can be no entities subordinate to https://op.umu.se
-              </t>
-              <t>
-                The federation does not have any restrictions on what the OP can
-                be configured to do. This means that there are no metadata
-                policies to apply to the metadata statement.
-              </t>
             </list>
           </t>
         </section>
 
         <section title="Validating the Trust Chain">
           <t>
-	    These two entity statements are sufficient to establish a path from
+	    These three entity statements are sufficient to establish a path from
             the locally configured trust anchor which trust the EREE federation,
             to the self-issued statement from the OP at the
             University
             of Ume&aring;. Here are the steps performed to validate the trust
             chain, as described in <xref target="trust_chain_validation"/>.
             We start with the signed entity statement issued by EREE about
-            the OP at the University of Ume&aring;
+              itself.
 	  </t>
 	  <t>
             <list style="numbers">
               <t>
+		Verify that the <spanx style="verb">sub</spanx> in the entity statement is the EREEs entity
+                ID.
+              </t>
+                <t>
+                    Extract the <spanx style="verb">jwks</spanx> from the entity statement
+                    and add possible extra keys in it to the trusted public keys for the EREE federation.
+                </t>
+              <t>
+                  Move on to the entity statement issued by EREE about the OP.
 		Verify that the <spanx style="verb">sub</spanx> in the entity statement is the OPs entity
                 ID.
               </t>
               <t>
-		Find the trusted public keys for the EREE federation in the
-                local trust configuration.
-              </t>
-              <t>
-		Use these keys to validate the signature of the signed entity
+		Use the trusted public keys for the EREE federation to validate the signature of the signed entity
                 statement.
               </t>
               <t>
-		Extract the jwks from the entity statement.
+                  Extract the <spanx style="verb">jwks</spanx> from the entity statement.
               </t>
             </list>
 	  </t>

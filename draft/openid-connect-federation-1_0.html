@@ -4293,7 +4293,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFVOUxUbkpzTjJ4VVRYQkZSM040T1Z...
 <a href="#section-b.3.2" class="section-number selfRef">B.3.2. </a><a href="#name-resolving-the-ops-trust-chain-2" class="section-name selfRef">Resolving the OP's Trust Chain</a>
           </h3>
 <p id="section-b.3.2-1">
-            In order to establish trust with this OP, the EEPE service
+            In order to establish trust with this OP, the EREE service
             provider would need to fetch sufficient entity statements to
             represent a complete chain from the self-issued statement to the
             trust anchor that represents the EREE federations.
@@ -4351,30 +4351,90 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
   "metadata_policy": {
     "openid_provider": {}
   },
-  "sub": "https://op.umu.se"
+  "sub": "https://op.umu.se",
+  "authority_hints": {
+    "https://eree.example.org": [
+      "https://eree.example.org"
+    ]
+  }
 }
 </pre>
 <a href="#section-b.3.2-6" class="pilcrow">¶</a>
 </div>
 <p id="section-b.3.2-7">
-            A couple of things worth noting about the response:
+            A thing worth noting about the response:
           <a href="#section-b.3.2-7" class="pilcrow">¶</a></p>
 <ul>
 <li id="section-b.3.2-8.1">
- There is no <code>authority_hints</code> entry,
- which means this a trust anchor.
-       <a href="#section-b.3.2-8.1" class="pilcrow">¶</a>
-</li>
-            <li id="section-b.3.2-8.2">
- The subject is marked as being a <code>leaf</code> which means that
-                there can be no entities subordinate to https://op.umu.se
-              <a href="#section-b.3.2-8.2" class="pilcrow">¶</a>
-</li>
-            <li id="section-b.3.2-8.3">
                 The federation does not have any restrictions on what the OP can
                 be configured to do. This means that there are no metadata
-                policies to apply to the metadata statement.
-              <a href="#section-b.3.2-8.3" class="pilcrow">¶</a>
+                policies to apply to the metadata statement of the OP.
+              <a href="#section-b.3.2-8.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-b.3.2-9">
+                And the final step is to get the federations view of itself.
+          <a href="#section-b.3.2-9" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-b.3.2-10">
+<pre>
+GET
+/.well-known/openid-federation?
+iss=https%3A%2F%2Feree.example.org&amp;
+sub=https%3A%2F%2Feree.example.org HTTP/1.1
+Host: eree.example.org
+</pre>
+<a href="#section-b.3.2-10" class="pilcrow">¶</a>
+</div>
+<p id="section-b.3.2-11">With the response<a href="#section-b.3.2-11" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-b.3.2-12">
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
+</pre>
+<a href="#section-b.3.2-12" class="pilcrow">¶</a>
+</div>
+<p id="section-b.3.2-13">
+     The decoded version of the returned entity statement is:
+          <a href="#section-b.3.2-13" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-b.3.2-14">
+<pre>
+{
+  "exp": 1543852820,
+  "iat": 1543248020,
+  "iss": "https://eree.example.org/",
+  "sub": "https://eree.example.org/",
+  "jwks": {
+    "keys": [
+      {
+        "crv": "P-256",
+        "kid": "QnRSZUlvUWJ6UHdoU0V0VmFoOWs0d...",
+        "kty": "EC",
+        "x": "Dy8Va4JFw419muNj1gEYb3cF9xNonrY1PfpEEyqKH6A",
+        "y": "lbLVj3opCTspgrySmBVvSPwgxRTCAJUfqZMcN3b0Wvk"
+        "use": "sig",
+      }
+    ]
+  },
+  "metadata": {
+    "federation_entity": {
+        "name": "Extremely rare and expensive equipment",
+        "homepage_uri": "https://www.eree.org/index.html"
+    },
+  }
+}
+</pre>
+<a href="#section-b.3.2-14" class="pilcrow">¶</a>
+</div>
+<p id="section-b.3.2-15">
+            A thing worth noting about the response:
+          <a href="#section-b.3.2-15" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-b.3.2-16.1">
+ There is no <code>authority_hints</code> entry,
+ which means this entity statement describes a trust anchor.
+       <a href="#section-b.3.2-16.1" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -4383,34 +4443,40 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
 <a href="#section-b.3.3" class="section-number selfRef">B.3.3. </a><a href="#name-validating-the-trust-chain-3" class="section-name selfRef">Validating the Trust Chain</a>
           </h3>
 <p id="section-b.3.3-1">
-     These two entity statements are sufficient to establish a path from
+     These three entity statements are sufficient to establish a path from
             the locally configured trust anchor which trust the EREE federation,
             to the self-issued statement from the OP at the
             University
             of Umeae. Here are the steps performed to validate the trust
             chain, as described in <a href="#trust_chain_validation" class="xref">Section 6.2</a>.
             We start with the signed entity statement issued by EREE about
-            the OP at the University of Umeae
+              itself.
           <a href="#section-b.3.3-1" class="pilcrow">¶</a></p>
 <ol type="1" start="1" class="normal" id="section-b.3.3-2">
             <li id="section-b.3.3-2.1">
- Verify that the <code>sub</code> in the entity statement is the OPs entity
+ Verify that the <code>sub</code> in the entity statement is the EREEs entity
                 ID.
               <a href="#section-b.3.3-2.1" class="pilcrow">¶</a>
 </li>
             <li id="section-b.3.3-2.2">
- Find the trusted public keys for the EREE federation in the
-                local trust configuration.
-              <a href="#section-b.3.3-2.2" class="pilcrow">¶</a>
+                    Extract the <code>jwks</code> from the entity statement
+                    and add possible extra keys in it to the trusted public keys for the EREE federation.
+                <a href="#section-b.3.3-2.2" class="pilcrow">¶</a>
 </li>
             <li id="section-b.3.3-2.3">
- Use these keys to validate the signature of the signed entity
-                statement.
+                  Move on to the entity statement issued by EREE about the OP.
+ Verify that the <code>sub</code> in the entity statement is the OPs entity
+                ID.
               <a href="#section-b.3.3-2.3" class="pilcrow">¶</a>
 </li>
             <li id="section-b.3.3-2.4">
- Extract the jwks from the entity statement.
+ Use the trusted public keys for the EREE federation to validate the signature of the signed entity
+                statement.
               <a href="#section-b.3.3-2.4" class="pilcrow">¶</a>
+</li>
+            <li id="section-b.3.3-2.5">
+                  Extract the <code>jwks</code> from the entity statement.
+              <a href="#section-b.3.3-2.5" class="pilcrow">¶</a>
 </li>
           </ol>
 <p id="section-b.3.3-3">
