@@ -12,8 +12,8 @@ node_js:
 script:
   - node -v
   - mkdir public
-  - xml2rfc draft/oidcfed.hf.xml --v3 --text -o public/oidcfed.txt
-  - xml2rfc draft/oidcfed.hf.xml --v3 --html -o public/oidcfed.html
+  - xml2rfc draft/openid-connect-federation-1.0.xml --v3 --text -o public/openid-connect-federation-1.0.txt
+  - xml2rfc draft/openid-connect-federation-1.0.xml --v3 --html -o public/openid-connect-federation-1.0.html
 
 services:
 - docker
