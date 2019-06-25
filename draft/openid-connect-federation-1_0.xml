@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="23" month="June" year="2019"/>
+    <date day="25" month="June" year="2019"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -1734,7 +1734,7 @@ Host: https://example.org
 
         <section title="Provider Discovery">
           <t>
-	    The RP will start by gathering the OPs metadata using the
+	    The RP will start by gathering the OP's metadata using the
             process specified in <xref target="resolving_trust"/> above.
           </t>
         </section>
@@ -1835,7 +1835,7 @@ Host: https://example.org
                   <t>
 		    The RP MUST NOT apply metadata policies from the trust
                     chains that the OP provides because those are not valid for
-                    the RPs metadata.
+                    the RP's metadata.
                     The RP MUST apply policies to the metadata using one of its
                     own trust chains that ends in the trust anchor that the OP chose.
 		    Once it has applied those policies it can the apply
@@ -1847,8 +1847,8 @@ Host: https://example.org
                   </t>
                   <t>
 		    At this point the RP also knows which trust chain it should
-                    use when evaluating the OPs metadata. It can therefore
-                    apply the metadata policies on the OPs metadata using the
+                    use when evaluating the OP's metadata. It can therefore
+                    apply the metadata policies on the OP's metadata using the
                     relevant trust chain and store the result as the OPs
                     metadata.
                   </t>
@@ -1880,7 +1880,7 @@ Host: https://example.org
 	    <t>
               <list style="numbers">
                 <t>
-		  Starting with the OPs entity statement, resolve and verify
+		  Starting with the OP's entity statement, resolve and verify
                   the trust chains it chooses to use when constructing the
                   registration request. If those trust chains do not exist
                   anymore or do not verify, then the registration should be
@@ -1888,7 +1888,7 @@ Host: https://example.org
                   started.
                 </t>
                 <t>
-		  If the OPs entity statement was properly formed the RP must
+		  If the OP's entity statement was properly formed the RP must
                   now verify that the entity statement it received about itself
                   from the OP is still valid.
                   Again, if that is not the case the registration
@@ -1916,7 +1916,7 @@ Host: https://example.org
                   RP MUST re-register. Else
                 </t>
                 <t>
-                  starting with the RPs client registration request, the OP MUST
+                  starting with the RP's client registration request, the OP MUST
                   verify that there still is a valid trust chain terminating in
                   the trust anchor the OP chose during the registration process.
                 </t>
@@ -2206,7 +2206,7 @@ Host: www.umu.se
 HTTP/1.1 200 OK
 Content-Type: application/json
 "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVtdSJ9.eyJpYXQi..."
-]></artwork>
+]]></artwork>
         </figure>
 
         <t>
@@ -2425,8 +2425,8 @@ Content-Type: application/json
               <t>
                   Extract the <spanx style="verb">jwks</spanx> entry from this entity statement.
                   These are the signing keys of SWAMID. If there are keys in this
-                  field that does not appear in the local trust configuration
-                  add them to the ones that appear in the local trust configuration.
+                  field that do not appear in the local trust configuration,
+                  add them to the local trust configuration.
                   This is a necessary step to allow SWAMID, in this case, to rotate their signing keys.
               </t>
             <t>
@@ -2931,7 +2931,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             </list>
           </t>
             <t>
-                And the final step is to get the federations view of itself.
+                The final step is to get the federation's view of itself:
             </t>
 	  <figure>
 	    <artwork><![CDATA[
@@ -2942,7 +2942,7 @@ sub=https%3A%2F%2Feree.example.org HTTP/1.1
 Host: eree.example.org
 ]]></artwork>
 	  </figure>
-            <t>With the response</t>
+            <t>With the response:</t>
 	  <figure>
 	    <artwork><![CDATA[
 HTTP/1.1 200 OK
@@ -2999,7 +2999,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
         <section title="Validating the Trust Chain">
           <t>
 	    These three entity statements are sufficient to establish a path from
-            the locally configured trust anchor which trust the EREE federation,
+            the locally configured trust anchor that trusts the EREE federation,
             to the self-issued statement from the OP at the
             University
             of Ume&aring;. Here are the steps performed to validate the trust
@@ -3010,7 +3010,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
 	  <t>
             <list style="numbers">
               <t>
-		Verify that the <spanx style="verb">sub</spanx> in the entity statement is the EREEs entity
+		Verify that the <spanx style="verb">sub</spanx> in the entity statement is the EREE's entity
                 ID.
               </t>
                 <t>
@@ -3019,7 +3019,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
                 </t>
               <t>
                   Move on to the entity statement issued by EREE about the OP.
-		Verify that the <spanx style="verb">sub</spanx> in the entity statement is the OPs entity
+		Verify that the <spanx style="verb">sub</spanx> in the entity statement is the OP's entity
                 ID.
               </t>
               <t>
@@ -3039,7 +3039,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
             <list style="numbers">
               <t>
 		Verify that the <spanx style="verb">sub</spanx> and the <spanx style="verb">iss</spanx> in the entity statement is
-                the OPs entity ID.
+                the OP's entity ID.
               </t>
               <t>
 		Using the keys extracted above, verify the signature of the
@@ -3175,9 +3175,9 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
       </section>
 
       <section title="The OP Processes a Client Registration Request">
-        <section title="The OP Gathers the RPs Trust Chains">
+        <section title="The OP Gathers the RP's Trust Chains">
           <t>
-            To collect the trust chains the OP uses the <spanx style="verb">authority_hints</spanx> in the
+            To collect the trust chains, the OP uses the <spanx style="verb">authority_hints</spanx> in the
             self-signed entity statement it received from the RP (the client
             registration request).
           </t>
