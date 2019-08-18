@@ -1710,10 +1710,6 @@ Content-Type: application/json
           timestamps. An implementer MAY therefor chose to not verify the
           signature until all the other checks have been done.
         </t>
-        <t>
-          No information in the chain of statements should be used
-          before the signature chain has been validated.
-        </t>
       </section>
 
       <section title="Choosing One of the Valid Trust Chains">
