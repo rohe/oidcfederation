@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Federation">OpenID Connect Federation 1.0 -
-      draft 08
+      draft 09
     </title>
 
     <author fullname="Roland Hedberg" initials="R." role="editor"
@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="25" month="June" year="2019"/>
+    <date day="18" month="August" year="2019"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -142,7 +142,8 @@
         <t>
 	  The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
           "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-          document are to be interpreted as described in <xref target="RFC2119">RFC 2119</xref>.
+          document are to be interpreted as described in
+          <xref target="RFC2119">RFC 2119</xref>.
         </t>
       </section>
       <section title="Terminology">
@@ -184,7 +185,7 @@
             </t>
             <t hangText="Trust Chain">
 	      <vspace/>
-              A sequence of entity statements that represents a trusted chain
+              A sequence of entity statements that represents a chain
               starting at a leaf entity and ending in a trust anchor.
             </t>
           </list>
@@ -350,7 +351,7 @@
   "exp": 1516298022,
   "crit": ["jti"],
   "jti": "7l2lncFdY6SlhNia",
-  "policy_language_crit": [regexp"],
+  "policy_language_crit": ["regexp"],
   "metadata_policy": {
     "openid_provider": {
       "issuer": {"value": "https://ntnu.no"},
@@ -594,15 +595,18 @@
           <spanx style="verb">federation_entity</spanx>.
         </t>
         <t>
-	  Intermediates in a trust chain are of this type.
+	  All entities participating in a federation are of this type.
 	</t>
-        <t>
-          Note that the information carried here is not bound to any
-          specific protocol but of a general nature.
-        </t>
         <t>
           The following properties are allowed:
           <list style="hanging">
+            <t hangText="federation_api_endpoint">
+	      <vspace/>
+	      OPTIONAL.
+              The endpoint used for the Federation API described in
+              <xref target="federation_api"/>. Intermediate entities and
+              trust anchors MUST publish a federation_api_endpoint.
+            </t>
             <t hangText="name">
 	      <vspace/>
 	      OPTIONAL. String. The human readable name
@@ -633,7 +637,7 @@
       <t>
 	The metadata for a specific entity can be constructed by starting
         with the information in leaf entity's entity statement and then
-        applying the polices defined by the trust anchor and possible
+        applying the policies defined by the trust anchor and possible
         intermediates starting with the trust anchor.
       </t>
 
@@ -955,7 +959,7 @@
       </section>
       <section title="Extending the Policy Language">
         <t>
-          There might be parties that wants to extend the policy language
+          There might be parties that want to extend the policy language
           defined here. If that happens then the rule is that if
           software compliant with this specification
           encounters a keyword it doesn't understand it MUST ignore it
@@ -1028,23 +1032,18 @@
   "tos_uri": "https://example.com/tos.html"
   "scopes": ["openid", "eduperson"],
   "response_types": ["code"],
-  "redirect_uris": ["https://cs.example.com/rp1"],
+  "redirect_uris": ["https://cs.example.com/rp1"]
 }
 ]]></artwork>
 	</figure>
       </section>
     </section>
-
-    <section title="The Federation API">
+    <section
+        title="Obtaining Federation Entity Configuration Information"
+        anchor="federation_configuration">
       <t>
-	All entities that are expected
-        to publish entity statements about themselves or other entities, MUST
-        expose a Federation API endpoint.
-      </t>
-      <t>
-	The federation API endpoint of an entity is resolved from the entity
-        identifier. The Federation API endpoint is found using the
-	<xref target="RFC5785">Well-Known URIs</xref> specification, with the suffix
+        The configuration endpoint is found using the
+	<xref target="RFC8615">Well-Known URIs</xref> specification, with the suffix
         <spanx style="verb">openid-federation</spanx>. The scheme, host and port
         is taken directly from the entity identifier combined with the following
         path: <spanx style="verb">/.well-known/openid-federation</spanx>.
@@ -1055,22 +1054,103 @@
 	that path components are concatenated to the well-known identifier in
 	the OAuth 2.0 Authorization Server Metadata <xref target="RFC8414"/> specification.
 	Of course, in real multi-tenant deployments, in which the entity ID might be of the form
-	<spanx style="verb">https://multi-teanant-service.example.com/my-tenant-identifier</spanx>
+	<spanx style="verb">https://multi-tenant-service.example.com/my-tenant-identifier</spanx>
 	the tenant is very likely to not have control over the path
-	<spanx style="verb">https://multi-teanant-service.example.com/.well-known/openid-federation/my-tenant-identifier</spanx>
-	whereas it is very likely to have control over the path 
-	<spanx style="verb">https://multi-teanant-service.example.com/my-tenant-identifier/.well-known/openid-federation</spanx>.
+	<spanx style="verb">https://multi-tenant-service.example.com/.well-known/openid-federation/my-tenant-identifier</spanx>
+	whereas it is very likely to have control over the path
+	<spanx style="verb">https://multi-tenant-service.example.com/my-tenant-identifier/.well-known/openid-federation</spanx>.
 	Therefore, if using the Federation API at the URL with the tenant path after the well-known part fails,
 	it is RECOMMENDED that callers retry at the URL with the tenant path before the well-known part
-	(even though this violates <xref target="RFC5785"/>).
+	(even though this violates <xref target="RFC8615"/>)
+        </t>
+      <t>
+        Federation Entities MUST make a make a metadata statement available
+        at the configuration endpoint.
+      </t>
+      <section title="Federation Entity Configuration Request">
+        <t>
+        An federation Entity Configuration Document MUST be queried using an
+        HTTP GET request at the previously specified path.
+        The requesting party would make the following request to the Entity
+        <spanx style="verb">https://example.com</spanx> to obtain its
+          Configuration information:
+        </t>
+        <t>
+        	<figure>
+	  <artwork><![CDATA[
+
+  GET /.well-known/openid-federation HTTP/1.1
+  Host: example.com
+]]></artwork>
+	</figure>
+</t>
+      </section>
+      <section title="Federation Entity Configuration Response">
+        <t>The response is a Entity Statement as described in
+        <xref target="entity-statement">entity statement</xref>.
+          If the entity is an intermediate entity or a trust anchor the
+          response MUST contain metadata for a federation entity.
+        </t>
+        <t>
+          If the entity is an intermediate entity or a trust anchor it will
+          only contain metadata for a federation entity.
+        </t>
+        <t>An error response uses the applicable HTTP status code value.
+          </t>
+      <t>The following is a non-normative example response from an
+        intermediate entity, before serialization and adding a signature:
+        </t><t>
+        	<figure>
+	  <artwork><![CDATA[
+{
+  "iss": "https://example.com",
+  "sub": "https://example.com",
+  "iat": 1516239022,
+  "exp": 1516298022,
+  "jti": "7l2lncFdY6SlhNia",
+  "metadata": {
+    "federation_entity": {
+      "federation_api_endpoint":
+        "https://example.com/federation_api_endpoint",
+      "name": "The example cooperation",
+      "homepage_uri": "https://www.example.com",
+    }
+  },
+  "jwks": {
+    "keys": [
+      {
+        "alg": "RS256",
+        "e": "AQAB",
+        "ext": true,
+        "key_ops": ["verify"],
+        "kid": "key1",
+        "kty": "RSA",
+        "n": "pnXBOusEANuug6ewezb9J_...",
+        "use": "sig"
+      }
+    ]
+  }
+}]]></artwork>
+	</figure>
+      </t>
+      </section>
+    </section>
+    <section title="The Federation API" anchor="federation_api">
+      <t>
+	All entities that are expected to publish entity statements about other
+        entities, MUST expose a Federation API endpoint.
+      </t>
+      <t>
+	The federation API endpoint of an entity can be found the in the
+        configuration response as described in <xref
+          target="federation_configuration"/> or by other means.
       </t>
       <t>
 	The Federation API is an HTTPS API that may support multiple
         operations. Fetching entity statements is one of the operations, and the
-        only one
-        that all Federation API endpoints are REQUIRED to support. All the
-        other operations are OPTIONAL. The list of defined operations may be
-        extended in a future.
+        only one that all Federation API endpoints are REQUIRED to support.
+        All the other operations are OPTIONAL. The list of defined
+        operations may be extended in a future.
       </t>
       <t>
 	While all operations in the specification make use of a GET request,
@@ -1078,7 +1158,7 @@
 	<spanx style="verb">operation</spanx>
 	parameter is left out, it is treated as a
         fetch entity statements request. Unless otherwise mentioned or agreed
-        upon, requests to the federation API does not need to be
+        upon, requests to the federation API do not need to be
         authenticated.
       </t>
 
@@ -1089,8 +1169,9 @@
         </t>
         <t>
 	  In order to fetch an entity statement, an entity needs to know the
-          identifier of the entity to ask (the issuer), and the identifier of
-          the entity that you want the statement to be about (the subject).
+          identifier of the entity to ask (the issuer), the federation API
+          endpoint of that entity and the identifier of the entity that you
+          want the statement to be about (the subject).
         </t>
 
         <section title="Fetch Entity Statements Request"
@@ -1140,7 +1221,7 @@
               request for an entity statement:
             </preamble>
             <artwork><![CDATA[
-GET /.well-known/openid-federation?
+GET /federation_api_endpoint?
 iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation HTTP/1.1
 Host: openid.sunet.se
 ]]></artwork>
@@ -1158,16 +1239,50 @@ Host: openid.sunet.se
           </t>
           <figure>
             <preamble>
-	      The following is a non-normative example of a response:
+	      The following is a non-normative example of a response, before
+              serialization and adding a signature:
 	    </preamble>
             <artwork><![CDATA[
 200 OK
 Last-Modified: Mon, 17 Dec 2018 11:15:56 GMT
 Content-Type: application/jose
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
+{
+  "iss": "https://openid.sunet.se",
+  "sub": "https://openid.sunet.se",
+  "iat": 1516239022,
+  "exp": 1516298022,
+  "metadata": {
+    "openid_relying_party": {
+      "application_type": "web",
+      "redirect_uris": [ "https://openid.sunet.se/rp/callback" ]
+      "organization_name": "SUNET,
+      "logo_uri": "https://www.sunet.se/sunet/images/32x32.png",
+      "grant_types": ["authorization_code", "implicit"],
+      "jwks_uri": "https://openid.sunet.se/rp/jwks.json"
+    }
+  },
+  "jwks": {
+    "keys": [
+      {
+        "alg": "RS256",
+        "e": "AQAB",
+        "ext": true,
+        "key_ops": ["verify"],
+        "kid": "key1",
+        "kty": "RSA",
+        "n": "pnXBOusEANuug6ewezb9J_...",
+        "use": "sig"
+      }
+    ]
+  },
+  "authority_hints": {
+    "https://edugain.org/federation": [
+      "https://edugain.org/federation"
+    ]
+  }
+}
 ]]></artwork>
-            <postamble>(the signed JWT is truncated)</postamble>
           </figure>
         </section>
       </section>
@@ -1225,8 +1340,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwczovL3Nlc...
 	      request for trust negotiation:
 	    </preamble>
 	    <artwork><![CDATA[
-GET /.well-known/openid-federation?
-op=resolve_metadata&
+GET /federation_api_endpoint?
+operation=resolve_metadata&
 respondent=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
 type=openid_provider&
 anchor=https%3A%2F%2Fswamid.se&
@@ -1239,7 +1354,7 @@ Host: openid.sunet.se
         <section title="Trust Negotiation Response">
           <t>
 	    The response is a metadata statement that is the result of
-            applying the metadata polices in the trust chain on the entity's
+            applying the metadata policies in the trust chain on the entity's
             metadata.
           </t>
           <figure>
@@ -1321,7 +1436,7 @@ Content-Type: application/json
 	      request for trust negotiation:
 	    </preamble>
 	    <artwork><![CDATA[
-GET /.well-known/openid-federation?
+GET /federation_api_endpoint?
 op=listing&
 iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
 type=openid_relying_party HTTP/1.1
@@ -1407,8 +1522,7 @@ Content-Type: application/json
     <section anchor="resolving_trust" title="Resolving Trust Chain and Metadata">
       <t>
 	An entity (e.g., the Consumer) that wants to establish trust with a
-        remote
-        peer, must have the remote peer's entity identifier and a list of
+        remote peer, must have the remote peer's entity identifier and a list of
         entity IDs of trusted trust anchors together with the public version
         of their signing keys. The Consumer will first have to fetch
         sufficient entity statements to establish at least one chain of trust
@@ -1435,8 +1549,8 @@ Content-Type: application/json
           statement about the remote peer from each of the intermediates.
           If the received entity statement contains an authority hint this
           process is repeated. This time with the <spanx style="verb">iss</spanx> set to the
-          intermediates entity ID and the <spanx style="verb">sub</spanx> to be the <spanx style="verb">iss</spanx> of the previous
-          query.
+          intermediates entity ID and the <spanx style="verb">sub</spanx> to be
+          the <spanx style="verb">iss</spanx> of the previous query.
           The Consumer should never attempt to fetch
           entity statements it already has fetched during this
           process (loop prevention).
@@ -1570,7 +1684,7 @@ Content-Type: application/json
 	  it should be at the end of the trust chain.
           The trust anchor SHOULD set a reasonable expiration
           time on that statement, such that the consumers will re-fetch the
-          entity statement at reasonable intervals. If the trust root wants to
+          entity statement at reasonable intervals. If the trust anchor wants to
           roll over its signing keys it would have to:
 	</t>
 	<t>
@@ -1668,14 +1782,14 @@ Content-Type: application/json
           </t>
 	  <figure>
 	    <preamble>
-	      An authorization request example:
+	      An authentication request example:
 	    </preamble>
 	    <artwork><![CDATA[
 GET /authorization?
   redirect_uri=https%3A%2F%2Fexample.com%2Fauthz_cb
   &scope=openid+profile+email+address+phone
   &response_type=code
-  &nonce=4LX0mFMxdBjkGmtx7a8WIOnB&state=JpRTpu9eGXiP4thsK ...
+  &nonce=4LX0mFMxdBjkGmtx7a8WIOnB&
   &state=YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ
   &client_id=https%3A%2F%2Flocalhost%3A8090%2Firp
   &client_assertion=eyJhbGciOiJSUzI1NiIs ... qx7xHcvPOdIhnpg
@@ -1959,7 +2073,8 @@ Host: https://example.org
     <references title="Normative References">
       <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
       <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"?>
-      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5785.xml"?>
+      <?rfc
+          include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8615.xml"?>
       <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749.xml"?>
       <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7515.xml"?>
       <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7517.xml"?>
@@ -2144,7 +2259,7 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
           </list>
 	</t>
 	<t>
-          Foodle has a local trust root configuration that contains public
+          Foodle has a local trust anchor configuration that contains public
           signing keys for known federations:
         </t>
         <figure>
@@ -2193,7 +2308,7 @@ Ui3nfnC8GSkT-CYII3oZPsIgMV527iQGVsehIV9KqTF2FnaP83cqV9YgvMfhs1wrx4L3Z
         </t>
         <figure>
           <artwork><![CDATA[
-GET /.well-known/openid-federation/openid?
+GET /federation_api_endpoint?
 iss=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
 Host: www.umu.se
 ]]></artwork>
@@ -2269,12 +2384,12 @@ Content-Type: application/json
 	  In order to establish trust with this OP, the Foodle RP
           would need to fetch sufficient entity statements to represent
           a complete chain from the self-issued statement to the locally
-          configured trust root, which contains SWAMID.
+          configured trust anchor, which contains SWAMID.
         </t>
         <t>
 	  The information found in the <spanx style="verb">authority_hints</spanx> is critical in order
           to dynamically discover the trust chain. If such hints are not
-          present, the RP may fall back to fixed configured trust roots
+          present, the RP may fall back to fixed configured trust anchors
           to ask for entity statements.
         </t>
         <t>
@@ -2284,7 +2399,7 @@ Content-Type: application/json
         </t>
         <figure>
           <artwork><![CDATA[
-GET /.well-known/openid-federation?
+GET /federation_api_endpoint?
 iss=https%3A%2F%2Fwww.sunet.se%2Fswamid&
 sub=https%3A%2F%2Fumu.se%2Fopenid HTTP/1.1
 Host: www.sunet.se
@@ -2359,7 +2474,7 @@ Content-Type: application/json
           </t>
                   <figure>
           <artwork><![CDATA[
-GET /.well-known/openid-federation?
+GET /federation_api_endpoint?
 iss=https%3A%2F%2Fwww.sunet.se%2Fswamid&
 sub=https%3A%2F%2Fwww.sunet.se%2Fswamid HTTP/1.1
 Host: www.sunet.se
@@ -2770,7 +2885,7 @@ Host: idp.umu.se
 	  <figure>
 	    <artwork><![CDATA[
  GET
- /.well-known/openid-federation?iss=https%3A%2F%2Fop.umu.se
+ /federation_api_endpoint?iss=https%3A%2F%2Fop.umu.se
  HTTP/1.1
  Host: op.umu.se
 ]]></artwork>
@@ -2870,7 +2985,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFVOUxUbkpzTjJ4VVRYQkZSM040T1Z...
 	  <figure>
 	    <artwork><![CDATA[
 GET
-/.well-known/openid-federation?
+/federation_api_endpoint?
 iss=https%3A%2F%2Feree.example.org&
 sub=https%3A%2F%2Fop.umu.se HTTP/1.1
 Host: eree.example.org
@@ -2936,7 +3051,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
 	  <figure>
 	    <artwork><![CDATA[
 GET
-/.well-known/openid-federation?
+/federation_api_endpoint?
 iss=https%3A%2F%2Feree.example.org&
 sub=https%3A%2F%2Feree.example.org HTTP/1.1
 Host: eree.example.org
@@ -3061,7 +3176,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
 	  </t>
 	  <figure>
 	    <preamble>
-	      Metadata polices:
+	      Metadata policies:
 	    </preamble>
 	    <artwork><![CDATA[
   {}
@@ -3190,7 +3305,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVdW...
 	  <figure>
 	    <artwork><![CDATA[
 GET
-/.well-known/openid-federation?
+/federation_api_endpoint?
 iss=https%3A%2F%2Feree.example.org&
 sub=https%3A%2F%2Frp.eree.example.org HTTP/1.1
 Host: eree.example.org
@@ -3337,7 +3452,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
           sending the registration request. If that was not the case but the
           RP had chosen to send a registration request with more than one
           authority hint, then this by time the RP could not apply any
-          metadata polices to the metadata statement, since it would not know
+          metadata policies to the metadata statement, since it would not know
           which to use.
         </t>
       </section>
@@ -3427,7 +3542,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
 	    similar or just use regular expressions.
 	  </t>
 	  <t>
-	    Define the relationship between trust roots and Federation Operators,
+	    Define the relationship between trust anchors and Federation Operators,
 	    as people will expect to find the Federation Operator term in the specification.
 	  </t>
 	  <t>
@@ -3439,7 +3554,19 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFuRlJWMEZ6YjE5NVd...
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
-
+      <t>
+        1.1
+        <list style="symbols">
+          <t>
+  	    Incorporated review feedback from Marcos Sanz.
+	      Major changes were as follows.
+	      </t>
+          <t>
+            Made Federation API endpoint part of the entity statement instead of
+            being a well-known URI.
+          </t>
+        </list>
+      </t>
       <t>
 	-08
         <list style="symbols">
