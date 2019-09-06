@@ -1800,8 +1800,9 @@ Hedberg, et al.         Expires February 19, 2020              [Page 32]
    appropriate error code, and an "error_description" that aids the RP
    to understand what is wrong.
 
-   In addition to the error codes defined in Section 3.1.2.6 of OIDC
-   core, this specification also defines the following error codes:
+   In addition to the error codes defined in Section 3.1.2.6 of OpenID
+   Connect core, this specification also defines the following error
+   codes:
 
    missing_trust_anchor
       No trusted trust anchor could be found.
@@ -1841,7 +1842,6 @@ Hedberg, et al.         Expires February 19, 2020              [Page 32]
 
    Given that the OP supports explicit registration, the RP progresses
    as follows:
-
 
 
 
