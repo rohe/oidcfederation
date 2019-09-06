@@ -1991,7 +1991,7 @@ Host: https://example.org
             that aids the RP to understand what is wrong.
           </t>
           <t>
-            In addition to the error codes defined in Section 3.1.2.6 of OIDC
+            In addition to the error codes defined in Section 3.1.2.6 of OpenID Connect
             core, this specification also defines the following error codes:
           </t>
           <t>
