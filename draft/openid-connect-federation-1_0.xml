@@ -772,14 +772,16 @@
           <t>is applied to the metadata statement</t>
           <figure>
             <artwork><![CDATA[
-"request_object_signing_alg_values_supported": ["ES256", "ES384", "RS256", "RS512"]
+"request_object_signing_alg_values_supported": [
+  "ES256", "ES384", "RS256", "RS512"]
 ]]></artwork>
           </figure>
           <t>the resulting claim statement will be:
           </t>
           <figure>
             <artwork><![CDATA[
-"request_object_signing_alg_values_supported": ["ES256", "ES384", "RS256", "RS512"]
+"request_object_signing_alg_values_supported": [
+  "ES256", "ES384", "RS256", "RS512"]
  ]]></artwork>
           </figure>
           <t>
