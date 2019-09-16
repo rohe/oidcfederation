@@ -292,7 +292,7 @@ Hedberg, et al.         Expires February 19, 2020               [Page 5]
       used in other protocols.
 
    aud
-      OPTIONAL.  The entity statement may be specifically created for a
+      OPTIONAL.  The entity statement may be specifically created for an
       entity.  The entity identifier for that entity should appear in
       this claim.
 
@@ -693,7 +693,7 @@ Hedberg, et al.         Expires February 19, 2020              [Page 12]
      "request_object_signing_alg": "ES384"
 
    If an entity tries to register a value that is not in the "one_of"
-   set of values.  Applying the policy MUST lead to a failure.
+   set of values, applying the policy MUST lead to a failure.
 
 4.1.3.  superset_of
 
@@ -714,7 +714,7 @@ Hedberg, et al.         Expires February 19, 2020              [Page 12]
      "ES256", "ES384", "RS256", "RS512"]
 
    If an entity tries to register a set of values that are not a
-   superset of the ones specified by "superset_of".  Applying the policy
+   superset of the ones specified by "superset_of", applying the policy
    MUST lead to a failure.
 
 4.1.4.  add
@@ -860,8 +860,8 @@ Hedberg, et al.         Expires February 19, 2020              [Page 15]
       of the values.
 
    superset_of
-      The result of combining two "superset_of" policies is the
-      intersection of the values.
+      The result of combining two "superset_of" policies is the union of
+      the values.
 
    add
       The result of combining two "add" policies is the union of the
@@ -1070,8 +1070,8 @@ Hedberg, et al.         Expires February 19, 2020              [Page 19]
    URL with the tenant path before the well-known part (even though this
    violates [RFC8615])
 
-   Federation Entities MUST make a make a metadata statement available
-   at the configuration endpoint.
+   Federation Entities MUST make a metadata statement available at the
+   configuration endpoint.
 
 5.1.  Federation Entity Configuration Request
 
@@ -1086,7 +1086,7 @@ Hedberg, et al.         Expires February 19, 2020              [Page 19]
 
 5.2.  Federation Entity Configuration Response
 
-   The response is a Entity Statement as described in entity statement
+   The response is an Entity Statement as described in entity statement
    (Section 2.1).  If the entity is an intermediate entity or a trust
    anchor the response MUST contain metadata for a federation entity.
 
@@ -1635,7 +1635,7 @@ Hedberg, et al.         Expires February 19, 2020              [Page 29]
 
 7.4.  Calculating the Lifetime of a Trust Chain
 
-   Each entity statement in a trust chain is signed and MUST have a
+   Each entity statement in a trust chain is signed and MUST have an
    expiration time (exp) set.  The expiration time of the whole trust
    chain is set to the minimum value of exp within the chain.
 
@@ -1917,7 +1917,7 @@ Hedberg, et al.         Expires February 19, 2020              [Page 34]
        that the OP provides because those are not valid for the RP's
        metadata.  The RP MUST apply policies to the metadata using one
        of its own trust chains that ends in the trust anchor that the OP
-       chose.  Once it has applied those policies it can the apply the
+       chose.  Once it has applied those policies it can then apply the
        policy returned from the OP.  When it has applied all the
        metadata policies to its metadata statement, it then stores the
        result and can continue communicating with the OP using the
@@ -2021,14 +2021,14 @@ Hedberg, et al.         Expires February 19, 2020              [Page 36]
    [OpenID.Discovery]
               Sakimura, N., Bradley, J., Jones, M., and E. Jay, "OpenID
               Connect Discovery 1.0", August 2015,
-              <http://openid.net/specs/
-              openid-connect-discovery-1_0.html>.
+              <http://openid.net/specs/openid-connect-discovery-
+              1_0.html>.
 
    [OpenID.Registration]
               Sakimura, N., Bradley, J., and M. Jones, "OpenID Connect
               Dynamic Client Registration 1.0", August 2015,
-              <http://openid.net/specs/
-              openid-connect-registration-1_0.html>.
+              <http://openid.net/specs/openid-connect-registration-
+              1_0.html>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2638,7 +2638,7 @@ A.8.  OP Fetches Entity Statements
 
    The OP needs to establish a trust chain for the RP from which an
    authentication was received.  The OP in this example are configured
-   with public key of 2 federations:
+   with public key of two federations:
 
    "https://edugain.org/oidc"
 
@@ -2874,11 +2874,11 @@ B.3.2.  Resolving the OP's Trust Chain
    complete chain from the self-issued statement to the trust anchor
    that represents the EREE federations.
 
-   The "authority_hints" in the self-signed entity statement points to 2
-   trust anchors "https://eree.example.org" and "https://swamid.se" of
-   these only the "EREE" one is interesting.  The RP therefore chooses
-   to only follow that trust path.  The next step being to fetch an
-   entity statement about "https://op.umu.se" signed by the EREE
+   The "authority_hints" in the self-signed entity statement points to
+   two trust anchors "https://eree.example.org" and "https://swamid.se"
+   of these only the "EREE" one is interesting.  The RP therefore
+   chooses to only follow that trust path.  The next step being to fetch
+   an entity statement about "https://op.umu.se" signed by the EREE
    federation.  This is done by doing a fetch entity statement:
 
    GET

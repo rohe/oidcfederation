@@ -252,7 +252,7 @@
             <t hangText="aud">
               <vspace/>
               OPTIONAL.
-              The entity statement may be specifically created for a entity.
+              The entity statement may be specifically created for an entity.
               The entity identifier for that entity should appear in this claim.
             </t>
             <t hangText="authority_hints">
@@ -755,8 +755,7 @@
           <t>
             If an entity tries to register a value that is not in the
             <spanx style="verb">one_of</spanx>
-            set of values.
-            Applying the policy MUST lead to a failure.
+            set of values, applying the policy MUST lead to a failure.
           </t>
         </section>
         <section title="superset_of" anchor="superset_of">
@@ -787,8 +786,8 @@
           <t>
             If an entity tries to register a set of values that are not
             a superset of the ones specified by
-            <spanx style="verb">superset_of</spanx>.
-            Applying the policy MUST lead to a failure.
+            <spanx style="verb">superset_of</spanx>,
+            applying the policy MUST lead to a failure.
           </t>
 
         </section>
@@ -992,7 +991,7 @@
               <vspace/>
               The result of combining two
               <spanx style="verb">superset_of</spanx>
-              policies is the intersection of the values.
+              policies is the union of the values.
             </t>
             <t hangText="add">
               <vspace/>
@@ -1206,7 +1205,7 @@
         (even though this violates <xref target="RFC8615"/>)
       </t>
       <t>
-        Federation Entities MUST make a make a metadata statement available
+        Federation Entities MUST make a metadata statement available
         at the configuration endpoint.
       </t>
       <section title="Federation Entity Configuration Request">
@@ -1229,7 +1228,7 @@
         </t>
       </section>
       <section title="Federation Entity Configuration Response">
-        <t>The response is a Entity Statement as described in
+        <t>The response is an Entity Statement as described in
           <xref target="entity-statement">entity statement</xref>.
           If the entity is an intermediate entity or a trust anchor the
           response MUST contain metadata for a federation entity.
@@ -1792,7 +1791,7 @@ Content-Type: application/json
       <section anchor="trust_lifetime"
                title="Calculating the Lifetime of a Trust Chain">
         <t>
-          Each entity statement in a trust chain is signed and MUST have a
+          Each entity statement in a trust chain is signed and MUST have an
           expiration time (exp) set. The expiration time of the whole trust
           chain is set to the minimum value of exp within the chain.
         </t>
@@ -2154,7 +2153,7 @@ HTTP/1.1 302 Found
                     The RP MUST apply policies to the metadata using one of its
                     own trust chains that ends in the trust anchor that the OP
                     chose.
-                    Once it has applied those policies it can the apply
+                    Once it has applied those policies it can then apply
                     the policy returned from the OP.
                     When it has applied all the metadata policies to its
                     metadata statement, it then stores
@@ -2920,7 +2919,7 @@ Host: idp.umu.se
         <t>
           The OP needs to establish a trust chain for the RP from which an
           authentication was received. The OP in this example are configured
-          with public key of 2 federations:
+          with public key of two federations:
         </t>
         <figure>
           <preamble>
@@ -3198,7 +3197,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFVOUxUbkpzTjJ4VVRYQkZSM040T1Z...
           <t>
             The <spanx style="verb">authority_hints</spanx> in the self-signed
             entity statement points to
-            2 trust anchors "https://eree.example.org" and "https://swamid.se"
+            two trust anchors "https://eree.example.org" and "https://swamid.se"
             of these only the <spanx style="verb">EREE</spanx> one is
             interesting.
             The RP therefore chooses

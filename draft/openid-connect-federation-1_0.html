@@ -478,7 +478,7 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.22.3 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.28.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
@@ -829,7 +829,7 @@
 <br> REQUIRED. A <a href="#RFC7517" class="xref">JSON Web Key Set (JWKS)</a> representing the public part of the subject entity's signing keys. The corresponding private key is used by leaf entities to sign entity statements about themselves, and intermediate entities to sign statements about other entities.  The keys that can be found here are primarily intended to sign entity statements and should not be used in other protocols.  </dd>
 <dt>aud</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL.  The entity statement may be specifically created for a entity.  The entity identifier for that entity should appear in this claim.  </dd>
+<br> OPTIONAL.  The entity statement may be specifically created for an entity.  The entity identifier for that entity should appear in this claim.  </dd>
 <dt>authority_hints</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. A JSON object where the keys are the entity IDs of the intermediate entities that may issue an entity statement about the issuer entity. The value MUST be a JSON array of entities that are further up in the trust chain.  The array may be an empty list.  The JSON array can be used to simplify the selection of trust chains without the need for following all possible trust chains.  <samp>authority_hints</samp> values may be multiple hops up the chain.  These values will typically be trust anchors.  </dd>
@@ -1055,7 +1055,7 @@
 <pre>
   "request_object_signing_alg": "ES384"
 </pre>
-<p id="rfc.section.4.1.2.p.4">If an entity tries to register a value that is not in the <samp>one_of</samp> set of values.  Applying the policy MUST lead to a failure.  </p>
+<p id="rfc.section.4.1.2.p.4">If an entity tries to register a value that is not in the <samp>one_of</samp> set of values, applying the policy MUST lead to a failure.  </p>
 <h1 id="rfc.section.4.1.3">
 <a href="#rfc.section.4.1.3">4.1.3.</a> <a href="#superset_of" id="superset_of">superset_of</a>
 </h1>
@@ -1074,7 +1074,7 @@
 "request_object_signing_alg_values_supported": [
   "ES256", "ES384", "RS256", "RS512"]
  </pre>
-<p id="rfc.section.4.1.3.p.4">If an entity tries to register a set of values that are not a superset of the ones specified by <samp>superset_of</samp>.  Applying the policy MUST lead to a failure.  </p>
+<p id="rfc.section.4.1.3.p.4">If an entity tries to register a set of values that are not a superset of the ones specified by <samp>superset_of</samp>, applying the policy MUST lead to a failure.  </p>
 <h1 id="rfc.section.4.1.4">
 <a href="#rfc.section.4.1.4">4.1.4.</a> <a href="#add" id="add">add</a>
 </h1>
@@ -1171,7 +1171,7 @@
 <br> The result of combining two <samp>one_of</samp> policies is the intersection of the values.  </dd>
 <dt>superset_of</dt>
 <dd style="margin-left: 8">
-<br> The result of combining two <samp>superset_of</samp> policies is the intersection of the values.  </dd>
+<br> The result of combining two <samp>superset_of</samp> policies is the union of the values.  </dd>
 <dt>add</dt>
 <dd style="margin-left: 8">
 <br> The result of combining two <samp>add</samp> policies is the union of the values.  </dd>
@@ -1293,7 +1293,7 @@
 </h1>
 <p id="rfc.section.5.p.1">The configuration endpoint is found using the <a href="#RFC8615" class="xref">Well-Known URIs</a> specification, with the suffix <samp>openid-federation</samp>. The scheme, host and port is taken directly from the entity identifier combined with the following path: <samp>/.well-known/openid-federation</samp>.  </p>
 <p id="rfc.section.5.p.2">If the entity identifier contains a path, it is concatenated after <samp>/.well-known/openid-federation</samp> in the same manner that path components are concatenated to the well-known identifier in the OAuth 2.0 Authorization Server Metadata <a href="#RFC8414" class="xref">[RFC8414]</a> specification.  Of course, in real multi-tenant deployments, in which the entity ID might be of the form <samp>https://multi-tenant-service.example.com/my-tenant-identifier</samp> the tenant is very likely to not have control over the path <samp>https://multi-tenant-service.example.com/.well-known/openid-federation/my-tenant-identifier </samp> whereas it is very likely to have control over the path <samp>https://multi-tenant-service.example.com/my-tenant-identifier/.well-known/openid-federation </samp> .  Therefore, if using the Federation API at the URL with the tenant path after the well-known part fails, it is RECOMMENDED that callers retry at the URL with the tenant path before the well-known part (even though this violates <a href="#RFC8615" class="xref">[RFC8615]</a>) </p>
-<p id="rfc.section.5.p.3">Federation Entities MUST make a make a metadata statement available at the configuration endpoint.  </p>
+<p id="rfc.section.5.p.3">Federation Entities MUST make a metadata statement available at the configuration endpoint.  </p>
 <h1 id="rfc.section.5.1">
 <a href="#rfc.section.5.1">5.1.</a> Federation Entity Configuration Request</h1>
 <p id="rfc.section.5.1.p.1">An federation Entity Configuration Document MUST be queried using an HTTP GET request at the previously specified path.  The requesting party would make the following request to the Entity <samp>https://example.com</samp> to obtain its Configuration information: </p>
@@ -1305,7 +1305,7 @@
 <p></p>
 <h1 id="rfc.section.5.2">
 <a href="#rfc.section.5.2">5.2.</a> Federation Entity Configuration Response</h1>
-<p id="rfc.section.5.2.p.1">The response is a Entity Statement as described in <a href="#entity-statement" class="xref">entity statement</a>.  If the entity is an intermediate entity or a trust anchor the response MUST contain metadata for a federation entity.  </p>
+<p id="rfc.section.5.2.p.1">The response is an Entity Statement as described in <a href="#entity-statement" class="xref">entity statement</a>.  If the entity is an intermediate entity or a trust anchor the response MUST contain metadata for a federation entity.  </p>
 <p id="rfc.section.5.2.p.2">If the entity is an intermediate entity or a trust anchor it will only contain metadata for a federation entity.  </p>
 <p id="rfc.section.5.2.p.3">An error response uses the applicable HTTP status code value.  </p>
 <p id="rfc.section.5.2.p.4">The following is a non-normative example response from an intermediate entity, before serialization and adding a signature: </p>
@@ -1609,7 +1609,7 @@ Content-Type: application/json
 <h1 id="rfc.section.7.4">
 <a href="#rfc.section.7.4">7.4.</a> <a href="#trust_lifetime" id="trust_lifetime">Calculating the Lifetime of a Trust Chain</a>
 </h1>
-<p id="rfc.section.7.4.p.1">Each entity statement in a trust chain is signed and MUST have a expiration time (exp) set. The expiration time of the whole trust chain is set to the minimum value of exp within the chain.  </p>
+<p id="rfc.section.7.4.p.1">Each entity statement in a trust chain is signed and MUST have an expiration time (exp) set. The expiration time of the whole trust chain is set to the minimum value of exp within the chain.  </p>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> Updating Metadata, Key Rollover, and Revocation</h1>
 <p id="rfc.section.8.p.1">This specification allows for a smooth process of updating metadata and public keys.  </p>
@@ -1752,7 +1752,7 @@ HTTP/1.1 302 Found
 
 <ol>
 <li>The RP verifies the correctness of the received entity statement, making sure that the trust chains starting at the <samp>authority_hints</samp> terminates in trust anchors that were referenced in the entity statement it sent to the OP.  </li>
-<li>The RP MUST NOT apply metadata policies from the trust chains that the OP provides because those are not valid for the RP's metadata.  The RP MUST apply policies to the metadata using one of its own trust chains that ends in the trust anchor that the OP chose.  Once it has applied those policies it can the apply the policy returned from the OP.  When it has applied all the metadata policies to its metadata statement, it then stores the result and can continue communicating with the OP using the agreed-upon metadata.  </li>
+<li>The RP MUST NOT apply metadata policies from the trust chains that the OP provides because those are not valid for the RP's metadata.  The RP MUST apply policies to the metadata using one of its own trust chains that ends in the trust anchor that the OP chose.  Once it has applied those policies it can then apply the policy returned from the OP.  When it has applied all the metadata policies to its metadata statement, it then stores the result and can continue communicating with the OP using the agreed-upon metadata.  </li>
 <li>At this point the RP also knows which trust chain it should use when evaluating the OP's metadata. It can therefore apply the metadata policies on the OP's metadata using the relevant trust chain and store the result as the OPs metadata.  </li>
 <li>If the RP was not OK, for some reason, with the received entity statement then it has the choice to restart the registration process or to give up.  </li>
 </ol>
@@ -2194,7 +2194,7 @@ Host: idp.umu.se
 <p id="rfc.section.A.7.p.3">The OP receiving this authentication request will, unless the RP is cached or statically configured, start to dynamically fetch and establish trust with the RP.  </p>
 <h1 id="rfc.appendix.A.8">
 <a href="#rfc.appendix.A.8">A.8.</a> OP Fetches Entity Statements</h1>
-<p id="rfc.section.A.8.p.1">The OP needs to establish a trust chain for the RP from which an authentication was received. The OP in this example are configured with public key of 2 federations: </p>
+<p id="rfc.section.A.8.p.1">The OP needs to establish a trust chain for the RP from which an authentication was received. The OP in this example are configured with public key of two federations: </p>
 <p>"https://edugain.org/oidc" </p>
 <pre>
  {
@@ -2372,7 +2372,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6IlFVOUxUbkpzTjJ4VVRYQkZSM040T1Z...
 <h1 id="rfc.appendix.B.3.2">
 <a href="#rfc.appendix.B.3.2">B.3.2.</a> Resolving the OP's Trust Chain</h1>
 <p id="rfc.section.B.3.2.p.1">In order to establish trust with this OP, the EREE service provider would need to fetch sufficient entity statements to represent a complete chain from the self-issued statement to the trust anchor that represents the EREE federations.  </p>
-<p id="rfc.section.B.3.2.p.2">The <samp>authority_hints</samp> in the self-signed entity statement points to 2 trust anchors "https://eree.example.org" and "https://swamid.se" of these only the <samp>EREE</samp> one is interesting.  The RP therefore chooses to only follow that trust path. The next step being to fetch an entity statement about "https://op.umu.se" signed by the EREE federation. This is done by doing a fetch entity statement: </p>
+<p id="rfc.section.B.3.2.p.2">The <samp>authority_hints</samp> in the self-signed entity statement points to two trust anchors "https://eree.example.org" and "https://swamid.se" of these only the <samp>EREE</samp> one is interesting.  The RP therefore chooses to only follow that trust path. The next step being to fetch an entity statement about "https://op.umu.se" signed by the EREE federation. This is done by doing a fetch entity statement: </p>
 <pre>
 GET
 /federation_api_endpoint?
