@@ -802,10 +802,10 @@
 <br> OPTIONAL.  The entity statement may be specifically created for a entity.  The entity identifier for that entity should appear in this claim.  </dd>
 <dt>authority_hints</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. A JSON object where the keys are the entity IDs of the intermediate entities that may issue an entity statement about the issuer entity. The value MUST be a JSON array of entities that are further up in the trust chain.  The array may be an empty list.  The JSON array can be used to simplify the selection of trust chains without the need for following all possible trust chains.  <samp>authority_hints</samp> values may be multiple hops up the chain.  These values will typically be trust anchors.  </dd>
+<br> OPTIONAL. Array of strings representing the entity IDs of intermediate entities that may issue an entity statement about the issuer entity.  </dd>
 <dt>metadata</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. JSON object including protocol specific metadata claims that represent the entity's metadata.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata according to the metadata schema of that metadata type. An entity statement may contain multiple metadata statements, but only one for each metadata type.  If the entity is a non-leaf entity it MUST contain a metadata object with a <samp>federation_entity</samp> object inside.  </dd>
+<br> REQUIRED. JSON object including protocol specific metadata claims that represent the entity's metadata.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata according to the metadata schema of that metadata type. An entity statement may contain multiple metadata statements, but only one for each metadata type.  If the entity is a non-leaf entity it MUST contain a metadata object with a <samp>federation_entity</samp> object inside.  </dd>
 <dt>metadata_policy</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. JSON object that describes a metadata policy.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata policy according to the metadata schema of that metadata type. An entity statement may contain multiple metadata policy statements, but only one for each metadata type.  If the metadata type identifier is <samp>federation_entity</samp>, then the policy MUST be applied to the immediate subordinate in the trust chain unless that is a leaf entity.  If the metadata type identifier is not <samp>federation_entity</samp>, then the policy MUST be applied to all subordinate nodes of that type in the trust chain.  Only non-leaf entities MAY contain a <samp>metadata_policy</samp> claim. Leaf entities MUST NOT contain a metadata_policy claim.  </dd>
@@ -1896,13 +1896,14 @@ HTTP/1.1 302 Found
         "keys": [
             {
                 "e": "AQAB",
-                "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0Nmt...",
+                "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
                 "kty": "RSA",
-                "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yHkPw..."
+                "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
             }
         ]
     },
-    "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0NmtUUHU0NzZMUHBSMA",
+    "kid":
+      "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0NmtUUHU0NzZMUHBSMA",
     "metadata": {
         "openid_provider": {
             "authorization_endpoint":
@@ -1960,13 +1961,14 @@ HTTP/1.1 302 Found
         "keys": [
             {
                 "e": "AQAB",
-                "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RVdVQ...",
+                "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
                 "kty": "RSA",
-                "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM3wl..."
+                "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
             }
         ]
     },
-    "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RVdVQtajNlTGlZS3Nkdw",
+    "kid":
+      "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RVdVQtajNlTGlZS3Nkdw",
     "metadata": {
         "federation_entity": {
             "contacts": "ops@umu.se",
@@ -1997,13 +1999,14 @@ HTTP/1.1 302 Found
         "keys": [
             {
                 "e": "AQAB",
-                "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0Nmt...",
+                "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
                 "kty": "RSA",
-                "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yHkPw..."
+                "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
             }
         ]
     },
-    "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RVdVQtajNlTGlZS3Nkdw",
+    "kid":
+      "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RVdVQtajNlTGlZS3Nkdw",
     "metadata_policy": {
         "openid_provider": {
             "contacts": {
@@ -2055,17 +2058,19 @@ HTTP/1.1 302 Found
         "keys": [
             {
                 "e": "AQAB",
-                "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdOa0J...",
+                "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
                 "kty": "RSA",
-                "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9StW0..."
+                "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
             }
         ]
     },
-    "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdOa0JCdFktNV9HeHV2dw",
+    "kid":
+      "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdOa0JCdFktNV9HeHV2dw",
     "metadata": {
         "federation_entity": {
             "contacts": "ops@swamid.se",
-            "federation_api_endpoint": "https://swamid.sunet.se/fedapi",
+            "federation_api_endpoint":
+              "https://swamid.sunet.se/fedapi",
             "homepage_uri": "https://www.sunet.se/swamid/",
             "name": "SWAMID"
         }
@@ -2091,13 +2096,14 @@ HTTP/1.1 302 Found
         "keys": [
             {
                 "e": "AQAB",
-                "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RVdVQ...",
+                "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
                 "kty": "RSA",
-                "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM3wl..."
+                "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
             }
         ]
     },
-    "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdOa0JCdFktNV9HeHV2dw",
+    "kid":
+      "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdOa0JCdFktNV9HeHV2dw",
     "metadata_policy": {
         "openid_provider": {
             "id_token_signing_alg_values_supported": {
@@ -2140,16 +2146,18 @@ HTTP/1.1 302 Found
         "keys": [
             {
                 "e": "AQAB",
-                "kid": "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2FraFF...",
+                "kid": "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2Fr...",
                 "kty": "RSA",
-                "n": "xKlwocDXUw-mrvDSO4oRrTRrVuTwotoBFpozvlq-1q7od..."
+                "n": "xKlwocDXUw-mrvDSO4oRrTRrVuTwotoBFpozvlq-1q..."
             }
         ]
     },
-    "kid": "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2FraFF5TGVWLW9JX0tZWQ",
+    "kid":
+      "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2FraFF5TGVWLW9JX0tZWQ",
     "metadata": {
         "federation_entity": {
-            "federation_api_endpoint": "https://geant.org/edugain/api"
+            "federation_api_endpoint":
+              "https://geant.org/edugain/api"
         }
     },
     "sub": "https://edugain.geant.org"
@@ -2168,13 +2176,14 @@ HTTP/1.1 302 Found
         "keys": [
             {
                 "e": "AQAB",
-                "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdOa0J...",
+                "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
                 "kty": "RSA",
-                "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9StW0..."
+                "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
             }
         ]
     },
-    "kid": "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2FraFF5TGVWLW9JX0tZWQ",
+    "kid":
+      "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2FraFF5TGVWLW9JX0tZWQ",
     "metadata_policy": {
         "openid_provider": {
             "contacts": {
@@ -2208,7 +2217,8 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.8.p.2">Merging the metadata policies from the tree entity statements we have, by a superior about its subordinate, and applying the combined policy to the metadata statement that the leaf entity presented we get: </p>
 <pre>
 {
-    "authorization_endpoint": "https://op.umu.se/openid/authorization",
+    "authorization_endpoint":
+      "https://op.umu.se/openid/authorization",
     "contacts": "ops@edugain.geant.org",
     "federation_types_supported": [
         "automatic",
@@ -2222,8 +2232,10 @@ HTTP/1.1 302 Found
     "id_token_signing_alg_values_supported": [
         "ES256"
     ],
-    "logo_uri": "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-    "policy_uri": "https://www.umu.se/en/website/legal-information/",
+    "logo_uri":
+      "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
+    "policy_uri":
+      "https://www.umu.se/en/website/legal-information/",
     "response_types_supported": [
         "code",
         "code id_token",

@@ -291,17 +291,12 @@ Hedberg, et al.         Expires February 19, 2020               [Page 5]
       this claim.
 
    authority_hints
-      OPTIONAL.  A JSON object where the keys are the entity IDs of the
+      OPTIONAL.  Array of strings representing the entity IDs of
       intermediate entities that may issue an entity statement about the
-      issuer entity.  The value MUST be a JSON array of entities that
-      are further up in the trust chain.  The array may be an empty
-      list.  The JSON array can be used to simplify the selection of
-      trust chains without the need for following all possible trust
-      chains.  "authority_hints" values may be multiple hops up the
-      chain.  These values will typically be trust anchors.
+      issuer entity.
 
    metadata
-      OPTIONAL.  JSON object including protocol specific metadata claims
+      REQUIRED.  JSON object including protocol specific metadata claims
       that represent the entity's metadata.  Each key of the JSON object
       represents a metadata type identifier, and each value MUST be a
       JSON object representing the metadata according to the metadata
@@ -330,6 +325,11 @@ Hedberg, et al.         Expires February 19, 2020               [Page 5]
       that extensions to entity statement claims defined by this
       specification are being used that MUST be understood and
       processed.  It is used in the same way that "crit" is used for
+      extension JWS [RFC7515] header parameters that MUST be understood
+      and processed.  Its value is an array listing the entity statement
+      claims present in the entity statement that use those extensions.
+      If any of the listed extension entity statement claims are not
+      understood and supported by the recipient, then the entity
 
 
 
@@ -338,11 +338,6 @@ Hedberg, et al.         Expires February 19, 2020               [Page 6]
                         OpenID Connect Federation            August 2019
 
 
-      extension JWS [RFC7515] header parameters that MUST be understood
-      and processed.  Its value is an array listing the entity statement
-      claims present in the entity statement that use those extensions.
-      If any of the listed extension entity statement claims are not
-      understood and supported by the recipient, then the entity
       statement is invalid.  Producers MUST NOT include entity statement
       claim names defined by this specification or names that do not
       occur as entity statement claim names in the entity statement in
@@ -374,6 +369,11 @@ Hedberg, et al.         Expires February 19, 2020               [Page 6]
    critical extension "jti" (JWT ID) to the entity statement and one
    critical extension to the policy language "regexp" (Regular
    expression).
+
+
+
+
+
 
 
 
