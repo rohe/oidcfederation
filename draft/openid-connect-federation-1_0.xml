@@ -258,21 +258,13 @@
             </t>
             <t hangText="authority_hints">
               <vspace/>
-              OPTIONAL. A JSON object where the keys
-              are the entity IDs of the intermediate entities that may issue an
-              entity statement about the issuer entity. The value MUST be a
-              JSON array of entities that are further up in the trust chain.
-              The array may be an empty list.
-              The JSON array can be used to simplify the selection of trust
-              chains without the need for following all possible trust chains.
-              <spanx style="verb">authority_hints</spanx>
-              values
-              may be multiple hops up the chain.
-              These values will typically be trust anchors.
+              OPTIONAL. Array of strings representing
+              the entity IDs of intermediate entities that may issue an
+              entity statement about the issuer entity.
             </t>
             <t hangText="metadata">
               <vspace/>
-              OPTIONAL. JSON object including protocol
+              REQUIRED. JSON object including protocol
               specific metadata claims that represent the entity's metadata.
               Each key of the JSON object represents a metadata type
               identifier, and each value MUST be a JSON object representing
@@ -304,8 +296,7 @@
               chain.
               Only non-leaf entities MAY contain a
               <spanx style="verb">metadata_policy</spanx>
-              claim. Leaf entities
-              MUST NOT contain a metadata_policy claim.
+              claim. Leaf entities MUST NOT contain a metadata_policy claim.
             </t>
             <t hangText="crit">
               <vspace/>
