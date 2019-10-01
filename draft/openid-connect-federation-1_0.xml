@@ -413,11 +413,9 @@
       }
     ]
   },
-  "authority_hints": {
-    "https://edugain.org/federation": [
-      "https://edugain.org/federation"
-    ]
-  }
+  "authority_hints": [
+    "https://edugain.org/federation"
+  ]
 }
 ]]></artwork>
 
@@ -651,6 +649,12 @@
               <xref target="federation_api"/>. Intermediate entities and
               trust anchors MUST publish a federation_api_endpoint.
             </t>
+            <t hangText="trust_anchor_id">
+              <vspace/>
+              OPTIONAL
+              An OP MUST used this to tell the RP which trust anchor it chose to
+              use when responding to an explicit client registration.
+            </t>
             <t hangText="name">
               <vspace/>
               OPTIONAL. String. The human readable name
@@ -674,8 +678,38 @@
               OPTIONAL. URL to a generic home page
               representing this entity.
             </t>
+            <t hangText="max_path_length">
+              <vspace/>
+              OPTIONAL. Integer. The maximum number of intermediate entities below
+              this entity.
+            </t>
+            <t hangText="naming_constraints">
+              <vspace/>
+              OPTIONAL. JSON object. Restriction on the entity IDs of the
+              entities below this entity.
+            </t>
           </list>
         </t>
+        <t>Example</t>
+        <figure>
+            <artwork><![CDATA[
+"federation_entity": {
+    "federation_api_endpoint":
+        "https://example.com/federation_api_endpoint",
+    "name": "The example cooperation",
+    "homepage_uri": "https://www.example.com",
+    "max_path_length": 2,
+    "naming_constraints": {
+        "permitted": [
+            "https://.example.com"
+        ],
+        "excluded": [
+            "https://east.example.com"
+        ]
+    }
+}
+]]></artwork>
+        </figure>
       </section>
     </section>
     <section title="Applying Policy to Metadata">
