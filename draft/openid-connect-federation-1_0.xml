@@ -455,7 +455,7 @@
           and finally a self-signed entity statement about the trust anchor.
         </t>
         <t>
-          A simple example: If we have an RP that belongs to organization A
+          A simple example: If we have a RP that belongs to organization A
           that is a member of federation F, the trust chain for such a setup
           will contain the following entity statements:
           <list style="numbers">
@@ -1216,7 +1216,7 @@
         (even though this violates<xref target="RFC8615"/>)
       </t>
       <t>
-        Federation Entities MUST make a make a metadata statement available
+        Federation Entities MUST make a metadata statement available
         at the configuration endpoint.
       </t>
       <section title="Federation Entity Configuration Request">
@@ -1923,7 +1923,7 @@ Content-Type: application/json
 |    | <--- 1) Discovery ------------------> |    |
 | RP | ---- 2) Authentication request -----> | OP |
 |    |                                       |    |
-------                                       ------     
+------                                       ------
 ]]></artwork>
         </figure>
         <t>
