@@ -455,7 +455,7 @@
           and finally a self-signed entity statement about the trust anchor.
         </t>
         <t>
-          A simple example: If we have an RP that belongs to organization A
+          A simple example: If we have a RP that belongs to organization A
           that is a member of federation F, the trust chain for such a setup
           will contain the following entity statements:
           <list style="numbers">
