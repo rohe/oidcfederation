@@ -1146,6 +1146,12 @@
 <dt>superset_of</dt>
 <dd style="margin-left: 8">
 <br> Can be combined with <samp>subset_of</samp>.  If <samp>subset_of</samp> and <samp>superset_of</samp> both appears in a metadata_policy statement <samp>subset_of</samp> MUST be a superset of <samp>superset_of</samp>.  </dd>
+<dt>subset_of</dt>
+<dd style="margin-left: 8">
+<br> Can be combined with <samp>superset_of</samp>.  If <samp>superset_of</samp> and <samp>subset_of</samp> both appears in a metadata_policy statement for a claim <samp>subset_of</samp> MUST be a superset of <samp>superset_of</samp>.  </dd>
+<dt>value</dt>
+<dd style="margin-left: 8">
+<br> Can be combined with <samp>one_of</samp>, <samp>subset_of</samp> and <samp>superset_of</samp>.  Here the order matters. If <samp>value</samp> appear in a superiors policy statement then the others MUST be ignored. If <samp>value</samp> are defined by the subordinate then it MUST be a subset of <samp>subset_of</samp>, superset of <samp>superset_of</samp> and one of <samp>one_of</samp>.  </dd>
 </dl>
 
 <p> </p>
@@ -1230,6 +1236,7 @@
 <h1 id="rfc.section.4.4">
 <a href="#rfc.section.4.4">4.4.</a> Enforcing Policy</h1>
 <p id="rfc.section.4.4.p.1">If applying a policy to a metadata statement results in some claims having all their values removed and it is essential that a claim has a value, then such a metadata statement MUST be regarded as broken and MUST NOT be used.  </p>
+<p></p>
 <h1 id="rfc.section.4.5">
 <a href="#rfc.section.4.5">4.5.</a> Extending the Policy Language</h1>
 <p id="rfc.section.4.5.p.1">There might be parties that want to extend the policy language defined here. If that happens then the rule is that if software compliant with this specification encounters a keyword it doesn't understand it MUST ignore it unless it is listed in a <samp>policy_language_crit </samp> list, as is done for <a href="#RFC7515" class="xref">JWS</a> header parameters with the <samp>crit</samp> parameter.  If the policy language extension keyword is listed in the <samp>policy_language_crit</samp> list and not understood, then the metadata MUST be rejected.  </p>
