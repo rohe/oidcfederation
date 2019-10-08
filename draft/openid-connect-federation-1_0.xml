@@ -978,8 +978,7 @@
               <spanx style="verb">one_of</spanx>
               policy or a superset of the
               <spanx style="verb">superset_of</spanx>
-              policy
-              then an error MUST be raised.
+              policy then an error MUST be raised.
             </t>
             <t hangText="superset_of">
               <vspace/>
@@ -990,6 +989,28 @@
               metadata_policy statement
               <spanx style="verb">subset_of</spanx>
               MUST be a superset of <spanx style="verb">superset_of</spanx>.
+            </t>
+            <t hangText="subset_of">
+              <vspace/>
+              Can be combined with <spanx style="verb">superset_of</spanx>.
+              If <spanx style="verb">superset_of</spanx> and
+              <spanx style="verb">subset_of</spanx>
+              both appears in a metadata_policy statement for a claim
+              <spanx style="verb">subset_of</spanx>
+              MUST be a superset of <spanx style="verb">superset_of</spanx>.
+            </t>
+            <t hangText="value">
+              <vspace/>
+              Can be combined with <spanx style="verb">one_of</spanx>,
+              <spanx style="verb">subset_of</spanx>
+              and <spanx style="verb">superset_of</spanx>.
+              Here the order matters. If <spanx style="verb">value</spanx>
+              appear in a superiors policy statement then the others MUST be
+              ignored. If <spanx style="verb">value</spanx> are defined by the
+              subordinate then it MUST be a subset of
+              <spanx style="verb">subset_of</spanx>, superset of
+              <spanx style="verb">superset_of</spanx> and one of
+              <spanx style="verb">one_of</spanx>.
             </t>
           </list>
         </t>
@@ -1122,6 +1143,7 @@
           claim has a value, then such a metadata statement MUST
           be regarded as broken and MUST NOT be used.
         </t>
+        <t></t>
       </section>
       <section title="Extending the Policy Language">
         <t>

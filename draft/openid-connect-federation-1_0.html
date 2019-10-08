@@ -883,18 +883,17 @@
 </dl>
 
 <p> </p>
-<p id="rfc.section.2.2.p.2">A trust chain begins with a leaf entity's self-signed entity statement, has zero or more entity statements issued by intermediates about subordinates, and ends with an entity statement issued by the trust anchor about the top-most intermediate (if there are intermediates) or the leaf entity (if there are no intermediates) and finally a self-signed entity statement about the trust anchor.  </p>
+<p id="rfc.section.2.2.p.2">A trust chain begins with a leaf entity's self-signed entity statement, has zero or more entity statements issued by intermediates about subordinates, and ends with an entity statement issued by the trust anchor about the top-most intermediate (if there are intermediates) or the leaf entity (if there are no intermediates).  </p>
 <p id="rfc.section.2.2.p.3">A simple example: If we have a RP that belongs to organization A that is a member of federation F, the trust chain for such a setup will contain the following entity statements: </p>
 
 <ol>
 <li>A self-signed entity statement about the RP published by the RP </li>
 <li>An entity statement about the RP published by Organization A </li>
 <li>An entity statement about Organization A published by Federation F </li>
-<li>A self-signed entity statement about Federation F published by Federation F.  </li>
 </ol>
 
 <p> </p>
-<p id="rfc.section.2.2.p.4">A trust chain MUST always be possible to order such that: If we name the entity statements ES[0] (the leaf entity's self-signed entity statement) to ES[i] (the trust anchors self-signed entity statement), i&gt;0 then: </p>
+<p id="rfc.section.2.2.p.4">A trust chain MUST always be possible to order such that: If we name the entity statements ES[0] (the leaf entity's self-signed entity statement) to ES[i] (an entity statement issued by the trust anchor), i&gt;0 then: </p>
 
 <ul>
 <li>The <samp>iss</samp> entity in one entity statement is always the <samp>sub</samp> entity in the next.  ES[j]['iss'] == ES[j+1]['sub'], j=0,...,i-1 </li>
@@ -988,7 +987,7 @@
 <br> OPTIONAL. Integer. The maximum number of intermediate entities below this entity.  </dd>
 <dt>naming_constraints</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. JSON object. Restriction on the entity IDs of the entities below this entity.  </dd>
+<br> OPTIONAL. JSON object. Restriction on the entity IDs of the entities below this entity. The behavior of this claim mimics what is defined in section 4.2.1.10 in <a href="#RFC5280" class="xref">RFC5280</a>.  Restrictions are defined in terms of permitted or excluded name subtrees.  </dd>
 </dl>
 
 <p> </p>
@@ -1823,6 +1822,11 @@ HTTP/1.1 302 Found
 <td class="reference"><b id="RFC3339">[RFC3339]</b></td>
 <td class="top">
 <a>Klyne, G.</a> and <a>C. Newman</a>, "<a href="https://tools.ietf.org/html/rfc3339">Date and Time on the Internet: Timestamps</a>", RFC 3339, DOI 10.17487/RFC3339, July 2002.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5280">[RFC5280]</b></td>
+<td class="top">
+<a>Cooper, D.</a>, <a>Santesson, S.</a>, <a>Farrell, S.</a>, <a>Boeyen, S.</a>, <a>Housley, R.</a> and <a>W. Polk</a>, "<a href="https://tools.ietf.org/html/rfc5280">Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile</a>", RFC 5280, DOI 10.17487/RFC5280, May 2008.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC6749">[RFC6749]</b></td>
