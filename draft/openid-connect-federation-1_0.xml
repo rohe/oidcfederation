@@ -254,7 +254,7 @@
             <t hangText="aud">
               <vspace/>
               OPTIONAL.
-              The entity statement may be specifically created for a entity.
+              The entity statement may be specifically created for an entity.
               The entity identifier for that entity should appear in this claim.
             </t>
             <t hangText="authority_hints">
@@ -365,7 +365,7 @@
 
         <figure>
           <preamble>
-            The following is a non-normative example of an entity statement,
+            The following is a non-normative example of an entity statement
             before
             serialization and adding a signature. The example contains
             a critical extension <spanx style="verb">jti</spanx> (JWT ID) to the
@@ -1246,7 +1246,7 @@
       </t>
       <section title="Federation Entity Configuration Request">
         <t>
-          An federation Entity Configuration Document MUST be queried using an
+          A federation Entity Configuration Document MUST be queried using an
           HTTP GET request at the previously specified path.
           The requesting party would make the following request to the Entity
           <spanx style="verb">https://example.com</spanx>
@@ -1264,7 +1264,7 @@
         </t>
       </section>
       <section title="Federation Entity Configuration Response">
-        <t>The response is a Entity Statement as described in
+        <t>The response is an Entity Statement, as described in
           <xref target="entity-statement">entity statement</xref>.
           If the entity is an intermediate entity or a trust anchor the
           response MUST contain metadata for a federation entity.
@@ -1831,7 +1831,7 @@ Content-Type: application/json
       <section anchor="trust_lifetime"
                title="Calculating the Lifetime of a Trust Chain">
         <t>
-          Each entity statement in a trust chain is signed and MUST have a
+          Each entity statement in a trust chain is signed and MUST have an
           expiration time (exp) set. The expiration time of the whole trust
           chain is set to the minimum value of exp within the chain.
         </t>
@@ -2234,7 +2234,7 @@ HTTP/1.1 302 Found
 
           <section title="What the RP MUST Do">
             <t>
-              At regular intervals the RP MUST:
+              At regular intervals, the RP MUST:
             </t>
             <t>
               <list style="numbers">
@@ -2265,7 +2265,7 @@ HTTP/1.1 302 Found
 
           <section title="What the OP MUST Do">
             <t>
-              At regular intervals the OP MUST:
+              At regular intervals, the OP MUST:
             </t>
             <t>
               <list style="numbers">
@@ -2288,7 +2288,7 @@ HTTP/1.1 302 Found
         <section title="Expiration Times">
           <t>
             An OP MUST NOT assign an expiration time
-            to an RP's registration that is later then the trust
+            to an RP's registration that is later than the trust
             chain's expiration time.
           </t>
         </section>
@@ -2455,13 +2455,13 @@ HTTP/1.1 302 Found
       <t>
         Let us assume a researcher from Ume&aring; University would like to
         login at
-        the LIGO Wiki. At the Wiki the researcher will use some kind of
+        the LIGO Wiki. At the Wiki, the researcher will use some kind of
         discovery service to find the home identity provider (op.umu.se)
       </t>
       <t>
         Once the RP-part of the Wiki knows which OP it should talk to it has
         to find out a couple of things about the OP. All if those things
-        can be found in the metadata. But finding the metadata isn't enough
+        can be found in the metadata. But finding the metadata is not enough;
         the RP also has to trust the metadata.
       </t>
       <t>
@@ -2475,7 +2475,7 @@ HTTP/1.1 302 Found
           fetching the self-signed entity statement of the leaf (in this case
           https://op.umu.se) using the process defined in
           <xref target="federation_configuration"/>.
-          What follows there after is sequence of steps made out of these:
+          What follows thereafter is this sequence of steps:
           <list style="numbers">
             <t>Pick out the immediate superior entities using the authority
               hints
@@ -2831,7 +2831,7 @@ HTTP/1.1 302 Found
             RP
             was part of the SWAMID federation, we would not have to walk further
             up
-            the tree. But since it is not we have to go one step further.
+            the tree. But since it is not, we have to go one step further.
           </t>
         </section>
         <section
@@ -2929,7 +2929,7 @@ HTTP/1.1 302 Found
             We now have the whole chain from the self-signed entity statement of
             the
             leaf up until the last one which is issued by a trust anchor. All in
-            all
+            all,
             we have:
             <list style="numbers">
               <t>Self-signed entity statement by the leaf (https://op.umu.se>
@@ -2950,7 +2950,7 @@ HTTP/1.1 302 Found
           </t>
         </section>
         <section title="Verified Metadata for op.umu.se">
-          <t>Having verified the chain, the LIGO Wiki RP can to proceed with the
+          <t>Having verified the chain, the LIGO Wiki RP can proceed with the
             next step.
           </t>
           <t>Merging the metadata policies from the tree entity statements we
@@ -3073,7 +3073,7 @@ Host: op.umu.se
             the process described in <xref target="federation_configuration"/>.
           </t>
           <t>
-            The process is the same as descibed in
+            The process is the same as described in
             <xref target="op_discovery"/>
             and will result in a trust chain with the following entity
             statements:
@@ -3113,7 +3113,7 @@ Host: op.umu.se
                 "add": "ops@edugain.geant.org"
             }
         },
-        "openid_relying_part": {
+        "openid_relying_party": {
             "contacts": {
                 "add": "ops@edugain.geant.org"
             }
@@ -3126,7 +3126,7 @@ Host: op.umu.se
                 <figure>
                   <artwork><![CDATA[
     "metadata_policy": {
-        "openid_client": {
+        "openid_relying_party": {
             "application_type": {
                 "one_of": [
                     "web",
@@ -3214,10 +3214,10 @@ Host: op.umu.se
 }]]></artwork>
           </figure>
           <t>
-            Having that, the "registration" is done and the OP must now using
+            Having that, the "registration" is done, and the OP must now use
             the keys found at the URL specified in
             <spanx style="verb">jwks_uri</spanx>
-            verify the client
+            to verify the client
             assertion in the authentication request.
           </t>
         </section>
@@ -3247,9 +3247,9 @@ Host: op.umu.se
           </t>
           <figure>
             <artwork><![CDATA[
-"metadata_policy" :
+"metadata_policy":
    {
-      "openid_relying_part": {
+      "openid_relying_party": {
          "id_token_signing_alg_values_supported": [
             "RS512"
         ]

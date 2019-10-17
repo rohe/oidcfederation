@@ -286,7 +286,7 @@ Hedberg, et al.          Expires April 18, 2020                 [Page 5]
       used in other protocols.
 
    aud
-      OPTIONAL.  The entity statement may be specifically created for a
+      OPTIONAL.  The entity statement may be specifically created for an
       entity.  The entity identifier for that entity should appear in
       this claim.
 
@@ -364,7 +364,7 @@ Hedberg, et al.          Expires April 18, 2020                 [Page 6]
    The entity statement is signed using the private key of the issuer
    entity, in the form of a JSON Web Signature (JWS) [RFC7515].
 
-   The following is a non-normative example of an entity statement,
+   The following is a non-normative example of an entity statement
    before serialization and adding a signature.  The example contains a
    critical extension "jti" (JWT ID) to the entity statement and one
    critical extension to the policy language "regexp" (Regular
@@ -1131,7 +1131,7 @@ Hedberg, et al.          Expires April 18, 2020                [Page 20]
 
 5.1.  Federation Entity Configuration Request
 
-   An federation Entity Configuration Document MUST be queried using an
+   A federation Entity Configuration Document MUST be queried using an
    HTTP GET request at the previously specified path.  The requesting
    party would make the following request to the Entity
    "https://example.com" to obtain its Configuration information:
@@ -1142,7 +1142,7 @@ Hedberg, et al.          Expires April 18, 2020                [Page 20]
 
 5.2.  Federation Entity Configuration Response
 
-   The response is a Entity Statement as described in entity statement
+   The response is an Entity Statement, as described in entity statement
    (Section 2.1).  If the entity is an intermediate entity or a trust
    anchor the response MUST contain metadata for a federation entity.
 
@@ -1691,7 +1691,7 @@ Hedberg, et al.          Expires April 18, 2020                [Page 30]
 
 7.4.  Calculating the Lifetime of a Trust Chain
 
-   Each entity statement in a trust chain is signed and MUST have a
+   Each entity statement in a trust chain is signed and MUST have an
    expiration time (exp) set.  The expiration time of the whole trust
    chain is set to the minimum value of exp within the chain.
 
@@ -1999,7 +1999,7 @@ Hedberg, et al.          Expires April 18, 2020                [Page 35]
 
 9.2.3.1.  What the RP MUST Do
 
-   At regular intervals the RP MUST:
+   At regular intervals, the RP MUST:
 
    1.  Starting with the OP's entity statement, resolve and verify the
        trust chains it chooses to use when constructing the registration
@@ -2026,7 +2026,7 @@ Hedberg, et al.          Expires April 18, 2020                [Page 36]
 
 9.2.3.2.  What the OP MUST Do
 
-   At regular intervals the OP MUST:
+   At regular intervals, the OP MUST:
 
    1.  If the signature on the registration request has expired it MUST
        mark the registration as invalid and demand that the RP MUST re-
@@ -2039,7 +2039,7 @@ Hedberg, et al.          Expires April 18, 2020                [Page 36]
 9.2.4.  Expiration Times
 
    An OP MUST NOT assign an expiration time to an RP's registration that
-   is later then the trust chain's expiration time.
+   is later than the trust chain's expiration time.
 
 10.  IANA Considerations
 
@@ -2170,13 +2170,13 @@ Appendix A.  Provider Information Discovery and Client Registration in a
    the differences in depth in the federations.
 
    Let us assume a researcher from Umeae University would like to login
-   at the LIGO Wiki.  At the Wiki the researcher will use some kind of
+   at the LIGO Wiki.  At the Wiki, the researcher will use some kind of
    discovery service to find the home identity provider (op.umu.se)
 
    Once the RP-part of the Wiki knows which OP it should talk to it has
    to find out a couple of things about the OP.  All if those things can
-   be found in the metadata.  But finding the metadata isn't enough the
-   RP also has to trust the metadata.
+   be found in the metadata.  But finding the metadata is not enough;
+   the RP also has to trust the metadata.
 
 
 
@@ -2193,7 +2193,7 @@ A.1.  The LIGO Wiki Discovers the OP's Metadata
    Metadata discovery is a sequence of steps that starts with the RP
    fetching the self-signed entity statement of the leaf (in this case
    https://op.umu.se) using the process defined in Section 5.  What
-   follows there after is sequence of steps made out of these:
+   follows thereafter is this sequence of steps:
 
    1.  Pick out the immediate superior entities using the authority
        hints
@@ -2582,7 +2582,7 @@ Hedberg, et al.          Expires April 18, 2020                [Page 46]
 
    This is the entity statement of a trust anchor.  So if the LIGO Wiki
    RP was part of the SWAMID federation, we would not have to walk
-   further up the tree.  But since it is not we have to go one step
+   further up the tree.  But since it is not, we have to go one step
    further.
 
 A.1.6.  Configuration Information for 'https://edugain.geant.org'
@@ -2669,7 +2669,7 @@ Hedberg, et al.          Expires April 18, 2020                [Page 47]
 
    We now have the whole chain from the self-signed entity statement of
    the leaf up until the last one which is issued by a trust anchor.
-   All in all we have:
+   All in all, we have:
 
    1.  Self-signed entity statement by the leaf (https://op.umu.se>
 
@@ -2696,8 +2696,8 @@ Hedberg, et al.          Expires April 18, 2020                [Page 48]
 
 A.1.8.  Verified Metadata for op.umu.se
 
-   Having verified the chain, the LIGO Wiki RP can to proceed with the
-   next step.
+   Having verified the chain, the LIGO Wiki RP can proceed with the next
+   step.
 
    Merging the metadata policies from the tree entity statements we
    have, by a superior about its subordinate, and applying the combined
@@ -2810,7 +2810,7 @@ Hedberg, et al.          Expires April 18, 2020                [Page 50]
    https://wiki.ligo.org by fetching the self-issued entity statement
    using the process described in Section 5.
 
-   The process is the same as descibed in Appendix A.1 and will result
+   The process is the same as described in Appendix A.1 and will result
    in a trust chain with the following entity statements:
 
    1.  Self-signed entity statement by the leaf https://wiki.ligo.org
@@ -2839,7 +2839,7 @@ A.2.1.2.  OP Evaluates the RP Metadata
                    "add": "ops@edugain.geant.org"
                }
            },
-           "openid_relying_part": {
+           "openid_relying_party": {
                "contacts": {
                    "add": "ops@edugain.geant.org"
                }
@@ -2859,7 +2859,7 @@ Hedberg, et al.          Expires April 18, 2020                [Page 51]
 
 
        "metadata_policy": {
-           "openid_client": {
+           "openid_relying_party": {
                "application_type": {
                    "one_of": [
                        "web",
@@ -2942,8 +2942,8 @@ Hedberg, et al.          Expires April 18, 2020                [Page 52]
        "subject_type": "public"
    }
 
-   Having that, the "registration" is done and the OP must now using the
-   keys found at the URL specified in "jwks_uri" verify the client
+   Having that, the "registration" is done, and the OP must now use the
+   keys found at the URL specified in "jwks_uri" to verify the client
    assertion in the authentication request.
 
 A.2.2.  Client Starts with Registration (Explicit Client Registration)
@@ -2973,9 +2973,9 @@ Hedberg, et al.          Expires April 18, 2020                [Page 53]
    If we assume that the OP has a bit more strict view on which type of
    crypto keys to use, it may want to add a metadata policy that says:
 
-   "metadata_policy" :
+   "metadata_policy":
       {
-         "openid_relying_part": {
+         "openid_relying_party": {
             "id_token_signing_alg_values_supported": [
                "RS512"
            ]

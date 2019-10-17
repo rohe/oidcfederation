@@ -799,7 +799,7 @@
 <br> REQUIRED. A <a href="#RFC7517" class="xref">JSON Web Key Set (JWKS)</a> representing the public part of the subject entity's signing keys. The corresponding private key is used by leaf entities to sign entity statements about themselves, and intermediate entities to sign statements about other entities.  The keys that can be found here are primarily intended to sign entity statements and should not be used in other protocols.  </dd>
 <dt>aud</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL.  The entity statement may be specifically created for a entity.  The entity identifier for that entity should appear in this claim.  </dd>
+<br> OPTIONAL.  The entity statement may be specifically created for an entity.  The entity identifier for that entity should appear in this claim.  </dd>
 <dt>authority_hints</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. Array of strings representing the entity IDs of intermediate entities that may issue an entity statement about the issuer entity.  </dd>
@@ -819,7 +819,7 @@
 
 <p> </p>
 <p id="rfc.section.2.1.p.4">The entity statement is signed using the private key of the issuer entity, in the form of a <a href="#RFC7515" class="xref">JSON Web Signature (JWS)</a>.  </p>
-<p>The following is a non-normative example of an entity statement, before serialization and adding a signature. The example contains a critical extension <samp>jti</samp> (JWT ID) to the entity statement and one critical extension to the policy language <samp>regexp</samp> (Regular expression).  </p>
+<p>The following is a non-normative example of an entity statement before serialization and adding a signature. The example contains a critical extension <samp>jti</samp> (JWT ID) to the entity statement and one critical extension to the policy language <samp>regexp</samp> (Regular expression).  </p>
 <pre>
 {
   "iss": "https://feide.no",
@@ -1291,7 +1291,7 @@
 <p id="rfc.section.5.p.3">Federation Entities MUST make a metadata statement available at the configuration endpoint.  </p>
 <h1 id="rfc.section.5.1">
 <a href="#rfc.section.5.1">5.1.</a> Federation Entity Configuration Request</h1>
-<p id="rfc.section.5.1.p.1">An federation Entity Configuration Document MUST be queried using an HTTP GET request at the previously specified path.  The requesting party would make the following request to the Entity <samp>https://example.com</samp> to obtain its Configuration information: </p>
+<p id="rfc.section.5.1.p.1">A federation Entity Configuration Document MUST be queried using an HTTP GET request at the previously specified path.  The requesting party would make the following request to the Entity <samp>https://example.com</samp> to obtain its Configuration information: </p>
 <pre>
 
   GET /.well-known/openid-federation HTTP/1.1
@@ -1300,7 +1300,7 @@
 <p></p>
 <h1 id="rfc.section.5.2">
 <a href="#rfc.section.5.2">5.2.</a> Federation Entity Configuration Response</h1>
-<p id="rfc.section.5.2.p.1">The response is a Entity Statement as described in <a href="#entity-statement" class="xref">entity statement</a>.  If the entity is an intermediate entity or a trust anchor the response MUST contain metadata for a federation entity.  </p>
+<p id="rfc.section.5.2.p.1">The response is an Entity Statement, as described in <a href="#entity-statement" class="xref">entity statement</a>.  If the entity is an intermediate entity or a trust anchor the response MUST contain metadata for a federation entity.  </p>
 <p id="rfc.section.5.2.p.2">If the entity is an intermediate entity or a trust anchor it will only contain metadata for a federation entity.  </p>
 <p id="rfc.section.5.2.p.3">An error response uses the applicable HTTP status code value.  </p>
 <p id="rfc.section.5.2.p.4">The following is a non-normative example response from an intermediate entity, before serialization and adding a signature: </p>
@@ -1604,7 +1604,7 @@ Content-Type: application/json
 <h1 id="rfc.section.7.4">
 <a href="#rfc.section.7.4">7.4.</a> <a href="#trust_lifetime" id="trust_lifetime">Calculating the Lifetime of a Trust Chain</a>
 </h1>
-<p id="rfc.section.7.4.p.1">Each entity statement in a trust chain is signed and MUST have a expiration time (exp) set. The expiration time of the whole trust chain is set to the minimum value of exp within the chain.  </p>
+<p id="rfc.section.7.4.p.1">Each entity statement in a trust chain is signed and MUST have an expiration time (exp) set. The expiration time of the whole trust chain is set to the minimum value of exp within the chain.  </p>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> Updating Metadata, Key Rollover, and Revocation</h1>
 <p id="rfc.section.8.p.1">This specification allows for a smooth process of updating metadata and public keys.  </p>
@@ -1760,7 +1760,7 @@ HTTP/1.1 302 Found
 <p id="rfc.section.9.2.3.p.1">A client registration using this specification is not expected to be valid forever. The entity statements exchanged all have expiration times, which means that the registration will eventually time out. An OP can also for administrative reasons decide that a client registration is not valid anymore. An example of this could be that the OP leaves the federation in use.  </p>
 <h1 id="rfc.section.9.2.3.1">
 <a href="#rfc.section.9.2.3.1">9.2.3.1.</a> What the RP MUST Do</h1>
-<p id="rfc.section.9.2.3.1.p.1">At regular intervals the RP MUST: </p>
+<p id="rfc.section.9.2.3.1.p.1">At regular intervals, the RP MUST: </p>
 <p></p>
 
 <ol>
@@ -1772,7 +1772,7 @@ HTTP/1.1 302 Found
 <p id="rfc.section.9.2.3.1.p.3">What is regarded as reasonable intervals will depend on federation policies and risk assessment by the maintainer of the RP.  </p>
 <h1 id="rfc.section.9.2.3.2">
 <a href="#rfc.section.9.2.3.2">9.2.3.2.</a> What the OP MUST Do</h1>
-<p id="rfc.section.9.2.3.2.p.1">At regular intervals the OP MUST: </p>
+<p id="rfc.section.9.2.3.2.p.1">At regular intervals, the OP MUST: </p>
 <p></p>
 
 <ol>
@@ -1783,7 +1783,7 @@ HTTP/1.1 302 Found
 <p> </p>
 <h1 id="rfc.section.9.2.4">
 <a href="#rfc.section.9.2.4">9.2.4.</a> Expiration Times</h1>
-<p id="rfc.section.9.2.4.p.1">An OP MUST NOT assign an expiration time to an RP's registration that is later then the trust chain's expiration time.  </p>
+<p id="rfc.section.9.2.4.p.1">An OP MUST NOT assign an expiration time to an RP's registration that is later than the trust chain's expiration time.  </p>
 <h1 id="rfc.section.10">
 <a href="#rfc.section.10">10.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>
@@ -1884,13 +1884,13 @@ HTTP/1.1 302 Found
 </pre>
 <p id="rfc.section.A.p.2">Both SWAMID and InCommon are identity federation in their own right.  They also have that in common that they both are members of the EduGAIN federation.  </p>
 <p id="rfc.section.A.p.3">SWAMID and InCommon are different in how they register entities.  SWAMID registers organizations and lets the organizations register entities that belong to the organization, while InCommon registers all entities directly and not beneath any organization entity.  Hence the differences in depth in the federations.  </p>
-<p id="rfc.section.A.p.4">Let us assume a researcher from Ume&#229; University would like to login at the LIGO Wiki. At the Wiki the researcher will use some kind of discovery service to find the home identity provider (op.umu.se) </p>
-<p id="rfc.section.A.p.5">Once the RP-part of the Wiki knows which OP it should talk to it has to find out a couple of things about the OP. All if those things can be found in the metadata. But finding the metadata isn't enough the RP also has to trust the metadata.  </p>
+<p id="rfc.section.A.p.4">Let us assume a researcher from Ume&#229; University would like to login at the LIGO Wiki. At the Wiki, the researcher will use some kind of discovery service to find the home identity provider (op.umu.se) </p>
+<p id="rfc.section.A.p.5">Once the RP-part of the Wiki knows which OP it should talk to it has to find out a couple of things about the OP. All if those things can be found in the metadata. But finding the metadata is not enough; the RP also has to trust the metadata.  </p>
 <p id="rfc.section.A.p.6">Let us start with discovering Provider information.  </p>
 <h1 id="rfc.appendix.A.1">
 <a href="#rfc.appendix.A.1">A.1.</a> <a href="#op_discovery" id="op_discovery">The LIGO Wiki Discovers the OP's Metadata</a>
 </h1>
-<p id="rfc.section.A.1.p.1">Metadata discovery is a sequence of steps that starts with the RP fetching the self-signed entity statement of the leaf (in this case https://op.umu.se) using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  What follows there after is sequence of steps made out of these: </p>
+<p id="rfc.section.A.1.p.1">Metadata discovery is a sequence of steps that starts with the RP fetching the self-signed entity statement of the leaf (in this case https://op.umu.se) using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  What follows thereafter is this sequence of steps: </p>
 
 <ol>
 <li>Pick out the immediate superior entities using the authority hints </li>
@@ -2158,7 +2158,7 @@ HTTP/1.1 302 Found
 }
 </pre>
 <p id="rfc.section.A.1.5.p.2">This is the third link in the trust chain.  </p>
-<p id="rfc.section.A.1.5.p.3">This is the entity statement of a trust anchor. So if the LIGO Wiki RP was part of the SWAMID federation, we would not have to walk further up the tree. But since it is not we have to go one step further.  </p>
+<p id="rfc.section.A.1.5.p.3">This is the entity statement of a trust anchor. So if the LIGO Wiki RP was part of the SWAMID federation, we would not have to walk further up the tree. But since it is not, we have to go one step further.  </p>
 <h1 id="rfc.appendix.A.1.6">
 <a href="#rfc.appendix.A.1.6">A.1.6.</a> Configuration Information for 'https://edugain.geant.org'</h1>
 <p id="rfc.section.A.1.6.p.1">RP fetches the self-signed entity statement from "https://edugain.geant.org" using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
@@ -2225,7 +2225,7 @@ HTTP/1.1 302 Found
 }
 </pre>
 <p id="rfc.section.A.1.7.p.2">This is the fourth and final entity statement in the trust chain.  </p>
-<p id="rfc.section.A.1.7.p.3">We now have the whole chain from the self-signed entity statement of the leaf up until the last one which is issued by a trust anchor. All in all we have: </p>
+<p id="rfc.section.A.1.7.p.3">We now have the whole chain from the self-signed entity statement of the leaf up until the last one which is issued by a trust anchor. All in all, we have: </p>
 
 <ol>
 <li>Self-signed entity statement by the leaf (https://op.umu.se&gt; </li>
@@ -2238,7 +2238,7 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.7.p.4">Using the public keys of the trust anchor that the LIGO Wiki RP has been provided with in some secure out-of-band way, it can now verify the trust chain as described in <a href="#trust_chain_validation" class="xref">Section 7.2</a>.  </p>
 <h1 id="rfc.appendix.A.1.8">
 <a href="#rfc.appendix.A.1.8">A.1.8.</a> Verified Metadata for op.umu.se</h1>
-<p id="rfc.section.A.1.8.p.1">Having verified the chain, the LIGO Wiki RP can to proceed with the next step.  </p>
+<p id="rfc.section.A.1.8.p.1">Having verified the chain, the LIGO Wiki RP can proceed with the next step.  </p>
 <p id="rfc.section.A.1.8.p.2">Merging the metadata policies from the tree entity statements we have, by a superior about its subordinate, and applying the combined policy to the metadata statement that the leaf entity presented, we get: </p>
 <pre>
 {
@@ -2319,7 +2319,7 @@ Host: op.umu.se
 
 <p> </p>
 <p id="rfc.section.A.2.1.1.p.2">The OP starts to resolve metadata for the client identifier https://wiki.ligo.org by fetching the self-issued entity statement using the process described in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
-<p id="rfc.section.A.2.1.1.p.3">The process is the same as descibed in <a href="#op_discovery" class="xref">Appendix A.1</a> and will result in a trust chain with the following entity statements: </p>
+<p id="rfc.section.A.2.1.1.p.3">The process is the same as described in <a href="#op_discovery" class="xref">Appendix A.1</a> and will result in a trust chain with the following entity statements: </p>
 
 <ol>
 <li>Self-signed entity statement by the leaf https://wiki.ligo.org </li>
@@ -2339,7 +2339,7 @@ Host: op.umu.se
                 "add": "ops@edugain.geant.org"
             }
         },
-        "openid_relying_part": {
+        "openid_relying_party": {
             "contacts": {
                 "add": "ops@edugain.geant.org"
             }
@@ -2348,7 +2348,7 @@ Host: op.umu.se
                 </pre>
 <pre>
     "metadata_policy": {
-        "openid_client": {
+        "openid_relying_party": {
             "application_type": {
                 "one_of": [
                     "web",
@@ -2432,7 +2432,7 @@ Host: op.umu.se
     ],
     "subject_type": "public"
 }</pre>
-<p id="rfc.section.A.2.1.2.p.5">Having that, the "registration" is done and the OP must now using the keys found at the URL specified in <samp>jwks_uri</samp> verify the client assertion in the authentication request.  </p>
+<p id="rfc.section.A.2.1.2.p.5">Having that, the "registration" is done, and the OP must now use the keys found at the URL specified in <samp>jwks_uri</samp> to verify the client assertion in the authentication request.  </p>
 <h1 id="rfc.appendix.A.2.2">
 <a href="#rfc.appendix.A.2.2">A.2.2.</a> Client Starts with Registration (Explicit Client Registration)</h1>
 <p id="rfc.section.A.2.2.p.1">Here the LIGO Wiki RP sends a client registration request to the federation_registration_endpoint of the OP (op.umu.se).  What it sends is a self-signed entity statement.  </p>
@@ -2440,9 +2440,9 @@ Host: op.umu.se
 <p id="rfc.section.A.2.2.p.3">The OP will end up with the same RP metadata as was described in <a href="#rp_metadata_eval" class="xref">Appendix A.2.1.2</a>, but what it now can do is return a metadata policy that it wants to be applied to the RP's metadata. This metadata policy will be combined with the trust chain's combined metadata policy before being applied to the RP's metadata.  </p>
 <p id="rfc.section.A.2.2.p.4">If we assume that the OP has a bit more strict view on which type of crypto keys to use, it may want to add a metadata policy that says: </p>
 <pre>
-"metadata_policy" :
+"metadata_policy":
    {
-      "openid_relying_part": {
+      "openid_relying_party": {
          "id_token_signing_alg_values_supported": [
             "RS512"
         ]
