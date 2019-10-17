@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="18" month="August" year="2019"/>
+    <date day="16" month="October" year="2019"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -135,8 +135,9 @@
       </t>
       <t>
         OpenID Connect Federation trust chains rely on
-        cryptographically signed <xref target="RFC7519">JSON Web Token (JWT)
-      </xref> documents, and the trust chain does not at
+        cryptographically signed
+	<xref target="RFC7519">JSON Web Token (JWT)</xref> documents,
+	and the trust chain does not at
         all rely on TLS
         <xref target="RFC8446"/>
         in order to establish trust.
@@ -253,7 +254,7 @@
             <t hangText="aud">
               <vspace/>
               OPTIONAL.
-              The entity statement may be specifically created for a entity.
+              The entity statement may be specifically created for an entity.
               The entity identifier for that entity should appear in this claim.
             </t>
             <t hangText="authority_hints">
@@ -334,9 +335,9 @@
               are being used that MUST be understood and processed.
               It is used in the same way that
               <spanx style="verb">crit</spanx>
-              is used for extension <xref target="RFC7515">JSON Web Signature
-              (JWS)
-            </xref> header parameters that MUST be
+              is used for extension
+	      <xref target="RFC7515">JSON Web Signature (JWS)</xref>
+	      header parameters that MUST be
               understood and processed.
               Its value is an array listing the policy language extensions
               present in the policy language statements that use those
@@ -364,7 +365,7 @@
 
         <figure>
           <preamble>
-            The following is a non-normative example of an entity statement,
+            The following is a non-normative example of an entity statement
             before
             serialization and adding a signature. The example contains
             a critical extension <spanx style="verb">jti</spanx> (JWT ID) to the
@@ -452,7 +453,7 @@
           (if there are no intermediates).
         </t>
         <t>
-          A simple example: If we have a RP that belongs to organization A
+          A simple example: If we have an RP that belongs to organization A
           that is a member of federation F, the trust chain for such a setup
           will contain the following entity statements:
           <list style="numbers">
@@ -515,11 +516,10 @@
         If needed, the metadata schema is extended
         with additional properties relevant in a federated context.
         For instance, for OpenID Connect Federations, this specification uses
-        metadata values from <xref target="OpenID.Discovery">OpenID Connect
-        Discovery 1.0
-      </xref> and <xref target="OpenID.Registration">OpenID
-        Connect Dynamic Client Registration 1.0
-      </xref> and adds additional
+        metadata values from
+	<xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> and
+	<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
+	and adds additional
         values used for federations.
       </t>
 
@@ -530,9 +530,7 @@
         </t>
         <t>
           All parameters defined in Section 2 of
-          <xref target="OpenID.Registration">OpenID Connect Dynamic Client
-            Registration 1.0
-          </xref>
+          <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
           are allowed in a metadata statement.
         </t>
         <t>
@@ -590,7 +588,7 @@
               OPTIONAL.
               URL of the OP's Federation specific Dynamic Client Registration
               Endpoint. If the OP supports explicit client
-              registration as described in<xref target="explicit"/>,
+              registration as described in <xref target="explicit"/>,
               then this claim is REQUIRED.
             </t>
           </list>
@@ -788,8 +786,8 @@
           <t>
             If an entity tries to register a value that is not in the
             <spanx style="verb">one_of</spanx>
-            set of values.
-            Applying the policy MUST lead to a failure.
+            set of values,
+            applying the policy MUST lead to a failure.
           </t>
         </section>
         <section title="superset_of" anchor="superset_of">
@@ -820,8 +818,8 @@
           <t>
             If an entity tries to register a set of values that are not
             a superset of the ones specified by
-            <spanx style="verb">superset_of</spanx>.
-            Applying the policy MUST lead to a failure.
+            <spanx style="verb">superset_of</spanx>,
+            applying the policy MUST lead to a failure.
           </t>
 
         </section>
@@ -1031,7 +1029,7 @@
         </t>
         <t>
           After having combined the policies, the policy for each claim MUST
-          adhere to the rules defined in<xref target="policy_type_combo"/>.
+          adhere to the rules defined in <xref target="policy_type_combo"/>.
         </t>
         <t>
           These are the policy types that can be combined when combining two
@@ -1151,8 +1149,8 @@
           defined here. If that happens then the rule is that if
           software compliant with this specification
           encounters a keyword it doesn't understand it MUST ignore it
-          unless it is listed in a <spanx style="verb">policy_language_crit
-        </spanx> list,
+          unless it is listed in a
+	  <spanx style="verb">policy_language_crit</spanx> list,
           as is done for <xref target="RFC7515">JWS</xref> header parameters
           with the <spanx style="verb">crit</spanx> parameter.
           If the policy language extension keyword
@@ -1234,9 +1232,9 @@
             title="Obtaining Federation Entity Configuration Information"
             anchor="federation_configuration">
       <t>
-        The configuration endpoint is found using the <xref target="RFC8615">
-        Well-Known URIs
-      </xref> specification, with the suffix
+        The configuration endpoint is found using the
+	<xref target="RFC8615">Well-Known URIs</xref>
+	specification, with the suffix
         <spanx style="verb">openid-federation</spanx>. The scheme, host and port
         is taken directly from the entity identifier combined with the following
         path: <spanx style="verb">/.well-known/openid-federation</spanx>.
@@ -1252,23 +1250,16 @@
         specification.
         Of course, in real multi-tenant deployments, in which the entity ID
         might be of the form
-        <spanx style="verb">
-          https://multi-tenant-service.example.com/my-tenant-identifier
-        </spanx>
+        <spanx style="verb">https://multi-tenant-service.example.com/my-tenant-identifier</spanx>
         the tenant is very likely to not have control over the path
-        <spanx style="verb">
-          https://multi-tenant-service.example.com/.well-known/openid-federation/my-tenant-identifier
-        </spanx>
+        <spanx style="verb">https://multi-tenant-service.example.com/.well-known/openid-federation/my-tenant-identifier</spanx>
         whereas it is very likely to have control over the path
-        <spanx style="verb">
-          https://multi-tenant-service.example.com/my-tenant-identifier/.well-known/openid-federation
-        </spanx>
-        .
+        <spanx style="verb">https://multi-tenant-service.example.com/my-tenant-identifier/.well-known/openid-federation</spanx>.
         Therefore, if using the Federation API at the URL with the tenant path
         after the well-known part fails,
         it is RECOMMENDED that callers retry at the URL with the tenant path
         before the well-known part
-        (even though this violates<xref target="RFC8615"/>)
+        (even though this violates <xref target="RFC8615"/>).
       </t>
       <t>
         Federation Entities MUST make a metadata statement available
@@ -1276,7 +1267,7 @@
       </t>
       <section title="Federation Entity Configuration Request">
         <t>
-          An federation Entity Configuration Document MUST be queried using an
+          A federation Entity Configuration Document MUST be queried using an
           HTTP GET request at the previously specified path.
           The requesting party would make the following request to the Entity
           <spanx style="verb">https://example.com</spanx>
@@ -1294,7 +1285,7 @@
         </t>
       </section>
       <section title="Federation Entity Configuration Response">
-        <t>The response is a Entity Statement as described in
+        <t>The response is an Entity Statement, as described in
           <xref target="entity-statement">entity statement</xref>.
           If the entity is an intermediate entity or a trust anchor the
           response MUST contain metadata for a federation entity.
@@ -1446,7 +1437,7 @@ Host: openid.sunet.se
             If it is negative response it will be a JSON object and the
             content type MUST be set to
             <spanx style="verb">application/json</spanx>.
-            See more about error responses in<xref target="error_response"/>.
+            See more about error responses in <xref target="error_response"/>.
           </t>
           <figure>
             <preamble>
@@ -1517,8 +1508,8 @@ Content-Type: application/jose
             <list style="hanging">
               <t hangText="operation">
                 <vspace/>
-                REQUIRED. MUST be set to <spanx style="verb">
-                resolve_metadata</spanx>.
+                REQUIRED. MUST be set to
+		<spanx style="verb">resolve_metadata</spanx>.
               </t>
               <t hangText="respondent">
                 <vspace/>
@@ -1795,7 +1786,7 @@ Content-Type: application/json
       <section title="Validating the Trust Chains"
                anchor="trust_chain_validation">
         <t>
-          As described in<xref target="trust_chain"/>,
+          As described in <xref target="trust_chain"/>,
           a trust chain consists of an ordered list of entity
           statements. So whichever way the Consumer has acquired the set of
           entity statements, it must now verify that it is a proper trust chain
@@ -1861,7 +1852,7 @@ Content-Type: application/json
       <section anchor="trust_lifetime"
                title="Calculating the Lifetime of a Trust Chain">
         <t>
-          Each entity statement in a trust chain is signed and MUST have a
+          Each entity statement in a trust chain is signed and MUST have an
           expiration time (exp) set. The expiration time of the whole trust
           chain is set to the minimum value of exp within the chain.
         </t>
@@ -1874,7 +1865,7 @@ Content-Type: application/json
         and public keys.
       </t>
       <t>
-        As described above in<xref target="trust_lifetime"/>,
+        As described above in <xref target="trust_lifetime"/>,
         each trust chain has an expiration time.
         A consumer of metadata using this specification MUST support
         refreshing a trust chain when it expires.
@@ -1905,7 +1896,7 @@ Content-Type: application/json
                anchor="key_rollover_anchor">
         <t>
           A trust anchor must publish a self-signed entity statement about
-          itself. As described above in<xref target="trust_chain"/>,
+          itself. As described above in <xref target="trust_chain"/>,
           it should be at the end of the trust chain.
           The trust anchor SHOULD set a reasonable expiration
           time on that statement, such that the consumers will re-fetch the
@@ -2034,7 +2025,7 @@ Host: https://example.org
             the OP supports OpenID Connect Federation and the incoming client_id
             is a valid URL, the OP should try to resolve and fetch trust
             chains starting with the RP's entity
-            statement as described in<xref target="fetching-es"/>.
+            statement as described in <xref target="fetching-es"/>.
           </t>
           <t>
             The OP should validate the possible trust chains, as described in
@@ -2074,7 +2065,7 @@ Host: https://example.org
               </t>
               <t hangText="validation_failed">
                 <vspace/>
-                Trust chain validation failed
+                Trust chain validation failed.
               </t>
             </list>
           </t>
@@ -2100,11 +2091,9 @@ HTTP/1.1 302 Found
       <section title="Explicit Registration" anchor="explicit">
         <t>
           This method involves performing an explicit registration of a new
-          client the first time a RP interacts with an OP
+          client the first time an RP interacts with an OP
           using something that basically follows the steps in
-          <xref target="OpenID.Registration">OpenID Connect Dynamic Client
-            Registration 1.0
-          </xref>
+          <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
           but where the client registration request
           is a signed entity statement.
         </t>
@@ -2163,7 +2152,7 @@ HTTP/1.1 302 Found
           </section>
 
           <section anchor="cliregresp" title="Client Registration Response">
-            <section title="The OP Constructing Response">
+            <section title="The OP Constructing the Response">
               <t>
                 <list style="numbers">
                   <t>
@@ -2254,7 +2243,7 @@ HTTP/1.1 302 Found
           </section>
         </section>
 
-        <section title="After client registration">
+        <section title="After Client Registration">
           <t>
             A client registration using this specification is not expected to
             be valid forever. The entity statements exchanged all have
@@ -2266,7 +2255,7 @@ HTTP/1.1 302 Found
 
           <section title="What the RP MUST Do">
             <t>
-              At regular intervals the RP MUST:
+              At regular intervals, the RP MUST:
             </t>
             <t>
               <list style="numbers">
@@ -2297,7 +2286,7 @@ HTTP/1.1 302 Found
 
           <section title="What the OP MUST Do">
             <t>
-              At regular intervals the OP MUST:
+              At regular intervals, the OP MUST:
             </t>
             <t>
               <list style="numbers">
@@ -2320,8 +2309,8 @@ HTTP/1.1 302 Found
         <section title="Expiration Times">
           <t>
             An OP MUST NOT assign an expiration time
-            to a RP's registration that is later then the trust
-            chains expiration time.
+            to an RP's registration that is later than the trust
+            chain's expiration time.
           </t>
         </section>
       </section>
@@ -2450,7 +2439,7 @@ HTTP/1.1 302 Found
     </references>
 
     <section
-            title="Provider information discovery and client registration in a federation">
+            title="Provider Information Discovery and Client Registration in a Federation">
       <t>
         Let us assume the following: The project LIGO would like to offer access
         to its wiki to all OPs in EduGAIN. LIGO is registered to the InCommon
@@ -2480,35 +2469,35 @@ HTTP/1.1 302 Found
       </t>
       <t>
         SWAMID and InCommon are different in how they register entities.
-        SWAMID registers organisations and lets the organisations register
-        entities that belong to the organisation, while InCommon registers all
-        entities directly and not beneath any organisation entity.
+        SWAMID registers organizations and lets the organizations register
+        entities that belong to the organization, while InCommon registers all
+        entities directly and not beneath any organization entity.
         Hence the differences in depth in the federations.
       </t>
       <t>
         Let us assume a researcher from Ume&aring; University would like to
         login at
-        the LIGO Wiki. At the Wiki the researcher will use some kind of
+        the LIGO Wiki. At the Wiki, the researcher will use some kind of
         discovery service to find the home identity provider (op.umu.se)
       </t>
       <t>
         Once the RP-part of the Wiki knows which OP it should talk to it has
         to find out a couple of things about the OP. All if those things
-        can be found in the metadata. But finding the metadata isn't enough
+        can be found in the metadata. But finding the metadata is not enough;
         the RP also has to trust the metadata.
       </t>
       <t>
         Let us start with discovering Provider information.
       </t>
 
-      <section title="The Wiki Discovers the OP's metadata"
+      <section title="The LIGO Wiki Discovers the OP's Metadata"
                anchor="op_discovery">
         <t>
           Metadata discovery is a sequence of steps that starts with the RP
           fetching the self-signed entity statement of the leaf (in this case
           https://op.umu.se) using the process defined in
           <xref target="federation_configuration"/>.
-          What follows there after is sequence of steps made out of these:
+          What follows thereafter is this sequence of steps:
           <list style="numbers">
             <t>Pick out the immediate superior entities using the authority
               hints
@@ -2534,7 +2523,7 @@ HTTP/1.1 302 Found
           described above.
         </t>
         <t>
-          When building the trust chain the entity statements issued
+          When building the trust chain, the entity statements issued
           by a superior about its subordinate is used together with the
           self-signed entity statement issued by the leaf.
         </t>
@@ -2542,10 +2531,10 @@ HTTP/1.1 302 Found
           The self-signed entity statement concerning intermediates are not
           part of the trust chain.
         </t>
-        <section title="Configuration information for op.umu.se">
+        <section title="Configuration Information for op.umu.se">
           <t>The LIGO WIKI RP fetches the self-signed entity statement from the
             OP (op.umu.se)
-            using the process defined in<xref
+            using the process defined in <xref
                     target="federation_configuration"/>.
           </t>
           <figure>
@@ -2621,10 +2610,10 @@ HTTP/1.1 302 Found
             This entity statement is the first link in the trust chain.
           </t>
         </section>
-        <section title="Configuration information for 'https://umu.se'">
+        <section title="Configuration Information for 'https://umu.se'">
           <t>The LIGO RP fetches the self-signed entity statement from
             "https://umu.se"
-            using the process defined in<xref
+            using the process defined in <xref
                     target="federation_configuration"/>.
           </t>
           <figure>
@@ -2666,13 +2655,12 @@ HTTP/1.1 302 Found
           <t>
             The only piece of information that is used from this entity
             statement is
-            the <spanx style="verb">federation_api_endpoint</spanx>. Which is
-            used
-            in the next step.
+            the <spanx style="verb">federation_api_endpoint</spanx>,
+	    which is used in the next step.
           </t>
         </section>
         <section
-                title="Entity statement published by 'https://umu.se' about 'https://op.umu.se'">
+                title="Entity Statement Published by 'https://umu.se' about 'https://op.umu.se'">
           <t>
             The RP uses the federation API and the "fetch" command as defined in
             <xref target="fetch_statement"/>
@@ -2741,15 +2729,15 @@ HTTP/1.1 302 Found
             This is the second link in the trust chain.
           </t>
           <t>
-            Notable here is that this path leads to 2 trust anchors using the
+            Notable here is that this path leads to two trust anchors using the
             same
             next step ("https://swamid.se").
           </t>
         </section>
-        <section title="Configuration information for 'https://swamid.se'">
+        <section title="Configuration Information for 'https://swamid.se'">
           <t>The LIGO Wiki RP fetches the self-signed entity statement from
             "https://swamid.se"
-            using the process defined in<xref
+            using the process defined in <xref
                     target="federation_configuration"/>.
           </t>
           <figure>
@@ -2791,13 +2779,12 @@ HTTP/1.1 302 Found
           <t>
             The only piece of information that is used from this entity
             statement is
-            the <spanx style="verb">federation_api_endpoint</spanx>. Which is
-            used
-            in the next step.
+            the <spanx style="verb">federation_api_endpoint</spanx>,
+	    which is used in the next step.
           </t>
         </section>
         <section
-                title="Entity statement published by 'https://swamid.se' about 'https://umu.se'">
+                title="Entity Statement Published by 'https://swamid.se' about 'https://umu.se'">
           <t>
             The LIGO Wiki RP uses the federation API and the "fetch" command as
             defined in
@@ -2864,16 +2851,16 @@ HTTP/1.1 302 Found
           <t>
             This is the entity statement of a trust anchor. So if the LIGO Wiki
             RP
-            was part of the SWAMID federation we would not have to walk further
+            was part of the SWAMID federation, we would not have to walk further
             up
-            the tree. But since it is not we have to go one step further.
+            the tree. But since it is not, we have to go one step further.
           </t>
         </section>
         <section
-                title="Configuration information for 'https://edugain.geant.org'">
+                title="Configuration Information for 'https://edugain.geant.org'">
           <t>RP fetches the self-signed entity statement from
             "https://edugain.geant.org"
-            using the process defined in<xref
+            using the process defined in <xref
                     target="federation_configuration"/>.
           </t>
           <figure>
@@ -2905,17 +2892,17 @@ HTTP/1.1 302 Found
 ]]></artwork>
           </figure>
           <t>
-            Again the only thing we need is the
+            Again, the only thing we need is the
             <spanx style="verb">federation_api_endpoint</spanx>.
             As described in
-            <xref target="key_rollover_anchor"/>
+            <xref target="key_rollover_anchor"/>,
             note should also be
             taken to <spanx style="verb">jwks</spanx> as the trust anchor may be
             performing a key rollover.
           </t>
         </section>
         <section
-                title="Entity statement published by 'https://edugain.geant.org' about 'https://swamid.se'">
+                title="Entity Statement Published by 'https://edugain.geant.org' about 'https://swamid.se'">
           <t>
             The LIGO Wiki RP uses the federation API and the "fetch" command as
             defined in
@@ -2958,13 +2945,13 @@ HTTP/1.1 302 Found
 }
 ]]></artwork>
           </figure>
-          <t>This is the fourth and final entity statement in the trust chain
+          <t>This is the fourth and final entity statement in the trust chain.
           </t>
           <t>
             We now have the whole chain from the self-signed entity statement of
             the
             leaf up until the last one which is issued by a trust anchor. All in
-            all
+            all,
             we have:
             <list style="numbers">
               <t>Self-signed entity statement by the leaf (https://op.umu.se>
@@ -2979,20 +2966,20 @@ HTTP/1.1 302 Found
           <t>
             Using the public keys of the trust anchor that the LIGO Wiki RP has
             been
-            provide with in some secure out-of-band way it can now verify the
+            provided with in some secure out-of-band way, it can now verify the
             trust chain as described in
-            <xref target="trust_chain_validation"/>
+            <xref target="trust_chain_validation"/>.
           </t>
         </section>
-        <section title="Verified metadata for op.umu.se">
-          <t>Having verified the chain the LIGO Wiki RP can to proceed with the
+        <section title="Verified Metadata for op.umu.se">
+          <t>Having verified the chain, the LIGO Wiki RP can proceed with the
             next step.
           </t>
           <t>Merging the metadata policies from the tree entity statements we
             have, by
             a superior about its subordinate, and applying the combined policy
             to the
-            metadata statement that the leaf entity presented we get:
+            metadata statement that the leaf entity presented, we get:
           </t>
           <figure>
             <artwork><![CDATA[
@@ -3032,30 +3019,30 @@ HTTP/1.1 302 Found
 ]]></artwork>
           </figure>
           <t>
-            We have no reached the end of the Provider discovery process.
+            We have now reached the end of the Provider Discovery process.
           </t>
         </section>
       </section>
-      <section title="The two ways of doing client registration">
+      <section title="The Two Ways of Doing Client Registration">
         <t>
           As described in
-          <xref target="client_registration"/>
+          <xref target="client_registration"/>,
           there are two
           ways which you can used to do client registration:
           <list style="hanging">
             <t hangText="Automatic">
               <vspace/>
-              No negotiation between the RP and the OP are made regarding
+              No negotiation between the RP and the OP is made regarding
               what features the client should use in future communication are
               done. The RP's published metadata filtered by the chosen trust
-              chains
-              metadata policies defines the metadata that are to be used.
+              chain's
+              metadata policies defines the metadata that is to be used.
             </t>
             <t hangText="Explicit">
               <vspace/>
               The RP will access the
-              <spanx style="verb">federation_registration_endpoint</spanx>
-              providing the metadata the RP wants to use. The OP may return a
+              <spanx style="verb">federation_registration_endpoint</spanx>,
+              which provides the metadata for the RP to use. The OP MAY return a
               metadata policy that adds restrictions over and above what the
               trust chain already has defined.
             </t>
@@ -3105,16 +3092,16 @@ Host: op.umu.se
             The OP starts to resolve metadata for the client identifier
             https://wiki.ligo.org by fetching the self-issued entity statement
             using
-            the process described in<xref target="federation_configuration"/>.
+            the process described in <xref target="federation_configuration"/>.
           </t>
           <t>
-            The process is the same as descibed in
+            The process is the same as described in
             <xref target="op_discovery"/>
             and will result in a trust chain with the following entity
             statements:
             <list style="numbers">
               <t>Self-signed entity statement by the leaf
-                (https://wiki.ligo.org>
+                https://wiki.ligo.org
               </t>
               <t>Statement issued by https://incommon.org about
                 https://wiki.ligo.org
@@ -3125,17 +3112,19 @@ Host: op.umu.se
             </list>
           </t>
         </section>
-        <section title="OP evaluates the RP metadata" anchor="rp_metadata_eval">
+        <section title="OP Evaluates the RP Metadata" anchor="rp_metadata_eval">
           <t>
             Using the public keys of the trust anchor that the LIGO Wiki RP has
             been
-            provide with in some secure out-of-band way it can now verify the
+            provided with in some secure out-of-band way, it can now verify the
             trust chain as described in
-            <xref target="trust_chain_validation"/>
+            <xref target="trust_chain_validation"/>.
           </t>
           <t>
-            I will not list the complete entity statements but only the metadata
-            and metadata_policy parts. There are two metadata policies:
+            I will not list the complete entity statements but only the
+	    <spanx style="verb">metadata</spanx>
+            and <spanx style="verb">metadata_policy</spanx> parts.
+	    There are two metadata policies:
             <list style="hanging">
               <t hangText="edugain.geant.org">
                 <figure>
@@ -3146,7 +3135,7 @@ Host: op.umu.se
                 "add": "ops@edugain.geant.org"
             }
         },
-        "openid_relying_part": {
+        "openid_relying_party": {
             "contacts": {
                 "add": "ops@edugain.geant.org"
             }
@@ -3159,7 +3148,7 @@ Host: op.umu.se
                 <figure>
                   <artwork><![CDATA[
     "metadata_policy": {
-        "openid_client": {
+        "openid_relying_party": {
             "application_type": {
                 "one_of": [
                     "web",
@@ -3184,7 +3173,7 @@ Host: op.umu.se
           </t>
           <t>
             If you combine these and apply them to the metadata for
-            wiki.ligo.org .
+            wiki.ligo.org :
           </t>
           <figure>
             <artwork><![CDATA[
@@ -3247,42 +3236,42 @@ Host: op.umu.se
 }]]></artwork>
           </figure>
           <t>
-            Having that, the "registration" is done and the OP must now using
+            Having that, the "registration" is done, and the OP must now use
             the keys found at the URL specified in
             <spanx style="verb">jwks_uri</spanx>
-            verify the client
+            to verify the client
             assertion in the authentication request.
           </t>
         </section>
         </section>
         <section
-                title="Client starts with registration (Explicit Client Registration)">
+                title="Client Starts with Registration (Explicit Client Registration)">
           <t>
-            Here the LIGO Wiki RP send a client registration request to the
+            Here the LIGO Wiki RP sends a client registration request to the
             federation_registration_endpoint of the OP (op.umu.se).
             What it sends is a self-signed entity statement.
           </t>
           <t>
-            Once the OP has the entity statement it proceeds with the same
+            Once the OP has the entity statement, it proceeds with the same
             sequence of steps as laid out in <xref target="op_discovery"/>.
           </t>
           <t>
             The OP will end up with the same RP metadata as was described in
-            <xref target="rp_metadata_eval"/> but what it now can do is
+            <xref target="rp_metadata_eval"/>, but what it now can do is
             return a metadata policy that it wants to be applied to the RP's
             metadata. This metadata policy will be combined with the
-            trust chains combined metadata policy before being applied to the
+            trust chain's combined metadata policy before being applied to the
             RP's metadata.
           </t>
           <t>
-            If we assume the the OP has a bit more strict view on which type
-            of crypto keys to use it may want to add a metadata policy that says.
+            If we assume that the OP has a bit more strict view on which type
+            of crypto keys to use, it may want to add a metadata policy that says:
           </t>
           <figure>
             <artwork><![CDATA[
-"metadata_policy" :
+"metadata_policy":
    {
-      "openid_relying_part": {
+      "openid_relying_party": {
          "id_token_signing_alg_values_supported": [
             "RS512"
         ]
@@ -3428,7 +3417,7 @@ Host: op.umu.se
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
       <t>
-        1.1
+        -09
         <list style="symbols">
           <t>
             Incorporated review feedback from Marcos Sanz.
@@ -3440,6 +3429,9 @@ Host: op.umu.se
           </t>
           <t>
             Started work on new authentication error codes.
+          </t>
+          <t>
+            Also incorporated review feedback from Michael B. Jones.
           </t>
         </list>
       </t>
