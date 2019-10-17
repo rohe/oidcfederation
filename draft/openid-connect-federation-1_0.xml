@@ -259,7 +259,7 @@
             </t>
             <t hangText="authority_hints">
               <vspace/>
-              OPTIONAL. Array of strings representing
+              REQUIRED. Array of strings representing
               the entity IDs of intermediate entities that may issue an
               entity statement about the issuer entity.
             </t>
@@ -1075,6 +1075,12 @@
             </t>
           </list>
         </t>
+        <t>
+          It should be noted that applying <spanx style="verb">subset_of</spanx>,
+          <spanx style="verb">superset_of</spanx> or
+          <spanx style="verb">one_of</spanx> to an empty value will result in
+          an empty value.
+        </t>
         <section title="Policy Combination Example">
           <figure>
             <preamble>
@@ -1291,8 +1297,10 @@
           response MUST contain metadata for a federation entity.
         </t>
         <t>
-          If the entity is an intermediate entity or a trust anchor it will
-          only contain metadata for a federation entity.
+          A positive response is a signed entity statement where the content
+          type MUST be set to application/jose. In case of an error the response
+          will be a JSON object and the content type MUST be set to
+          application/json and
         </t>
         <t>An error response uses the applicable HTTP status code value.
         </t>
@@ -1302,6 +1310,10 @@
         <t>
           <figure>
             <artwork><![CDATA[
+200 OK
+Last-Modified: Thu, 29 Aug 2019 08:54:26 GMT
+Content-Type: application/jose
+
 {
   "iss": "https://example.com",
   "sub": "https://example.com",
@@ -1596,8 +1608,8 @@ Content-Type: application/json
       <section title="Entity Listings (OPTIONAL)">
         <t>
           An entity may query another entity for a list of all the
-          entities immediately subordinate to that entity
-          that that entity is prepared to issue statements about.
+          entities immediately subordinate to that entity and about which
+          that entity is prepared to issue statements about.
           (In some cases, this may be a very large list.)
         </t>
 
@@ -1761,7 +1773,7 @@ Content-Type: application/json
           set to the
           intermediates entity ID and the <spanx style="verb">sub</spanx> to be
           the <spanx style="verb">iss</spanx> of the previous query.
-          The Consumer should never attempt to fetch
+          The Consumer SHOULD NEVER attempt to fetch
           entity statements it already has fetched during this
           process (loop prevention).
         </t>
@@ -1879,16 +1891,14 @@ Content-Type: application/json
           If a leaf entity publishes its public keys in the metadata part
           using <spanx style="verb">jwks</spanx>, setting an expiration time on
           the self-signed entity
-          statement can be used to control how often the remote party is
+          statement can be used to control how often the receiving entity is
           fetching an updated version of the public key.
         </t>
         <t>
-          If a leaf entity uses <spanx style="verb">jwks_uri</spanx>, the remote
-          party will in the normal
-          OpenID Connect way fetch the keys anew from the
-          <spanx style="verb">jwks_uri</spanx>
-          URI when it
-          discovers that the entity uses a key it has never seen before.
+          If a leaf entity uses <spanx style="verb">jwks_uri</spanx> as
+          described in <xref target="OpenID.Registration"/>, key rotation
+          will be done the way it is described in sections 10.1.1 and 10.2.1 in
+          <xref target="OpenID.Core"/>.
         </t>
       </section>
 
@@ -1955,23 +1965,13 @@ Content-Type: application/json
         support both methods, deployments may choose to disable the use of one
         of them.
       </t>
+      <t>
+        Independent on whether the RP uses dynamic or explicit registration
+        how the RP learns about the OP is the same. It will use what is
+        described in <xref target="resolving_trust"/>.
+      </t>
 
       <section title="Automatic Registration" anchor="automatic">
-        <figure>
-          <preamble>
-            The trust between the entities is established using the
-            above described extensions in the first two steps of the
-            communication between an RP and an OP. How the RP found the OP in
-            the first place is out of scope for this document.
-          </preamble>
-          <artwork><![CDATA[
-------                                       ------
-|    | <--- 1) Discovery ------------------> |    |
-| RP | ---- 2) Authentication request -----> | OP |
-|    |                                       |    |
-------                                       ------
-]]></artwork>
-        </figure>
         <t>
           The <spanx style="verb">client_id</spanx> of the RP
           MUST be set identically to the RP entity identifier.
@@ -2009,7 +2009,7 @@ GET /authorization?
   &response_type=code
   &nonce=4LX0mFMxdBjkGmtx7a8WIOnB&
   &state=YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ
-  &client_id=https%3A%2F%2Flocalhost%3A8090%2Firp
+  &client_id=https%3A%2F%2Fexample.com%3A8090%2Firp
   &client_assertion=eyJhbGciOiJSUzI1NiIs ... qx7xHcvPOdIhnpg
   &client_assertion_type=
     urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
@@ -2022,8 +2022,10 @@ Host: https://example.org
         <section title="Processing the Authentication Request">
           <t>
             When the OP receives an incoming authentication request,
-            the OP supports OpenID Connect Federation and the incoming client_id
-            is a valid URL, the OP should try to resolve and fetch trust
+            the OP supports OpenID Connect Federation, the incoming client_id
+            is a valid URL and the OP does not have the client_id
+            registered as a known
+            client then the OP should try to resolve and fetch trust
             chains starting with the RP's entity
             statement as described in <xref target="fetching-es"/>.
           </t>
@@ -2145,7 +2147,8 @@ HTTP/1.1 302 Found
                 <t>
                   The entity statement is sent to the
                   <spanx style="verb">federation_registration_endpoint</spanx>
-                  defined in this document.
+                  defined in this document. The content type MUST be set to
+                  application/jose
                 </t>
               </list>
             </t>
@@ -2157,13 +2160,11 @@ HTTP/1.1 302 Found
                 <list style="numbers">
                   <t>
                     After the OP receives the request, it collects and
-                    evaluates
-                    the trust chains starting with the
+                    evaluates the trust chains starting with the
                     <spanx style="verb">authority_hints</spanx>
-                    in the
-                    registration request.
+                    in the registration request.
                     After it has verified at least one trust chain it
-                    can verify that the signature on the received registration
+                    MUST verify that the signature on the received registration
                     request is correct.
                   </t>
                   <t>
@@ -2233,7 +2234,7 @@ HTTP/1.1 302 Found
                     metadata.
                   </t>
                   <t>
-                    If the RP was not OK, for some reason, with the received
+                    If the RP for some reason does not accept the received
                     entity statement then it has the choice to restart the
                     registration process or to give up.
                   </t>
