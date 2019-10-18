@@ -259,9 +259,12 @@
             </t>
             <t hangText="authority_hints">
               <vspace/>
-              REQUIRED. Array of strings representing
+              OPTIONAL. Array of strings representing
               the entity IDs of intermediate entities that may issue an
               entity statement about the issuer entity.
+              For all entities except for trust roots that do not have any
+              superiors this is REQUIRED. This claim MUST be absent in an
+              entity statement that belongs to a trust root with no superiors.
             </t>
             <t hangText="metadata">
               <vspace/>
