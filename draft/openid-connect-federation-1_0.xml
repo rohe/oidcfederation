@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="16" month="October" year="2019"/>
+    <date day="18" month="October" year="2019"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -683,8 +683,7 @@
               <vspace/>
               OPTIONAL. JSON object. Restriction on the entity IDs of the
               entities below this entity. The behavior of this claim mimics
-              what is defined in section 4.2.1.10 in <xref
-                    target="RFC5280">RFC5280</xref>.
+              what is defined in Section 4.2.1.10 in <xref target="RFC5280"/>.
               Restrictions are defined in terms of permitted or excluded name
               subtrees.
             </t>
@@ -1150,7 +1149,6 @@
           claim has a value, then such a metadata statement MUST
           be regarded as broken and MUST NOT be used.
         </t>
-        <t></t>
       </section>
       <section title="Extending the Policy Language">
         <t>
@@ -1300,12 +1298,12 @@
           response MUST contain metadata for a federation entity.
         </t>
         <t>
-          A positive response is a signed entity statement where the content
-          type MUST be set to application/jose. In case of an error the response
+          A positive response is a signed entity statement, where the content
+          type MUST be set to <spanx style="verb">application/jose</spanx>.
+	  In case of an error, the response
           will be a JSON object and the content type MUST be set to
-          application/json and
-        </t>
-        <t>An error response uses the applicable HTTP status code value.
+          <spanx style="verb">application/json</spanx> and
+	  the error response uses the applicable HTTP status code value.
         </t>
         <t>The following is a non-normative example response from an
           intermediate entity, before serialization and adding a signature:
@@ -1776,7 +1774,7 @@ Content-Type: application/json
           set to the
           intermediates entity ID and the <spanx style="verb">sub</spanx> to be
           the <spanx style="verb">iss</spanx> of the previous query.
-          The Consumer SHOULD NEVER attempt to fetch
+          The Consumer SHOULD NOT attempt to fetch
           entity statements it already has fetched during this
           process (loop prevention).
         </t>
@@ -1898,9 +1896,9 @@ Content-Type: application/json
           fetching an updated version of the public key.
         </t>
         <t>
-          If a leaf entity uses <spanx style="verb">jwks_uri</spanx> as
+          If a leaf entity uses <spanx style="verb">jwks_uri</spanx>, as
           described in <xref target="OpenID.Registration"/>, key rotation
-          will be done the way it is described in sections 10.1.1 and 10.2.1 in
+          will be done the way it is described in Sections 10.1.1 and 10.2.1 of
           <xref target="OpenID.Core"/>.
         </t>
       </section>
@@ -1969,8 +1967,9 @@ Content-Type: application/json
         of them.
       </t>
       <t>
-        Independent on whether the RP uses dynamic or explicit registration
-        how the RP learns about the OP is the same. It will use what is
+        Independent of whether the RP uses dynamic or explicit registration,
+        the way that the RP learns about the OP is the same.
+	It will use the procedure that is
         described in <xref target="resolving_trust"/>.
       </t>
 
@@ -2151,7 +2150,7 @@ HTTP/1.1 302 Found
                   The entity statement is sent to the
                   <spanx style="verb">federation_registration_endpoint</spanx>
                   defined in this document. The content type MUST be set to
-                  application/jose
+                  <spanx style="verb">application/jose</spanx>.
                 </t>
               </list>
             </t>
@@ -2237,8 +2236,8 @@ HTTP/1.1 302 Found
                     metadata.
                   </t>
                   <t>
-                    If the RP for some reason does not accept the received
-                    entity statement then it has the choice to restart the
+                    If the RP does not accept the received entity statement for some reason,
+		    then it has the choice to restart the
                     registration process or to give up.
                   </t>
                 </list>
@@ -2346,8 +2345,7 @@ HTTP/1.1 302 Found
       <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
       <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"?>
       <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml"?>
-      <?rfc
-              include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8615.xml"?>
+      <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8615.xml"?>
       <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749.xml"?>
       <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7515.xml"?>
       <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7517.xml"?>
@@ -3432,7 +3430,7 @@ Host: op.umu.se
             by the federation API.
           </t>
           <t>
-            Started work on new authentication error codes.
+            Defined new authentication error codes.
           </t>
           <t>
             Also incorporated review feedback from Michael B. Jones.
