@@ -255,7 +255,7 @@
               <vspace/>
               OPTIONAL.
               The entity statement may be specifically created for an entity.
-              The entity identifier for that entity should appear in this claim.
+              The entity identifier for that entity MUST appear in this claim.
             </t>
             <t hangText="authority_hints">
               <vspace/>
@@ -268,17 +268,17 @@
             </t>
             <t hangText="metadata">
               <vspace/>
-              REQUIRED. JSON object including protocol
+              OPTIONAL. JSON object including protocol
               specific metadata claims that represent the entity's metadata.
               Each key of the JSON object represents a metadata type
               identifier, and each value MUST be a JSON object representing
               the metadata according to the metadata schema of that metadata
               type. An entity statement may contain multiple
               metadata statements, but only one for each metadata type.
-              If the entity is a non-leaf entity it MUST contain a metadata
-              object with a
-              <spanx style="verb">federation_entity</spanx>
-              object inside.
+              If the <spanx style="verb">iss</spanx> of an entity statement
+              points to the same entity as the <spanx style="verb">sub</spanx>
+              then the entity statement MUST contain a
+              <spanx style="verb">metadata</spanx> claim.
             </t>
             <t hangText="metadata_policy">
               <vspace/>
@@ -287,17 +287,8 @@
               Each key of the JSON object represents a metadata type
               identifier, and each value MUST be a JSON object representing
               the metadata policy according to the metadata schema of that
-              metadata
-              type. An entity statement may contain multiple
+              metadata type. An entity statement may contain multiple
               metadata policy statements, but only one for each metadata type.
-              If the metadata type identifier is
-              <spanx style="verb">federation_entity</spanx>, then the policy
-              MUST be applied to the immediate subordinate in the trust chain
-              unless that is a leaf entity.
-              If the metadata type identifier is not
-              <spanx style="verb">federation_entity</spanx>, then the policy
-              MUST be applied to all subordinate nodes of that type in the trust
-              chain.
               Only non-leaf entities MAY contain a
               <spanx style="verb">metadata_policy</spanx>
               claim. Leaf entities MUST NOT contain a metadata_policy claim.
@@ -1145,9 +1136,8 @@
       </section>
       <section title="Enforcing Policy">
         <t>
-          If applying a policy to a metadata statement results in some claims
-          having all their values removed and it is essential that a
-          claim has a value, then such a metadata statement MUST
+          If applying policies to a metadata statement results in incorrect
+          metadata, then such a metadata statement MUST
           be regarded as broken and MUST NOT be used.
         </t>
         <t></t>
@@ -1781,11 +1771,6 @@ Content-Type: application/json
           process (loop prevention).
         </t>
         <t>
-          Once the Consumer has found a trust anchor it wants to use it MUST
-          complete the trust chain by fetching the trust anchor's self-signed
-          entity statement.
-        </t>
-        <t>
           A successful operation will return one or more lists of
           entity statements. Each of the lists terminating in a self-signed
           entity statement issued by a trust anchor.
@@ -1829,7 +1814,7 @@ Content-Type: application/json
               </list>
             </t>
             <t>
-              For j=0,i verify that <spanx style="verb">iss</spanx> ==
+              For j=0 verify that <spanx style="verb">iss</spanx> ==
               <spanx style="verb">sub</spanx>.
             </t>
             <t>
