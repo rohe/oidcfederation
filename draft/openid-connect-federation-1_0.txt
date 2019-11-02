@@ -92,7 +92,7 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 1]
    7.  Resolving Trust Chain and Metadata  . . . . . . . . . . . . .  29
      7.1.  Fetching Entity Statements to Establish a Trust Chain . .  29
      7.2.  Validating the Trust Chains . . . . . . . . . . . . . . .  30
-     7.3.  Choosing One of the Valid Trust Chains  . . . . . . . . .  31
+     7.3.  Choosing One of the Valid Trust Chains  . . . . . . . . .  30
      7.4.  Calculating the Lifetime of a Trust Chain . . . . . . . .  31
    8.  Updating Metadata, Key Rollover, and Revocation . . . . . . .  31
      8.1.  Protocol Key Rollover . . . . . . . . . . . . . . . . . .  31
@@ -100,7 +100,7 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 1]
      8.3.  Revocation  . . . . . . . . . . . . . . . . . . . . . . .  32
    9.  OpenID Connect Communication  . . . . . . . . . . . . . . . .  32
      9.1.  Automatic Registration  . . . . . . . . . . . . . . . . .  32
-       9.1.1.  The Authentication Request  . . . . . . . . . . . . .  33
+       9.1.1.  The Authentication Request  . . . . . . . . . . . . .  32
        9.1.2.  Processing the Authentication Request . . . . . . . .  33
        9.1.3.  Authentication Error Response . . . . . . . . . . . .  33
      9.2.  Explicit Registration . . . . . . . . . . . . . . . . . .  34
@@ -287,8 +287,8 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 5]
 
    aud
       OPTIONAL.  The entity statement may be specifically created for an
-      entity.  The entity identifier for that entity should appear in
-      this claim.
+      entity.  The entity identifier for that entity MUST appear in this
+      claim.
 
    authority_hints
       OPTIONAL.  Array of strings representing the entity IDs of
@@ -299,14 +299,15 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 5]
       superiors.
 
    metadata
-      REQUIRED.  JSON object including protocol specific metadata claims
+      OPTIONAL.  JSON object including protocol specific metadata claims
       that represent the entity's metadata.  Each key of the JSON object
       represents a metadata type identifier, and each value MUST be a
       JSON object representing the metadata according to the metadata
       schema of that metadata type.  An entity statement may contain
       multiple metadata statements, but only one for each metadata type.
-      If the entity is a non-leaf entity it MUST contain a metadata
-      object with a "federation_entity" object inside.
+      If the "iss" of an entity statement points to the same entity as
+      the "sub" then the entity statement MUST contain a "metadata"
+      claim.
 
    metadata_policy
       OPTIONAL.  JSON object that describes a metadata policy.  Each key
@@ -314,14 +315,9 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 5]
       value MUST be a JSON object representing the metadata policy
       according to the metadata schema of that metadata type.  An entity
       statement may contain multiple metadata policy statements, but
-      only one for each metadata type.  If the metadata type identifier
-      is "federation_entity", then the policy MUST be applied to the
-      immediate subordinate in the trust chain unless that is a leaf
-      entity.  If the metadata type identifier is not
-      "federation_entity", then the policy MUST be applied to all
-      subordinate nodes of that type in the trust chain.  Only non-leaf
-      entities MAY contain a "metadata_policy" claim.  Leaf entities
-      MUST NOT contain a metadata_policy claim.
+      only one for each metadata type.  Only non-leaf entities MAY
+      contain a "metadata_policy" claim.  Leaf entities MUST NOT contain
+      a metadata_policy claim.
 
    crit
       OPTIONAL.  The "crit" (critical) entity statement claim indicates
@@ -330,6 +326,10 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 5]
       processed.  It is used in the same way that "crit" is used for
       extension JWS [RFC7515] header parameters that MUST be understood
       and processed.  Its value is an array listing the entity statement
+      claims present in the entity statement that use those extensions.
+      If any of the listed extension entity statement claims are not
+      understood and supported by the recipient, then the entity
+      statement is invalid.  Producers MUST NOT include entity statement
 
 
 
@@ -338,10 +338,6 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 6]
                         OpenID Connect Federation           October 2019
 
 
-      claims present in the entity statement that use those extensions.
-      If any of the listed extension entity statement claims are not
-      understood and supported by the recipient, then the entity
-      statement is invalid.  Producers MUST NOT include entity statement
       claim names defined by this specification or names that do not
       occur as entity statement claim names in the entity statement in
       the "crit" list.  Producers MUST NOT use the empty list "[]" as
@@ -372,6 +368,10 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 6]
    critical extension "jti" (JWT ID) to the entity statement and one
    critical extension to the policy language "regexp" (Regular
    expression).
+
+
+
+
 
 
 
@@ -1012,9 +1012,8 @@ Hedberg, et al.          Expires April 20, 2020                [Page 18]
 
 4.4.  Enforcing Policy
 
-   If applying a policy to a metadata statement results in some claims
-   having all their values removed and it is essential that a claim has
-   a value, then such a metadata statement MUST be regarded as broken
+   If applying policies to a metadata statement results in incorrect
+   metadata, then such a metadata statement MUST be regarded as broken
    and MUST NOT be used.
 
 4.5.  Extending the Policy Language
@@ -1051,6 +1050,7 @@ Hedberg, et al.          Expires April 20, 2020                [Page 18]
        "response_types": {
            "subset_of": ["code", "code id_token"]}
    }
+
 
 
 
@@ -1626,10 +1626,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 29]
                         OpenID Connect Federation           October 2019
 
 
-   Once the Consumer has found a trust anchor it wants to use it MUST
-   complete the trust chain by fetching the trust anchor's self-signed
-   entity statement.
-
    A successful operation will return one or more lists of entity
    statements.  Each of the lists terminating in a self-signed entity
    statement issued by a trust anchor.
@@ -1656,7 +1652,7 @@ Hedberg, et al.          Expires April 20, 2020                [Page 29]
 
       *  Verify that "exp" has a value that is in the future.
 
-   o  For j=0,i verify that "iss" == "sub".
+   o  For j=0 verify that "iss" == "sub".
 
    o  For j=1,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub']
 
@@ -1671,8 +1667,12 @@ Hedberg, et al.          Expires April 20, 2020                [Page 29]
    implementer MAY therefor chose to not verify the signature until all
    the other checks have been done.
 
+7.3.  Choosing One of the Valid Trust Chains
 
+   If multiple valid trust chains are found, the Consumer will need to
+   decide on which one to use.
 
+   One simple rule would be to prefer a shorter chain over a longer one.
 
 
 
@@ -1681,13 +1681,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 30]
 
                         OpenID Connect Federation           October 2019
 
-
-7.3.  Choosing One of the Valid Trust Chains
-
-   If multiple valid trust chains are found, the Consumer will need to
-   decide on which one to use.
-
-   One simple rule would be to prefer a shorter chain over a longer one.
 
 7.4.  Calculating the Lifetime of a Trust Chain
 
@@ -1730,6 +1723,13 @@ Hedberg, et al.          Expires April 20, 2020                [Page 30]
    1.  Add the new keys to the "jwks" representing the trust anchors
        signing keys.
 
+   2.  Keep signing the entity statement using the old keys for a long
+       enough time period to allow all subordinates to have gotten
+       access to the new keys.
+
+   3.  Switch to signing with the new keys.
+
+
 
 
 
@@ -1737,12 +1737,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 31]
 
                         OpenID Connect Federation           October 2019
 
-
-   2.  Keep signing the entity statement using the old keys for a long
-       enough time period to allow all subordinates to have gotten
-       access to the new keys.
-
-   3.  Switch to signing with the new keys.
 
    4.  After a reasonable time period remove the old keys.  What is
        regarded as a reasonable time is dependent on the security
@@ -1786,6 +1780,12 @@ Hedberg, et al.          Expires April 20, 2020                [Page 31]
    The RP MUST host a Federation API that allows the OP to fetch the
    entity statements.
 
+9.1.1.  The Authentication Request
+
+   The authentication request is as specified in OpenID Connect Core.
+
+
+
 
 
 
@@ -1793,10 +1793,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 32]
 
                         OpenID Connect Federation           October 2019
 
-
-9.1.1.  The Authentication Request
-
-   The authentication request is as specified in OpenID Connect Core.
 
    The RP MUST authenticate at the authentication endpoint using the
    private_key_jwt method described in the client authentication section
@@ -1842,6 +1838,10 @@ Hedberg, et al.          Expires April 20, 2020                [Page 32]
    appropriate error code, and an "error_description" that aids the RP
    to understand what is wrong.
 
+   In addition to the error codes defined in Section 3.1.2.6 of OpenID
+   Connect core, this specification also defines the following error
+   codes:
+
 
 
 
@@ -1849,10 +1849,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 33]
 
                         OpenID Connect Federation           October 2019
 
-
-   In addition to the error codes defined in Section 3.1.2.6 of OpenID
-   Connect core, this specification also defines the following error
-   codes:
 
    missing_trust_anchor
       No trusted trust anchor could be found.
@@ -1898,6 +1894,10 @@ Hedberg, et al.          Expires April 20, 2020                [Page 33]
        be as small as one trust chain, but it can also contain more than
        one.
 
+   2.  Based on the trust anchors referenced in the subset of trust
+       chains, the RP will choose a set of "authority_hints" from its
+       own set that terminates in those trust anchors.
+
 
 
 
@@ -1905,10 +1905,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 34]
 
                         OpenID Connect Federation           October 2019
 
-
-   2.  Based on the trust anchors referenced in the subset of trust
-       chains, the RP will choose a set of "authority_hints" from its
-       own set that terminates in those trust anchors.
 
    3.  The RP will now construct a self-signed entity statement where
        the metadata statement chosen is influenced by the OPs metadata
@@ -1955,6 +1951,10 @@ Hedberg, et al.          Expires April 20, 2020                [Page 34]
        "authority_hints" terminates in trust anchors that were
        referenced in the entity statement it sent to the OP.
 
+   2.  The RP MUST NOT apply metadata policies from the trust chains
+       that the OP provides because those are not valid for the RP's
+       metadata.  The RP MUST apply policies to the metadata using one
+
 
 
 Hedberg, et al.          Expires April 20, 2020                [Page 35]
@@ -1962,9 +1962,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 35]
                         OpenID Connect Federation           October 2019
 
 
-   2.  The RP MUST NOT apply metadata policies from the trust chains
-       that the OP provides because those are not valid for the RP's
-       metadata.  The RP MUST apply policies to the metadata using one
        of its own trust chains that ends in the trust anchor that the OP
        chose.  Once it has applied those policies it can the apply the
        policy returned from the OP.  When it has applied all the
@@ -2008,6 +2005,9 @@ Hedberg, et al.          Expires April 20, 2020                [Page 35]
 
    What is regarded as reasonable intervals will depend on federation
    policies and risk assessment by the maintainer of the RP.
+
+
+
 
 
 

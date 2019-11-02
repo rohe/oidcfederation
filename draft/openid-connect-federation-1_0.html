@@ -468,7 +468,7 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.32.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
@@ -799,16 +799,16 @@
 <br> REQUIRED. A <a href="#RFC7517" class="xref">JSON Web Key Set (JWKS)</a> representing the public part of the subject entity's signing keys. The corresponding private key is used by leaf entities to sign entity statements about themselves, and intermediate entities to sign statements about other entities.  The keys that can be found here are primarily intended to sign entity statements and should not be used in other protocols.  </dd>
 <dt>aud</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL.  The entity statement may be specifically created for an entity.  The entity identifier for that entity should appear in this claim.  </dd>
+<br> OPTIONAL.  The entity statement may be specifically created for an entity.  The entity identifier for that entity MUST appear in this claim.  </dd>
 <dt>authority_hints</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. Array of strings representing the entity IDs of intermediate entities that may issue an entity statement about the issuer entity.  For all entities except for trust roots that do not have any superiors this is REQUIRED. This claim MUST be absent in an entity statement that belongs to a trust root with no superiors.  </dd>
 <dt>metadata</dt>
 <dd style="margin-left: 8">
-<br> REQUIRED. JSON object including protocol specific metadata claims that represent the entity's metadata.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata according to the metadata schema of that metadata type. An entity statement may contain multiple metadata statements, but only one for each metadata type.  If the entity is a non-leaf entity it MUST contain a metadata object with a <samp>federation_entity</samp> object inside.  </dd>
+<br> OPTIONAL. JSON object including protocol specific metadata claims that represent the entity's metadata.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata according to the metadata schema of that metadata type. An entity statement may contain multiple metadata statements, but only one for each metadata type.  If the <samp>iss</samp> of an entity statement points to the same entity as the <samp>sub</samp> then the entity statement MUST contain a <samp>metadata</samp> claim.  </dd>
 <dt>metadata_policy</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. JSON object that describes a metadata policy.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata policy according to the metadata schema of that metadata type. An entity statement may contain multiple metadata policy statements, but only one for each metadata type.  If the metadata type identifier is <samp>federation_entity</samp>, then the policy MUST be applied to the immediate subordinate in the trust chain unless that is a leaf entity.  If the metadata type identifier is not <samp>federation_entity</samp>, then the policy MUST be applied to all subordinate nodes of that type in the trust chain.  Only non-leaf entities MAY contain a <samp>metadata_policy</samp> claim. Leaf entities MUST NOT contain a metadata_policy claim.  </dd>
+<br> OPTIONAL. JSON object that describes a metadata policy.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata policy according to the metadata schema of that metadata type. An entity statement may contain multiple metadata policy statements, but only one for each metadata type.  Only non-leaf entities MAY contain a <samp>metadata_policy</samp> claim. Leaf entities MUST NOT contain a metadata_policy claim.  </dd>
 <dt>crit</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  The <samp>crit</samp> (critical) entity statement claim indicates that extensions to entity statement claims defined by this specification are being used that MUST be understood and processed.  It is used in the same way that <samp>crit</samp> is used for extension <a href="#RFC7515" class="xref">JWS</a> header parameters that MUST be understood and processed.  Its value is an array listing the entity statement claims present in the entity statement that use those extensions.  If any of the listed extension entity statement claims are not understood and supported by the recipient, then the entity statement is invalid.  Producers MUST NOT include entity statement claim names defined by this specification or names that do not occur as entity statement claim names in the entity statement in the <samp>crit</samp> list.  Producers MUST NOT use the empty list <samp>[]</samp> as the <samp>crit</samp> value.  </dd>
@@ -1236,7 +1236,7 @@
 </pre>
 <h1 id="rfc.section.4.4">
 <a href="#rfc.section.4.4">4.4.</a> Enforcing Policy</h1>
-<p id="rfc.section.4.4.p.1">If applying a policy to a metadata statement results in some claims having all their values removed and it is essential that a claim has a value, then such a metadata statement MUST be regarded as broken and MUST NOT be used.  </p>
+<p id="rfc.section.4.4.p.1">If applying policies to a metadata statement results in incorrect metadata, then such a metadata statement MUST be regarded as broken and MUST NOT be used.  </p>
 <h1 id="rfc.section.4.5">
 <a href="#rfc.section.4.5">4.5.</a> Extending the Policy Language</h1>
 <p id="rfc.section.4.5.p.1">There might be parties that want to extend the policy language defined here. If that happens then the rule is that if software compliant with this specification encounters a keyword it doesn't understand it MUST ignore it unless it is listed in a <samp>policy_language_crit</samp> list, as is done for <a href="#RFC7515" class="xref">JWS</a> header parameters with the <samp>crit</samp> parameter.  If the policy language extension keyword is listed in the <samp>policy_language_crit</samp> list and not understood, then the metadata MUST be rejected.  </p>
@@ -1580,9 +1580,8 @@ Content-Type: application/json
 </h1>
 <p id="rfc.section.7.1.p.1">Depending on the circumstances, the Consumer may either be handed the remote peer's self-issued entity statement, or it may have to fetch it by itself. If it needs to fetch it, it will use the process described in <a href="#fetch_statement" class="xref">Section 6.1.1</a> with both <samp>iss</samp> and <samp>sub</samp> set to the entity ID of the remote peer.  </p>
 <p id="rfc.section.7.1.p.2">The next step is to iterate through the list of intermediates listed in <samp>authority_hints</samp>, ignoring the authority hints that end in an unknown trust anchor, requesting an entity statement about the remote peer from each of the intermediates.  If the received entity statement contains an authority hint this process is repeated. This time with the <samp>iss</samp> set to the intermediates entity ID and the <samp>sub</samp> to be the <samp>iss</samp> of the previous query.  The Consumer SHOULD NOT attempt to fetch entity statements it already has fetched during this process (loop prevention).  </p>
-<p id="rfc.section.7.1.p.3">Once the Consumer has found a trust anchor it wants to use it MUST complete the trust chain by fetching the trust anchor's self-signed entity statement.  </p>
-<p id="rfc.section.7.1.p.4">A successful operation will return one or more lists of entity statements. Each of the lists terminating in a self-signed entity statement issued by a trust anchor.  </p>
-<p id="rfc.section.7.1.p.5">If there is no path from the remote peer to at least one of the trusted trust anchors, then the list will be empty and there is no way of establishing trust in the remote peer's information. How the Consumer deals with this is out of scope for this specification.  </p>
+<p id="rfc.section.7.1.p.3">A successful operation will return one or more lists of entity statements. Each of the lists terminating in a self-signed entity statement issued by a trust anchor.  </p>
+<p id="rfc.section.7.1.p.4">If there is no path from the remote peer to at least one of the trusted trust anchors, then the list will be empty and there is no way of establishing trust in the remote peer's information. How the Consumer deals with this is out of scope for this specification.  </p>
 <h1 id="rfc.section.7.2">
 <a href="#rfc.section.7.2">7.2.</a> <a href="#trust_chain_validation" id="trust_chain_validation">Validating the Trust Chains</a>
 </h1>
@@ -1598,7 +1597,7 @@ Content-Type: application/json
 </ul>
 <p> </p>
 </li>
-<li>For j=0,i verify that <samp>iss</samp> == <samp>sub</samp>.  </li>
+<li>For j=0 verify that <samp>iss</samp> == <samp>sub</samp>.  </li>
 <li>For j=1,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub'] </li>
 <li>For j=0,...,i-1: Verify the signature of ES[j] using the public key carried in ES[j+1]['jwks'].  </li>
 <li>For j == i: verify the signature with the configured public key of the trust anchor.  </li>
