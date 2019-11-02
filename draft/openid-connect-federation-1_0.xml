@@ -1880,21 +1880,13 @@ Content-Type: application/json
           statement can be used to control how often the receiving entity is
           fetching an updated version of the public key.
         </t>
-        <t>
-          If a leaf entity uses <spanx style="verb">jwks_uri</spanx>, as
-          described in <xref target="OpenID.Registration"/>, key rotation
-          will be done the way it is described in Sections 10.1.1 and 10.2.1 of
-          <xref target="OpenID.Core"/>.
-        </t>
       </section>
 
       <section title="Key Rollover for a Trust Anchor"
                anchor="key_rollover_anchor">
         <t>
           A trust anchor must publish a self-signed entity statement about
-          itself. As described above in <xref target="trust_chain"/>,
-          it should be at the end of the trust chain.
-          The trust anchor SHOULD set a reasonable expiration
+          itself. The trust anchor SHOULD set a reasonable expiration
           time on that statement, such that the consumers will re-fetch the
           entity statement at reasonable intervals. If the trust anchor wants to
           roll over its signing keys it would have to:
