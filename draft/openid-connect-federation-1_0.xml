@@ -421,8 +421,7 @@
       <section title="Trust Chain" anchor="trust_chain">
         <t>
           In an OpenID Connect Identity Federation, entities that together build
-          a
-          trust chain can be categorized as:
+          a trust chain can be categorized as:
           <list style="hanging">
             <t hangText="Trust anchor">
               <vspace/>
@@ -483,6 +482,10 @@
               claim in
               ES[j] that can be used to verify the signature of ES[j-1],
               j=i,...,1 .
+            </t>
+            <t>
+              It MUST be possible to verify the signature of ES[0] with
+              one of the keys in ES[0]['jwks'].
             </t>
           </list>
         </t>
@@ -1831,6 +1834,10 @@ Content-Type: application/json
             <t>
               For j=0,...,i-1: Verify the signature of ES[j] using the public
               key carried in ES[j+1]['jwks'].
+            </t>
+            <t>
+              For j == 0 verify the signature of ES[0] using the public
+              key carried in ES[0]['jwks'].
             </t>
             <t>
               For j == i: verify the signature with the configured public
