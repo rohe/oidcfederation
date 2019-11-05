@@ -395,6 +395,9 @@
         "subset_of": ["openid", "profile", "email", "phone"]}
     }
   },
+  "constraints": {
+    "max_path_len": 2
+  }
   "jwks": {
     "keys": [
       {
@@ -677,19 +680,6 @@
               OPTIONAL. URL to a generic home page
               representing this entity.
             </t>
-            <t hangText="max_path_length">
-              <vspace/>
-              OPTIONAL. Integer. The maximum number of intermediate entities below
-              this entity.
-            </t>
-            <t hangText="naming_constraints">
-              <vspace/>
-              OPTIONAL. JSON object. Restriction on the entity identifiers of the
-              entities below this entity. The behavior of this claim mimics
-              what is defined in Section 4.2.1.10 in <xref target="RFC5280"/>.
-              Restrictions are defined in terms of permitted or excluded name
-              subtrees.
-            </t>
           </list>
         </t>
         <t>Example</t>
@@ -699,16 +689,7 @@
     "federation_api_endpoint":
         "https://example.com/federation_api_endpoint",
     "name": "The example cooperation",
-    "homepage_uri": "https://www.example.com",
-    "max_path_length": 2,
-    "naming_constraints": {
-        "permitted": [
-            "https://.example.com"
-        ],
-        "excluded": [
-            "https://east.example.com"
-        ]
-    }
+    "homepage_uri": "https://www.example.com"
 }
 ]]></artwork>
         </figure>
@@ -1856,13 +1837,13 @@ Content-Type: application/json
           <xref target="trust_lifetime"/></t>
       </section>
       <section title="Applying constrains" anchor="chain_constrains">
-        <t>PLACE HOLDER</t>
+        <t>A constraint specification can contain the following claims:</t>
         <t>
           <list style="hanging">
             <t hangText="max_path_length">
               <vspace/>
               OPTIONAL. Integer. The maximum number of intermediate entities below
-              this entity.
+              the subject of the entity statement.
             </t>
             <t hangText="naming_constraints">
               <vspace/>
@@ -1874,7 +1855,91 @@ Content-Type: application/json
             </t>
           </list>
         </t>
-        <t>PLACE HOLDER</t>
+        <t>The following is a non-normative example of such a specification:</t>
+        <figure>
+          <artwork><![CDATA[
+{
+  "naming_constraints": {
+    "permitted": [
+      "https://.example.com"
+    ],
+    "excluded": [
+      "https://east.example.com"
+    ]
+  },
+  "max_path_length": 2
+}]]></artwork>
+        </figure>
+        <t>
+          A constraint is valid for all entities below and including the
+          subject of the entity statement that contains the constraint
+          specification.
+        </t>
+        <section title="Max Path Length" anchor="max_path_length">
+          <t>
+            A max_path_length constraint of zero indicates that no
+            non-self-issued entity statements may follow in a valid
+            trust chain.  Where it appears, the max_path_length claim
+            MUST have a value that is greater than or equal to zero.
+            Where max_path_length does not appear, no limit is imposed.
+          </t>
+          <t>
+            Assuming that we have a trust chain with 4 entities:
+            <list style="numbers">
+              <t>Leaf entity (LE)</t>
+              <t>Intermediate 1 (I1)</t>
+              <t>Intermediate 2 (I2)</t>
+              <t>Trust Anchor (TA)</t>
+            </list>
+          </t>
+          <t>
+            Then the trust chain fulfills the constraints if:
+            <list style="symbols">
+              <t>
+                The TA specifies a max_path_length that is equal to or bigger
+                then 2. Neither I2 or I1 specifies any max_path_length constraints.
+              </t>
+              <t>
+                TA specifies max_path_length=2, I2 specifies max_path_length=1
+                and I1 specifies no max_path_length constraint.
+              </t>
+              <t>Neither TA or I2 specifies any max_path_length constraint
+                while I1 specifies max_path_length=0</t>
+            </list>
+          </t>
+          <t>
+            The trust chain does not fulfill the constraints if:
+            <list style="symbols">
+              <t>TA has specified max_path_length=1</t>
+              <t>
+                TA has specified max_path_length=2 and I2 has specified max_path_length=2
+              </t>
+            </list>
+          </t>
+        </section>
+        <section title="Naming Constraints" anchor="naming_constraints">
+        <t>
+          The name constraints indicates a name space within which all subject
+          entity identifiers in subordinate entity statements in a trust chain
+          MUST be located.
+        </t>
+          <t>
+            Restrictions are defined in terms of permitted or excluded name
+            subtrees.  Any name matching a restriction in the excluded
+            claim is invalid regardless of information appearing in the
+            permitted claim.
+          </t>
+          <t>
+            The constraint MUST be specified as a fully qualified domain name
+            and MAY specify a host or a domain.  Examples would be
+            "host.example.com" and ".example.com".  When the constraint begins
+            with a period, it MAY be expanded with one or more labels.
+            That is, the constraint ".example.com" is satisfied by both
+            host.example.com and my.host.example.com.  However, the constraint
+            ".example.com" is not satisfied by "example.com".  When the
+            constraint does not begin with a period, it specifies a host.
+          </t>
+        </section>
       </section>
       <section title="Choosing One of the Valid Trust Chains">
         <t>
