@@ -813,7 +813,7 @@
 <br> OPTIONAL. JSON object that describes a metadata policy.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata policy according to the metadata schema of that metadata type. An entity statement may contain multiple metadata policy statements, but only one for each metadata type.  Only non-leaf entities MAY contain a <samp>metadata_policy</samp> claim. Leaf entities MUST NOT contain a metadata_policy claim.  </dd>
 <dt>constrains</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. JSON object that describes a set of trust chain constrains.  </dd>
+<br> OPTIONAL. JSON object that describes a set of trust chain constrains. More about this in <a href="#chain_constrains" class="xref">Section 7.3</a> </dd>
 <dt>crit</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  The <samp>crit</samp> (critical) entity statement claim indicates that extensions to entity statement claims defined by this specification are being used that MUST be understood and processed.  It is used in the same way that <samp>crit</samp> is used for extension <a href="#RFC7515" class="xref">JWS</a> header parameters that MUST be understood and processed.  Its value is an array listing the entity statement claims present in the entity statement that use those extensions.  If any of the listed extension entity statement claims are not understood and supported by the recipient, then the entity statement is invalid.  Producers MUST NOT include entity statement claim names defined by this specification or names that do not occur as entity statement claim names in the entity statement in the <samp>crit</samp> list.  Producers MUST NOT use the empty list <samp>[]</samp> as the <samp>crit</samp> value.  </dd>
@@ -1610,6 +1610,7 @@ Content-Type: application/json
 <h1 id="rfc.section.7.3">
 <a href="#rfc.section.7.3">7.3.</a> <a href="#chain_constrains" id="chain_constrains">Applying constrains</a>
 </h1>
+<p id="rfc.section.7.3.p.1">PLACE HOLDER</p>
 <p></p>
 
 <dl>
@@ -1622,6 +1623,7 @@ Content-Type: application/json
 </dl>
 
 <p> </p>
+<p id="rfc.section.7.3.p.3">PLACE HOLDER</p>
 <h1 id="rfc.section.7.4">
 <a href="#rfc.section.7.4">7.4.</a> Choosing One of the Valid Trust Chains</h1>
 <p id="rfc.section.7.4.p.1">If multiple valid trust chains are found, the Consumer will need to decide on which one to use.  </p>

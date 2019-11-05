@@ -105,7 +105,7 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 1]
        9.1.2.  Processing the Authentication Request . . . . . . . .  33
        9.1.3.  Authentication Error Response . . . . . . . . . . . .  34
      9.2.  Explicit Registration . . . . . . . . . . . . . . . . . .  34
-       9.2.1.  Provider Discovery  . . . . . . . . . . . . . . . . .  34
+       9.2.1.  Provider Discovery  . . . . . . . . . . . . . . . . .  35
 
 
 
@@ -321,7 +321,7 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 5]
 
    constrains
       OPTIONAL.  JSON object that describes a set of trust chain
-      constrains.
+      constrains.  More about this in Section 7.3
 
    crit
       OPTIONAL.  The "crit" (critical) entity statement claim indicates
@@ -1684,6 +1684,8 @@ Hedberg, et al.          Expires April 20, 2020                [Page 30]
 
 7.3.  Applying constrains
 
+   PLACE HOLDER
+
    max_path_length
       OPTIONAL.  Integer.  The maximum number of intermediate entities
       below this entity.
@@ -1693,6 +1695,8 @@ Hedberg, et al.          Expires April 20, 2020                [Page 30]
       the entities below this entity.  The behavior of this claim mimics
       what is defined in Section 4.2.1.10 in [RFC5280].  Restrictions
       are defined in terms of permitted or excluded name subtrees.
+
+   PLACE HOLDER
 
 7.4.  Choosing One of the Valid Trust Chains
 
@@ -1725,10 +1729,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 30]
 
    If a leaf entity publishes its public keys in the metadata part using
    "jwks", setting an expiration time on the self-signed entity
-   statement can be used to control how often the receiving entity is
-   fetching an updated version of the public key.
-
-
 
 
 
@@ -1737,6 +1737,9 @@ Hedberg, et al.          Expires April 20, 2020                [Page 31]
 
                         OpenID Connect Federation           October 2019
 
+
+   statement can be used to control how often the receiving entity is
+   fetching an updated version of the public key.
 
 8.2.  Key Rollover for a Trust Anchor
 
@@ -1781,9 +1784,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 31]
    use.  While implementations should support both methods, deployments
    may choose to disable the use of one of them.
 
-   Independent of whether the RP uses automatic or explicit
-   registration, the way that the RP learns about the OP is the same.
-   It will use the procedure that is described in Section 7.
 
 
 
@@ -1793,6 +1793,10 @@ Hedberg, et al.          Expires April 20, 2020                [Page 32]
 
                         OpenID Connect Federation           October 2019
 
+
+   Independent of whether the RP uses automatic or explicit
+   registration, the way that the RP learns about the OP is the same.
+   It will use the procedure that is described in Section 7.
 
 9.1.  Automatic Registration
 
@@ -1837,10 +1841,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 32]
    client then the OP should try to resolve and fetch trust chains
    starting with the RP's entity statement as described in Section 7.1.
 
-   The OP should validate the possible trust chains, as described in
-   Section 7.2, and resolve the RP metadata with type
-   "openid_relying_party".
-
 
 
 
@@ -1849,6 +1849,10 @@ Hedberg, et al.          Expires April 20, 2020                [Page 33]
 
                         OpenID Connect Federation           October 2019
 
+
+   The OP should validate the possible trust chains, as described in
+   Section 7.2, and resolve the RP metadata with type
+   "openid_relying_party".
 
    The OP should consider the resolved metadata of the RP, and verify
    that it complies with the client metadata specification in OpenID
@@ -1890,10 +1894,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 33]
    Registration 1.0 [OpenID.Registration] but where the client
    registration request is a signed entity statement.
 
-9.2.1.  Provider Discovery
-
-   The RP will start by gathering the OP's metadata using the process
-   specified in Section 7 above.
 
 
 
@@ -1905,6 +1905,11 @@ Hedberg, et al.          Expires April 20, 2020                [Page 34]
 
                         OpenID Connect Federation           October 2019
 
+
+9.2.1.  Provider Discovery
+
+   The RP will start by gathering the OP's metadata using the process
+   specified in Section 7 above.
 
 9.2.2.  Client Registration
 
@@ -1949,11 +1954,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 34]
        one trust anchor from those chains as the one it will proceed
        with.
 
-   3.  At this point, if there already exists a client registration
-       under the same entity identifier then that registration MUST be
-       regarded as invalid.  "Note" that key material from the previous
-       registration MUST be kept to make key rollover possible.
-
 
 
 
@@ -1961,6 +1961,11 @@ Hedberg, et al.          Expires April 20, 2020                [Page 35]
 
                         OpenID Connect Federation           October 2019
 
+
+   3.  At this point, if there already exists a client registration
+       under the same entity identifier then that registration MUST be
+       regarded as invalid.  "Note" that key material from the previous
+       registration MUST be kept to make key rollover possible.
 
    4.  The OP will now construct a metadata policy that, if applied to
        the RP's metadata statement, will result in metadata that the OP
@@ -2005,11 +2010,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 35]
    valid forever.  The entity statements exchanged all have expiration
    times, which means that the registration will eventually time out.
    An OP can also for administrative reasons decide that a client
-   registration is not valid anymore.  An example of this could be that
-   the OP leaves the federation in use.
-
-
-
 
 
 
@@ -2017,6 +2017,9 @@ Hedberg, et al.          Expires April 20, 2020                [Page 36]
 
                         OpenID Connect Federation           October 2019
 
+
+   registration is not valid anymore.  An example of this could be that
+   the OP leaves the federation in use.
 
 9.2.3.1.  What the RP MUST Do
 
@@ -2062,9 +2065,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 36]
    TBD Register federation_type for RP registration metadata.
 
    TBD Register federation_registration_endpoint for the OP metadata.
-
-
-
 
 
 
