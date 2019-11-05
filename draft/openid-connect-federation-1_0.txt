@@ -493,11 +493,11 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 8]
       ES[j] that can be used to verify the signature of ES[j-1],
       j=i,...,1 .
 
+   o  It MUST be possible to verify the signature of ES[0] with one of
+      the keys in ES[0]['jwks'].
+
    The signing key that MUST be used to verify ES[i] is distributed from
    the trust anchors to the any entity that needs to verify a trust
-   chain in some secure out-of-band's way not described in this
-   document.
-
 
 
 
@@ -505,6 +505,9 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 9]
 
                         OpenID Connect Federation           October 2019
 
+
+   chain in some secure out-of-band's way not described in this
+   document.
 
 3.  Metadata
 
@@ -550,10 +553,7 @@ Hedberg, et al.          Expires April 20, 2020                 [Page 9]
    All parameters defined in Section 3 of OpenID Connect Discovery 1.0
    [OpenID.Discovery] are applicable.
 
-   In addition, the following parameters are defined by this
-   specification:
 
-   federation_types_supported
 
 
 
@@ -562,6 +562,10 @@ Hedberg, et al.          Expires April 20, 2020                [Page 10]
                         OpenID Connect Federation           October 2019
 
 
+   In addition, the following parameters are defined by this
+   specification:
+
+   federation_types_supported
       REQUIRED.  Array specifying the federation types supported.
       Federation type values defined by this specification are
       "automatic" and "explicit".
@@ -607,10 +611,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 10]
 
    The following properties are allowed:
 
-   federation_api_endpoint
-
-
-
 
 
 Hedberg, et al.          Expires April 20, 2020                [Page 11]
@@ -618,6 +618,7 @@ Hedberg, et al.          Expires April 20, 2020                [Page 11]
                         OpenID Connect Federation           October 2019
 
 
+   federation_api_endpoint
       OPTIONAL.  The endpoint used for the Federation API described in
       Section 6.  Intermediate entities and trust anchors MUST publish a
       federation_api_endpoint, Leaf entities MUST NOT.
@@ -655,7 +656,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 11]
       are defined in terms of permitted or excluded name subtrees.
 
    Example
-
 
 
 
@@ -1659,6 +1659,9 @@ Hedberg, et al.          Expires April 20, 2020                [Page 29]
    o  For j=0,...,i-1: Verify the signature of ES[j] using the public
       key carried in ES[j+1]['jwks'].
 
+   o  For j == 0 verify the signature of ES[0] using the public key
+      carried in ES[0]['jwks'].
+
    o  For j == i: verify the signature with the configured public key of
       the trust anchor.
 
@@ -1669,9 +1672,6 @@ Hedberg, et al.          Expires April 20, 2020                [Page 29]
 
    Consumers MAY cache Entity Statements or signature verification
    results for a given time until they expire Section 7.5
-
-
-
 
 
 

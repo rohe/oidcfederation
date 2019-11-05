@@ -903,6 +903,7 @@
 <ul>
 <li>The <samp>iss</samp> entity in one entity statement is always the <samp>sub</samp> entity in the next.  ES[j]['iss'] == ES[j+1]['sub'], j=0,...,i-1 </li>
 <li>There MUST always be a signing key carried in the <samp>jwks</samp> claim in ES[j] that can be used to verify the signature of ES[j-1], j=i,...,1 .  </li>
+<li>It MUST be possible to verify the signature of ES[0] with one of the keys in ES[0]['jwks'].  </li>
 </ul>
 
 <p> </p>
@@ -1601,6 +1602,7 @@ Content-Type: application/json
 <li>For j=0 verify that <samp>iss</samp> == <samp>sub</samp>.  </li>
 <li>For j=0,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub'] </li>
 <li>For j=0,...,i-1: Verify the signature of ES[j] using the public key carried in ES[j+1]['jwks'].  </li>
+<li>For j == 0 verify the signature of ES[0] using the public key carried in ES[0]['jwks'].  </li>
 <li>For j == i: verify the signature with the configured public key of the trust anchor.  </li>
 </ul>
 
