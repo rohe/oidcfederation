@@ -419,8 +419,9 @@
 <link href="#rfc.section.7" rel="Chapter" title="7 Resolving Trust Chain and Metadata">
 <link href="#rfc.section.7.1" rel="Chapter" title="7.1 Fetching Entity Statements to Establish a Trust Chain">
 <link href="#rfc.section.7.2" rel="Chapter" title="7.2 Validating the Trust Chains">
-<link href="#rfc.section.7.3" rel="Chapter" title="7.3 Choosing One of the Valid Trust Chains">
-<link href="#rfc.section.7.4" rel="Chapter" title="7.4 Calculating the Expiration Time of a Trust Chain">
+<link href="#rfc.section.7.3" rel="Chapter" title="7.3 Applying constrains">
+<link href="#rfc.section.7.4" rel="Chapter" title="7.4 Choosing One of the Valid Trust Chains">
+<link href="#rfc.section.7.5" rel="Chapter" title="7.5 Calculating the Expiration Time of a Trust Chain">
 <link href="#rfc.section.8" rel="Chapter" title="8 Updating Metadata, Key Rollover, and Revocation">
 <link href="#rfc.section.8.1" rel="Chapter" title="8.1 Protocol Key Rollover">
 <link href="#rfc.section.8.2" rel="Chapter" title="8.2 Key Rollover for a Trust Anchor">
@@ -636,9 +637,11 @@
 </li>
 <li>7.2.   <a href="#rfc.section.7.2">Validating the Trust Chains</a>
 </li>
-<li>7.3.   <a href="#rfc.section.7.3">Choosing One of the Valid Trust Chains</a>
+<li>7.3.   <a href="#rfc.section.7.3">Applying constrains</a>
 </li>
-<li>7.4.   <a href="#rfc.section.7.4">Calculating the Expiration Time of a Trust Chain</a>
+<li>7.4.   <a href="#rfc.section.7.4">Choosing One of the Valid Trust Chains</a>
+</li>
+<li>7.5.   <a href="#rfc.section.7.5">Calculating the Expiration Time of a Trust Chain</a>
 </li>
 </ul><li>8.   <a href="#rfc.section.8">Updating Metadata, Key Rollover, and Revocation</a>
 </li>
@@ -801,13 +804,16 @@
 <br> OPTIONAL.  The entity statement may be specifically created for an entity.  The entity identifier for that entity MUST appear in this claim.  </dd>
 <dt>authority_hints</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. Array of strings representing the entity identifiers of intermediate entities or trust anchors that may issue an entity statement about the issuer entity.  For all entities except for trust roots that do not have any superiors this is REQUIRED and MUST NOT be the empty list [].  This claim MUST be absent in an entity statement issued by a trust anchor with no superiors.  </dd>
+<br> OPTIONAL. Array of strings representing the entity identifiers of intermediate entities or trust anchors that may issue an entity statement about the issuer entity.  For all entities except for trust anchors that do not have any superiors this is REQUIRED and MUST NOT be the empty list [].  This claim MUST be absent in an entity statement issued by a trust anchor with no superiors.  </dd>
 <dt>metadata</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. JSON object including protocol specific metadata claims that represent the entity's metadata.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata according to the metadata schema of that metadata type. An entity statement may contain multiple metadata statements, but only one for each metadata type.  If the <samp>iss</samp> of an entity statement points to the same entity as the <samp>sub</samp> then the entity statement MUST contain a <samp>metadata</samp> claim.  </dd>
 <dt>metadata_policy</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. JSON object that describes a metadata policy.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata policy according to the metadata schema of that metadata type. An entity statement may contain multiple metadata policy statements, but only one for each metadata type.  Only non-leaf entities MAY contain a <samp>metadata_policy</samp> claim. Leaf entities MUST NOT contain a metadata_policy claim.  </dd>
+<dt>constrains</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. JSON object that describes a set of trust chain constrains.  </dd>
 <dt>crit</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  The <samp>crit</samp> (critical) entity statement claim indicates that extensions to entity statement claims defined by this specification are being used that MUST be understood and processed.  It is used in the same way that <samp>crit</samp> is used for extension <a href="#RFC7515" class="xref">JWS</a> header parameters that MUST be understood and processed.  Its value is an array listing the entity statement claims present in the entity statement that use those extensions.  If any of the listed extension entity statement claims are not understood and supported by the recipient, then the entity statement is invalid.  Producers MUST NOT include entity statement claim names defined by this specification or names that do not occur as entity statement claim names in the entity statement in the <samp>crit</samp> list.  Producers MUST NOT use the empty list <samp>[]</samp> as the <samp>crit</samp> value.  </dd>
@@ -1247,7 +1253,7 @@
 {
   "contacts": ["rp_admins@cs.example.com"],
   "redirect_uris": ["https://cs.example.com/rp1"],
-  "response_types: ["code"]
+  "response_types": ["code"]
 }
 </pre>
 <p>The federation's policy for RPs: </p>
@@ -1593,27 +1599,42 @@ Content-Type: application/json
 <p> </p>
 </li>
 <li>For j=0 verify that <samp>iss</samp> == <samp>sub</samp>.  </li>
-<li>For j=1,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub'] </li>
+<li>For j=0,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub'] </li>
 <li>For j=0,...,i-1: Verify the signature of ES[j] using the public key carried in ES[j+1]['jwks'].  </li>
 <li>For j == i: verify the signature with the configured public key of the trust anchor.  </li>
 </ul>
 
 <p> </p>
 <p id="rfc.section.7.2.p.4">Verifying the signature is a much more expensive operation then verifying the correctness of the statement and the timestamps. An implementer MAY therefor chose to not verify the signature until all the other checks have been done.  </p>
-<p id="rfc.section.7.2.p.5">Consumers MAY cache Entity Statements or signature verification results for a given time until they expire <a href="#trust_lifetime" class="xref">Section 7.4</a></p>
+<p id="rfc.section.7.2.p.5">Consumers MAY cache Entity Statements or signature verification results for a given time until they expire <a href="#trust_lifetime" class="xref">Section 7.5</a></p>
 <h1 id="rfc.section.7.3">
-<a href="#rfc.section.7.3">7.3.</a> Choosing One of the Valid Trust Chains</h1>
-<p id="rfc.section.7.3.p.1">If multiple valid trust chains are found, the Consumer will need to decide on which one to use.  </p>
-<p id="rfc.section.7.3.p.2">One simple rule would be to prefer a shorter chain over a longer one.  </p>
-<p id="rfc.section.7.3.p.3">Consumers MAY follow other rules according to local policy.</p>
-<h1 id="rfc.section.7.4">
-<a href="#rfc.section.7.4">7.4.</a> <a href="#trust_lifetime" id="trust_lifetime">Calculating the Expiration Time of a Trust Chain</a>
+<a href="#rfc.section.7.3">7.3.</a> <a href="#chain_constrains" id="chain_constrains">Applying constrains</a>
 </h1>
-<p id="rfc.section.7.4.p.1">Each entity statement in a trust chain is signed and MUST have an expiration time (exp) set. The expiration time of the whole trust chain is set to the minimum value of exp within the chain.  </p>
+<p></p>
+
+<dl>
+<dt>max_path_length</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. Integer. The maximum number of intermediate entities below this entity.  </dd>
+<dt>naming_constraints</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. JSON object. Restriction on the entity identifiers of the entities below this entity. The behavior of this claim mimics what is defined in Section 4.2.1.10 in <a href="#RFC5280" class="xref">[RFC5280]</a>.  Restrictions are defined in terms of permitted or excluded name subtrees.  </dd>
+</dl>
+
+<p> </p>
+<h1 id="rfc.section.7.4">
+<a href="#rfc.section.7.4">7.4.</a> Choosing One of the Valid Trust Chains</h1>
+<p id="rfc.section.7.4.p.1">If multiple valid trust chains are found, the Consumer will need to decide on which one to use.  </p>
+<p id="rfc.section.7.4.p.2">One simple rule would be to prefer a shorter chain over a longer one.  </p>
+<p id="rfc.section.7.4.p.3">Consumers MAY follow other rules according to local policy.</p>
+<h1 id="rfc.section.7.5">
+<a href="#rfc.section.7.5">7.5.</a> <a href="#trust_lifetime" id="trust_lifetime">Calculating the Expiration Time of a Trust Chain</a>
+</h1>
+<p id="rfc.section.7.5.p.1">Each entity statement in a trust chain is signed and MUST have an expiration time (exp) set. The expiration time of the whole trust chain is set to the minimum value of exp within the chain.  </p>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> Updating Metadata, Key Rollover, and Revocation</h1>
 <p id="rfc.section.8.p.1">This specification allows for a smooth process of updating metadata and public keys.  </p>
-<p id="rfc.section.8.p.2">As described above in <a href="#trust_lifetime" class="xref">Section 7.4</a>, each trust chain has an expiration time.  A consumer of metadata using this specification MUST support refreshing a trust chain when it expires.  How often a consumer should re-evaluate the trust chain depends on how quickly the consumer wants to find out that something has changed in the trust chain.  </p>
+<p id="rfc.section.8.p.2">As described above in <a href="#trust_lifetime" class="xref">Section 7.5</a>, each trust chain has an expiration time.  A consumer of metadata using this specification MUST support refreshing a trust chain when it expires.  How often a consumer should re-evaluate the trust chain depends on how quickly the consumer wants to find out that something has changed in the trust chain.  </p>
 <h1 id="rfc.section.8.1">
 <a href="#rfc.section.8.1">8.1.</a> Protocol Key Rollover</h1>
 <p id="rfc.section.8.1.p.1">If a leaf entity publishes its public keys in the metadata part using <samp>jwks</samp>, setting an expiration time on the self-signed entity statement can be used to control how often the receiving entity is fetching an updated version of the public key.  </p>
@@ -2203,7 +2224,7 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.7.p.3">We now have the whole chain from the self-signed entity statement of the leaf up until the last one which is issued by a trust anchor. All in all, we have: </p>
 
 <ol>
-<li>Self-signed entity statement by the leaf (https://op.umu.se&gt; </li>
+<li>Self-signed entity statement by the leaf (https://op.umu.se) </li>
 <li>Statement issued by https://umu.se about https://op.umu.se</li>
 <li>Statement issued by https://swamid.se about https://umu.se</li>
 <li>Statement issued by https://edugain.geant.org about https://swamid.se </li>
