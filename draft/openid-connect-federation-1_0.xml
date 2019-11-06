@@ -1835,7 +1835,8 @@ Content-Type: application/json
         </t>
         <t>Consumers MAY cache Entity Statements or signature verification
           results for a given time until they expire
-          <xref target="trust_lifetime"/></t> .
+          <xref target="trust_lifetime"/>.
+        </t>
       </section>
       <section title="Applying constraints" anchor="chain_constraints">
         <t>A constraint specification can contain the following claims:</t>
