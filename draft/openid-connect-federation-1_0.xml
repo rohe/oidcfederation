@@ -289,10 +289,10 @@
               <spanx style="verb">metadata_policy</spanx>
               claim. Leaf entities MUST NOT contain a metadata_policy claim.
             </t>
-            <t hangText="constrains">
+            <t hangText="constraints">
               <vspace/>
               OPTIONAL. JSON object that describes a set of trust chain
-              constrains. More about this in <xref target="chain_constrains"/>
+              constraints. More about this in <xref target="chain_constraints"/>
             </t>
             <t hangText="crit">
               <vspace/>
@@ -396,7 +396,7 @@
     }
   },
   "constraints": {
-    "max_path_len": 2
+    "max_path_length": 2
   }
   "jwks": {
     "keys": [
@@ -495,7 +495,7 @@
         <t>
           The signing key that MUST be used to verify ES[i] is distributed
           from the trust anchors to the any entity that needs to verify a
-          trust chain in some secure out-of-band's way not described in this
+          trust chain in some secure out-of-band way not described in this
           document.
         </t>
       </section>
@@ -626,7 +626,7 @@
           The metadata type identifier is
           <spanx style="verb">oauth_resource</spanx>.
           There is no standard that specifies what parameters that can occur
-          in the metadata for this kind of entity. So for the time being this
+          in the metadata for this kind of entity. So for the time being, this
           can be regarded as a place holder.
         </t>
       </section>
@@ -646,7 +646,7 @@
               OPTIONAL.
               The endpoint used for the Federation API described in
               <xref target="federation_api"/>. Intermediate entities and
-              trust anchors MUST publish a federation_api_endpoint,
+              trust anchors MUST publish a federation_api_endpoint.
               Leaf entities MUST NOT.
             </t>
             <t hangText="trust_anchor_id">
@@ -818,7 +818,7 @@
             metadata statement claim.
             If the specified value is already present in the list,
             this operation has no effect.
-            If the claim has no value then the claim is initiated with the
+            If the claim has no value then the claim is initialized with the
             specified value.
             As an example, if the claim policy:
           </t>
@@ -906,7 +906,7 @@
 ]]></artwork>
           </figure>
           <t>
-            If on the other hand the metadata statement did not contain a
+            If on the other hand, the metadata statement did not contain a
             <spanx style="verb">require_auth_time</spanx>
             claim then the
             following claim statement would be added to the metadata
@@ -1409,8 +1409,8 @@ Content-Type: application/jose
                 <vspace/>
                 OPTIONAL. The entity identifier of the
                 requester. If the aud parameter is present in the request,
-                the aud claim SHOULD be present in the entity statement response
-                and take exactly that value.
+                the <spanx style="verb">aud</spanx> claim SHOULD be present in
+                the entity statement response and take exactly that value.
               </t>
             </list>
           </t>
@@ -1821,8 +1821,9 @@ Content-Type: application/json
               key carried in ES[0]['jwks'].
             </t>
             <t>
-              For j == i: verify the signature with the configured public
-              key of the trust anchor.
+              For j == i: verify that a) the issuer matches the configured
+              identifier of a trust anchor and b) its signature is valid with
+              the likewise configured public key of said trust anchor.
             </t>
           </list>
         </t>
@@ -1834,16 +1835,17 @@ Content-Type: application/json
         </t>
         <t>Consumers MAY cache Entity Statements or signature verification
           results for a given time until they expire
-          <xref target="trust_lifetime"/></t>
+          <xref target="trust_lifetime"/></t> .
       </section>
-      <section title="Applying constrains" anchor="chain_constrains">
+      <section title="Applying constraints" anchor="chain_constraints">
         <t>A constraint specification can contain the following claims:</t>
         <t>
           <list style="hanging">
             <t hangText="max_path_length">
               <vspace/>
-              OPTIONAL. Integer. The maximum number of intermediate entities below
-              the subject of the entity statement.
+              OPTIONAL. Integer. The maximum number of entities statements
+              between this entity statement and the last entity statement in
+              the trust chain.
             </t>
             <t hangText="naming_constraints">
               <vspace/>
@@ -1878,8 +1880,8 @@ Content-Type: application/json
         <section title="Max Path Length" anchor="max_path_length">
           <t>
             A max_path_length constraint of zero indicates that no
-            non-self-issued entity statements may follow in a valid
-            trust chain.  Where it appears, the max_path_length claim
+            entity statement may appear between this entity statement and the
+            leaf entity statement. Where it appears, the max_path_length claim
             MUST have a value that is greater than or equal to zero.
             Where max_path_length does not appear, no limit is imposed.
           </t>
