@@ -1874,11 +1874,22 @@ Content-Type: application/json
 }]]></artwork>
         </figure>
         <t>
-          A constraint is valid for all entities below and including the
-          subject of the entity statement that contains the constraint
-          specification.
+          If a subordinate entity statement contains a constraint specification
+          that is more restrictive then the one in effect, then the more
+          restrictive constraint is in effect from here on.
+        </t>
+        <t>
+          If a subordinate entity statement contains a constraint specification
+          that is less restrictive then the one in effect, then it MUST be
+          ignored.
         </t>
         <section title="Max Path Length" anchor="max_path_length">
+          <t>
+            The max_path_length constraints specifies the maximum number of
+            entity statement a trust chain can have between the entity statement
+            that contains the constraint specification and the leaf's entity
+            statement.
+          </t>
           <t>
             A max_path_length constraint of zero indicates that no
             entity statement may appear between this entity statement and the
@@ -1887,7 +1898,7 @@ Content-Type: application/json
             Where max_path_length does not appear, no limit is imposed.
           </t>
           <t>
-            Assuming that we have a trust chain with four entities:
+            Assuming that we have a trust chain with four entity statements:
             <list style="numbers">
               <t>Leaf entity (LE)</t>
               <t>Intermediate 1 (I1)</t>
@@ -1900,13 +1911,13 @@ Content-Type: application/json
             <list style="symbols">
               <t>
                 The TA specifies a max_path_length that is equal to or bigger
-                then 2. Neither I2 or I1 specifies any max_path_length constraints.
+                then 2.
               </t>
               <t>
                 TA specifies max_path_length=2, I2 specifies max_path_length=1
                 and I1 specifies no max_path_length constraint.
               </t>
-              <t>Neither TA or I2 specifies any max_path_length constraint
+              <t>Neither TA nor I2 specifies any max_path_length constraint
                 while I1 specifies max_path_length=0</t>
             </list>
           </t>
@@ -1914,9 +1925,6 @@ Content-Type: application/json
             The trust chain does not fulfill the constraints if:
             <list style="symbols">
               <t>TA has specified max_path_length=1</t>
-              <t>
-                TA has specified max_path_length=2 and I2 has specified max_path_length=2
-              </t>
             </list>
           </t>
         </section>
