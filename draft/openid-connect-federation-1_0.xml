@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="6" month="November" year="2019"/>
+    <date day="7" month="November" year="2019"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -1885,17 +1885,17 @@ Content-Type: application/json
         </t>
         <section title="Max Path Length" anchor="max_path_length">
           <t>
-            The max_path_length constraints specifies the maximum number of
+            The <spanx style="verb">max_path_length</spanx> constraint specifies the maximum number of
             entity statement a trust chain can have between the entity statement
             that contains the constraint specification and the leaf's entity
             statement.
           </t>
           <t>
-            A max_path_length constraint of zero indicates that no
+            A <spanx style="verb">max_path_length</spanx> constraint of zero indicates that no
             entity statement may appear between this entity statement and the
-            leaf entity statement. Where it appears, the max_path_length claim
+            leaf entity statement. Where it appears, the <spanx style="verb">max_path_length</spanx> constraint
             MUST have a value that is greater than or equal to zero.
-            Where max_path_length does not appear, no limit is imposed.
+            Where <spanx style="verb">max_path_length</spanx> does not appear, no limit is imposed.
           </t>
           <t>
             Assuming that we have a trust chain with four entity statements:
@@ -1910,21 +1910,21 @@ Content-Type: application/json
             Then the trust chain fulfills the constraints if:
             <list style="symbols">
               <t>
-                The TA specifies a max_path_length that is equal to or bigger
+                The TA specifies a <spanx style="verb">max_path_length</spanx> that is equal to or bigger
                 then 2.
               </t>
               <t>
-                TA specifies max_path_length=2, I2 specifies max_path_length=1
-                and I1 specifies no max_path_length constraint.
+                TA specifies <spanx style="verb">max_path_length</spanx> of 2, I2 specifies <spanx style="verb">max_path_length</spanx> of 1,
+                and I1 specifies no <spanx style="verb">max_path_length</spanx> constraint.
               </t>
-              <t>Neither TA nor I2 specifies any max_path_length constraint
-                while I1 specifies max_path_length=0</t>
+              <t>Neither TA nor I2 specifies any <spanx style="verb">max_path_length</spanx> constraint
+                while I1 specifies <spanx style="verb">max_path_length</spanx> of 0.</t>
             </list>
           </t>
           <t>
             The trust chain does not fulfill the constraints if:
             <list style="symbols">
-              <t>TA has specified max_path_length=1</t>
+              <t>TA has specified <spanx style="verb">max_path_length</spanx> of 1.</t>
             </list>
           </t>
         </section>
