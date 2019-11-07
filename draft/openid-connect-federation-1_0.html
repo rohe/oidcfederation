@@ -476,7 +476,7 @@
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-11-06" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-11-07" />
   <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
   <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
 
@@ -529,7 +529,7 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">November 6, 2019</td>
+<td class="right">November 7, 2019</td>
 </tr>
 
     	
@@ -1632,12 +1632,14 @@ Content-Type: application/json
   },
   "max_path_length": 2
 }</pre>
-<p id="rfc.section.7.3.p.4">A constraint is valid for all entities below and including the subject of the entity statement that contains the constraint specification.  </p>
+<p id="rfc.section.7.3.p.4">If a subordinate entity statement contains a constraint specification that is more restrictive then the one in effect, then the more restrictive constraint is in effect from here on.  </p>
+<p id="rfc.section.7.3.p.5">If a subordinate entity statement contains a constraint specification that is less restrictive then the one in effect, then it MUST be ignored.  </p>
 <h1 id="rfc.section.7.3.1">
 <a href="#rfc.section.7.3.1">7.3.1.</a> <a href="#max_path_length" id="max_path_length">Max Path Length</a>
 </h1>
-<p id="rfc.section.7.3.1.p.1">A max_path_length constraint of zero indicates that no entity statement may appear between this entity statement and the leaf entity statement. Where it appears, the max_path_length claim MUST have a value that is greater than or equal to zero.  Where max_path_length does not appear, no limit is imposed.  </p>
-<p id="rfc.section.7.3.1.p.2">Assuming that we have a trust chain with four entities: </p>
+<p id="rfc.section.7.3.1.p.1">The <samp>max_path_length</samp> constraint specifies the maximum number of entity statement a trust chain can have between the entity statement that contains the constraint specification and the leaf's entity statement.  </p>
+<p id="rfc.section.7.3.1.p.2">A <samp>max_path_length</samp> constraint of zero indicates that no entity statement may appear between this entity statement and the leaf entity statement. Where it appears, the <samp>max_path_length</samp> constraint MUST have a value that is greater than or equal to zero.  Where <samp>max_path_length</samp> does not appear, no limit is imposed.  </p>
+<p id="rfc.section.7.3.1.p.3">Assuming that we have a trust chain with four entity statements: </p>
 
 <ol>
 <li>Leaf entity (LE)</li>
@@ -1647,21 +1649,18 @@ Content-Type: application/json
 </ol>
 
 <p> </p>
-<p id="rfc.section.7.3.1.p.3">Then the trust chain fulfills the constraints if: </p>
+<p id="rfc.section.7.3.1.p.4">Then the trust chain fulfills the constraints if: </p>
 
 <ul>
-<li>The TA specifies a max_path_length that is equal to or bigger then 2. Neither I2 or I1 specifies any max_path_length constraints.  </li>
-<li>TA specifies max_path_length=2, I2 specifies max_path_length=1 and I1 specifies no max_path_length constraint.  </li>
-<li>Neither TA or I2 specifies any max_path_length constraint while I1 specifies max_path_length=0</li>
+<li>The TA specifies a <samp>max_path_length</samp> that is equal to or bigger then 2.  </li>
+<li>TA specifies <samp>max_path_length</samp> of 2, I2 specifies <samp>max_path_length</samp> of 1, and I1 specifies no <samp>max_path_length</samp> constraint.  </li>
+<li>Neither TA nor I2 specifies any <samp>max_path_length</samp> constraint while I1 specifies <samp>max_path_length</samp> of 0.</li>
 </ul>
 
 <p> </p>
-<p id="rfc.section.7.3.1.p.4">The trust chain does not fulfill the constraints if: </p>
+<p id="rfc.section.7.3.1.p.5">The trust chain does not fulfill the constraints if: </p>
 
-<ul>
-<li>TA has specified max_path_length=1</li>
-<li>TA has specified max_path_length=2 and I2 has specified max_path_length=2 </li>
-</ul>
+<ul><li>TA has specified <samp>max_path_length</samp> of 1.</li></ul>
 
 <p> </p>
 <h1 id="rfc.section.7.3.2">
