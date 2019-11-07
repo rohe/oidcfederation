@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Federation">OpenID Connect Federation 1.0 -
-      draft 09
+      draft 10
     </title>
 
     <author fullname="Roland Hedberg" initials="R." role="editor"
@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="18" month="October" year="2019"/>
+    <date day="6" month="November" year="2019"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -113,7 +113,7 @@
         This specification describes how two entities that would like to
         interact can dynamically fetch and resolve trust and metadata for a
         given protocol through the use of third-party trust anchor. A trust
-        issuer is an entity whose main purpose is to issue statements
+        anchor is an entity whose main purpose is to issue statements
         about entities, such as OpenID Connect Relying Parties, OpenID
         Providers, and participating organizations.
         An identity federation can be realized using this specification using
@@ -1838,7 +1838,7 @@ Content-Type: application/json
           <xref target="trust_lifetime"/>.
         </t>
       </section>
-      <section title="Applying constraints" anchor="chain_constraints">
+      <section title="Applying Constraints" anchor="chain_constraints">
         <t>A constraint specification can contain the following claims:</t>
         <t>
           <list style="hanging">
@@ -1887,7 +1887,7 @@ Content-Type: application/json
             Where max_path_length does not appear, no limit is imposed.
           </t>
           <t>
-            Assuming that we have a trust chain with 4 entities:
+            Assuming that we have a trust chain with four entities:
             <list style="numbers">
               <t>Leaf entity (LE)</t>
               <t>Intermediate 1 (I1)</t>
@@ -3475,6 +3475,15 @@ Host: op.umu.se
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+      <t>
+        -10
+        <list style="symbols">
+          <t>
+            Incorporated additional review feedback from Marcos Sanz.
+	    The primary change was moving constraints to their own section of the entity statement.
+          </t>
+        </list>
+      </t>
       <t>
         -09
         <list style="symbols">
