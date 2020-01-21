@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>OpenID Connect Federation 1.0 - draft 10 </title>
+  <title>OpenID Connect Federation 1.0 - draft 11 </title>
 
   <style type="text/css" title="Xml2Rfc (sans serif)">
   /*<![CDATA[*/
@@ -387,21 +387,29 @@
 <link href="#rfc.section.3.4" rel="Chapter" title="3.4 OAuth Client">
 <link href="#rfc.section.3.5" rel="Chapter" title="3.5 OAuth Protected Resource">
 <link href="#rfc.section.3.6" rel="Chapter" title="3.6 Federation Entity">
-<link href="#rfc.section.4" rel="Chapter" title="4 Applying Policy to Metadata">
-<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Policy Language">
-<link href="#rfc.section.4.1.1" rel="Chapter" title="4.1.1 subset_of">
-<link href="#rfc.section.4.1.2" rel="Chapter" title="4.1.2 one_of">
-<link href="#rfc.section.4.1.3" rel="Chapter" title="4.1.3 superset_of">
-<link href="#rfc.section.4.1.4" rel="Chapter" title="4.1.4 add">
-<link href="#rfc.section.4.1.5" rel="Chapter" title="4.1.5 value">
-<link href="#rfc.section.4.1.6" rel="Chapter" title="4.1.6 default">
-<link href="#rfc.section.4.1.7" rel="Chapter" title="4.1.7 essential">
-<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Policy Type Combinations">
-<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Combining Policies">
-<link href="#rfc.section.4.3.1" rel="Chapter" title="4.3.1 Policy Combination Example">
-<link href="#rfc.section.4.4" rel="Chapter" title="4.4 Enforcing Policy">
-<link href="#rfc.section.4.5" rel="Chapter" title="4.5 Extending the Policy Language">
-<link href="#rfc.section.4.6" rel="Chapter" title="4.6 Policy Example">
+<link href="#rfc.section.4" rel="Chapter" title="4 Federation Policy">
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Applying Policy to Metadata">
+<link href="#rfc.section.4.1.1" rel="Chapter" title="4.1.1 Policy Language">
+<link href="#rfc.section.4.1.1.1" rel="Chapter" title="4.1.1.1 subset_of">
+<link href="#rfc.section.4.1.1.2" rel="Chapter" title="4.1.1.2 one_of">
+<link href="#rfc.section.4.1.1.3" rel="Chapter" title="4.1.1.3 superset_of">
+<link href="#rfc.section.4.1.1.4" rel="Chapter" title="4.1.1.4 add">
+<link href="#rfc.section.4.1.1.5" rel="Chapter" title="4.1.1.5 value">
+<link href="#rfc.section.4.1.1.6" rel="Chapter" title="4.1.1.6 default">
+<link href="#rfc.section.4.1.1.7" rel="Chapter" title="4.1.1.7 essential">
+<link href="#rfc.section.4.1.2" rel="Chapter" title="4.1.2 Policy Type Combinations">
+<link href="#rfc.section.4.1.3" rel="Chapter" title="4.1.3 Combining Policies">
+<link href="#rfc.section.4.1.3.1" rel="Chapter" title="4.1.3.1 Policy Combination Example">
+<link href="#rfc.section.4.1.4" rel="Chapter" title="4.1.4 Enforcing Policy">
+<link href="#rfc.section.4.1.5" rel="Chapter" title="4.1.5 Extending the Policy Language">
+<link href="#rfc.section.4.1.6" rel="Chapter" title="4.1.6 Policy Example">
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Applying Constraints">
+<link href="#rfc.section.4.2.1" rel="Chapter" title="4.2.1 Max Path Length">
+<link href="#rfc.section.4.2.2" rel="Chapter" title="4.2.2 Naming Constraints">
+<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Trust Marks">
+<link href="#rfc.section.4.3.1" rel="Chapter" title="4.3.1 Trust mark properties">
+<link href="#rfc.section.4.3.2" rel="Chapter" title="4.3.2 Validating a trust mark">
+<link href="#rfc.section.4.3.3" rel="Chapter" title="4.3.3 Trust mark example">
 <link href="#rfc.section.5" rel="Chapter" title="5 Obtaining Federation Entity Configuration Information">
 <link href="#rfc.section.5.1" rel="Chapter" title="5.1 Federation Entity Configuration Request">
 <link href="#rfc.section.5.2" rel="Chapter" title="5.2 Federation Entity Configuration Response">
@@ -419,11 +427,8 @@
 <link href="#rfc.section.7" rel="Chapter" title="7 Resolving Trust Chain and Metadata">
 <link href="#rfc.section.7.1" rel="Chapter" title="7.1 Fetching Entity Statements to Establish a Trust Chain">
 <link href="#rfc.section.7.2" rel="Chapter" title="7.2 Validating the Trust Chains">
-<link href="#rfc.section.7.3" rel="Chapter" title="7.3 Applying Constraints">
-<link href="#rfc.section.7.3.1" rel="Chapter" title="7.3.1 Max Path Length">
-<link href="#rfc.section.7.3.2" rel="Chapter" title="7.3.2 Naming Constraints">
-<link href="#rfc.section.7.4" rel="Chapter" title="7.4 Choosing One of the Valid Trust Chains">
-<link href="#rfc.section.7.5" rel="Chapter" title="7.5 Calculating the Expiration Time of a Trust Chain">
+<link href="#rfc.section.7.3" rel="Chapter" title="7.3 Choosing One of the Valid Trust Chains">
+<link href="#rfc.section.7.4" rel="Chapter" title="7.4 Calculating the Expiration Time of a Trust Chain">
 <link href="#rfc.section.8" rel="Chapter" title="8 Updating Metadata, Key Rollover, and Revocation">
 <link href="#rfc.section.8.1" rel="Chapter" title="8.1 Protocol Key Rollover">
 <link href="#rfc.section.8.2" rel="Chapter" title="8.2 Key Rollover for a Trust Anchor">
@@ -476,7 +481,7 @@
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-11-07" />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-01-21" />
   <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
   <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
 
@@ -529,14 +534,14 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">November 7, 2019</td>
+<td class="right">January 21, 2020</td>
 </tr>
 
     	
     </tbody>
   </table>
 
-  <p class="title">OpenID Connect Federation 1.0 - draft 10 <br />
+  <p class="title">OpenID Connect Federation 1.0 - draft 11 <br />
   <span class="filename">openid-connect-federation-1_0</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
@@ -575,37 +580,53 @@
 </li>
 <li>3.6.   <a href="#rfc.section.3.6">Federation Entity</a>
 </li>
-</ul><li>4.   <a href="#rfc.section.4">Applying Policy to Metadata</a>
+</ul><li>4.   <a href="#rfc.section.4">Federation Policy</a>
 </li>
-<ul><li>4.1.   <a href="#rfc.section.4.1">Policy Language</a>
+<ul><li>4.1.   <a href="#rfc.section.4.1">Applying Policy to Metadata</a>
 </li>
-<ul><li>4.1.1.   <a href="#rfc.section.4.1.1">subset_of</a>
+<ul><li>4.1.1.   <a href="#rfc.section.4.1.1">Policy Language</a>
 </li>
-<li>4.1.2.   <a href="#rfc.section.4.1.2">one_of</a>
+<ul><li>4.1.1.1.   <a href="#rfc.section.4.1.1.1">subset_of</a>
 </li>
-<li>4.1.3.   <a href="#rfc.section.4.1.3">superset_of</a>
+<li>4.1.1.2.   <a href="#rfc.section.4.1.1.2">one_of</a>
 </li>
-<li>4.1.4.   <a href="#rfc.section.4.1.4">add</a>
+<li>4.1.1.3.   <a href="#rfc.section.4.1.1.3">superset_of</a>
 </li>
-<li>4.1.5.   <a href="#rfc.section.4.1.5">value</a>
+<li>4.1.1.4.   <a href="#rfc.section.4.1.1.4">add</a>
 </li>
-<li>4.1.6.   <a href="#rfc.section.4.1.6">default</a>
+<li>4.1.1.5.   <a href="#rfc.section.4.1.1.5">value</a>
 </li>
-<li>4.1.7.   <a href="#rfc.section.4.1.7">essential</a>
+<li>4.1.1.6.   <a href="#rfc.section.4.1.1.6">default</a>
 </li>
-</ul><li>4.2.   <a href="#rfc.section.4.2">Policy Type Combinations</a>
+<li>4.1.1.7.   <a href="#rfc.section.4.1.1.7">essential</a>
 </li>
-<li>4.3.   <a href="#rfc.section.4.3">Combining Policies</a>
+</ul><li>4.1.2.   <a href="#rfc.section.4.1.2">Policy Type Combinations</a>
 </li>
-<ul><li>4.3.1.   <a href="#rfc.section.4.3.1">Policy Combination Example</a>
+<li>4.1.3.   <a href="#rfc.section.4.1.3">Combining Policies</a>
 </li>
-</ul><li>4.4.   <a href="#rfc.section.4.4">Enforcing Policy</a>
+<ul><li>4.1.3.1.   <a href="#rfc.section.4.1.3.1">Policy Combination Example</a>
 </li>
-<li>4.5.   <a href="#rfc.section.4.5">Extending the Policy Language</a>
+</ul><li>4.1.4.   <a href="#rfc.section.4.1.4">Enforcing Policy</a>
 </li>
-<li>4.6.   <a href="#rfc.section.4.6">Policy Example</a>
+<li>4.1.5.   <a href="#rfc.section.4.1.5">Extending the Policy Language</a>
 </li>
-</ul><li>5.   <a href="#rfc.section.5">Obtaining Federation Entity Configuration Information</a>
+<li>4.1.6.   <a href="#rfc.section.4.1.6">Policy Example</a>
+</li>
+</ul><li>4.2.   <a href="#rfc.section.4.2">Applying Constraints</a>
+</li>
+<ul><li>4.2.1.   <a href="#rfc.section.4.2.1">Max Path Length</a>
+</li>
+<li>4.2.2.   <a href="#rfc.section.4.2.2">Naming Constraints</a>
+</li>
+</ul><li>4.3.   <a href="#rfc.section.4.3">Trust Marks</a>
+</li>
+<ul><li>4.3.1.   <a href="#rfc.section.4.3.1">Trust mark properties</a>
+</li>
+<li>4.3.2.   <a href="#rfc.section.4.3.2">Validating a trust mark</a>
+</li>
+<li>4.3.3.   <a href="#rfc.section.4.3.3">Trust mark example</a>
+</li>
+</ul></ul><li>5.   <a href="#rfc.section.5">Obtaining Federation Entity Configuration Information</a>
 </li>
 <ul><li>5.1.   <a href="#rfc.section.5.1">Federation Entity Configuration Request</a>
 </li>
@@ -639,15 +660,9 @@
 </li>
 <li>7.2.   <a href="#rfc.section.7.2">Validating the Trust Chains</a>
 </li>
-<li>7.3.   <a href="#rfc.section.7.3">Applying Constraints</a>
+<li>7.3.   <a href="#rfc.section.7.3">Choosing One of the Valid Trust Chains</a>
 </li>
-<ul><li>7.3.1.   <a href="#rfc.section.7.3.1">Max Path Length</a>
-</li>
-<li>7.3.2.   <a href="#rfc.section.7.3.2">Naming Constraints</a>
-</li>
-</ul><li>7.4.   <a href="#rfc.section.7.4">Choosing One of the Valid Trust Chains</a>
-</li>
-<li>7.5.   <a href="#rfc.section.7.5">Calculating the Expiration Time of a Trust Chain</a>
+<li>7.4.   <a href="#rfc.section.7.4">Calculating the Expiration Time of a Trust Chain</a>
 </li>
 </ul><li>8.   <a href="#rfc.section.8">Updating Metadata, Key Rollover, and Revocation</a>
 </li>
@@ -747,8 +762,9 @@
 <a href="#rfc.section.1">1.</a> <a href="#Introduction" id="Introduction">Introduction</a>
 </h1>
 <p id="rfc.section.1.p.1">This specification describes how two entities that would like to interact can dynamically fetch and resolve trust and metadata for a given protocol through the use of third-party trust anchor. A trust anchor is an entity whose main purpose is to issue statements about entities, such as OpenID Connect Relying Parties, OpenID Providers, and participating organizations.  An identity federation can be realized using this specification using one or more levels of trust issuers. This specification does not mandate a specific way or restrict how a federation may be built. Instead, the specification provides the basic technical trust infrastructure building blocks needed to build a dynamic and distributed trust network such as a federation.  </p>
-<p id="rfc.section.1.p.2">Note that a company, as with any real-world organization, may be represented by more than one entity in a federation.  </p>
-<p id="rfc.section.1.p.3">OpenID Connect Federation trust chains rely on cryptographically signed <a href="#RFC7519" class="xref">JSON Web Token (JWT)</a> documents, and the trust chain does not at all rely on TLS <a href="#RFC8446" class="xref">[RFC8446]</a> in order to establish trust.  </p>
+<p id="rfc.section.1.p.2">Note that this specification only concerns itself with how two entities in a federation gets to know about each other it does not change any other functionality in OpenID Connect.  </p>
+<p id="rfc.section.1.p.3">Note that a company, as with any real-world organization, may be represented by more than one entity in a federation.  </p>
+<p id="rfc.section.1.p.4">OpenID Connect Federation trust chains rely on cryptographically signed <a href="#RFC7519" class="xref">JSON Web Token (JWT)</a> documents, and the trust chain does not at all rely on TLS <a href="#RFC8446" class="xref">[RFC8446]</a> in order to establish trust.  </p>
 <h1 id="rfc.section.1.1">
 <a href="#rfc.section.1.1">1.1.</a> Requirements Language</h1>
 <p id="rfc.section.1.1.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC2119" class="xref">RFC 2119</a>.  </p>
@@ -819,7 +835,7 @@
 <br> OPTIONAL. JSON object that describes a metadata policy.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata policy according to the metadata schema of that metadata type. An entity statement may contain multiple metadata policy statements, but only one for each metadata type.  Only non-leaf entities MAY contain a <samp>metadata_policy</samp> claim. Leaf entities MUST NOT contain a metadata_policy claim.  </dd>
 <dt>constraints</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. JSON object that describes a set of trust chain constraints. More about this in <a href="#chain_constraints" class="xref">Section 7.3</a> </dd>
+<br> OPTIONAL. JSON object that describes a set of trust chain constraints. More about this in <a href="#chain_constraints" class="xref">Section 4.2</a> </dd>
 <dt>crit</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  The <samp>crit</samp> (critical) entity statement claim indicates that extensions to entity statement claims defined by this specification are being used that MUST be understood and processed.  It is used in the same way that <samp>crit</samp> is used for extension <a href="#RFC7515" class="xref">JWS</a> header parameters that MUST be understood and processed.  Its value is an array listing the entity statement claims present in the entity statement that use those extensions.  If any of the listed extension entity statement claims are not understood and supported by the recipient, then the entity statement is invalid.  Producers MUST NOT include entity statement claim names defined by this specification or names that do not occur as entity statement claim names in the entity statement in the <samp>crit</samp> list.  Producers MUST NOT use the empty list <samp>[]</samp> as the <samp>crit</samp> value.  </dd>
@@ -997,6 +1013,9 @@
 <dt>homepage_uri</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. URL to a generic home page representing this entity.  </dd>
+<dt>trust_marks</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. A JSON array of signed JSON Web Token each representing a certification mark. More about certification marks in <a href="#trust_marks" class="xref">Section 4.3</a> </dd>
 </dl>
 
 <p> </p>
@@ -1010,131 +1029,134 @@
 }
 </pre>
 <h1 id="rfc.section.4">
-<a href="#rfc.section.4">4.</a> Applying Policy to Metadata</h1>
-<p id="rfc.section.4.p.1">The metadata for a specific entity can be constructed by combining the metadata polices defined by the trust anchor and possible intermediates starting with the trust anchor and the applying this combined policy to the metadata information in a leaf entity's entity statement.  </p>
+<a href="#rfc.section.4">4.</a> <a href="#federation_policy" id="federation_policy">Federation Policy</a>
+</h1>
 <h1 id="rfc.section.4.1">
-<a href="#rfc.section.4.1">4.1.</a> <a href="#PolicyLanguage" id="PolicyLanguage">Policy Language</a>
-</h1>
-<p id="rfc.section.4.1.p.1">Policies are expressed using a JSON object.  </p>
-<p id="rfc.section.4.1.p.2">The following keywords represent different actions/checks that MUST be applied to the metadata.  </p>
+<a href="#rfc.section.4.1">4.1.</a> Applying Policy to Metadata</h1>
+<p id="rfc.section.4.1.p.1">The metadata for a specific entity can be constructed by combining the metadata polices defined by the trust anchor and possible intermediates starting with the trust anchor and the applying this combined policy to the metadata information in a leaf entity's entity statement.  </p>
 <h1 id="rfc.section.4.1.1">
-<a href="#rfc.section.4.1.1">4.1.1.</a> <a href="#subset_of" id="subset_of">subset_of</a>
+<a href="#rfc.section.4.1.1">4.1.1.</a> <a href="#PolicyLanguage" id="PolicyLanguage">Policy Language</a>
 </h1>
-<p id="rfc.section.4.1.1.p.1">The resulting value of the claim will be the intersection of the values specified here and the values of the claim. For instance, the claim policy: </p>
+<p id="rfc.section.4.1.1.p.1">Policies are expressed using a JSON object.  </p>
+<p id="rfc.section.4.1.1.p.2">The following keywords represent different actions/checks that MUST be applied to the metadata.  </p>
+<h1 id="rfc.section.4.1.1.1">
+<a href="#rfc.section.4.1.1.1">4.1.1.1.</a> <a href="#subset_of" id="subset_of">subset_of</a>
+</h1>
+<p id="rfc.section.4.1.1.1.p.1">The resulting value of the claim will be the intersection of the values specified here and the values of the claim. For instance, the claim policy: </p>
 <pre>
   "response_types": {
     "subset_of": ["code", "code token", "code id_token"]}
 </pre>
-<p id="rfc.section.4.1.1.p.2">if applied to a metadata statement with: </p>
+<p id="rfc.section.4.1.1.1.p.2">if applied to a metadata statement with: </p>
 <pre>
   "response_types": ["code", "code id_token token", "code id_token"]
 </pre>
-<p id="rfc.section.4.1.1.p.3">will update the claim in the metadata statement to be: </p>
+<p id="rfc.section.4.1.1.1.p.3">will update the claim in the metadata statement to be: </p>
 <pre>
   "response_types": ["code", "code id_token"]
 </pre>
-<h1 id="rfc.section.4.1.2">
-<a href="#rfc.section.4.1.2">4.1.2.</a> <a href="#one_of" id="one_of">one_of</a>
+<h1 id="rfc.section.4.1.1.2">
+<a href="#rfc.section.4.1.1.2">4.1.1.2.</a> <a href="#one_of" id="one_of">one_of</a>
 </h1>
-<p id="rfc.section.4.1.2.p.1">The value of the claim MUST be one of the ones listed here.  As an example, if the claim policy: </p>
+<p id="rfc.section.4.1.1.2.p.1">The value of the claim MUST be one of the ones listed here.  As an example, if the claim policy: </p>
 <pre>
   "request_object_signing_alg": {
     "one_of": ["ES256", "ES384", "ES512"]}
 </pre>
-<p id="rfc.section.4.1.2.p.2">is applied to the metadata statement </p>
+<p id="rfc.section.4.1.1.2.p.2">is applied to the metadata statement </p>
 <pre>
   "request_object_signing_alg": "ES384"
 </pre>
-<p id="rfc.section.4.1.2.p.3">the resulting claim statement will be: </p>
+<p id="rfc.section.4.1.1.2.p.3">the resulting claim statement will be: </p>
 <pre>
   "request_object_signing_alg": "ES384"
 </pre>
-<p id="rfc.section.4.1.2.p.4">If an entity tries to register a value that is not in the <samp>one_of</samp> set of values, applying the policy MUST lead to a failure.  </p>
-<h1 id="rfc.section.4.1.3">
-<a href="#rfc.section.4.1.3">4.1.3.</a> <a href="#superset_of" id="superset_of">superset_of</a>
+<p id="rfc.section.4.1.1.2.p.4">If an entity tries to register a value that is not in the <samp>one_of</samp> set of values, applying the policy MUST lead to a failure.  </p>
+<h1 id="rfc.section.4.1.1.3">
+<a href="#rfc.section.4.1.1.3">4.1.1.3.</a> <a href="#superset_of" id="superset_of">superset_of</a>
 </h1>
-<p id="rfc.section.4.1.3.p.1">The values of the claim MUST contain the ones listed here.  We define superset the mathematical way, that is equality is included.  As an example, if the claim policy: </p>
+<p id="rfc.section.4.1.1.3.p.1">The values of the claim MUST contain the ones listed here.  We define superset the mathematical way, that is equality is included.  As an example, if the claim policy: </p>
 <pre>
  "request_object_signing_alg_values_supported": {
     "superset": ["ES256", "RS256"]}
                 </pre>
-<p id="rfc.section.4.1.3.p.2">is applied to the metadata statement</p>
+<p id="rfc.section.4.1.1.3.p.2">is applied to the metadata statement</p>
 <pre>
 "request_object_signing_alg_values_supported": [
   "ES256", "ES384", "RS256", "RS512"]
 </pre>
-<p id="rfc.section.4.1.3.p.3">the resulting claim statement will be: </p>
+<p id="rfc.section.4.1.1.3.p.3">the resulting claim statement will be: </p>
 <pre>
 "request_object_signing_alg_values_supported": [
   "ES256", "ES384", "RS256", "RS512"]
  </pre>
-<p id="rfc.section.4.1.3.p.4">If an entity tries to register a set of values that are not a superset of the ones specified by <samp>superset_of</samp>, applying the policy MUST lead to a failure.  </p>
-<h1 id="rfc.section.4.1.4">
-<a href="#rfc.section.4.1.4">4.1.4.</a> <a href="#add" id="add">add</a>
+<p id="rfc.section.4.1.1.3.p.4">If an entity tries to register a set of values that are not a superset of the ones specified by <samp>superset_of</samp>, applying the policy MUST lead to a failure.  </p>
+<h1 id="rfc.section.4.1.1.4">
+<a href="#rfc.section.4.1.1.4">4.1.1.4.</a> <a href="#add" id="add">add</a>
 </h1>
-<p id="rfc.section.4.1.4.p.1">Adds the value or values specified to the list of values for the metadata statement claim.  If the specified value is already present in the list, this operation has no effect.  If the claim has no value then the claim is initialized with the specified value.  As an example, if the claim policy: </p>
+<p id="rfc.section.4.1.1.4.p.1">Adds the value or values specified to the list of values for the metadata statement claim.  If the specified value is already present in the list, this operation has no effect.  If the claim has no value then the claim is initialized with the specified value.  As an example, if the claim policy: </p>
 <pre>
   "contacts": {
     "add": "support@federation.example.com"}
 </pre>
-<p id="rfc.section.4.1.4.p.2">is applied to the following claim in the metadata statement: </p>
+<p id="rfc.section.4.1.1.4.p.2">is applied to the following claim in the metadata statement: </p>
 <pre>
   "contacts": "support@org.example.com"
 </pre>
-<p id="rfc.section.4.1.4.p.3">the end result will be the claim: </p>
+<p id="rfc.section.4.1.1.4.p.3">the end result will be the claim: </p>
 <pre>
   "contacts": ["support@org.example.com",
                "support@federation.example.com"]
 </pre>
-<h1 id="rfc.section.4.1.5">
-<a href="#rfc.section.4.1.5">4.1.5.</a> <a href="#value" id="value">value</a>
+<h1 id="rfc.section.4.1.1.5">
+<a href="#rfc.section.4.1.1.5">4.1.1.5.</a> <a href="#value" id="value">value</a>
 </h1>
-<p id="rfc.section.4.1.5.p.1">Disregarding what value the claim had, if any, the claims value will be set to what is specified here.  As an example, if the claim policy: </p>
+<p id="rfc.section.4.1.1.5.p.1">Disregarding what value the claim had, if any, the claims value will be set to what is specified here.  As an example, if the claim policy: </p>
 <pre>
   "require_auth_time": {
     "value": true}
 </pre>
-<p id="rfc.section.4.1.5.p.2">is applied to a metadata statement with the claim </p>
+<p id="rfc.section.4.1.1.5.p.2">is applied to a metadata statement with the claim </p>
 <pre>
   "require_auth_time": false
 </pre>
-<p id="rfc.section.4.1.5.p.3">then the metadata statement will afterwards contain: </p>
+<p id="rfc.section.4.1.1.5.p.3">then the metadata statement will afterwards contain: </p>
 <pre>
   "require_auth_time": true
 </pre>
-<h1 id="rfc.section.4.1.6">
-<a href="#rfc.section.4.1.6">4.1.6.</a> <a href="#default" id="default">default</a>
+<h1 id="rfc.section.4.1.1.6">
+<a href="#rfc.section.4.1.1.6">4.1.1.6.</a> <a href="#default" id="default">default</a>
 </h1>
-<p id="rfc.section.4.1.6.p.1">If no value is assigned to this claim, then the claim's value will be set to what is specified here.  As an example, if the claim policy: </p>
+<p id="rfc.section.4.1.1.6.p.1">If no value is assigned to this claim, then the claim's value will be set to what is specified here.  As an example, if the claim policy: </p>
 <pre>
   "require_auth_time": {
     "default": true }
 </pre>
-<p id="rfc.section.4.1.6.p.2">is applied to a metadata statement with the claim </p>
+<p id="rfc.section.4.1.1.6.p.2">is applied to a metadata statement with the claim </p>
 <pre>
   "require_auth_time": false
 </pre>
-<p id="rfc.section.4.1.6.p.3">then the metadata statement will afterwards contain: </p>
+<p id="rfc.section.4.1.1.6.p.3">then the metadata statement will afterwards contain: </p>
 <pre>
   "require_auth_time": false
 </pre>
-<p id="rfc.section.4.1.6.p.4">If on the other hand, the metadata statement did not contain a <samp>require_auth_time</samp> claim then the following claim statement would be added to the metadata statement: </p>
+<p id="rfc.section.4.1.1.6.p.4">If on the other hand, the metadata statement did not contain a <samp>require_auth_time</samp> claim then the following claim statement would be added to the metadata statement: </p>
 <pre>
   "require_auth_time": true
 </pre>
-<h1 id="rfc.section.4.1.7">
-<a href="#rfc.section.4.1.7">4.1.7.</a> <a href="#essential" id="essential">essential</a>
+<h1 id="rfc.section.4.1.1.7">
+<a href="#rfc.section.4.1.1.7">4.1.1.7.</a> <a href="#essential" id="essential">essential</a>
 </h1>
-<p id="rfc.section.4.1.7.p.1">If 'true' then claim MUST have a value.  <samp>essential</samp> can be combined with all the other types.  </p>
+<p id="rfc.section.4.1.1.7.p.1">If 'true' then claim MUST have a value.  <samp>essential</samp> can be combined with all the other types.  </p>
 <pre>
   "tos_uri": {
     "essential": true}
 </pre>
-<p id="rfc.section.4.1.7.p.2">The upshot of applying this policy to a metadata statement is that the metadata statement MUST contain such a claim otherwise the metadata statement is incorrect.  </p>
-<h1 id="rfc.section.4.2">
-<a href="#rfc.section.4.2">4.2.</a> <a href="#policy_type_combo" id="policy_type_combo">Policy Type Combinations</a>
+<p id="rfc.section.4.1.1.7.p.2">The upshot of applying this policy to a metadata statement is that the metadata statement MUST contain such a claim otherwise the metadata statement is incorrect.  </p>
+<h1 id="rfc.section.4.1.2">
+<a href="#rfc.section.4.1.2">4.1.2.</a> <a href="#policy_type_combo" id="policy_type_combo">Policy Type Combinations</a>
 </h1>
-<p id="rfc.section.4.2.p.1">An entity may use more then one policy type when expressing a policy for a claim. These are the policy types that can be combined in a metadata_policy statement: </p>
+<p id="rfc.section.4.1.2.p.1">An entity may use more then one policy type when expressing a policy for a claim. These are the policy types that can be combined in a metadata_policy statement: </p>
 
 <dl>
 <dt>essential</dt>
@@ -1155,12 +1177,12 @@
 </dl>
 
 <p> </p>
-<h1 id="rfc.section.4.3">
-<a href="#rfc.section.4.3">4.3.</a> Combining Policies</h1>
-<p id="rfc.section.4.3.p.1">If there is more than one metadata policy in a trust chain, then the policies MUST be combined before they are applied to the metadata statement.  </p>
-<p id="rfc.section.4.3.p.2">Using the notation we have defined in <a href="#trust_chain" class="xref">Section 2.2</a> policies are combined starting with ES[i] and then adding the policies from ES[j] j=i-1,..,1 before applying the combined policy to the entity's metadata.  </p>
-<p id="rfc.section.4.3.p.3">After having combined the policies, the policy for each claim MUST adhere to the rules defined in <a href="#policy_type_combo" class="xref">Section 4.2</a>.  </p>
-<p id="rfc.section.4.3.p.4">These are the policy types that can be combined when combining two policies: </p>
+<h1 id="rfc.section.4.1.3">
+<a href="#rfc.section.4.1.3">4.1.3.</a> Combining Policies</h1>
+<p id="rfc.section.4.1.3.p.1">If there is more than one metadata policy in a trust chain, then the policies MUST be combined before they are applied to the metadata statement.  </p>
+<p id="rfc.section.4.1.3.p.2">Using the notation we have defined in <a href="#trust_chain" class="xref">Section 2.2</a> policies are combined starting with ES[i] and then adding the policies from ES[j] j=i-1,..,1 before applying the combined policy to the entity's metadata.  </p>
+<p id="rfc.section.4.1.3.p.3">After having combined the policies, the policy for each claim MUST adhere to the rules defined in <a href="#policy_type_combo" class="xref">Section 4.1.2</a>.  </p>
+<p id="rfc.section.4.1.3.p.4">These are the policy types that can be combined when combining two policies: </p>
 
 <dl>
 <dt>subset_of</dt>
@@ -1187,9 +1209,9 @@
 </dl>
 
 <p> </p>
-<p id="rfc.section.4.3.p.5">It should be noted that applying <samp>subset_of</samp>, <samp>superset_of</samp> or <samp>one_of</samp> to an empty value will result in an empty value.  </p>
-<h1 id="rfc.section.4.3.1">
-<a href="#rfc.section.4.3.1">4.3.1.</a> Policy Combination Example</h1>
+<p id="rfc.section.4.1.3.p.5">It should be noted that applying <samp>subset_of</samp>, <samp>superset_of</samp> or <samp>one_of</samp> to an empty value will result in an empty value.  </p>
+<h1 id="rfc.section.4.1.3.1">
+<a href="#rfc.section.4.1.3.1">4.1.3.1.</a> Policy Combination Example</h1>
 <p>A federations policy for RPs: </p>
 <pre>
 {
@@ -1234,15 +1256,15 @@
         "value": "web"}
 }
 </pre>
-<h1 id="rfc.section.4.4">
-<a href="#rfc.section.4.4">4.4.</a> Enforcing Policy</h1>
-<p id="rfc.section.4.4.p.1">If applying policies to a metadata statement results in incorrect metadata, then such a metadata statement MUST be regarded as broken and MUST NOT be used.  </p>
-<h1 id="rfc.section.4.5">
-<a href="#rfc.section.4.5">4.5.</a> Extending the Policy Language</h1>
-<p id="rfc.section.4.5.p.1">There might be parties that want to extend the policy language defined here. If that happens then the rule is that if software compliant with this specification encounters a keyword it doesn't understand it MUST ignore it unless it is listed in a <samp>policy_language_crit</samp> list, as is done for <a href="#RFC7515" class="xref">JWS</a> header parameters with the <samp>crit</samp> parameter.  If the policy language extension keyword is listed in the <samp>policy_language_crit</samp> list and not understood, then the metadata MUST be rejected.  </p>
-<h1 id="rfc.section.4.6">
-<a href="#rfc.section.4.6">4.6.</a> Policy Example</h1>
-<p id="rfc.section.4.6.p.1">The following is a non-normative example of a set of policies being applied to an RP's metadata.  </p>
+<h1 id="rfc.section.4.1.4">
+<a href="#rfc.section.4.1.4">4.1.4.</a> Enforcing Policy</h1>
+<p id="rfc.section.4.1.4.p.1">If applying policies to a metadata statement results in incorrect metadata, then such a metadata statement MUST be regarded as broken and MUST NOT be used.  </p>
+<h1 id="rfc.section.4.1.5">
+<a href="#rfc.section.4.1.5">4.1.5.</a> Extending the Policy Language</h1>
+<p id="rfc.section.4.1.5.p.1">There might be parties that want to extend the policy language defined here. If that happens then the rule is that if software compliant with this specification encounters a keyword it doesn't understand it MUST ignore it unless it is listed in a <samp>policy_language_crit</samp> list, as is done for <a href="#RFC7515" class="xref">JWS</a> header parameters with the <samp>crit</samp> parameter.  If the policy language extension keyword is listed in the <samp>policy_language_crit</samp> list and not understood, then the metadata MUST be rejected.  </p>
+<h1 id="rfc.section.4.1.6">
+<a href="#rfc.section.4.1.6">4.1.6.</a> Policy Example</h1>
+<p id="rfc.section.4.1.6.p.1">The following is a non-normative example of a set of policies being applied to an RP's metadata.  </p>
 <p>The RP's metadata: </p>
 <pre>
 {
@@ -1278,7 +1300,7 @@
     "value": "https://example.com/tos.html"}
 }
 </pre>
-<p id="rfc.section.4.6.p.2">The metadata for the entity in question after applying the policies above, would then become: </p>
+<p id="rfc.section.4.1.6.p.2">The metadata for the entity in question after applying the policies above, would then become: </p>
 <pre>{
   "contacts": ["rp_admins@cs.example.com", "helpdesk@example.com"],
   "logo_uri": "https://example.com/logo_small.jpg",
@@ -1289,6 +1311,135 @@
   "redirect_uris": ["https://cs.example.com/rp1"]
 }
 </pre>
+<h1 id="rfc.section.4.2">
+<a href="#rfc.section.4.2">4.2.</a> <a href="#chain_constraints" id="chain_constraints">Applying Constraints</a>
+</h1>
+<p id="rfc.section.4.2.p.1">A constraint specification can contain the following claims:</p>
+<p></p>
+
+<dl>
+<dt>max_path_length</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. Integer. The maximum number of entities statements between this entity statement and the last entity statement in the trust chain.  </dd>
+<dt>naming_constraints</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. JSON object. Restriction on the entity identifiers of the entities below this entity. The behavior of this claim mimics what is defined in Section 4.2.1.10 in <a href="#RFC5280" class="xref">[RFC5280]</a>.  Restrictions are defined in terms of permitted or excluded name subtrees.  </dd>
+</dl>
+
+<p> </p>
+<p id="rfc.section.4.2.p.3">The following is a non-normative example of such a specification:</p>
+<pre>
+{
+  "naming_constraints": {
+    "permitted": [
+      "https://.example.com"
+    ],
+    "excluded": [
+      "https://east.example.com"
+    ]
+  },
+  "max_path_length": 2
+}</pre>
+<p id="rfc.section.4.2.p.4">If a subordinate entity statement contains a constraint specification that is more restrictive then the one in effect, then the more restrictive constraint is in effect from here on.  </p>
+<p id="rfc.section.4.2.p.5">If a subordinate entity statement contains a constraint specification that is less restrictive then the one in effect, then it MUST be ignored.  </p>
+<h1 id="rfc.section.4.2.1">
+<a href="#rfc.section.4.2.1">4.2.1.</a> <a href="#max_path_length" id="max_path_length">Max Path Length</a>
+</h1>
+<p id="rfc.section.4.2.1.p.1">The <samp>max_path_length</samp> constraint specifies the maximum number of entity statement a trust chain can have between the entity statement that contains the constraint specification and the leaf's entity statement.  </p>
+<p id="rfc.section.4.2.1.p.2">A <samp>max_path_length</samp> constraint of zero indicates that no entity statement may appear between this entity statement and the leaf entity statement. Where it appears, the <samp>max_path_length</samp> constraint MUST have a value that is greater than or equal to zero.  Where <samp>max_path_length</samp> does not appear, no limit is imposed.  </p>
+<p id="rfc.section.4.2.1.p.3">Assuming that we have a trust chain with four entity statements: </p>
+
+<ol>
+<li>Leaf entity (LE)</li>
+<li>Intermediate 1 (I1)</li>
+<li>Intermediate 2 (I2)</li>
+<li>Trust Anchor (TA)</li>
+</ol>
+
+<p> </p>
+<p id="rfc.section.4.2.1.p.4">Then the trust chain fulfills the constraints if: </p>
+
+<ul>
+<li>The TA specifies a <samp>max_path_length</samp> that is equal to or bigger then 2.  </li>
+<li>TA specifies <samp>max_path_length</samp> of 2, I2 specifies <samp>max_path_length</samp> of 1, and I1 specifies no <samp>max_path_length</samp> constraint.  </li>
+<li>Neither TA nor I2 specifies any <samp>max_path_length</samp> constraint while I1 specifies <samp>max_path_length</samp> of 0.</li>
+</ul>
+
+<p> </p>
+<p id="rfc.section.4.2.1.p.5">The trust chain does not fulfill the constraints if: </p>
+
+<ul><li>TA has specified <samp>max_path_length</samp> of 1.</li></ul>
+
+<p> </p>
+<h1 id="rfc.section.4.2.2">
+<a href="#rfc.section.4.2.2">4.2.2.</a> <a href="#naming_constraints" id="naming_constraints">Naming Constraints</a>
+</h1>
+<p id="rfc.section.4.2.2.p.1">The name constraints indicates a name space within which all subject entity identifiers in subordinate entity statements in a trust chain MUST be located.  </p>
+<p id="rfc.section.4.2.2.p.2">Restrictions are defined in terms of permitted or excluded name subtrees.  Any name matching a restriction in the excluded claim is invalid regardless of information appearing in the permitted claim.  </p>
+<p id="rfc.section.4.2.2.p.3">The constraint MUST be specified as a fully qualified domain name and MAY specify a host or a domain.  Examples would be "host.example.com" and ".example.com".  When the constraint begins with a period, it MAY be expanded with one or more labels.  That is, the constraint ".example.com" is satisfied by both host.example.com and my.host.example.com.  However, the constraint ".example.com" is not satisfied by "example.com".  When the constraint does not begin with a period, it specifies a host.  </p>
+<h1 id="rfc.section.4.3">
+<a href="#rfc.section.4.3">4.3.</a> <a href="#trust_marks" id="trust_marks">Trust Marks</a>
+</h1>
+<p id="rfc.section.4.3.p.1">In this specification we use the US NSTIC definition</p>
+<p id="rfc.section.4.3.p.2">"A trustmark is used to indicate that a product or service provider has met the requirements of the Identity Ecosystem, as determined by an accreditation authority"</p>
+<p id="rfc.section.4.3.p.3">Technically trust marks as used by this specification are signed JWTs that represents a statement of conformance to a well-scoped set of trust and/or interoperability requirements.</p>
+<p id="rfc.section.4.3.p.4">The trust marks are signed by an by the federation accredited authority. The validation of such a signed statement is performed in the same way as a self-signed entity statement is validated</p>
+<h1 id="rfc.section.4.3.1">
+<a href="#rfc.section.4.3.1">4.3.1.</a> <a href="#trust_prop" id="trust_prop">Trust mark properties</a>
+</h1>
+<p id="rfc.section.4.3.1.p.1">These are the properties that can occur in a trust mark:</p>
+<p></p>
+
+<dl>
+<dt>iss</dt>
+<dd style="margin-left: 8">
+<br> REQUIRED. String. The issuer of the trust mark.  </dd>
+<dt>sub</dt>
+<dd style="margin-left: 8">
+<br> REQUIRED. String. The entity this trust mark applies to.  </dd>
+<dt>id</dt>
+<dd style="margin-left: 8">REQUIRED. String. An identifier of the trust mark.  </dd>
+<dt>mark</dt>
+<dd style="margin-left: 8">REQUIRED. String. An URL that points to a mark/logo that the subject is allowed to display to a user of the entity.  </dd>
+<dt>iat</dt>
+<dd style="margin-left: 8">REQUIRED. INT. When this trust mark was issued. Expressed as seconds since epoch.  </dd>
+<dt>exp</dt>
+<dd style="margin-left: 8">OPTIONAL. INT. When this trust mark is not valid anymore.  Expresses as seconds since epoch. If not present it means that the trust mark is valid forever.  </dd>
+<dt>ref</dt>
+<dd style="margin-left: 8">OPTIONAL. String. URL that points to information connected to the issuance of this trust mark.  </dd>
+</dl>
+
+<p> </p>
+<h1 id="rfc.section.4.3.2">
+<a href="#rfc.section.4.3.2">4.3.2.</a> <a href="#trust_valid" id="trust_valid">Validating a trust mark</a>
+</h1>
+<p id="rfc.section.4.3.2.p.1">An entity should not try to validate a trust mark until it knows which trust anchors it wants to use.</p>
+<p id="rfc.section.4.3.2.p.2">validating a trust mark follows the procedure set out in <a href="#resolving_trust" class="xref">Section 7</a> </p>
+<p id="rfc.section.4.3.2.p.3">Note that the entity representing the accreditation authority MUST be immediately below the trust anchor. There can not be any intermediate between it and the trust anchor.</p>
+<h1 id="rfc.section.4.3.3">
+<a href="#rfc.section.4.3.3">4.3.3.</a> <a href="#trust_example" id="trust_example">Trust mark example</a>
+</h1>
+<p>An example of a self-signed certification mark</p>
+<pre>
+{
+  "iss": "https://example.com/op",
+  "sub": "https://example.com/op",
+  "iat": 1579621160,
+  "id": "https://openid.net/certification/op",
+  "mark": "http://openid.net/wordpress-content/uploads/2016/05/
+           oid-l-certification-mark-l-cmyk-150dpi-90mm.jpg",
+  "ref": "https://openid.net/wordpress-content/uploads/2015/09/
+           RolandHedberg-pyoidc-0.7.7-Basic-26-Sept-2015.zip"
+}</pre>
+<p>An example of a 3rd party accreditation authority</p>
+<pre>
+{
+  "iss": "https://swamid.sunet.se",
+  "sub": "https://umu.se/op",
+  "iat": 1577833200,
+  "exp": 1609369200,
+  "id": "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf",
+}</pre>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#federation_configuration" id="federation_configuration">Obtaining Federation Entity Configuration Information</a>
 </h1>
@@ -1602,86 +1753,20 @@ Content-Type: application/json
 
 <p> </p>
 <p id="rfc.section.7.2.p.4">Verifying the signature is a much more expensive operation then verifying the correctness of the statement and the timestamps. An implementer MAY therefor chose to not verify the signature until all the other checks have been done.  </p>
-<p id="rfc.section.7.2.p.5">Consumers MAY cache Entity Statements or signature verification results for a given time until they expire <a href="#trust_lifetime" class="xref">Section 7.5</a>.  </p>
+<p id="rfc.section.7.2.p.5">Consumers MAY cache Entity Statements or signature verification results for a given time until they expire <a href="#trust_lifetime" class="xref">Section 7.4</a>.  </p>
 <h1 id="rfc.section.7.3">
-<a href="#rfc.section.7.3">7.3.</a> <a href="#chain_constraints" id="chain_constraints">Applying Constraints</a>
-</h1>
-<p id="rfc.section.7.3.p.1">A constraint specification can contain the following claims:</p>
-<p></p>
-
-<dl>
-<dt>max_path_length</dt>
-<dd style="margin-left: 8">
-<br> OPTIONAL. Integer. The maximum number of entities statements between this entity statement and the last entity statement in the trust chain.  </dd>
-<dt>naming_constraints</dt>
-<dd style="margin-left: 8">
-<br> OPTIONAL. JSON object. Restriction on the entity identifiers of the entities below this entity. The behavior of this claim mimics what is defined in Section 4.2.1.10 in <a href="#RFC5280" class="xref">[RFC5280]</a>.  Restrictions are defined in terms of permitted or excluded name subtrees.  </dd>
-</dl>
-
-<p> </p>
-<p id="rfc.section.7.3.p.3">The following is a non-normative example of such a specification:</p>
-<pre>
-{
-  "naming_constraints": {
-    "permitted": [
-      "https://.example.com"
-    ],
-    "excluded": [
-      "https://east.example.com"
-    ]
-  },
-  "max_path_length": 2
-}</pre>
-<p id="rfc.section.7.3.p.4">If a subordinate entity statement contains a constraint specification that is more restrictive then the one in effect, then the more restrictive constraint is in effect from here on.  </p>
-<p id="rfc.section.7.3.p.5">If a subordinate entity statement contains a constraint specification that is less restrictive then the one in effect, then it MUST be ignored.  </p>
-<h1 id="rfc.section.7.3.1">
-<a href="#rfc.section.7.3.1">7.3.1.</a> <a href="#max_path_length" id="max_path_length">Max Path Length</a>
-</h1>
-<p id="rfc.section.7.3.1.p.1">The <samp>max_path_length</samp> constraint specifies the maximum number of entity statement a trust chain can have between the entity statement that contains the constraint specification and the leaf's entity statement.  </p>
-<p id="rfc.section.7.3.1.p.2">A <samp>max_path_length</samp> constraint of zero indicates that no entity statement may appear between this entity statement and the leaf entity statement. Where it appears, the <samp>max_path_length</samp> constraint MUST have a value that is greater than or equal to zero.  Where <samp>max_path_length</samp> does not appear, no limit is imposed.  </p>
-<p id="rfc.section.7.3.1.p.3">Assuming that we have a trust chain with four entity statements: </p>
-
-<ol>
-<li>Leaf entity (LE)</li>
-<li>Intermediate 1 (I1)</li>
-<li>Intermediate 2 (I2)</li>
-<li>Trust Anchor (TA)</li>
-</ol>
-
-<p> </p>
-<p id="rfc.section.7.3.1.p.4">Then the trust chain fulfills the constraints if: </p>
-
-<ul>
-<li>The TA specifies a <samp>max_path_length</samp> that is equal to or bigger then 2.  </li>
-<li>TA specifies <samp>max_path_length</samp> of 2, I2 specifies <samp>max_path_length</samp> of 1, and I1 specifies no <samp>max_path_length</samp> constraint.  </li>
-<li>Neither TA nor I2 specifies any <samp>max_path_length</samp> constraint while I1 specifies <samp>max_path_length</samp> of 0.</li>
-</ul>
-
-<p> </p>
-<p id="rfc.section.7.3.1.p.5">The trust chain does not fulfill the constraints if: </p>
-
-<ul><li>TA has specified <samp>max_path_length</samp> of 1.</li></ul>
-
-<p> </p>
-<h1 id="rfc.section.7.3.2">
-<a href="#rfc.section.7.3.2">7.3.2.</a> <a href="#naming_constraints" id="naming_constraints">Naming Constraints</a>
-</h1>
-<p id="rfc.section.7.3.2.p.1">The name constraints indicates a name space within which all subject entity identifiers in subordinate entity statements in a trust chain MUST be located.  </p>
-<p id="rfc.section.7.3.2.p.2">Restrictions are defined in terms of permitted or excluded name subtrees.  Any name matching a restriction in the excluded claim is invalid regardless of information appearing in the permitted claim.  </p>
-<p id="rfc.section.7.3.2.p.3">The constraint MUST be specified as a fully qualified domain name and MAY specify a host or a domain.  Examples would be "host.example.com" and ".example.com".  When the constraint begins with a period, it MAY be expanded with one or more labels.  That is, the constraint ".example.com" is satisfied by both host.example.com and my.host.example.com.  However, the constraint ".example.com" is not satisfied by "example.com".  When the constraint does not begin with a period, it specifies a host.  </p>
+<a href="#rfc.section.7.3">7.3.</a> Choosing One of the Valid Trust Chains</h1>
+<p id="rfc.section.7.3.p.1">If multiple valid trust chains are found, the Consumer will need to decide on which one to use.  </p>
+<p id="rfc.section.7.3.p.2">One simple rule would be to prefer a shorter chain over a longer one.  </p>
+<p id="rfc.section.7.3.p.3">Consumers MAY follow other rules according to local policy.</p>
 <h1 id="rfc.section.7.4">
-<a href="#rfc.section.7.4">7.4.</a> Choosing One of the Valid Trust Chains</h1>
-<p id="rfc.section.7.4.p.1">If multiple valid trust chains are found, the Consumer will need to decide on which one to use.  </p>
-<p id="rfc.section.7.4.p.2">One simple rule would be to prefer a shorter chain over a longer one.  </p>
-<p id="rfc.section.7.4.p.3">Consumers MAY follow other rules according to local policy.</p>
-<h1 id="rfc.section.7.5">
-<a href="#rfc.section.7.5">7.5.</a> <a href="#trust_lifetime" id="trust_lifetime">Calculating the Expiration Time of a Trust Chain</a>
+<a href="#rfc.section.7.4">7.4.</a> <a href="#trust_lifetime" id="trust_lifetime">Calculating the Expiration Time of a Trust Chain</a>
 </h1>
-<p id="rfc.section.7.5.p.1">Each entity statement in a trust chain is signed and MUST have an expiration time (exp) set. The expiration time of the whole trust chain is set to the minimum value of exp within the chain.  </p>
+<p id="rfc.section.7.4.p.1">Each entity statement in a trust chain is signed and MUST have an expiration time (exp) set. The expiration time of the whole trust chain is set to the minimum value of exp within the chain.  </p>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> Updating Metadata, Key Rollover, and Revocation</h1>
 <p id="rfc.section.8.p.1">This specification allows for a smooth process of updating metadata and public keys.  </p>
-<p id="rfc.section.8.p.2">As described above in <a href="#trust_lifetime" class="xref">Section 7.5</a>, each trust chain has an expiration time.  A consumer of metadata using this specification MUST support refreshing a trust chain when it expires.  How often a consumer should re-evaluate the trust chain depends on how quickly the consumer wants to find out that something has changed in the trust chain.  </p>
+<p id="rfc.section.8.p.2">As described above in <a href="#trust_lifetime" class="xref">Section 7.4</a>, each trust chain has an expiration time.  A consumer of metadata using this specification MUST support refreshing a trust chain when it expires.  How often a consumer should re-evaluate the trust chain depends on how quickly the consumer wants to find out that something has changed in the trust chain.  </p>
 <h1 id="rfc.section.8.1">
 <a href="#rfc.section.8.1">8.1.</a> Protocol Key Rollover</h1>
 <p id="rfc.section.8.1.p.1">If a leaf entity publishes its public keys in the metadata part using <samp>jwks</samp>, setting an expiration time on the self-signed entity statement can be used to control how often the receiving entity is fetching an updated version of the public key.  </p>
@@ -1718,7 +1803,15 @@ Content-Type: application/json
 <h1 id="rfc.section.9.1.1">
 <a href="#rfc.section.9.1.1">9.1.1.</a> The Authentication Request</h1>
 <p id="rfc.section.9.1.1.p.1">The authentication request is as specified in OpenID Connect Core.  </p>
-<p id="rfc.section.9.1.1.p.2">The RP MUST authenticate at the authentication endpoint using the private_key_jwt method described in the client authentication section of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  </p>
+<p id="rfc.section.9.1.1.p.2">The RP MUST authenticate at the authentication endpoint using the private_key_jwt method described in the client authentication section of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  The private_key_jwt JWT used here diverge from what is described in that section on a couple of points: </p>
+
+<ul class="empty">
+<li>The Audience (aud) SHOULD be the URL of the Authorization Server's Authorization Endpoint. NOT the Token Endpoint.</li>
+<li>The claim iss MUST contain the entity ID of the OAuth client</li>
+<li>The claim sub MUST contain the entity ID of the OAuth client</li>
+</ul>
+
+<p> </p>
 <p>An authentication request example: </p>
 <pre>
 GET /authorization?
@@ -2526,7 +2619,7 @@ Host: op.umu.se
 <h1 id="rfc.appendix.C">
 <a href="#rfc.appendix.C">Appendix C.</a> <a href="#Acknowledgements" id="Acknowledgements">Acknowledgements</a>
 </h1>
-<p id="rfc.section.C.p.1">The authors wish to acknowledge the contributions of the following individuals and organizations to this specification: Heather Flanagan, Misha Salle, Peter Schober, Michael Schwartz, and the JRA3T3 task force of GEANT4-2.  </p>
+<p id="rfc.section.C.p.1">The authors wish to acknowledge the contributions of the following individuals and organizations to this specification: Heather Flanagan, Marcos Sanz, Misha Salle, Jouke Roorda, Peter Schober, Michael Schwartz, and the JRA3T3 task force of GEANT4-2.  </p>
 <h1 id="rfc.appendix.D">
 <a href="#rfc.appendix.D">Appendix D.</a> <a href="#TBD" id="TBD">Open Issues</a>
 </h1>

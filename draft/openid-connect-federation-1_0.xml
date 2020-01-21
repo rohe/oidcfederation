@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Federation">OpenID Connect Federation 1.0 -
-      draft 10
+      draft 11
     </title>
 
     <author fullname="Roland Hedberg" initials="R." role="editor"
@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="7" month="November" year="2019"/>
+    <date day="21" month="January" year="2020"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -122,6 +122,11 @@
         specification provides the basic technical trust infrastructure building
         blocks needed to build a dynamic and distributed trust network such as a
         federation.
+      </t>
+      <t>
+        Note that this specification only concerns itself with how two entities
+        in a federation gets to know about each other it does not change
+        any other functionality in OpenID Connect.
       </t>
       <t>
         Note that a company, as with any real-world organization, may be
@@ -680,6 +685,12 @@
               OPTIONAL. URL to a generic home page
               representing this entity.
             </t>
+            <t hangText="trust_marks">
+              <vspace/>
+              OPTIONAL. A JSON array of signed JSON Web Token each representing
+              a certification mark. More about certification marks in
+              <xref target="trust_marks"/>
+            </t>
           </list>
         </t>
         <t>Example</t>
@@ -695,6 +706,7 @@
         </figure>
       </section>
     </section>
+    <section title="Federation Policy" anchor="federation_policy">
     <section title="Applying Policy to Metadata">
       <t>
         The metadata for a specific entity can be constructed by
@@ -1221,6 +1233,205 @@
 }
 ]]></artwork>
         </figure>
+      </section>
+    </section>
+      <section title="Applying Constraints" anchor="chain_constraints">
+        <t>A constraint specification can contain the following claims:</t>
+        <t>
+          <list style="hanging">
+            <t hangText="max_path_length">
+              <vspace/>
+              OPTIONAL. Integer. The maximum number of entities statements
+              between this entity statement and the last entity statement in
+              the trust chain.
+            </t>
+            <t hangText="naming_constraints">
+              <vspace/>
+              OPTIONAL. JSON object. Restriction on the entity identifiers of the
+              entities below this entity. The behavior of this claim mimics
+              what is defined in Section 4.2.1.10 in <xref target="RFC5280"/>.
+              Restrictions are defined in terms of permitted or excluded name
+              subtrees.
+            </t>
+          </list>
+        </t>
+        <t>The following is a non-normative example of such a specification:</t>
+        <figure>
+          <artwork><![CDATA[
+{
+  "naming_constraints": {
+    "permitted": [
+      "https://.example.com"
+    ],
+    "excluded": [
+      "https://east.example.com"
+    ]
+  },
+  "max_path_length": 2
+}]]></artwork>
+        </figure>
+        <t>
+          If a subordinate entity statement contains a constraint specification
+          that is more restrictive then the one in effect, then the more
+          restrictive constraint is in effect from here on.
+        </t>
+        <t>
+          If a subordinate entity statement contains a constraint specification
+          that is less restrictive then the one in effect, then it MUST be
+          ignored.
+        </t>
+        <section title="Max Path Length" anchor="max_path_length">
+          <t>
+            The <spanx style="verb">max_path_length</spanx> constraint specifies the maximum number of
+            entity statement a trust chain can have between the entity statement
+            that contains the constraint specification and the leaf's entity
+            statement.
+          </t>
+          <t>
+            A <spanx style="verb">max_path_length</spanx> constraint of zero indicates that no
+            entity statement may appear between this entity statement and the
+            leaf entity statement. Where it appears, the <spanx style="verb">max_path_length</spanx> constraint
+            MUST have a value that is greater than or equal to zero.
+            Where <spanx style="verb">max_path_length</spanx> does not appear, no limit is imposed.
+          </t>
+          <t>
+            Assuming that we have a trust chain with four entity statements:
+            <list style="numbers">
+              <t>Leaf entity (LE)</t>
+              <t>Intermediate 1 (I1)</t>
+              <t>Intermediate 2 (I2)</t>
+              <t>Trust Anchor (TA)</t>
+            </list>
+          </t>
+          <t>
+            Then the trust chain fulfills the constraints if:
+            <list style="symbols">
+              <t>
+                The TA specifies a <spanx style="verb">max_path_length</spanx> that is equal to or bigger
+                then 2.
+              </t>
+              <t>
+                TA specifies <spanx style="verb">max_path_length</spanx> of 2, I2 specifies <spanx style="verb">max_path_length</spanx> of 1,
+                and I1 specifies no <spanx style="verb">max_path_length</spanx> constraint.
+              </t>
+              <t>Neither TA nor I2 specifies any <spanx style="verb">max_path_length</spanx> constraint
+                while I1 specifies <spanx style="verb">max_path_length</spanx> of 0.</t>
+            </list>
+          </t>
+          <t>
+            The trust chain does not fulfill the constraints if:
+            <list style="symbols">
+              <t>TA has specified <spanx style="verb">max_path_length</spanx> of 1.</t>
+            </list>
+          </t>
+        </section>
+        <section title="Naming Constraints" anchor="naming_constraints">
+        <t>
+          The name constraints indicates a name space within which all subject
+          entity identifiers in subordinate entity statements in a trust chain
+          MUST be located.
+        </t>
+          <t>
+            Restrictions are defined in terms of permitted or excluded name
+            subtrees.  Any name matching a restriction in the excluded
+            claim is invalid regardless of information appearing in the
+            permitted claim.
+          </t>
+          <t>
+            The constraint MUST be specified as a fully qualified domain name
+            and MAY specify a host or a domain.  Examples would be
+            "host.example.com" and ".example.com".  When the constraint begins
+            with a period, it MAY be expanded with one or more labels.
+            That is, the constraint ".example.com" is satisfied by both
+            host.example.com and my.host.example.com.  However, the constraint
+            ".example.com" is not satisfied by "example.com".  When the
+            constraint does not begin with a period, it specifies a host.
+          </t>
+        </section>
+      </section>
+      <section title="Trust Marks" anchor="trust_marks">
+        <t>In this specification we use the US NSTIC definition</t>
+        <t>"A trustmark is used to indicate that a product or service provider
+          has met the requirements of the Identity Ecosystem, as determined
+          by an accreditation authority"</t>
+        <t>Technically trust marks as used by this specification are signed
+        JWTs that represents a statement of conformance to a well-scoped
+          set of trust and/or interoperability requirements.</t>
+        <t>The trust marks are signed by an by the federation accredited
+        authority. The validation of such a signed statement is performed
+        in the same way as a self-signed entity statement is validated</t>
+        <section title="Trust mark properties" anchor="trust_prop">
+          <t>These are the properties that can occur in a trust mark:</t>
+          <t>
+          <list style="hanging">
+            <t hangText="iss">
+              <vspace/>
+              REQUIRED. String. The issuer of the trust mark.
+            </t>
+            <t hangText="sub">
+              <vspace/>
+              REQUIRED. String. The entity this trust mark applies to.
+            </t>
+            <t hangText="id">
+              REQUIRED. String. An identifier of the trust mark.
+            </t>
+            <t hangText="mark">
+              REQUIRED. String. An URL that points to a mark/logo that the
+              subject is allowed to display to a user of the entity.
+            </t>
+            <t hangText="iat">
+              REQUIRED. INT. When this trust mark was issued. Expressed as
+              seconds since epoch.
+            </t>
+            <t hangText="exp">
+              OPTIONAL. INT. When this trust mark is not valid anymore.
+              Expresses as seconds since epoch. If not present it means that
+              the trust mark is valid forever.
+            </t>
+            <t hangText="ref">
+              OPTIONAL. String. URL that points to information connected to
+              the issuance of this trust mark.
+            </t>
+          </list>
+        </t>
+        </section>
+        <section title="Validating a trust mark" anchor="trust_valid">
+          <t>An entity should not try to validate a trust mark until
+          it knows which trust anchors it wants to use.</t>
+          <t>validating a trust mark follows the procedure set out in
+            <xref target="resolving_trust" />
+          </t>
+          <t>Note that the entity representing the accreditation authority
+          MUST be immediately below the trust anchor. There can not be any
+          intermediate between it and the trust anchor.</t>
+        </section>
+        <section title="Trust mark example" anchor="trust_example">
+          <figure>
+            <preamble>An example of a self-signed certification mark</preamble>
+            <artwork><![CDATA[
+{
+  "iss": "https://example.com/op",
+  "sub": "https://example.com/op",
+  "iat": 1579621160,
+  "id": "https://openid.net/certification/op",
+  "mark": "http://openid.net/wordpress-content/uploads/2016/05/
+           oid-l-certification-mark-l-cmyk-150dpi-90mm.jpg",
+  "ref": "https://openid.net/wordpress-content/uploads/2015/09/
+           RolandHedberg-pyoidc-0.7.7-Basic-26-Sept-2015.zip"
+}]]></artwork>
+          </figure>
+          <figure>
+            <preamble>An example of a 3rd party accreditation authority</preamble>
+            <artwork><![CDATA[
+{
+  "iss": "https://swamid.sunet.se",
+  "sub": "https://umu.se/op",
+  "iat": 1577833200,
+  "exp": 1609369200,
+  "id": "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf",
+}]]></artwork>
+          </figure>
+        </section>
       </section>
     </section>
     <section
@@ -1838,120 +2049,6 @@ Content-Type: application/json
           <xref target="trust_lifetime"/>.
         </t>
       </section>
-      <section title="Applying Constraints" anchor="chain_constraints">
-        <t>A constraint specification can contain the following claims:</t>
-        <t>
-          <list style="hanging">
-            <t hangText="max_path_length">
-              <vspace/>
-              OPTIONAL. Integer. The maximum number of entities statements
-              between this entity statement and the last entity statement in
-              the trust chain.
-            </t>
-            <t hangText="naming_constraints">
-              <vspace/>
-              OPTIONAL. JSON object. Restriction on the entity identifiers of the
-              entities below this entity. The behavior of this claim mimics
-              what is defined in Section 4.2.1.10 in <xref target="RFC5280"/>.
-              Restrictions are defined in terms of permitted or excluded name
-              subtrees.
-            </t>
-          </list>
-        </t>
-        <t>The following is a non-normative example of such a specification:</t>
-        <figure>
-          <artwork><![CDATA[
-{
-  "naming_constraints": {
-    "permitted": [
-      "https://.example.com"
-    ],
-    "excluded": [
-      "https://east.example.com"
-    ]
-  },
-  "max_path_length": 2
-}]]></artwork>
-        </figure>
-        <t>
-          If a subordinate entity statement contains a constraint specification
-          that is more restrictive then the one in effect, then the more
-          restrictive constraint is in effect from here on.
-        </t>
-        <t>
-          If a subordinate entity statement contains a constraint specification
-          that is less restrictive then the one in effect, then it MUST be
-          ignored.
-        </t>
-        <section title="Max Path Length" anchor="max_path_length">
-          <t>
-            The <spanx style="verb">max_path_length</spanx> constraint specifies the maximum number of
-            entity statement a trust chain can have between the entity statement
-            that contains the constraint specification and the leaf's entity
-            statement.
-          </t>
-          <t>
-            A <spanx style="verb">max_path_length</spanx> constraint of zero indicates that no
-            entity statement may appear between this entity statement and the
-            leaf entity statement. Where it appears, the <spanx style="verb">max_path_length</spanx> constraint
-            MUST have a value that is greater than or equal to zero.
-            Where <spanx style="verb">max_path_length</spanx> does not appear, no limit is imposed.
-          </t>
-          <t>
-            Assuming that we have a trust chain with four entity statements:
-            <list style="numbers">
-              <t>Leaf entity (LE)</t>
-              <t>Intermediate 1 (I1)</t>
-              <t>Intermediate 2 (I2)</t>
-              <t>Trust Anchor (TA)</t>
-            </list>
-          </t>
-          <t>
-            Then the trust chain fulfills the constraints if:
-            <list style="symbols">
-              <t>
-                The TA specifies a <spanx style="verb">max_path_length</spanx> that is equal to or bigger
-                then 2.
-              </t>
-              <t>
-                TA specifies <spanx style="verb">max_path_length</spanx> of 2, I2 specifies <spanx style="verb">max_path_length</spanx> of 1,
-                and I1 specifies no <spanx style="verb">max_path_length</spanx> constraint.
-              </t>
-              <t>Neither TA nor I2 specifies any <spanx style="verb">max_path_length</spanx> constraint
-                while I1 specifies <spanx style="verb">max_path_length</spanx> of 0.</t>
-            </list>
-          </t>
-          <t>
-            The trust chain does not fulfill the constraints if:
-            <list style="symbols">
-              <t>TA has specified <spanx style="verb">max_path_length</spanx> of 1.</t>
-            </list>
-          </t>
-        </section>
-        <section title="Naming Constraints" anchor="naming_constraints">
-        <t>
-          The name constraints indicates a name space within which all subject
-          entity identifiers in subordinate entity statements in a trust chain
-          MUST be located.
-        </t>
-          <t>
-            Restrictions are defined in terms of permitted or excluded name
-            subtrees.  Any name matching a restriction in the excluded
-            claim is invalid regardless of information appearing in the
-            permitted claim.
-          </t>
-          <t>
-            The constraint MUST be specified as a fully qualified domain name
-            and MAY specify a host or a domain.  Examples would be
-            "host.example.com" and ".example.com".  When the constraint begins
-            with a period, it MAY be expanded with one or more labels.
-            That is, the constraint ".example.com" is satisfied by both
-            host.example.com and my.host.example.com.  However, the constraint
-            ".example.com" is not satisfied by "example.com".  When the
-            constraint does not begin with a period, it specifies a host.
-          </t>
-        </section>
-      </section>
       <section title="Choosing One of the Valid Trust Chains">
         <t>
           If multiple valid trust chains are found, the Consumer will
@@ -2074,8 +2171,7 @@ Content-Type: application/json
         <t>
           Without a registration process, the RP does not have a
           client_secret. Instead the automatic registration model requires the
-          RP
-          to make use of asymmetric cryptography.
+          RP to make use of asymmetric cryptography.
         </t>
         <t>
           The RP MUST host a Federation API that allows the OP to fetch the
@@ -2092,6 +2188,14 @@ Content-Type: application/json
             using the private_key_jwt method described in the client
             authentication section of
             <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
+            The private_key_jwt JWT used here diverge from what is described in
+            that section on a couple of points:
+            <list>
+              <t>The Audience (aud) SHOULD be the URL of the Authorization
+                Server's Authorization Endpoint. NOT the Token Endpoint.</t>
+              <t>The claim iss MUST contain the entity ID of the OAuth client</t>
+              <t>The claim sub MUST contain the entity ID of the OAuth client</t>
+            </list>
           </t>
           <figure>
             <preamble>
@@ -3428,6 +3532,7 @@ Host: op.umu.se
         Heather Flanagan,
         Marcos Sanz,
         Misha Salle,
+        Jouke Roorda,
         Peter Schober,
         Michael Schwartz,
         and
