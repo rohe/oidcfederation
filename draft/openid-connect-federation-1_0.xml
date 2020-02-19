@@ -1357,9 +1357,11 @@
         <t>Technically trust marks as used by this specification are signed
         JWTs that represents a statement of conformance to a well-scoped
           set of trust and/or interoperability requirements.</t>
-        <t>The trust marks are signed by an by the federation accredited
+        <t>The trust marks are signed by a federation accredited
         authority. The validation of such a signed statement is performed
-        in the same way as a self-signed entity statement is validated</t>
+        in the same way as a self-signed entity statement is validated.</t>
+        <t>Note that a federation may allow an entity to self-signed
+          some trust marks.</t>
         <section title="Trust mark properties" anchor="trust_prop">
           <t>These are the properties that can occur in a trust mark:</t>
           <t>
