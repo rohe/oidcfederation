@@ -1375,13 +1375,13 @@
             <t hangText="id">
               REQUIRED. String. An identifier of the trust mark.
             </t>
-            <t hangText="mark">
-              REQUIRED. String. An URL that points to a mark/logo that the
-              subject is allowed to display to a user of the entity.
-            </t>
             <t hangText="iat">
               REQUIRED. INT. When this trust mark was issued. Expressed as
               seconds since epoch.
+            </t>
+            <t hangText="mark">
+              OPTIONAL. String. An URL that points to a mark/logo that the
+              subject is allowed to display to a user of the entity.
             </t>
             <t hangText="exp">
               OPTIONAL. INT. When this trust mark is not valid anymore.
