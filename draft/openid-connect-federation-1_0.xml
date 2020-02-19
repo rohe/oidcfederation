@@ -1552,7 +1552,7 @@ Content-Type: application/jose
         entities MUST expose a Federation API endpoint.
       </t>
       <t>
-        The federation API endpoint of an entity can be found the in the
+        The federation API endpoint of an entity can be found in the
         configuration response as described in
         <xref target="federation_configuration"/>
         or by other means.
