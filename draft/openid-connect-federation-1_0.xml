@@ -390,7 +390,8 @@
       "id_token_signing_alg_values_supported":
         {"subset_of": ["RS256", "RS384", "RS512"]},
       "op_policy_uri": {
-        "regexp": "^https:\/\/[\\w-]+\\.example\\.com\/[\\w-]+\\.html"}
+        "regexp":
+          "^https:\/\/[\\w-]+\\.example\\.com\/[\\w-]+\\.html"}
     },
     "openid_relying_party": {
       "organization_name": {"value": "NTNU"},
@@ -697,7 +698,8 @@
         <figure>
             <artwork><![CDATA[
 "federation_entity": {
-  "federation_api_endpoint": "https://example.com/federation_api_endpoint",
+  "federation_api_endpoint":
+    "https://example.com/federation_api_endpoint",
   "name": "The example cooperation",
   "homepage_uri": "https://www.example.com"
 }
@@ -1511,7 +1513,8 @@
   "sub": "https://umu.se/op",
   "iat": 1577833200,
   "exp": 1609369200,
-  "id": "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf"
+  "id":
+    "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf"
 }
 ]]></artwork>
           </figure>
@@ -1605,7 +1608,8 @@ Content-Type: application/jose
   "exp": 1516298022,
   "metadata": {
     "federation_entity": {
-      "federation_api_endpoint": "https://example.com/federation_api_endpoint",
+      "federation_api_endpoint":
+        "https://example.com/federation_api_endpoint",
       "name": "The example cooperation",
       "homepage_uri": "https://www.example.com"
     }
@@ -3059,7 +3063,8 @@ HTTP/1.1 302 Found
   "metadata": {
     "federation_entity": {
       "contacts": "ops@swamid.se",
-      "federation_api_endpoint": "https://swamid.sunet.se/fedapi",
+      "federation_api_endpoint":
+        "https://swamid.sunet.se/fedapi",
       "homepage_uri": "https://www.sunet.se/swamid/",
       "name": "SWAMID"
     }

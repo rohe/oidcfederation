@@ -73,39 +73,39 @@ Hedberg, et al.           Expires July 24, 2020                 [Page 1]
        4.1.2.  Policy Type Combinations  . . . . . . . . . . . . . .  16
        4.1.3.  Combining Policies  . . . . . . . . . . . . . . . . .  16
          4.1.3.1.  Policy Combination Example  . . . . . . . . . . .  17
-       4.1.4.  Enforcing Policy  . . . . . . . . . . . . . . . . . .  19
-       4.1.5.  Extending the Policy Language . . . . . . . . . . . .  19
-       4.1.6.  Policy Example  . . . . . . . . . . . . . . . . . . .  19
-     4.2.  Applying Constraints  . . . . . . . . . . . . . . . . . .  20
-       4.2.1.  Max Path Length . . . . . . . . . . . . . . . . . . .  21
-       4.2.2.  Naming Constraints  . . . . . . . . . . . . . . . . .  22
-     4.3.  Trust Marks . . . . . . . . . . . . . . . . . . . . . . .  22
-       4.3.1.  Trust mark properties . . . . . . . . . . . . . . . .  23
-       4.3.2.  Validating a trust mark . . . . . . . . . . . . . . .  23
-       4.3.3.  Trust mark example  . . . . . . . . . . . . . . . . .  23
-   5.  Obtaining Federation Entity Configuration Information . . . .  24
-     5.1.  Federation Entity Configuration Request . . . . . . . . .  25
-     5.2.  Federation Entity Configuration Response  . . . . . . . .  25
-   6.  The Federation API  . . . . . . . . . . . . . . . . . . . . .  26
-     6.1.  Fetching Entity Statement (REQUIRED)  . . . . . . . . . .  27
-       6.1.1.  Fetch Entity Statements Request . . . . . . . . . . .  27
-       6.1.2.  Fetch Entity Statements Response  . . . . . . . . . .  28
-     6.2.  Trust Negotiation (OPTIONAL)  . . . . . . . . . . . . . .  29
-       6.2.1.  Trust Negotiation Request . . . . . . . . . . . . . .  30
-       6.2.2.  Trust Negotiation Response  . . . . . . . . . . . . .  30
-     6.3.  Entity Listings (OPTIONAL)  . . . . . . . . . . . . . . .  31
-       6.3.1.  Entity Listings Request . . . . . . . . . . . . . . .  31
-       6.3.2.  Entity Listing Response . . . . . . . . . . . . . . .  32
-     6.4.  Generic Error Response  . . . . . . . . . . . . . . . . .  32
-   7.  Resolving Trust Chain and Metadata  . . . . . . . . . . . . .  33
-     7.1.  Fetching Entity Statements to Establish a Trust Chain . .  33
-     7.2.  Validating the Trust Chains . . . . . . . . . . . . . . .  34
-     7.3.  Choosing One of the Valid Trust Chains  . . . . . . . . .  35
-     7.4.  Calculating the Expiration Time of a Trust Chain  . . . .  35
-   8.  Updating Metadata, Key Rollover, and Revocation . . . . . . .  35
-     8.1.  Protocol Key Rollover . . . . . . . . . . . . . . . . . .  35
-     8.2.  Key Rollover for a Trust Anchor . . . . . . . . . . . . .  35
-     8.3.  Revocation  . . . . . . . . . . . . . . . . . . . . . . .  36
+       4.1.4.  Enforcing Policy  . . . . . . . . . . . . . . . . . .  20
+       4.1.5.  Extending the Policy Language . . . . . . . . . . . .  20
+       4.1.6.  Policy Example  . . . . . . . . . . . . . . . . . . .  21
+     4.2.  Applying Constraints  . . . . . . . . . . . . . . . . . .  23
+       4.2.1.  Max Path Length . . . . . . . . . . . . . . . . . . .  23
+       4.2.2.  Naming Constraints  . . . . . . . . . . . . . . . . .  24
+     4.3.  Trust Marks . . . . . . . . . . . . . . . . . . . . . . .  25
+       4.3.1.  Trust mark properties . . . . . . . . . . . . . . . .  25
+       4.3.2.  Validating a trust mark . . . . . . . . . . . . . . .  26
+       4.3.3.  Trust mark example  . . . . . . . . . . . . . . . . .  26
+   5.  Obtaining Federation Entity Configuration Information . . . .  26
+     5.1.  Federation Entity Configuration Request . . . . . . . . .  27
+     5.2.  Federation Entity Configuration Response  . . . . . . . .  27
+   6.  The Federation API  . . . . . . . . . . . . . . . . . . . . .  28
+     6.1.  Fetching Entity Statement (REQUIRED)  . . . . . . . . . .  29
+       6.1.1.  Fetch Entity Statements Request . . . . . . . . . . .  29
+       6.1.2.  Fetch Entity Statements Response  . . . . . . . . . .  30
+     6.2.  Trust Negotiation (OPTIONAL)  . . . . . . . . . . . . . .  32
+       6.2.1.  Trust Negotiation Request . . . . . . . . . . . . . .  32
+       6.2.2.  Trust Negotiation Response  . . . . . . . . . . . . .  33
+     6.3.  Entity Listings (OPTIONAL)  . . . . . . . . . . . . . . .  34
+       6.3.1.  Entity Listings Request . . . . . . . . . . . . . . .  34
+       6.3.2.  Entity Listing Response . . . . . . . . . . . . . . .  34
+     6.4.  Generic Error Response  . . . . . . . . . . . . . . . . .  35
+   7.  Resolving Trust Chain and Metadata  . . . . . . . . . . . . .  36
+     7.1.  Fetching Entity Statements to Establish a Trust Chain . .  36
+     7.2.  Validating the Trust Chains . . . . . . . . . . . . . . .  36
+     7.3.  Choosing One of the Valid Trust Chains  . . . . . . . . .  37
+     7.4.  Calculating the Expiration Time of a Trust Chain  . . . .  37
+   8.  Updating Metadata, Key Rollover, and Revocation . . . . . . .  38
+     8.1.  Protocol Key Rollover . . . . . . . . . . . . . . . . . .  38
+     8.2.  Key Rollover for a Trust Anchor . . . . . . . . . . . . .  38
+     8.3.  Revocation  . . . . . . . . . . . . . . . . . . . . . . .  38
 
 
 
@@ -114,54 +114,54 @@ Hedberg, et al.           Expires July 24, 2020                 [Page 2]
                         OpenID Connect Federation           January 2020
 
 
-   9.  OpenID Connect Communication  . . . . . . . . . . . . . . . .  36
-     9.1.  Automatic Registration  . . . . . . . . . . . . . . . . .  36
-       9.1.1.  The Authentication Request  . . . . . . . . . . . . .  37
-       9.1.2.  Processing the Authentication Request . . . . . . . .  37
-       9.1.3.  Authentication Error Response . . . . . . . . . . . .  38
-     9.2.  Explicit Registration . . . . . . . . . . . . . . . . . .  38
-       9.2.1.  Provider Discovery  . . . . . . . . . . . . . . . . .  38
-       9.2.2.  Client Registration . . . . . . . . . . . . . . . . .  38
-         9.2.2.1.  Client Registration Request . . . . . . . . . . .  38
-         9.2.2.2.  Client Registration Response  . . . . . . . . . .  39
-           9.2.2.2.1.  The OP Constructing the Response  . . . . . .  39
-           9.2.2.2.2.  The RP Parsing the Response . . . . . . . . .  40
-       9.2.3.  After Client Registration . . . . . . . . . . . . . .  40
-         9.2.3.1.  What the RP MUST Do . . . . . . . . . . . . . . .  40
-         9.2.3.2.  What the OP MUST Do . . . . . . . . . . . . . . .  41
-       9.2.4.  Expiration Times  . . . . . . . . . . . . . . . . . .  41
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  41
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .  41
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  41
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  41
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  43
+   9.  OpenID Connect Communication  . . . . . . . . . . . . . . . .  39
+     9.1.  Automatic Registration  . . . . . . . . . . . . . . . . .  39
+       9.1.1.  The Authentication Request  . . . . . . . . . . . . .  39
+       9.1.2.  Processing the Authentication Request . . . . . . . .  40
+       9.1.3.  Authentication Error Response . . . . . . . . . . . .  40
+     9.2.  Explicit Registration . . . . . . . . . . . . . . . . . .  41
+       9.2.1.  Provider Discovery  . . . . . . . . . . . . . . . . .  41
+       9.2.2.  Client Registration . . . . . . . . . . . . . . . . .  41
+         9.2.2.1.  Client Registration Request . . . . . . . . . . .  41
+         9.2.2.2.  Client Registration Response  . . . . . . . . . .  42
+           9.2.2.2.1.  The OP Constructing the Response  . . . . . .  42
+           9.2.2.2.2.  The RP Parsing the Response . . . . . . . . .  42
+       9.2.3.  After Client Registration . . . . . . . . . . . . . .  43
+         9.2.3.1.  What the RP MUST Do . . . . . . . . . . . . . . .  43
+         9.2.3.2.  What the OP MUST Do . . . . . . . . . . . . . . .  43
+       9.2.4.  Expiration Times  . . . . . . . . . . . . . . . . . .  44
+   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  44
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  44
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  44
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  44
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  45
    Appendix A.  Provider Information Discovery and Client
-                Registration in a Federation . . . . . . . . . . . .  43
-     A.1.  The LIGO Wiki Discovers the OP's Metadata . . . . . . . .  44
-       A.1.1.  Configuration Information for op.umu.se . . . . . . .  44
-       A.1.2.  Configuration Information for 'https://umu.se'  . . .  46
+                Registration in a Federation . . . . . . . . . . . .  46
+     A.1.  The LIGO Wiki Discovers the OP's Metadata . . . . . . . .  46
+       A.1.1.  Configuration Information for op.umu.se . . . . . . .  47
+       A.1.2.  Configuration Information for 'https://umu.se'  . . .  49
        A.1.3.  Entity Statement Published by 'https://umu.se' about
-               'https://op.umu.se' . . . . . . . . . . . . . . . . .  46
-       A.1.4.  Configuration Information for 'https://swamid.se' . .  48
+               'https://op.umu.se' . . . . . . . . . . . . . . . . .  49
+       A.1.4.  Configuration Information for 'https://swamid.se' . .  51
        A.1.5.  Entity Statement Published by 'https://swamid.se'
-               about 'https://umu.se'  . . . . . . . . . . . . . . .  48
+               about 'https://umu.se'  . . . . . . . . . . . . . . .  51
        A.1.6.  Configuration Information for
-               'https://edugain.geant.org' . . . . . . . . . . . . .  50
+               'https://edugain.geant.org' . . . . . . . . . . . . .  53
        A.1.7.  Entity Statement Published by
-               'https://edugain.geant.org' about 'https://swamid.se'  50
-       A.1.8.  Verified Metadata for op.umu.se . . . . . . . . . . .  52
-     A.2.  The Two Ways of Doing Client Registration . . . . . . . .  53
+               'https://edugain.geant.org' about 'https://swamid.se'  53
+       A.1.8.  Verified Metadata for op.umu.se . . . . . . . . . . .  55
+     A.2.  The Two Ways of Doing Client Registration . . . . . . . .  57
        A.2.1.  RP Sends Authentication Request (Automatic
-               Registration) . . . . . . . . . . . . . . . . . . . .  53
-         A.2.1.1.  OP Fetches Entity Statements  . . . . . . . . . .  53
-         A.2.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  54
+               Registration) . . . . . . . . . . . . . . . . . . . .  57
+         A.2.1.1.  OP Fetches Entity Statements  . . . . . . . . . .  57
+         A.2.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  58
        A.2.2.  Client Starts with Registration (Explicit Client
-               Registration) . . . . . . . . . . . . . . . . . . . .  56
-   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  57
-   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  58
-   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  58
-   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  59
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  61
+               Registration) . . . . . . . . . . . . . . . . . . . .  60
+   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  61
+   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  62
+   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  62
+   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  63
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  65
 
 
 
@@ -409,7 +409,8 @@ Hedberg, et al.           Expires July 24, 2020                 [Page 7]
          "id_token_signing_alg_values_supported":
            {"subset_of": ["RS256", "RS384", "RS512"]},
          "op_policy_uri": {
-           "regexp": "^https:\/\/[\w-]+\.example\.com\/[\w-]+\.html"}
+           "regexp":
+             "^https:\/\/[\\w-]+\\.example\\.com\/[\\w-]+\\.html"}
        },
        "openid_relying_party": {
          "organization_name": {"value": "NTNU"},
@@ -421,7 +422,7 @@ Hedberg, et al.           Expires July 24, 2020                 [Page 7]
      },
      "constraints": {
        "max_path_length": 2
-     }
+     },
      "jwks": {
        "keys": [
          {
@@ -440,7 +441,6 @@ Hedberg, et al.           Expires July 24, 2020                 [Page 7]
        "https://edugain.org/federation"
      ]
    }
-
 
 
 
@@ -653,10 +653,10 @@ Hedberg, et al.           Expires July 24, 2020                [Page 11]
    Example
 
    "federation_entity": {
-       "federation_api_endpoint":
-           "https://example.com/federation_api_endpoint",
-       "name": "The example cooperation",
-       "homepage_uri": "https://www.example.com"
+     "federation_api_endpoint":
+       "https://example.com/federation_api_endpoint",
+     "name": "The example cooperation",
+     "homepage_uri": "https://www.example.com"
    }
 
 4.  Federation Policy
@@ -957,46 +957,46 @@ Hedberg, et al.           Expires July 24, 2020                [Page 17]
    A federations policy for RPs:
 
    {
-       "scopes": {
-           "subset_of": ["openid", "eduperson", "phone"],
-           "superset_of": ["openid"],
-           "default": ["openid", "eduperson"]},
-       "id_token_signed_response_alg": {
-           "one_of": ["ES256", "ES384", "ES512"]},
-       "contacts": {
-           "add": "helpdesk@federation.example.org"},
-       "application_type": {"value": "web"}
+     "scopes": {
+       "subset_of": [
+         "openid",
+         "eduperson",
+         "phone"
+       ],
+       "superset_of": [
+         "openid"
+       ],
+       "default": [
+         "openid",
+         "eduperson"
+       ]
+     },
+     "id_token_signed_response_alg": {
+       "one_of": [
+         "ES256",
+         "ES384",
+         "ES512"
+       ]
+     },
+     "contacts": {
+       "add": "helpdesk@federation.example.org"
+     },
+     "application_type": {
+       "value": "web"
+     }
    }
 
-   An organization's policy for RPs:
 
-   {
-       "scopes": {
-           "subset_of": ["openid", "eduperson", "address"],
-           "default": ["openid", "eduperson"]},
-       "id_token_signed_response_alg": {
-           "one_of": ["ES256", "ES384"],
-           "default": "ES256"},
-       "contacts": {
-           "add": "helpdesk@org.example.org"}
-   }
 
-   The combined metadata policy then becomes:
 
-   {
-       "scopes": {
-           "subset_of": ["openid", "eduperson"],
-           "superset_of": ["openid"],
-           "default": ["openid", "eduperson"]},
-       "id_token_signed_response_alg": {
-           "one_of": ["ES256", "ES384"],
-           "default": "ES256"},
-       "contacts": {
-           "add": ["helpdesk@federation.example.org",
-                   "helpdesk@org.example.org"]},
-       "application_type": {
-           "value": "web"}
-   }
+
+
+
+
+
+
+
+
 
 
 
@@ -1010,46 +1010,46 @@ Hedberg, et al.           Expires July 24, 2020                [Page 18]
                         OpenID Connect Federation           January 2020
 
 
-4.1.4.  Enforcing Policy
-
-   If applying policies to a metadata statement results in incorrect
-   metadata, then such a metadata statement MUST be regarded as broken
-   and MUST NOT be used.
-
-4.1.5.  Extending the Policy Language
-
-   There might be parties that want to extend the policy language
-   defined here.  If that happens then the rule is that if software
-   compliant with this specification encounters a keyword it doesn't
-   understand it MUST ignore it unless it is listed in a
-   "policy_language_crit" list, as is done for JWS [RFC7515] header
-   parameters with the "crit" parameter.  If the policy language
-   extension keyword is listed in the "policy_language_crit" list and
-   not understood, then the metadata MUST be rejected.
-
-4.1.6.  Policy Example
-
-   The following is a non-normative example of a set of policies being
-   applied to an RP's metadata.
-
-   The RP's metadata:
+   An organization's policy for RPs:
 
    {
-     "contacts": ["rp_admins@cs.example.com"],
-     "redirect_uris": ["https://cs.example.com/rp1"],
-     "response_types": ["code"]
+     "scopes": {
+       "subset_of": [
+         "openid",
+         "eduperson",
+         "address"
+       ],
+       "default": [
+         "openid",
+         "eduperson"
+       ]
+     },
+     "id_token_signed_response_alg": {
+       "one_of": [
+         "ES256",
+         "ES384"
+       ],
+       "default": "ES256"
+     },
+     "contacts": {
+       "add": "helpdesk@org.example.org"
+     }
    }
 
-   The federation's policy for RPs:
 
-   {
-       "scopes": {
-           "superset_of": ["openid", "eduperson"],
-           "default": ["openid", "eduperson"]
-       },
-       "response_types": {
-           "subset_of": ["code", "code id_token"]}
-   }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1066,34 +1066,173 @@ Hedberg, et al.           Expires July 24, 2020                [Page 19]
                         OpenID Connect Federation           January 2020
 
 
+   The combined metadata policy then becomes:
+
+   {
+     "scopes": {
+       "subset_of": [
+         "openid",
+         "eduperson"
+       ],
+       "superset_of": [
+         "openid"
+       ],
+       "default": [
+         "openid",
+         "eduperson"
+       ]
+     },
+     "id_token_signed_response_alg": {
+       "one_of": [
+         "ES256",
+         "ES384"
+       ],
+       "default": "ES256"
+     },
+     "contacts": {
+       "add": [
+         "helpdesk@federation.example.org",
+         "helpdesk@org.example.org"
+       ]
+     },
+     "application_type": {
+       "value": "web"
+     }
+   }
+
+4.1.4.  Enforcing Policy
+
+   If applying policies to a metadata statement results in incorrect
+   metadata, then such a metadata statement MUST be regarded as broken
+   and MUST NOT be used.
+
+4.1.5.  Extending the Policy Language
+
+   There might be parties that want to extend the policy language
+   defined here.  If that happens then the rule is that if software
+   compliant with this specification encounters a keyword it doesn't
+   understand it MUST ignore it unless it is listed in a
+   "policy_language_crit" list, as is done for JWS [RFC7515] header
+   parameters with the "crit" parameter.  If the policy language
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 20]
+
+                        OpenID Connect Federation           January 2020
+
+
+   extension keyword is listed in the "policy_language_crit" list and
+   not understood, then the metadata MUST be rejected.
+
+4.1.6.  Policy Example
+
+   The following is a non-normative example of a set of policies being
+   applied to an RP's metadata.
+
+   The RP's metadata:
+
+   {
+     "contacts": [
+       "rp_admins@cs.example.com"
+     ],
+     "redirect_uris": [
+       "https://cs.example.com/rp1"
+     ],
+     "response_types": [
+       "code"
+     ]
+   }
+
+   The federation's policy for RPs:
+
+   {
+     "scopes": {
+       "superset_of": [
+         "openid",
+         "eduperson"
+       ],
+       "default": [
+         "openid",
+         "eduperson"
+       ]
+     },
+     "response_types": {
+       "subset_of": [
+         "code",
+         "code id_token"
+       ]
+     }
+   }
+
+
+
+
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 21]
+
+                        OpenID Connect Federation           January 2020
+
+
    The organization's policy for RPs:
 
    {
      "contacts": {
-       "add": "helpdesk@example.com"},
+       "add": "helpdesk@example.com"
+     },
      "logo_uri": {
-       "one_of": ["https://example.com/logo_small.jpg",
-                  "https://example.com/logo_big.jpg"],
+       "one_of": [
+         "https://example.com/logo_small.jpg",
+         "https://example.com/logo_big.jpg"
+       ],
        "default": "https://example.com/logo_small.jpg"
      },
      "policy_uri": {
-       "value": "https://example.com/policy.html"},
+       "value": "https://example.com/policy.html"
+     },
      "tos_uri": {
-       "value": "https://example.com/tos.html"}
+       "value": "https://example.com/tos.html"
+     }
    }
 
    The metadata for the entity in question after applying the policies
    above, would then become:
 
    {
-     "contacts": ["rp_admins@cs.example.com", "helpdesk@example.com"],
+     "contacts": [
+       "rp_admins@cs.example.com",
+       "helpdesk@example.com"
+     ],
      "logo_uri": "https://example.com/logo_small.jpg",
      "policy_uri": "https://example.com/policy.html",
      "tos_uri": "https://example.com/tos.html",
-     "scopes": ["openid", "eduperson"],
-     "response_types": ["code"],
-     "redirect_uris": ["https://cs.example.com/rp1"]
+     "scopes": [
+       "openid",
+       "eduperson"
+     ],
+     "response_types": [
+       "code"
+     ],
+     "redirect_uris": [
+       "https://cs.example.com/rp1"
+     ]
    }
+
+
+
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 22]
+
+                        OpenID Connect Federation           January 2020
+
 
 4.2.  Applying Constraints
 
@@ -1111,16 +1250,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 19]
       are defined in terms of permitted or excluded name subtrees.
 
    The following is a non-normative example of such a specification:
-
-
-
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 20]
-
-                        OpenID Connect Federation           January 2020
-
 
    {
      "naming_constraints": {
@@ -1152,6 +1281,15 @@ Hedberg, et al.           Expires July 24, 2020                [Page 20]
    A "max_path_length" constraint of zero indicates that no entity
    statement may appear between this entity statement and the leaf
    entity statement.  Where it appears, the "max_path_length" constraint
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 23]
+
+                        OpenID Connect Federation           January 2020
+
+
    MUST have a value that is greater than or equal to zero.  Where
    "max_path_length" does not appear, no limit is imposed.
 
@@ -1169,14 +1307,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 20]
 
    o  The TA specifies a "max_path_length" that is equal to or bigger
       then 2.
-
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 21]
-
-                        OpenID Connect Federation           January 2020
-
 
    o  TA specifies "max_path_length" of 2, I2 specifies
       "max_path_length" of 1, and I1 specifies no "max_path_length"
@@ -1208,6 +1338,14 @@ Hedberg, et al.           Expires July 24, 2020                [Page 21]
    satisfied by "example.com".  When the constraint does not begin with
    a period, it specifies a host.
 
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 24]
+
+                        OpenID Connect Federation           January 2020
+
+
 4.3.  Trust Marks
 
    In this specification we use the US NSTIC definition
@@ -1220,19 +1358,12 @@ Hedberg, et al.           Expires July 24, 2020                [Page 21]
    that represents a statement of conformance to a well-scoped set of
    trust and/or interoperability requirements.
 
-   The trust marks are signed by an by the federation accredited
-   authority.  The validation of such a signed statement is performed in
-   the same way as a self-signed entity statement is validated
+   The trust marks are signed by a federation accredited authority.  The
+   validation of such a signed statement is performed in the same way as
+   a self-signed entity statement is validated.
 
-
-
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 22]
-
-                        OpenID Connect Federation           January 2020
-
+   Note that a federation may allow an entity to self-signed some trust
+   marks.
 
 4.3.1.  Trust mark properties
 
@@ -1259,6 +1390,18 @@ Hedberg, et al.           Expires July 24, 2020                [Page 22]
    ref  OPTIONAL.  String.  URL that points to information connected to
       the issuance of this trust mark.
 
+
+
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 25]
+
+                        OpenID Connect Federation           January 2020
+
+
 4.3.2.  Validating a trust mark
 
    An entity should not try to validate a trust mark until it knows
@@ -1272,24 +1415,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 22]
 
 4.3.3.  Trust mark example
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 23]
-
-                        OpenID Connect Federation           January 2020
-
-
    An example of a self-signed certification mark
 
    {
@@ -1297,21 +1422,22 @@ Hedberg, et al.           Expires July 24, 2020                [Page 23]
      "sub": "https://example.com/op",
      "iat": 1579621160,
      "id": "https://openid.net/certification/op",
-     "mark": "http://openid.net/wordpress-content/uploads/2016/05/
-              oid-l-certification-mark-l-cmyk-150dpi-90mm.jpg",
-     "ref": "https://openid.net/wordpress-content/uploads/2015/09/
-              RolandHedberg-pyoidc-0.7.7-Basic-26-Sept-2015.zip"
+     "mark": "http://openid.net/wordpress-content/uploads/2016/
+       05/oid-l-certification-mark-l-cmyk-150dpi-90mm.jpg",
+     "ref": "https://openid.net/wordpress-content/uploads/2015/
+       09/RolandHedberg-pyoidc-0.7.7-Basic-26-Sept-2015.zip"
    }
 
    An example of a 3rd party accreditation authority
 
- {
-   "iss": "https://swamid.sunet.se",
-   "sub": "https://umu.se/op",
-   "iat": 1577833200,
-   "exp": 1609369200,
-   "id": "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf",
- }
+   {
+     "iss": "https://swamid.sunet.se",
+     "sub": "https://umu.se/op",
+     "iat": 1577833200,
+     "exp": 1609369200,
+     "id":
+       "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf"
+   }
 
 5.  Obtaining Federation Entity Configuration Information
 
@@ -1324,6 +1450,14 @@ Hedberg, et al.           Expires July 24, 2020                [Page 23]
    "/.well-known/openid-federation" in the same manner that path
    components are concatenated to the well-known identifier in the OAuth
    2.0 Authorization Server Metadata [RFC8414] specification.  Of
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 26]
+
+                        OpenID Connect Federation           January 2020
+
+
    course, in real multi-tenant deployments, in which the entity
    identifier might be of the form "https://multi-tenant-
    service.example.com/my-tenant-identifier" the tenant is very likely
@@ -1336,15 +1470,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 23]
    fails, it is RECOMMENDED that callers retry at the URL with the
    tenant path before the well-known part (even though this violates
    [RFC8615]).
-
-
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 24]
-
-                        OpenID Connect Federation           January 2020
-
 
    Federation Entities MUST make an Entity Configuration Document
    available at the configuration endpoint.
@@ -1384,20 +1509,7 @@ Hedberg, et al.           Expires July 24, 2020                [Page 24]
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 25]
+Hedberg, et al.           Expires July 24, 2020                [Page 27]
 
                         OpenID Connect Federation           January 2020
 
@@ -1416,16 +1528,19 @@ Hedberg, et al.           Expires July 24, 2020                [Page 25]
          "federation_api_endpoint":
            "https://example.com/federation_api_endpoint",
          "name": "The example cooperation",
-         "homepage_uri": "https://www.example.com",
+         "homepage_uri": "https://www.example.com"
        }
      },
+     "authority_hints": ["https://federation.example.com"],
      "jwks": {
        "keys": [
          {
            "alg": "RS256",
            "e": "AQAB",
            "ext": true,
-           "key_ops": ["verify"],
+           "key_ops": [
+             "verify"
+           ],
            "kid": "key1",
            "kty": "RSA",
            "n": "pnXBOusEANuug6ewezb9J_...",
@@ -1440,23 +1555,23 @@ Hedberg, et al.           Expires July 24, 2020                [Page 25]
    All entities that are expected to publish entity statements about
    other entities MUST expose a Federation API endpoint.
 
-   The federation API endpoint of an entity can be found the in the
+   The federation API endpoint of an entity can be found in the
    configuration response as described in Section 5 or by other means.
 
    The Federation API is an HTTPS API that may support multiple
    operations.  Fetching entity statements is one of the operations, and
    the only one that all Federation API endpoints are REQUIRED to
-   support.  All the other operations are OPTIONAL.  The list of defined
-   operations may be extended in a future.
 
 
 
 
-
-Hedberg, et al.           Expires July 24, 2020                [Page 26]
+Hedberg, et al.           Expires July 24, 2020                [Page 28]
 
                         OpenID Connect Federation           January 2020
 
+
+   support.  All the other operations are OPTIONAL.  The list of defined
+   operations may be extended in a future.
 
    While all operations on the federation API endpoint make use of a GET
    request, other operations may choose to use other HTTP methods.  If
@@ -1506,10 +1621,7 @@ Hedberg, et al.           Expires July 24, 2020                [Page 26]
 
 
 
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 27]
+Hedberg, et al.           Expires July 24, 2020                [Page 29]
 
                         OpenID Connect Federation           January 2020
 
@@ -1565,7 +1677,7 @@ Hedberg, et al.           Expires July 24, 2020                [Page 27]
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 28]
+Hedberg, et al.           Expires July 24, 2020                [Page 30]
 
                         OpenID Connect Federation           January 2020
 
@@ -1585,10 +1697,15 @@ Hedberg, et al.           Expires July 24, 2020                [Page 28]
      "metadata": {
        "openid_relying_party": {
          "application_type": "web",
-         "redirect_uris": [ "https://openid.sunet.se/rp/callback" ],
+         "redirect_uris": [
+           "https://openid.sunet.se/rp/callback"
+         ],
          "organization_name": "SUNET",
          "logo_uri": "https://www.sunet.se/sunet/images/32x32.png",
-         "grant_types": ["authorization_code", "implicit"],
+         "grant_types": [
+           "authorization_code",
+           "implicit"
+         ],
          "jwks_uri": "https://openid.sunet.se/rp/jwks.json"
        }
      },
@@ -1598,7 +1715,9 @@ Hedberg, et al.           Expires July 24, 2020                [Page 28]
            "alg": "RS256",
            "e": "AQAB",
            "ext": true,
-           "key_ops": ["verify"],
+           "key_ops": [
+             "verify"
+           ],
            "kid": "key1",
            "kty": "RSA",
            "n": "pnXBOusEANuug6ewezb9J_...",
@@ -1607,9 +1726,17 @@ Hedberg, et al.           Expires July 24, 2020                [Page 28]
        ]
      },
      "authority_hints": [
-         "https://edugain.org/federation"
+       "https://edugain.org/federation"
      ]
    }
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 31]
+
+                        OpenID Connect Federation           January 2020
+
 
 6.2.  Trust Negotiation (OPTIONAL)
 
@@ -1618,13 +1745,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 28]
    result may, for instance, tell an RP what operations, scopes and
    claims an OP would allow the RP to use if a specific trust anchor was
    used.
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 29]
-
-                        OpenID Connect Federation           January 2020
-
 
 6.2.1.  Trust Negotiation Request
 
@@ -1664,23 +1784,20 @@ Hedberg, et al.           Expires July 24, 2020                [Page 29]
    peer=https%3A%2F%2Fidp.umu.se%2Fopenid HTTP/1.1
    Host: openid.sunet.se
 
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 32]
+
+                        OpenID Connect Federation           January 2020
+
+
 6.2.2.  Trust Negotiation Response
 
    The response is a metadata statement that is the result of applying
    the metadata policies in the trust chain on the entity's metadata.
-
-
-
-
-
-
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 30]
-
-                        OpenID Connect Federation           January 2020
-
 
    The following is a non-normative example of a response:
 
@@ -1689,8 +1806,11 @@ Hedberg, et al.           Expires July 24, 2020                [Page 30]
    Content-Type: application/json
 
    {
-     "organization": "University of Ume?",
-     "contacts": ["legal@umu.se", "technical@umu.se"],
+     "organization": "University of Umea",
+     "contacts": [
+       "legal@umu.se",
+       "technical@umu.se"
+     ],
      "logo_uri":
        "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
      "policy_uri":
@@ -1698,15 +1818,37 @@ Hedberg, et al.           Expires July 24, 2020                [Page 30]
      "authorization_endpoint":
        "https://idp.umu.se/openid/authorization",
      "token_endpoint": "https://idp.umu.se/openid/token",
-     "response_types_supported": ["code", "code id_token", "token"],
+     "response_types_supported": [
+       "code",
+       "code id_token",
+       "token"
+     ],
      "grant_types_supported": [
        "authorization_code",
        "implicit",
        "urn:ietf:params:oauth:grant-type:jwt-bearer"
      ],
-     "subject_types_supported": ["pairwise"],
-     "id_token_signing_alg_values_supported": ["RS256"]
+     "subject_types_supported": [
+       "pairwise"
+     ],
+     "id_token_signing_alg_values_supported": [
+       "RS256"
+     ],
+     "issuer": "https://idp.umu.se/openid",
+     "jwks_uri": "https://idp.umu.se/openid/jwks_uri.json"
    }
+
+
+
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 33]
+
+                        OpenID Connect Federation           January 2020
+
 
 6.3.  Entity Listings (OPTIONAL)
 
@@ -1731,13 +1873,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 30]
       federation API.  This parameter makes it explicit exactly which
       entity is expected.
 
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 31]
-
-                        OpenID Connect Federation           January 2020
-
-
    is_leaf
       OPTIONAL.  If left out, result should include both leaf entities
       and intermediate nodes.  If set to "true", the response should
@@ -1756,6 +1891,20 @@ Hedberg, et al.           Expires July 24, 2020                [Page 31]
 
    The response MUST contain an JSON list with the known entity
    identifiers.
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 34]
+
+                        OpenID Connect Federation           January 2020
+
 
    The following is a non-normative example of a response:
 
@@ -1786,14 +1935,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 31]
    error
       REQUIRED.  The error code.
 
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 32]
-
-                        OpenID Connect Federation           January 2020
-
-
    error_description
       REQUIRED.  A human readable short text describing the error.
 
@@ -1809,6 +1950,17 @@ Hedberg, et al.           Expires July 24, 2020                [Page 32]
      "error_description":
        "Required request parameter [iss] was missing."
    }
+
+
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 35]
+
+                        OpenID Connect Federation           January 2020
+
 
 7.  Resolving Trust Chain and Metadata
 
@@ -1840,16 +1992,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 32]
    NOT attempt to fetch entity statements it already has fetched during
    this process (loop prevention).
 
-
-
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 33]
-
-                        OpenID Connect Federation           January 2020
-
-
    A successful operation will return one or more lists of entity
    statements.  Each of the lists terminating in a self-signed entity
    statement issued by a trust anchor.
@@ -1867,6 +2009,14 @@ Hedberg, et al.           Expires July 24, 2020                [Page 33]
    a proper trust chain using the rules laid out in that section.
 
    To validate the chain, the following must be done:
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 36]
+
+                        OpenID Connect Federation           January 2020
+
 
    o  For each entity statement ES[j] j=i,..,0:
 
@@ -1898,14 +2048,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 33]
    Consumers MAY cache Entity Statements or signature verification
    results for a given time until they expire Section 7.4.
 
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 34]
-
-                        OpenID Connect Federation           January 2020
-
-
 7.3.  Choosing One of the Valid Trust Chains
 
    If multiple valid trust chains are found, the Consumer will need to
@@ -1920,6 +2062,17 @@ Hedberg, et al.           Expires July 24, 2020                [Page 34]
    Each entity statement in a trust chain is signed and MUST have an
    expiration time (exp) set.  The expiration time of the whole trust
    chain is set to the minimum value of exp within the chain.
+
+
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 37]
+
+                        OpenID Connect Federation           January 2020
+
 
 8.  Updating Metadata, Key Rollover, and Revocation
 
@@ -1955,13 +2108,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 34]
        enough time period to allow all subordinates to have gotten
        access to the new keys.
 
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 35]
-
-                        OpenID Connect Federation           January 2020
-
-
    3.  Switch to signing with the new keys.
 
    4.  After a reasonable time period remove the old keys.  What is
@@ -1975,6 +2121,15 @@ Hedberg, et al.           Expires July 24, 2020                [Page 35]
 
    Since the consumers are expected to check the trust chain at regular,
    reasonably frequent times, this specification does not specify a
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 38]
+
+                        OpenID Connect Federation           January 2020
+
+
    standard revocation process.  Specific federations may make a
    different choice and will then have to add such a process.
 
@@ -2006,23 +2161,11 @@ Hedberg, et al.           Expires July 24, 2020                [Page 35]
    The RP MUST host a Federation API that allows the OP to fetch the
    entity statements.
 
-
-
-
-
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 36]
-
-                        OpenID Connect Federation           January 2020
-
-
 9.1.1.  The Authentication Request
 
    The authentication request is as specified in OpenID Connect Core.
 
-   The RP MUST authenticate at the authentication endpoint using the
+   The RP MUST authenticate at the authorization endpoint using the
    private_key_jwt method described in the client authentication section
    of OpenID Connect Core 1.0 [OpenID.Core].  The private_key_jwt JWT
    used here diverge from what is described in that section on a couple
@@ -2034,6 +2177,14 @@ Hedberg, et al.           Expires July 24, 2020                [Page 36]
       The claim iss MUST contain the entity ID of the OAuth client
 
       The claim sub MUST contain the entity ID of the OAuth client
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 39]
+
+                        OpenID Connect Federation           January 2020
+
 
    An authentication request example:
 
@@ -2066,14 +2217,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 36]
    that it complies with the client metadata specification in OpenID
    Connect Dynamic Client Registration 1.0 [OpenID.Registration].
 
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 37]
-
-                        OpenID Connect Federation           January 2020
-
-
    Once the OP has the RP's metadata, it can verify the client
    authentication.
 
@@ -2091,6 +2234,14 @@ Hedberg, et al.           Expires July 24, 2020                [Page 37]
       No trusted trust anchor could be found.
 
    validation_failed
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 40]
+
+                        OpenID Connect Federation           January 2020
+
+
       Trust chain validation failed.
 
    The following is a non-normative example error response:
@@ -2123,13 +2274,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 37]
    this specification.  This is signaled by having the claim
    "federation_registration_endpoint" in the OP's metadata.
 
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 38]
-
-                        OpenID Connect Federation           January 2020
-
-
    Given that the OP supports explicit registration, the RP progresses
    as follows:
 
@@ -2146,6 +2290,13 @@ Hedberg, et al.           Expires July 24, 2020                [Page 38]
        the metadata statement chosen is influenced by the OPs metadata
        and the "authority_hints" included are picked by the process
        described above.
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 41]
+
+                        OpenID Connect Federation           January 2020
+
 
    4.  The entity statement is sent, using POST, to the
        "federation_registration_endpoint" defined in this document.  The
@@ -2178,14 +2329,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 38]
        from its collection, that terminate in the trust anchor chosen
        above.
 
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 39]
-
-                        OpenID Connect Federation           January 2020
-
-
    5.  It will sign and return the registration response (a signed
        entity statement) to the RP.
 
@@ -2203,6 +2346,14 @@ Hedberg, et al.           Expires July 24, 2020                [Page 39]
        chose.  Once it has applied those policies it can the apply the
        policy returned from the OP.  When it has applied all the
        metadata policies to its metadata statement, it then stores the
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 42]
+
+                        OpenID Connect Federation           January 2020
+
+
        result and can continue communicating with the OP using the
        agreed-upon metadata.
 
@@ -2234,14 +2385,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 39]
        verify, then the registration should be regarded as invalid and a
        new registration process should be started.
 
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 40]
-
-                        OpenID Connect Federation           January 2020
-
-
    2.  If the OP's entity statement was properly formed the RP must now
        verify that the entity statement it received about itself from
        the OP is still valid.  Again, if that is not the case the
@@ -2258,6 +2401,14 @@ Hedberg, et al.           Expires July 24, 2020                [Page 40]
    1.  If the signature on the registration request has expired it MUST
        mark the registration as invalid and demand that the RP MUST re-
        register.  Else
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 43]
+
+                        OpenID Connect Federation           January 2020
+
 
    2.  starting with the RP's client registration request, the OP MUST
        verify that there still is a valid trust chain terminating in the
@@ -2290,14 +2441,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 40]
               C. Mortimore, "OpenID Connect Discovery 1.0", August 2015,
               <http://openid.net/specs/openid-connect-core-1_0.html>.
 
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 41]
-
-                        OpenID Connect Federation           January 2020
-
-
    [OpenID.Discovery]
               Sakimura, N., Bradley, J., Jones, M., and E. Jay, "OpenID
               Connect Discovery 1.0", August 2015,
@@ -2314,6 +2457,14 @@ Hedberg, et al.           Expires July 24, 2020                [Page 41]
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 44]
+
+                        OpenID Connect Federation           January 2020
+
 
    [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
@@ -2346,14 +2497,6 @@ Hedberg, et al.           Expires July 24, 2020                [Page 41]
               RFC 7591, DOI 10.17487/RFC7591, July 2015,
               <https://www.rfc-editor.org/info/rfc7591>.
 
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 42]
-
-                        OpenID Connect Federation           January 2020
-
-
    [RFC8414]  Jones, M., Sakimura, N., and J. Bradley, "OAuth 2.0
               Authorization Server Metadata", RFC 8414,
               DOI 10.17487/RFC8414, June 2018,
@@ -2368,6 +2511,16 @@ Hedberg, et al.           Expires July 24, 2020                [Page 42]
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
               <https://www.rfc-editor.org/info/rfc8446>.
+
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 45]
+
+                        OpenID Connect Federation           January 2020
+
 
 Appendix A.  Provider Information Discovery and Client Registration in a
              Federation
@@ -2402,14 +2555,6 @@ Appendix A.  Provider Information Discovery and Client Registration in a
    at the LIGO Wiki.  At the Wiki, the researcher will use some kind of
    discovery service to find the home identity provider (op.umu.se)
 
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 43]
-
-                        OpenID Connect Federation           January 2020
-
-
    Once the RP-part of the Wiki knows which OP it should talk to it has
    to find out a couple of things about the OP.  All if those things can
    be found in the metadata.  But finding the metadata is not enough;
@@ -2423,6 +2568,15 @@ A.1.  The LIGO Wiki Discovers the OP's Metadata
    fetching the self-signed entity statement of the leaf (in this case
    https://op.umu.se) using the process defined in Section 5.  What
    follows thereafter is this sequence of steps:
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 46]
+
+                        OpenID Connect Federation           January 2020
+
 
    1.  Pick out the immediate superior entities using the authority
        hints
@@ -2454,78 +2608,87 @@ A.1.1.  Configuration Information for op.umu.se
    The result is this entity statement.
 
    {
-       "authority_hints": [
-           "https://umu.se"
-       ],
-       "exp": 1568397247,
+     "authority_hints": [
+       "https://umu.se"
+     ],
+     "exp": 1568397247,
+     "iat": 1568310847,
+     "iss": "https://op.umu.se",
+     "jwks": {
+       "keys": [
+         {
+           "e": "AQAB",
+           "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
+           "kty": "RSA",
+           "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
+         }
+       ]
+     },
+     "metadata": {
+       "openid_provider": {
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 44]
+Hedberg, et al.           Expires July 24, 2020                [Page 47]
 
                         OpenID Connect Federation           January 2020
 
 
-       "iat": 1568310847,
-       "iss": "https://op.umu.se",
-       "jwks": {
-           "keys": [
-               {
-                   "e": "AQAB",
-                   "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
-                   "kty": "RSA",
-                   "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
-               }
-           ]
-       },
-       "metadata": {
-           "openid_provider": {
-               "authorization_endpoint":
-                 "https://op.umu.se/openid/authorization",
-               "federation_types_supported": [
-                   "automatic",
-                   "explicit"
-               ],
-               "grant_types_supported": [
-                   "authorization_code",
-                   "implicit",
-                   "urn:ietf:params:oauth:grant-type:jwt-bearer"
-               ],
-               "id_token_signing_alg_values_supported": [
-                   "ES256"
-               ],
-               "logo_uri":
-                 "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-               "policy_uri":
-                 "https://www.umu.se/en/website/legal-information/",
-               "response_types_supported": [
-                   "code",
-                   "code id_token",
-                   "token"
-               ],
-               "subject_types_supported": [
-                   "pairwise",
-                   "public"
-               ],
-               "token_endpoint": "https://op.umu.se/openid/token",
-               "federation_registration_endpoint":
-                 "https://op.umu.se/openid/fedreg"
-           }
-       },
-       "sub": "https://op.umu.se"
+         "issuer": "https://op.umu.se/openid",
+         "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
+         "authorization_endpoint":
+           "https://op.umu.se/openid/authorization",
+         "federation_types_supported": [
+           "automatic",
+           "explicit"
+         ],
+         "grant_types_supported": [
+           "authorization_code",
+           "implicit",
+           "urn:ietf:params:oauth:grant-type:jwt-bearer"
+         ],
+         "id_token_signing_alg_values_supported": [
+           "ES256", "RS256"
+         ],
+         "logo_uri":
+           "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
+         "policy_uri":
+           "https://www.umu.se/en/website/legal-information/",
+         "response_types_supported": [
+           "code",
+           "code id_token",
+           "token"
+         ],
+         "subject_types_supported": [
+           "pairwise",
+           "public"
+         ],
+         "token_endpoint": "https://op.umu.se/openid/token",
+         "federation_registration_endpoint":
+           "https://op.umu.se/openid/fedreg",
+         "token_endpoint_auth_methods_supported": [
+           "client_secret_post",
+           "client_secret_basic",
+           "client_secret_jwt",
+           "private_key_jwt"
+         ]
+       }
+     },
+     "sub": "https://op.umu.se"
    }
-
-
-
-Hedberg, et al.           Expires July 24, 2020                [Page 45]
-
-                        OpenID Connect Federation           January 2020
-
 
    The "authority_hints" points to the intermediate https://umu.se.  So
    that is the next step.
 
    This entity statement is the first link in the trust chain.
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 48]
+
+                        OpenID Connect Federation           January 2020
+
 
 A.1.2.  Configuration Information for 'https://umu.se'
 
@@ -2533,31 +2696,31 @@ A.1.2.  Configuration Information for 'https://umu.se'
    "https://umu.se" using the process defined in Section 5.
 
    {
-       "authority_hints": [
-           "https://swamid.se"
-       ],
-       "exp": 1568397247,
-       "iat": 1568310847,
-       "iss": "https://umu.se",
-       "jwks": {
-           "keys": [
-               {
-                   "e": "AQAB",
-                   "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
-                   "kty": "RSA",
-                   "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
-               }
-           ]
-       },
-       "metadata": {
-           "federation_entity": {
-               "contacts": "ops@umu.se",
-               "federation_api_endpoint": "https://umu.se/oidc/fedapi",
-               "homepage_uri": "https://www.umu.se",
-               "name": "UmU"
-           }
-       },
-       "sub": "https://umu.se"
+     "authority_hints": [
+       "https://swamid.se"
+     ],
+     "exp": 1568397247,
+     "iat": 1568310847,
+     "iss": "https://umu.se",
+     "jwks": {
+       "keys": [
+         {
+           "e": "AQAB",
+           "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
+           "kty": "RSA",
+           "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
+         }
+       ]
+     },
+     "metadata": {
+       "federation_entity": {
+         "contacts": "ops@umu.se",
+         "federation_api_endpoint": "https://umu.se/oidc/fedapi",
+         "homepage_uri": "https://www.umu.se",
+         "name": "UmU"
+       }
+     },
+     "sub": "https://umu.se"
    }
 
    The only piece of information that is used from this entity statement
@@ -2573,63 +2736,68 @@ A.1.3.  Entity Statement Published by 'https://umu.se' about
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 46]
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 49]
 
                         OpenID Connect Federation           January 2020
 
 
    {
-       "authority_hints": [
-           "https://swamid.se"
-       ],
-       "exp": 1568397247,
-       "iat": 1568310847,
-       "iss": "https://umu.se",
-       "jwks": {
-           "keys": [
-               {
-                   "e": "AQAB",
-                   "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
-                   "kty": "RSA",
-                   "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
-               }
+     "authority_hints": [
+       "https://swamid.se"
+     ],
+     "exp": 1568397247,
+     "iat": 1568310847,
+     "iss": "https://umu.se",
+     "jwks": {
+       "keys": [
+         {
+           "e": "AQAB",
+           "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
+           "kty": "RSA",
+           "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
+         }
+       ]
+     },
+     "metadata_policy": {
+       "openid_provider": {
+         "contacts": {
+           "add": [
+             "ops@swamid.se"
            ]
-       },
-       "metadata_policy": {
-           "openid_provider": {
-               "contacts": {
-                   "add": [
-                       "ops@swamid.se"
-                   ]
-               },
-               "organization": {
-                   "value": "University of Ume\u00e5"
-               },
-               "subject_types_supported": {
-                   "value": [
-                       "pairwise"
-                   ]
-               },
-               "token_endpoint_auth_methods_supported": {
-                   "default": [
-                       "private_key_jwt"
-                   ],
-                   "subset_of": [
-                       "private_key_jwt",
-                       "client_secret_jwt"
-                   ],
-                   "superset_of": [
-                       "private_key_jwt"
-                   ]
-               }
-           }
-       },
-       "sub": "https://op.umu.se"
+         },
+         "organization": {
+           "value": "University of Ume\u00e5"
+         },
+         "subject_types_supported": {
+           "value": [
+             "pairwise"
+           ]
+         },
+         "token_endpoint_auth_methods_supported": {
+           "default": [
+             "private_key_jwt"
+           ],
+           "subset_of": [
+             "private_key_jwt",
+             "client_secret_jwt"
+           ],
+           "superset_of": [
+             "private_key_jwt"
+           ]
+         }
+       }
+     },
+     "sub": "https://op.umu.se"
    }
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 47]
+Hedberg, et al.           Expires July 24, 2020                [Page 50]
 
                         OpenID Connect Federation           January 2020
 
@@ -2645,32 +2813,32 @@ A.1.4.  Configuration Information for 'https://swamid.se'
    "https://swamid.se" using the process defined in Section 5.
 
    {
-       "authority_hints": [
-           "https://edugain.geant.org"
-       ],
-       "exp": 1568397247,
-       "iat": 1568310847,
-       "iss": "https://swamid.se",
-       "jwks": {
-           "keys": [
-               {
-                   "e": "AQAB",
-                   "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
-                   "kty": "RSA",
-                   "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
-               }
-           ]
-       },
-       "metadata": {
-           "federation_entity": {
-               "contacts": "ops@swamid.se",
-               "federation_api_endpoint":
-                 "https://swamid.sunet.se/fedapi",
-               "homepage_uri": "https://www.sunet.se/swamid/",
-               "name": "SWAMID"
-           }
-       },
-       "sub": "https://swamid.se"
+     "authority_hints": [
+       "https://edugain.geant.org"
+     ],
+     "exp": 1568397247,
+     "iat": 1568310847,
+     "iss": "https://swamid.se",
+     "jwks": {
+       "keys": [
+         {
+           "e": "AQAB",
+           "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
+           "kty": "RSA",
+           "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
+         }
+       ]
+     },
+     "metadata": {
+       "federation_entity": {
+         "contacts": "ops@swamid.se",
+         "federation_api_endpoint":
+           "https://swamid.sunet.se/fedapi",
+         "homepage_uri": "https://www.sunet.se/swamid/",
+         "name": "SWAMID"
+       }
+     },
+     "sub": "https://swamid.se"
    }
 
    The only piece of information that is used from this entity statement
@@ -2685,54 +2853,54 @@ A.1.5.  Entity Statement Published by 'https://swamid.se' about
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 48]
+Hedberg, et al.           Expires July 24, 2020                [Page 51]
 
                         OpenID Connect Federation           January 2020
 
 
    {
-       "authority_hints": [
-           "https://edugain.geant.org"
-       ],
-       "exp": 1568397247,
-       "iat": 1568310847,
-       "iss": "https://swamid.se",
-       "jwks": {
-           "keys": [
-               {
-                   "e": "AQAB",
-                   "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
-                   "kty": "RSA",
-                   "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
-               }
+     "authority_hints": [
+       "https://edugain.geant.org"
+     ],
+     "exp": 1568397247,
+     "iat": 1568310847,
+     "iss": "https://swamid.se",
+     "jwks": {
+       "keys": [
+         {
+           "e": "AQAB",
+           "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
+           "kty": "RSA",
+           "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
+         }
+       ]
+     },
+     "metadata_policy": {
+       "openid_provider": {
+         "id_token_signing_alg_values_supported": {
+           "subset_of": [
+             "RS256",
+             "ES256",
+             "ES384",
+             "ES512"
            ]
-       },
-       "metadata_policy": {
-           "openid_provider": {
-               "id_token_signing_alg_values_supported": {
-                   "subset_of": [
-                       "RS256",
-                       "ES256",
-                       "ES384",
-                       "ES512"
-                   ]
-               },
-               "token_endpoint_auth_methods_supported": {
-                   "subset_of": [
-                       "client_secret_jwt",
-                       "private_key_jwt"
-                   ]
-               },
-               "userinfo_signing_alg_values_supported": {
-                   "subset_of": [
-                       "ES256",
-                       "ES384",
-                       "ES512"
-                   ]
-               }
-           }
-       },
-       "sub": "https://umu.se"
+         },
+         "token_endpoint_auth_methods_supported": {
+           "subset_of": [
+             "client_secret_jwt",
+             "private_key_jwt"
+           ]
+         },
+         "userinfo_signing_alg_values_supported": {
+           "subset_of": [
+             "ES256",
+             "ES384",
+             "ES512"
+           ]
+         }
+       }
+     },
+     "sub": "https://umu.se"
    }
 
    This is the third link in the trust chain.
@@ -2741,7 +2909,7 @@ Hedberg, et al.           Expires July 24, 2020                [Page 48]
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 49]
+Hedberg, et al.           Expires July 24, 2020                [Page 52]
 
                         OpenID Connect Federation           January 2020
 
@@ -2756,27 +2924,27 @@ A.1.6.  Configuration Information for 'https://edugain.geant.org'
    "https://edugain.geant.org" using the process defined in Section 5.
 
    {
-       "exp": 1568397247,
-       "iat": 1568310847,
-       "iss": "https://edugain.geant.org",
-       "jwks": {
-           "keys": [
-               {
-                   "e": "AQAB",
-                   "kid": "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2Fr...",
-                   "kty": "RSA",
-                   "n": "xKlwocDXUw-mrvDSO4oRrTRrVuTwotoBFpozvlq-1q..."
-               }
-           ]
-       },
-       "metadata": {
-           "federation_entity": {
-               "federation_api_endpoint":
-                 "https://geant.org/edugain/api"
-           }
-       },
-       "sub": "https://edugain.geant.org"
+     "exp": 1568397247,
+     "iat": 1568310847,
+     "iss": "https://edugain.geant.org",
+     "jwks": {
+       "keys": [
+         {
+           "e": "AQAB",
+           "kid": "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2Fr...",
+           "kty": "RSA",
+           "n": "xKlwocDXUw-mrvDSO4oRrTRrVuTwotoBFpozvlq-1q..."
+         }
+       ]
+     },
+     "metadata": {
+       "federation_entity": {
+         "federation_api_endpoint": "https://geant.org/edugain/api"
+       }
+     },
+     "sub": "https://edugain.geant.org"
    }
+
 
    Again, the only thing we need is the "federation_api_endpoint".  As
    described in Section 8.2, note should also be taken to "jwks" as the
@@ -2797,38 +2965,38 @@ A.1.7.  Entity Statement Published by 'https://edugain.geant.org' about
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 50]
+Hedberg, et al.           Expires July 24, 2020                [Page 53]
 
                         OpenID Connect Federation           January 2020
 
 
    {
-       "exp": 1568397247,
-       "iat": 1568310847,
-       "iss": "https://edugain.geant.org",
-       "jwks": {
-           "keys": [
-               {
-                   "e": "AQAB",
-                   "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
-                   "kty": "RSA",
-                   "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
-               }
-           ]
+     "exp": 1568397247,
+     "iat": 1568310847,
+     "iss": "https://edugain.geant.org",
+     "jwks": {
+       "keys": [
+         {
+           "e": "AQAB",
+           "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
+           "kty": "RSA",
+           "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
+         }
+       ]
+     },
+     "metadata_policy": {
+       "openid_provider": {
+         "contacts": {
+           "add": "ops@edugain.geant.org"
+         }
        },
-       "metadata_policy": {
-           "openid_provider": {
-               "contacts": {
-                   "add": "ops@edugain.geant.org"
-               }
-           },
-           "openid_relying_part": {
-               "contacts": {
-                   "add": "ops@edugain.geant.org"
-               }
-           }
-       },
-       "sub": "https://swamid.se"
+       "openid_relying_part": {
+         "contacts": {
+           "add": "ops@edugain.geant.org"
+         }
+       }
+     },
+     "sub": "https://swamid.se"
    }
 
    If we assume that the issuer of this statement appears in the list of
@@ -2853,7 +3021,7 @@ Hedberg, et al.           Expires July 24, 2020                [Page 50]
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 51]
+Hedberg, et al.           Expires July 24, 2020                [Page 54]
 
                         OpenID Connect Federation           January 2020
 
@@ -2872,44 +3040,100 @@ A.1.8.  Verified Metadata for op.umu.se
    policy to the metadata statement that the leaf entity presented, we
    get:
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 55]
+
+                        OpenID Connect Federation           January 2020
+
+
    {
-       "authorization_endpoint":
-         "https://op.umu.se/openid/authorization",
-       "contacts": "ops@edugain.geant.org",
-       "federation_types_supported": [
-           "automatic",
-           "explicit"
-       ],
-       "grant_types_supported": [
-           "authorization_code",
-           "implicit",
-           "urn:ietf:params:oauth:grant-type:jwt-bearer"
-       ],
-       "id_token_signing_alg_values_supported": [
-           "ES256"
-       ],
-       "logo_uri":
-         "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-       "policy_uri":
-         "https://www.umu.se/en/website/legal-information/",
-       "response_types_supported": [
-           "code",
-           "code id_token",
-           "token"
-       ],
-       "subject_types_supported": [
-           "pairwise",
-           "public"
-       ],
-       "token_endpoint": "https://op.umu.se/openid/token",
-       "federation_registration_endpoint":
-           "https://op.umu.se/openid/fedreg"
+     "authorization_endpoint":
+       "https://op.umu.se/openid/authorization",
+     "claims_parameter_supported": false,
+     "contacts": [
+       "ops@swamid.se"
+     ],
+     "federation_registration_endpoint":
+       "https://op.umu.se/openid/fedreg",
+     "federation_types_supported": [
+       "automatic",
+       "explicit"
+     ],
+     "grant_types_supported": [
+       "authorization_code",
+       "implicit",
+       "urn:ietf:params:oauth:grant-type:jwt-bearer"
+     ],
+     "id_token_signing_alg_values_supported": [
+       "RS256",
+       "ES256"
+     ],
+     "issuer": "https://op.umu.se/openid",
+     "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
+     "logo_uri":
+       "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
+     "organization": "University of Ume\u00e5",
+     "policy_uri":
+       "https://www.umu.se/en/website/legal-information/",
+     "request_parameter_supported": false,
+     "request_uri_parameter_supported": true,
+     "require_request_uri_registration": true,
+     "response_types_supported": [
+       "code",
+       "code id_token",
+       "token"
+     ],
+     "subject_types_supported": [
+       "pairwise"
+     ],
+     "token_endpoint": "https://op.umu.se/openid/token",
+     "token_endpoint_auth_methods_supported": [
+       "private_key_jwt",
+       "client_secret_jwt"
+     ],
+     "version": "3.0"
    }
 
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 52]
+Hedberg, et al.           Expires July 24, 2020                [Page 56]
 
                         OpenID Connect Federation           January 2020
 
@@ -2965,7 +3189,7 @@ A.2.1.1.  OP Fetches Entity Statements
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 53]
+Hedberg, et al.           Expires July 24, 2020                [Page 57]
 
                         OpenID Connect Federation           January 2020
 
@@ -3001,18 +3225,18 @@ A.2.1.2.  OP Evaluates the RP Metadata
 
    edugain.geant.org
 
-       "metadata_policy": {
-           "openid_provider": {
-               "contacts": {
-                   "add": "ops@edugain.geant.org"
-               }
-           },
-           "openid_relying_party": {
-               "contacts": {
-                   "add": "ops@edugain.geant.org"
-               }
-           }
+   "metadata_policy": {
+     "openid_provider": {
+       "contacts": {
+         "add": "ops@edugain.geant.org"
        }
+     },
+     "openid_relying_party": {
+       "contacts": {
+         "add": "ops@edugain.geant.org"
+       }
+     }
+   }
 
    incommon.org
 
@@ -3021,93 +3245,91 @@ A.2.1.2.  OP Evaluates the RP Metadata
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 54]
+Hedberg, et al.           Expires July 24, 2020                [Page 58]
 
                         OpenID Connect Federation           January 2020
 
 
-       "metadata_policy": {
-           "openid_relying_party": {
-               "application_type": {
-                   "one_of": [
-                       "web",
-                       "native"
-                   ]
-               },
-               "contacts": {
-                   "add": "ops@incommon.org"
-               },
-               "grant_types": {
-                   "subset_of": [
-                       "authorization_code",
-                       "refresh_token"
-                   ]
-               }
-           }
+   "metadata_policy": {
+     "openid_relying_party": {
+       "application_type": {
+         "one_of": [
+           "web",
+           "native"
+         ]
+       },
+       "contacts": {
+         "add": "ops@incommon.org"
+       },
+       "grant_types": {
+         "subset_of": [
+           "authorization_code",
+           "refresh_token"
+         ]
        }
+     }
+   }
 
    If you combine these and apply them to the metadata for wiki.ligo.org
    :
 
    "metadata": {
-       "openid_relying_party": {
-           "application_type": "web",
-           "client_name": "LIGO Wiki",
-           "contacts": [
-               "ops@ligo.org"
-           ],
-           "grant_types": [
-               "authorization_code",
-               "refresh_token"
-           ],
-           "id_token_signing_alg_values_supported": [
-               "RS256",
-               "RS512"
-           ],
-           "jwks_uri": "https://wiki.ligo.org/jwks.json",
-           "redirect_uris": [
-               "https://wiki.ligo.org/callback"
-           ],
-           "response_types": [
-               "code"
-           ],
-           "subject_type": "public"
-       }
+     "application_type": "web",
+     "client_name": "LIGO Wiki",
+     "contacts": [
+       "ops@ligo.org"
+     ],
+     "grant_types": [
+       "authorization_code",
+       "refresh_token"
+     ],
+     "id_token_signing_alg_values_supported": [
+       "RS256",
+       "RS512"
+     ],
+     "jwks_uri": "https://wiki.ligo.org/jwks.json",
+     "redirect_uris": [
+       "https://wiki.ligo.org/callback"
+     ],
+     "response_types": [
+       "code"
+     ],
+     "subject_type": "public"
    }
 
+   You will get
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 55]
+
+Hedberg, et al.           Expires July 24, 2020                [Page 59]
 
                         OpenID Connect Federation           January 2020
 
 
-   You will get
-
    {
-       "application_type": "web",
-       "client_name": "LIGO Wiki",
-       "contacts": [
-           "ops@ligo.org",
-           "ops@incommon.org",
-           "ops@edugain.geant.org"
-       ],
-       "grant_types": [
-           "authorization_code",
-           "refresh_token"
-       ],
-       "id_token_signing_alg_values_supported": [
-           "RS256",
-           "RS512"
-       ],
-       "jwks_uri": "https://wiki.ligo.org/jwks.json",
-       "redirect_uris": [
-           "https://wiki.ligo.org/callback"
-       ],
-       "response_types": [
-           "code"
-       ],
-       "subject_type": "public"
+     "application_type": "web",
+     "client_name": "LIGO Wiki",
+     "contacts": [
+       "ops@ligo.org",
+       "ops@edugain.geant.org",
+       "ops@incommon.org"
+     ],
+     "grant_types": [
+       "refresh_token",
+       "authorization_code"
+     ],
+     "id_token_signing_alg_values_supported": [
+       "RS256",
+       "RS512"
+     ],
+     "jwks_uri": "https://wiki.ligo.org/jwks.json",
+     "redirect_uris": [
+       "https://wiki.ligo.org/callback"
+     ],
+     "response_types": [
+       "code"
+     ],
+     "subject_type": "public"
    }
 
    Having that, the "registration" is done, and the OP must now use the
@@ -3129,53 +3351,53 @@ A.2.2.  Client Starts with Registration (Explicit Client Registration)
    policy will be combined with the trust chain's combined metadata
    policy before being applied to the RP's metadata.
 
+   If we assume that the OP does not support refresh tokens, it may want
+   to add a metadata policy that says:
 
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 56]
+Hedberg, et al.           Expires July 24, 2020                [Page 60]
 
                         OpenID Connect Federation           January 2020
 
 
-   If we assume that the OP has a bit more strict view on which type of
-   crypto keys to use, it may want to add a metadata policy that says:
-
-   "metadata_policy":
-      {
-         "openid_relying_party": {
-            "id_token_signing_alg_values_supported": [
-               "RS512"
-           ]
-         }
+   "metadata_policy": {
+     "openid_relying_party": {
+       "grant_types": {
+         "subset_of": [
+           "authorization_code"
+         ]
+       }
+     }
    }
 
    In which case the metadata used by the RP should be described like
    this:
 
    {
-       "application_type": "web",
-       "client_name": "LIGO Wiki",
-       "contacts": [
-           "ops@ligo.org",
-           "ops@incommon.org",
-           "ops@edugain.geant.org"
-       ],
-       "grant_types": [
-           "authorization_code",
-           "refresh_token"
-       ],
-       "id_token_signing_alg_values_supported": [
-           "RS512"
-       ],
-       "jwks_uri": "https://wiki.ligo.org/jwks.json",
-       "redirect_uris": [
-           "https://wiki.ligo.org/callback"
-       ],
-       "response_types": [
-           "code"
-       ],
-       "subject_type": "public"
+     "application_type": "web",
+     "client_name": "LIGO Wiki",
+     "contacts": [
+       "ops@edugain.geant.org",
+       "ops@incommon.org",
+       "ops@ligo.org"
+     ],
+     "grant_types": [
+       "authorization_code"
+     ],
+     "id_token_signing_alg_values_supported": [
+       "RS256",
+       "RS512"
+     ],
+     "jwks_uri": "https://wiki.ligo.org/jwks.json",
+     "redirect_uris": [
+       "https://wiki.ligo.org/callback"
+     ],
+     "response_types": [
+       "code"
+     ],
+     "subject_type": "public"
    }
 
 Appendix B.  Notices
@@ -3186,16 +3408,16 @@ Appendix B.  Notices
    implementer, or other interested party a non-exclusive, royalty free,
    worldwide copyright license to reproduce, prepare derivative works
    from, distribute, perform and display, this Implementers Draft or
+   Final Specification solely for the purposes of (i) developing
+   specifications, and (ii) implementing Implementers Drafts and Final
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 57]
+Hedberg, et al.           Expires July 24, 2020                [Page 61]
 
                         OpenID Connect Federation           January 2020
 
 
-   Final Specification solely for the purposes of (i) developing
-   specifications, and (ii) implementing Implementers Drafts and Final
    Specifications based on such documents, provided that attribution be
    made to the OIDF as the source of the material, but that such
    attribution does not indicate an endorsement by the OIDF.
@@ -3243,14 +3465,14 @@ Appendix D.  Open Issues
    o  A mechanism is needed for key rotation of federation operator keys
       for long-term security and maintainability of federations.
 
+   o  A mechanism may be needed for bounding key lifetimes.
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 58]
+
+Hedberg, et al.           Expires July 24, 2020                [Page 62]
 
                         OpenID Connect Federation           January 2020
 
-
-   o  A mechanism may be needed for bounding key lifetimes.
 
    o  Discuss that key IDs may be chosen as the JWK Thumbprint [RFC
       7638] of the key.
@@ -3297,17 +3519,16 @@ Appendix E.  Document History
 
    o  Deleted "sub_is_leaf" entity statement since it was redundant.
 
+   o  Added "federation_type" RP registration metadata value and
+      "federation_types_supported" OP metadata value.
 
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 59]
+Hedberg, et al.           Expires July 24, 2020                [Page 63]
 
                         OpenID Connect Federation           January 2020
 
-
-   o  Added "federation_type" RP registration metadata value and
-      "federation_types_supported" OP metadata value.
 
    o  Deleted "openid_discovery" metadata type identifier since its
       purpose is already served by "openid_provider".
@@ -3355,14 +3576,15 @@ Hedberg, et al.           Expires July 24, 2020                [Page 59]
 
    o  A major rewrite.
 
+   -04
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 60]
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 64]
 
                         OpenID Connect Federation           January 2020
 
-
-   -04
 
    o  Changed client metadata names "scopes" to "rp_scopes" and "claims"
       to "rp_claims".
@@ -3413,4 +3635,6 @@ Authors' Addresses
 
 
 
-Hedberg, et al.           Expires July 24, 2020                [Page 61]
+
+
+Hedberg, et al.           Expires July 24, 2020                [Page 65]

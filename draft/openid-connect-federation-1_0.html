@@ -863,7 +863,8 @@
       "id_token_signing_alg_values_supported":
         {"subset_of": ["RS256", "RS384", "RS512"]},
       "op_policy_uri": {
-        "regexp": "^https:\/\/[\w-]+\.example\.com\/[\w-]+\.html"}
+        "regexp":
+          "^https:\/\/[\\w-]+\\.example\\.com\/[\\w-]+\\.html"}
     },
     "openid_relying_party": {
       "organization_name": {"value": "NTNU"},
@@ -875,7 +876,7 @@
   },
   "constraints": {
     "max_path_length": 2
-  }
+  },
   "jwks": {
     "keys": [
       {
@@ -1022,10 +1023,10 @@
 <p id="rfc.section.3.6.p.4">Example</p>
 <pre>
 "federation_entity": {
-    "federation_api_endpoint":
-        "https://example.com/federation_api_endpoint",
-    "name": "The example cooperation",
-    "homepage_uri": "https://www.example.com"
+  "federation_api_endpoint":
+    "https://example.com/federation_api_endpoint",
+  "name": "The example cooperation",
+  "homepage_uri": "https://www.example.com"
 }
 </pre>
 <h1 id="rfc.section.4">
@@ -1215,45 +1216,93 @@
 <p>A federations policy for RPs: </p>
 <pre>
 {
-    "scopes": {
-        "subset_of": ["openid", "eduperson", "phone"],
-        "superset_of": ["openid"],
-        "default": ["openid", "eduperson"]},
-    "id_token_signed_response_alg": {
-        "one_of": ["ES256", "ES384", "ES512"]},
-    "contacts": {
-        "add": "helpdesk@federation.example.org"},
-    "application_type": {"value": "web"}
+  "scopes": {
+    "subset_of": [
+      "openid",
+      "eduperson",
+      "phone"
+    ],
+    "superset_of": [
+      "openid"
+    ],
+    "default": [
+      "openid",
+      "eduperson"
+    ]
+  },
+  "id_token_signed_response_alg": {
+    "one_of": [
+      "ES256",
+      "ES384",
+      "ES512"
+    ]
+  },
+  "contacts": {
+    "add": "helpdesk@federation.example.org"
+  },
+  "application_type": {
+    "value": "web"
+  }
 }
 </pre>
 <p>An organization's policy for RPs: </p>
 <pre>
 {
-    "scopes": {
-        "subset_of": ["openid", "eduperson", "address"],
-        "default": ["openid", "eduperson"]},
-    "id_token_signed_response_alg": {
-        "one_of": ["ES256", "ES384"],
-        "default": "ES256"},
-    "contacts": {
-        "add": "helpdesk@org.example.org"}
+  "scopes": {
+    "subset_of": [
+      "openid",
+      "eduperson",
+      "address"
+    ],
+    "default": [
+      "openid",
+      "eduperson"
+    ]
+  },
+  "id_token_signed_response_alg": {
+    "one_of": [
+      "ES256",
+      "ES384"
+    ],
+    "default": "ES256"
+  },
+  "contacts": {
+    "add": "helpdesk@org.example.org"
+  }
 }
 </pre>
 <p>The combined metadata policy then becomes: </p>
 <pre>
 {
-    "scopes": {
-        "subset_of": ["openid", "eduperson"],
-        "superset_of": ["openid"],
-        "default": ["openid", "eduperson"]},
-    "id_token_signed_response_alg": {
-        "one_of": ["ES256", "ES384"],
-        "default": "ES256"},
-    "contacts": {
-        "add": ["helpdesk@federation.example.org",
-                "helpdesk@org.example.org"]},
-    "application_type": {
-        "value": "web"}
+  "scopes": {
+    "subset_of": [
+      "openid",
+      "eduperson"
+    ],
+    "superset_of": [
+      "openid"
+    ],
+    "default": [
+      "openid",
+      "eduperson"
+    ]
+  },
+  "id_token_signed_response_alg": {
+    "one_of": [
+      "ES256",
+      "ES384"
+    ],
+    "default": "ES256"
+  },
+  "contacts": {
+    "add": [
+      "helpdesk@federation.example.org",
+      "helpdesk@org.example.org"
+    ]
+  },
+  "application_type": {
+    "value": "web"
+  }
 }
 </pre>
 <h1 id="rfc.section.4.1.4">
@@ -1268,47 +1317,79 @@
 <p>The RP's metadata: </p>
 <pre>
 {
-  "contacts": ["rp_admins@cs.example.com"],
-  "redirect_uris": ["https://cs.example.com/rp1"],
-  "response_types": ["code"]
+  "contacts": [
+    "rp_admins@cs.example.com"
+  ],
+  "redirect_uris": [
+    "https://cs.example.com/rp1"
+  ],
+  "response_types": [
+    "code"
+  ]
 }
 </pre>
 <p>The federation's policy for RPs: </p>
 <pre>
 {
-    "scopes": {
-        "superset_of": ["openid", "eduperson"],
-        "default": ["openid", "eduperson"]
-    },
-    "response_types": {
-        "subset_of": ["code", "code id_token"]}
+  "scopes": {
+    "superset_of": [
+      "openid",
+      "eduperson"
+    ],
+    "default": [
+      "openid",
+      "eduperson"
+    ]
+  },
+  "response_types": {
+    "subset_of": [
+      "code",
+      "code id_token"
+    ]
+  }
 }
 </pre>
 <p>The organization's policy for RPs: </p>
 <pre>
 {
   "contacts": {
-    "add": "helpdesk@example.com"},
+    "add": "helpdesk@example.com"
+  },
   "logo_uri": {
-    "one_of": ["https://example.com/logo_small.jpg",
-               "https://example.com/logo_big.jpg"],
+    "one_of": [
+      "https://example.com/logo_small.jpg",
+      "https://example.com/logo_big.jpg"
+    ],
     "default": "https://example.com/logo_small.jpg"
   },
   "policy_uri": {
-    "value": "https://example.com/policy.html"},
+    "value": "https://example.com/policy.html"
+  },
   "tos_uri": {
-    "value": "https://example.com/tos.html"}
+    "value": "https://example.com/tos.html"
+  }
 }
 </pre>
 <p id="rfc.section.4.1.6.p.2">The metadata for the entity in question after applying the policies above, would then become: </p>
-<pre>{
-  "contacts": ["rp_admins@cs.example.com", "helpdesk@example.com"],
+<pre>
+{
+  "contacts": [
+    "rp_admins@cs.example.com",
+    "helpdesk@example.com"
+  ],
   "logo_uri": "https://example.com/logo_small.jpg",
   "policy_uri": "https://example.com/policy.html",
   "tos_uri": "https://example.com/tos.html",
-  "scopes": ["openid", "eduperson"],
-  "response_types": ["code"],
-  "redirect_uris": ["https://cs.example.com/rp1"]
+  "scopes": [
+    "openid",
+    "eduperson"
+  ],
+  "response_types": [
+    "code"
+  ],
+  "redirect_uris": [
+    "https://cs.example.com/rp1"
+  ]
 }
 </pre>
 <h1 id="rfc.section.4.2">
@@ -1339,7 +1420,8 @@
     ]
   },
   "max_path_length": 2
-}</pre>
+}
+</pre>
 <p id="rfc.section.4.2.p.4">If a subordinate entity statement contains a constraint specification that is more restrictive then the one in effect, then the more restrictive constraint is in effect from here on.  </p>
 <p id="rfc.section.4.2.p.5">If a subordinate entity statement contains a constraint specification that is less restrictive then the one in effect, then it MUST be ignored.  </p>
 <h1 id="rfc.section.4.2.1">
@@ -1383,7 +1465,8 @@
 <p id="rfc.section.4.3.p.1">In this specification we use the US NSTIC definition</p>
 <p id="rfc.section.4.3.p.2">"A trustmark is used to indicate that a product or service provider has met the requirements of the Identity Ecosystem, as determined by an accreditation authority"</p>
 <p id="rfc.section.4.3.p.3">Technically trust marks as used by this specification are signed JWTs that represents a statement of conformance to a well-scoped set of trust and/or interoperability requirements.</p>
-<p id="rfc.section.4.3.p.4">The trust marks are signed by an by the federation accredited authority. The validation of such a signed statement is performed in the same way as a self-signed entity statement is validated</p>
+<p id="rfc.section.4.3.p.4">The trust marks are signed by a federation accredited authority. The validation of such a signed statement is performed in the same way as a self-signed entity statement is validated.</p>
+<p id="rfc.section.4.3.p.5">Note that a federation may allow an entity to self-signed some trust marks.</p>
 <h1 id="rfc.section.4.3.1">
 <a href="#rfc.section.4.3.1">4.3.1.</a> <a href="#trust_prop" id="trust_prop">Trust mark properties</a>
 </h1>
@@ -1426,11 +1509,12 @@
   "sub": "https://example.com/op",
   "iat": 1579621160,
   "id": "https://openid.net/certification/op",
-  "mark": "http://openid.net/wordpress-content/uploads/2016/05/
-           oid-l-certification-mark-l-cmyk-150dpi-90mm.jpg",
-  "ref": "https://openid.net/wordpress-content/uploads/2015/09/
-           RolandHedberg-pyoidc-0.7.7-Basic-26-Sept-2015.zip"
-}</pre>
+  "mark": "http://openid.net/wordpress-content/uploads/2016/
+    05/oid-l-certification-mark-l-cmyk-150dpi-90mm.jpg",
+  "ref": "https://openid.net/wordpress-content/uploads/2015/
+    09/RolandHedberg-pyoidc-0.7.7-Basic-26-Sept-2015.zip"
+}
+</pre>
 <p>An example of a 3rd party accreditation authority</p>
 <pre>
 {
@@ -1438,8 +1522,10 @@
   "sub": "https://umu.se/op",
   "iat": 1577833200,
   "exp": 1609369200,
-  "id": "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf",
-}</pre>
+  "id":
+    "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf"
+}
+</pre>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#federation_configuration" id="federation_configuration">Obtaining Federation Entity Configuration Information</a>
 </h1>
@@ -1475,16 +1561,19 @@ Content-Type: application/jose
       "federation_api_endpoint":
         "https://example.com/federation_api_endpoint",
       "name": "The example cooperation",
-      "homepage_uri": "https://www.example.com",
+      "homepage_uri": "https://www.example.com"
     }
   },
+  "authority_hints": ["https://federation.example.com"],
   "jwks": {
     "keys": [
       {
         "alg": "RS256",
         "e": "AQAB",
         "ext": true,
-        "key_ops": ["verify"],
+        "key_ops": [
+          "verify"
+        ],
         "kid": "key1",
         "kty": "RSA",
         "n": "pnXBOusEANuug6ewezb9J_...",
@@ -1492,13 +1581,14 @@ Content-Type: application/jose
       }
     ]
   }
-}</pre>
+}
+</pre>
 <p></p>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> <a href="#federation_api" id="federation_api">The Federation API</a>
 </h1>
 <p id="rfc.section.6.p.1">All entities that are expected to publish entity statements about other entities MUST expose a Federation API endpoint.  </p>
-<p id="rfc.section.6.p.2">The federation API endpoint of an entity can be found the in the configuration response as described in <a href="#federation_configuration" class="xref">Section 5</a> or by other means.  </p>
+<p id="rfc.section.6.p.2">The federation API endpoint of an entity can be found in the configuration response as described in <a href="#federation_configuration" class="xref">Section 5</a> or by other means.  </p>
 <p id="rfc.section.6.p.3">The Federation API is an HTTPS API that may support multiple operations. Fetching entity statements is one of the operations, and the only one that all Federation API endpoints are REQUIRED to support.  All the other operations are OPTIONAL. The list of defined operations may be extended in a future.  </p>
 <p id="rfc.section.6.p.4">While all operations on the federation API endpoint make use of a GET request, other operations may choose to use other HTTP methods. If the <samp>operation</samp> parameter is left out, it is treated as a fetch entity statements request. Unless otherwise mentioned or agreed upon, requests to the federation API do not need to be authenticated.  </p>
 <h1 id="rfc.section.6.1">
@@ -1550,10 +1640,15 @@ Content-Type: application/jose
   "metadata": {
     "openid_relying_party": {
       "application_type": "web",
-      "redirect_uris": [ "https://openid.sunet.se/rp/callback" ],
+      "redirect_uris": [
+        "https://openid.sunet.se/rp/callback"
+      ],
       "organization_name": "SUNET",
       "logo_uri": "https://www.sunet.se/sunet/images/32x32.png",
-      "grant_types": ["authorization_code", "implicit"],
+      "grant_types": [
+        "authorization_code",
+        "implicit"
+      ],
       "jwks_uri": "https://openid.sunet.se/rp/jwks.json"
     }
   },
@@ -1563,7 +1658,9 @@ Content-Type: application/jose
         "alg": "RS256",
         "e": "AQAB",
         "ext": true,
-        "key_ops": ["verify"],
+        "key_ops": [
+          "verify"
+        ],
         "kid": "key1",
         "kty": "RSA",
         "n": "pnXBOusEANuug6ewezb9J_...",
@@ -1572,7 +1669,7 @@ Content-Type: application/jose
     ]
   },
   "authority_hints": [
-      "https://edugain.org/federation"
+    "https://edugain.org/federation"
   ]
 }
 </pre>
@@ -1623,8 +1720,11 @@ Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
 {
-  "organization": "University of Ume?",
-  "contacts": ["legal@umu.se", "technical@umu.se"],
+  "organization": "University of Umea",
+  "contacts": [
+    "legal@umu.se",
+    "technical@umu.se"
+  ],
   "logo_uri":
     "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
   "policy_uri":
@@ -1632,14 +1732,24 @@ Content-Type: application/json
   "authorization_endpoint":
     "https://idp.umu.se/openid/authorization",
   "token_endpoint": "https://idp.umu.se/openid/token",
-  "response_types_supported": ["code", "code id_token", "token"],
+  "response_types_supported": [
+    "code",
+    "code id_token",
+    "token"
+  ],
   "grant_types_supported": [
     "authorization_code",
     "implicit",
     "urn:ietf:params:oauth:grant-type:jwt-bearer"
   ],
-  "subject_types_supported": ["pairwise"],
-  "id_token_signing_alg_values_supported": ["RS256"]
+  "subject_types_supported": [
+    "pairwise"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256"
+  ],
+  "issuer": "https://idp.umu.se/openid",
+  "jwks_uri": "https://idp.umu.se/openid/jwks_uri.json"
 }
 </pre>
 <h1 id="rfc.section.6.3">
@@ -1803,7 +1913,7 @@ Content-Type: application/json
 <h1 id="rfc.section.9.1.1">
 <a href="#rfc.section.9.1.1">9.1.1.</a> The Authentication Request</h1>
 <p id="rfc.section.9.1.1.p.1">The authentication request is as specified in OpenID Connect Core.  </p>
-<p id="rfc.section.9.1.1.p.2">The RP MUST authenticate at the authentication endpoint using the private_key_jwt method described in the client authentication section of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  The private_key_jwt JWT used here diverge from what is described in that section on a couple of points: </p>
+<p id="rfc.section.9.1.1.p.2">The RP MUST authenticate at the authorization endpoint using the private_key_jwt method described in the client authentication section of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  The private_key_jwt JWT used here diverge from what is described in that section on a couple of points: </p>
 
 <ul class="empty">
 <li>The Audience (aud) SHOULD be the URL of the Authorization Server's Authorization Endpoint. NOT the Token Endpoint.</li>
@@ -2071,57 +2181,65 @@ HTTP/1.1 302 Found
 <p>The result is this entity statement.</p>
 <pre>
 {
-    "authority_hints": [
-        "https://umu.se"
-    ],
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://op.umu.se",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
-                "kty": "RSA",
-                "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
-            }
-        ]
-    },
-    "metadata": {
-        "openid_provider": {
-            "authorization_endpoint":
-              "https://op.umu.se/openid/authorization",
-            "federation_types_supported": [
-                "automatic",
-                "explicit"
-            ],
-            "grant_types_supported": [
-                "authorization_code",
-                "implicit",
-                "urn:ietf:params:oauth:grant-type:jwt-bearer"
-            ],
-            "id_token_signing_alg_values_supported": [
-                "ES256"
-            ],
-            "logo_uri":
-              "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-            "policy_uri":
-              "https://www.umu.se/en/website/legal-information/",
-            "response_types_supported": [
-                "code",
-                "code id_token",
-                "token"
-            ],
-            "subject_types_supported": [
-                "pairwise",
-                "public"
-            ],
-            "token_endpoint": "https://op.umu.se/openid/token",
-            "federation_registration_endpoint":
-              "https://op.umu.se/openid/fedreg"
-        }
-    },
-    "sub": "https://op.umu.se"
+  "authority_hints": [
+    "https://umu.se"
+  ],
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://op.umu.se",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
+        "kty": "RSA",
+        "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
+      }
+    ]
+  },
+  "metadata": {
+    "openid_provider": {
+      "issuer": "https://op.umu.se/openid",
+      "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
+      "authorization_endpoint":
+        "https://op.umu.se/openid/authorization",
+      "federation_types_supported": [
+        "automatic",
+        "explicit"
+      ],
+      "grant_types_supported": [
+        "authorization_code",
+        "implicit",
+        "urn:ietf:params:oauth:grant-type:jwt-bearer"
+      ],
+      "id_token_signing_alg_values_supported": [
+        "ES256", "RS256"
+      ],
+      "logo_uri":
+        "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
+      "policy_uri":
+        "https://www.umu.se/en/website/legal-information/",
+      "response_types_supported": [
+        "code",
+        "code id_token",
+        "token"
+      ],
+      "subject_types_supported": [
+        "pairwise",
+        "public"
+      ],
+      "token_endpoint": "https://op.umu.se/openid/token",
+      "federation_registration_endpoint":
+        "https://op.umu.se/openid/fedreg",
+      "token_endpoint_auth_methods_supported": [
+        "client_secret_post",
+        "client_secret_basic",
+        "client_secret_jwt",
+        "private_key_jwt"
+      ]
+    }
+  },
+  "sub": "https://op.umu.se"
 }
 </pre>
 <p id="rfc.section.A.1.1.p.2">The <samp>authority_hints</samp> points to the intermediate https://umu.se. So that is the next step.  </p>
@@ -2131,31 +2249,31 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.2.p.1">The LIGO RP fetches the self-signed entity statement from "https://umu.se" using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
 <pre>
 {
-    "authority_hints": [
-        "https://swamid.se"
-    ],
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://umu.se",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
-                "kty": "RSA",
-                "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
-            }
-        ]
-    },
-    "metadata": {
-        "federation_entity": {
-            "contacts": "ops@umu.se",
-            "federation_api_endpoint": "https://umu.se/oidc/fedapi",
-            "homepage_uri": "https://www.umu.se",
-            "name": "UmU"
-        }
-    },
-    "sub": "https://umu.se"
+  "authority_hints": [
+    "https://swamid.se"
+  ],
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://umu.se",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
+        "kty": "RSA",
+        "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
+      }
+    ]
+  },
+  "metadata": {
+    "federation_entity": {
+      "contacts": "ops@umu.se",
+      "federation_api_endpoint": "https://umu.se/oidc/fedapi",
+      "homepage_uri": "https://www.umu.se",
+      "name": "UmU"
+    }
+  },
+  "sub": "https://umu.se"
 }
 </pre>
 <p id="rfc.section.A.1.2.p.2">The only piece of information that is used from this entity statement is the <samp>federation_api_endpoint</samp>, which is used in the next step.  </p>
@@ -2164,52 +2282,52 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.3.p.1">The RP uses the federation API and the "fetch" command as defined in <a href="#fetch_statement" class="xref">Section 6.1.1</a> to fetch information about "https://op.umu.se" from the API endpoint published in https://umu.se's configuration.  </p>
 <pre>
 {
-    "authority_hints": [
-        "https://swamid.se"
-    ],
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://umu.se",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
-                "kty": "RSA",
-                "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
-            }
+  "authority_hints": [
+    "https://swamid.se"
+  ],
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://umu.se",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
+        "kty": "RSA",
+        "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
+      }
+    ]
+  },
+  "metadata_policy": {
+    "openid_provider": {
+      "contacts": {
+        "add": [
+          "ops@swamid.se"
         ]
-    },
-    "metadata_policy": {
-        "openid_provider": {
-            "contacts": {
-                "add": [
-                    "ops@swamid.se"
-                ]
-            },
-            "organization": {
-                "value": "University of Ume\u00e5"
-            },
-            "subject_types_supported": {
-                "value": [
-                    "pairwise"
-                ]
-            },
-            "token_endpoint_auth_methods_supported": {
-                "default": [
-                    "private_key_jwt"
-                ],
-                "subset_of": [
-                    "private_key_jwt",
-                    "client_secret_jwt"
-                ],
-                "superset_of": [
-                    "private_key_jwt"
-                ]
-            }
-        }
-    },
-    "sub": "https://op.umu.se"
+      },
+      "organization": {
+        "value": "University of Ume\u00e5"
+      },
+      "subject_types_supported": {
+        "value": [
+          "pairwise"
+        ]
+      },
+      "token_endpoint_auth_methods_supported": {
+        "default": [
+          "private_key_jwt"
+        ],
+        "subset_of": [
+          "private_key_jwt",
+          "client_secret_jwt"
+        ],
+        "superset_of": [
+          "private_key_jwt"
+        ]
+      }
+    }
+  },
+  "sub": "https://op.umu.se"
 }
 </pre>
 <p id="rfc.section.A.1.3.p.2">This is the second link in the trust chain.  </p>
@@ -2219,32 +2337,32 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.4.p.1">The LIGO Wiki RP fetches the self-signed entity statement from "https://swamid.se" using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
 <pre>
 {
-    "authority_hints": [
-        "https://edugain.geant.org"
-    ],
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://swamid.se",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
-                "kty": "RSA",
-                "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
-            }
-        ]
-    },
-    "metadata": {
-        "federation_entity": {
-            "contacts": "ops@swamid.se",
-            "federation_api_endpoint":
-              "https://swamid.sunet.se/fedapi",
-            "homepage_uri": "https://www.sunet.se/swamid/",
-            "name": "SWAMID"
-        }
-    },
-    "sub": "https://swamid.se"
+  "authority_hints": [
+    "https://edugain.geant.org"
+  ],
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://swamid.se",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
+        "kty": "RSA",
+        "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
+      }
+    ]
+  },
+  "metadata": {
+    "federation_entity": {
+      "contacts": "ops@swamid.se",
+      "federation_api_endpoint":
+        "https://swamid.sunet.se/fedapi",
+      "homepage_uri": "https://www.sunet.se/swamid/",
+      "name": "SWAMID"
+    }
+  },
+  "sub": "https://swamid.se"
 }
 </pre>
 <p id="rfc.section.A.1.4.p.2">The only piece of information that is used from this entity statement is the <samp>federation_api_endpoint</samp>, which is used in the next step.  </p>
@@ -2253,48 +2371,48 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.5.p.1">The LIGO Wiki RP uses the federation API and the "fetch" command as defined in <a href="#fetch_statement" class="xref">Section 6.1.1</a> to fetch information about "https://umu.se" from the API endpoint published in https://swamid.se's configuration.  </p>
 <pre>
 {
-    "authority_hints": [
-        "https://edugain.geant.org"
-    ],
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://swamid.se",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
-                "kty": "RSA",
-                "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
-            }
+  "authority_hints": [
+    "https://edugain.geant.org"
+  ],
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://swamid.se",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
+        "kty": "RSA",
+        "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
+      }
+    ]
+  },
+  "metadata_policy": {
+    "openid_provider": {
+      "id_token_signing_alg_values_supported": {
+        "subset_of": [
+          "RS256",
+          "ES256",
+          "ES384",
+          "ES512"
         ]
-    },
-    "metadata_policy": {
-        "openid_provider": {
-            "id_token_signing_alg_values_supported": {
-                "subset_of": [
-                    "RS256",
-                    "ES256",
-                    "ES384",
-                    "ES512"
-                ]
-            },
-            "token_endpoint_auth_methods_supported": {
-                "subset_of": [
-                    "client_secret_jwt",
-                    "private_key_jwt"
-                ]
-            },
-            "userinfo_signing_alg_values_supported": {
-                "subset_of": [
-                    "ES256",
-                    "ES384",
-                    "ES512"
-                ]
-            }
-        }
-    },
-    "sub": "https://umu.se"
+      },
+      "token_endpoint_auth_methods_supported": {
+        "subset_of": [
+          "client_secret_jwt",
+          "private_key_jwt"
+        ]
+      },
+      "userinfo_signing_alg_values_supported": {
+        "subset_of": [
+          "ES256",
+          "ES384",
+          "ES512"
+        ]
+      }
+    }
+  },
+  "sub": "https://umu.se"
 }
 </pre>
 <p id="rfc.section.A.1.5.p.2">This is the third link in the trust chain.  </p>
@@ -2304,27 +2422,27 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.6.p.1">RP fetches the self-signed entity statement from "https://edugain.geant.org" using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
 <pre>
 {
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://edugain.geant.org",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2Fr...",
-                "kty": "RSA",
-                "n": "xKlwocDXUw-mrvDSO4oRrTRrVuTwotoBFpozvlq-1q..."
-            }
-        ]
-    },
-    "metadata": {
-        "federation_entity": {
-            "federation_api_endpoint":
-              "https://geant.org/edugain/api"
-        }
-    },
-    "sub": "https://edugain.geant.org"
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://edugain.geant.org",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2Fr...",
+        "kty": "RSA",
+        "n": "xKlwocDXUw-mrvDSO4oRrTRrVuTwotoBFpozvlq-1q..."
+      }
+    ]
+  },
+  "metadata": {
+    "federation_entity": {
+      "federation_api_endpoint": "https://geant.org/edugain/api"
+    }
+  },
+  "sub": "https://edugain.geant.org"
 }
+
 </pre>
 <p id="rfc.section.A.1.6.p.2">Again, the only thing we need is the <samp>federation_api_endpoint</samp>.  As described in <a href="#key_rollover_anchor" class="xref">Section 8.2</a>, note should also be taken to <samp>jwks</samp> as the trust anchor may be performing a key rollover.  </p>
 <h1 id="rfc.appendix.A.1.7">
@@ -2332,32 +2450,32 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.7.p.1">The LIGO Wiki RP uses the federation API and the "fetch" command as defined in <a href="#fetch_statement" class="xref">Section 6.1.1</a> to fetch information about "https://swamid.se" from the API endpoint published in https://edugain.geant.org's configuration.  </p>
 <pre>
 {
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://edugain.geant.org",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
-                "kty": "RSA",
-                "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
-            }
-        ]
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://edugain.geant.org",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
+        "kty": "RSA",
+        "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
+      }
+    ]
+  },
+  "metadata_policy": {
+    "openid_provider": {
+      "contacts": {
+        "add": "ops@edugain.geant.org"
+      }
     },
-    "metadata_policy": {
-        "openid_provider": {
-            "contacts": {
-                "add": "ops@edugain.geant.org"
-            }
-        },
-        "openid_relying_part": {
-            "contacts": {
-                "add": "ops@edugain.geant.org"
-            }
-        }
-    },
-    "sub": "https://swamid.se"
+    "openid_relying_part": {
+      "contacts": {
+        "add": "ops@edugain.geant.org"
+      }
+    }
+  },
+  "sub": "https://swamid.se"
 }
 </pre>
 <p id="rfc.section.A.1.7.p.2">If we assume that the issuer of this statement appears in the list of trust anchors the LIGO Wiki RP has access to this would be the fourth and final entity statement in the trust chain.  </p>
@@ -2378,38 +2496,53 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.8.p.2">Merging the metadata policies from the tree entity statements we have, by a superior about its subordinate, and applying the combined policy to the metadata statement that the leaf entity presented, we get: </p>
 <pre>
 {
-    "authorization_endpoint":
-      "https://op.umu.se/openid/authorization",
-    "contacts": "ops@edugain.geant.org",
-    "federation_types_supported": [
-        "automatic",
-        "explicit"
-    ],
-    "grant_types_supported": [
-        "authorization_code",
-        "implicit",
-        "urn:ietf:params:oauth:grant-type:jwt-bearer"
-    ],
-    "id_token_signing_alg_values_supported": [
-        "ES256"
-    ],
-    "logo_uri":
-      "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-    "policy_uri":
-      "https://www.umu.se/en/website/legal-information/",
-    "response_types_supported": [
-        "code",
-        "code id_token",
-        "token"
-    ],
-    "subject_types_supported": [
-        "pairwise",
-        "public"
-    ],
-    "token_endpoint": "https://op.umu.se/openid/token",
-    "federation_registration_endpoint":
-        "https://op.umu.se/openid/fedreg"
+  "authorization_endpoint":
+    "https://op.umu.se/openid/authorization",
+  "claims_parameter_supported": false,
+  "contacts": [
+    "ops@swamid.se"
+  ],
+  "federation_registration_endpoint":
+    "https://op.umu.se/openid/fedreg",
+  "federation_types_supported": [
+    "automatic",
+    "explicit"
+  ],
+  "grant_types_supported": [
+    "authorization_code",
+    "implicit",
+    "urn:ietf:params:oauth:grant-type:jwt-bearer"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256",
+    "ES256"
+  ],
+  "issuer": "https://op.umu.se/openid",
+  "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
+  "logo_uri":
+    "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
+  "organization": "University of Ume\u00e5",
+  "policy_uri":
+    "https://www.umu.se/en/website/legal-information/",
+  "request_parameter_supported": false,
+  "request_uri_parameter_supported": true,
+  "require_request_uri_registration": true,
+  "response_types_supported": [
+    "code",
+    "code id_token",
+    "token"
+  ],
+  "subject_types_supported": [
+    "pairwise"
+  ],
+  "token_endpoint": "https://op.umu.se/openid/token",
+  "token_endpoint_auth_methods_supported": [
+    "private_key_jwt",
+    "client_secret_jwt"
+  ],
+  "version": "3.0"
 }
+
 </pre>
 <p id="rfc.section.A.1.8.p.3">We have now reached the end of the Provider Discovery process.  </p>
 <h1 id="rfc.appendix.A.2">
@@ -2469,39 +2602,39 @@ Host: op.umu.se
 </h1>
 <p id="rfc.section.A.2.1.2.p.1">Using the public keys of the trust anchor that the LIGO Wiki RP has been provided with in some secure out-of-band way, it can now verify the trust chain as described in <a href="#trust_chain_validation" class="xref">Section 7.2</a>.  </p>
 <pre>
-    "metadata_policy": {
-        "openid_provider": {
-            "contacts": {
-                "add": "ops@edugain.geant.org"
-            }
-        },
-        "openid_relying_party": {
-            "contacts": {
-                "add": "ops@edugain.geant.org"
-            }
-        }
+"metadata_policy": {
+  "openid_provider": {
+    "contacts": {
+      "add": "ops@edugain.geant.org"
     }
+  },
+  "openid_relying_party": {
+    "contacts": {
+      "add": "ops@edugain.geant.org"
+    }
+  }
+}
                 </pre>
 <pre>
-    "metadata_policy": {
-        "openid_relying_party": {
-            "application_type": {
-                "one_of": [
-                    "web",
-                    "native"
-                ]
-            },
-            "contacts": {
-                "add": "ops@incommon.org"
-            },
-            "grant_types": {
-                "subset_of": [
-                    "authorization_code",
-                    "refresh_token"
-                ]
-            }
-        }
+"metadata_policy": {
+  "openid_relying_party": {
+    "application_type": {
+      "one_of": [
+        "web",
+        "native"
+      ]
+    },
+    "contacts": {
+      "add": "ops@incommon.org"
+    },
+    "grant_types": {
+      "subset_of": [
+        "authorization_code",
+        "refresh_token"
+      ]
     }
+  }
+}
                 </pre>
 <p id="rfc.section.A.2.1.2.p.2">We will not list the complete entity statements but only the <samp>metadata</samp> and <samp>metadata_policy</samp> parts.  There are two metadata policies: </p>
 
@@ -2516,100 +2649,102 @@ Host: op.umu.se
 <p id="rfc.section.A.2.1.2.p.3">If you combine these and apply them to the metadata for wiki.ligo.org : </p>
 <pre>
 "metadata": {
-    "openid_relying_party": {
-        "application_type": "web",
-        "client_name": "LIGO Wiki",
-        "contacts": [
-            "ops@ligo.org"
-        ],
-        "grant_types": [
-            "authorization_code",
-            "refresh_token"
-        ],
-        "id_token_signing_alg_values_supported": [
-            "RS256",
-            "RS512"
-        ],
-        "jwks_uri": "https://wiki.ligo.org/jwks.json",
-        "redirect_uris": [
-            "https://wiki.ligo.org/callback"
-        ],
-        "response_types": [
-            "code"
-        ],
-        "subject_type": "public"
-    }
+  "application_type": "web",
+  "client_name": "LIGO Wiki",
+  "contacts": [
+    "ops@ligo.org"
+  ],
+  "grant_types": [
+    "authorization_code",
+    "refresh_token"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256",
+    "RS512"
+  ],
+  "jwks_uri": "https://wiki.ligo.org/jwks.json",
+  "redirect_uris": [
+    "https://wiki.ligo.org/callback"
+  ],
+  "response_types": [
+    "code"
+  ],
+  "subject_type": "public"
 }
 </pre>
 <p id="rfc.section.A.2.1.2.p.4">You will get </p>
 <pre>
 {
-    "application_type": "web",
-    "client_name": "LIGO Wiki",
-    "contacts": [
-        "ops@ligo.org",
-        "ops@incommon.org",
-        "ops@edugain.geant.org"
-    ],
-    "grant_types": [
-        "authorization_code",
-        "refresh_token"
-    ],
-    "id_token_signing_alg_values_supported": [
-        "RS256",
-        "RS512"
-    ],
-    "jwks_uri": "https://wiki.ligo.org/jwks.json",
-    "redirect_uris": [
-        "https://wiki.ligo.org/callback"
-    ],
-    "response_types": [
-        "code"
-    ],
-    "subject_type": "public"
-}</pre>
+  "application_type": "web",
+  "client_name": "LIGO Wiki",
+  "contacts": [
+    "ops@ligo.org",
+    "ops@edugain.geant.org",
+    "ops@incommon.org"
+  ],
+  "grant_types": [
+    "refresh_token",
+    "authorization_code"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256",
+    "RS512"
+  ],
+  "jwks_uri": "https://wiki.ligo.org/jwks.json",
+  "redirect_uris": [
+    "https://wiki.ligo.org/callback"
+  ],
+  "response_types": [
+    "code"
+  ],
+  "subject_type": "public"
+}
+</pre>
 <p id="rfc.section.A.2.1.2.p.5">Having that, the "registration" is done, and the OP must now use the keys found at the URL specified in <samp>jwks_uri</samp> to verify the client assertion in the authentication request.  </p>
 <h1 id="rfc.appendix.A.2.2">
 <a href="#rfc.appendix.A.2.2">A.2.2.</a> Client Starts with Registration (Explicit Client Registration)</h1>
 <p id="rfc.section.A.2.2.p.1">Here the LIGO Wiki RP sends a client registration request to the federation_registration_endpoint of the OP (op.umu.se).  What it sends is a self-signed entity statement.  </p>
 <p id="rfc.section.A.2.2.p.2">Once the OP has the entity statement, it proceeds with the same sequence of steps as laid out in <a href="#op_discovery" class="xref">Appendix A.1</a>.  </p>
 <p id="rfc.section.A.2.2.p.3">The OP will end up with the same RP metadata as was described in <a href="#rp_metadata_eval" class="xref">Appendix A.2.1.2</a>, but what it now can do is return a metadata policy that it wants to be applied to the RP's metadata. This metadata policy will be combined with the trust chain's combined metadata policy before being applied to the RP's metadata.  </p>
-<p id="rfc.section.A.2.2.p.4">If we assume that the OP has a bit more strict view on which type of crypto keys to use, it may want to add a metadata policy that says: </p>
+<p id="rfc.section.A.2.2.p.4">If we assume that the OP does not support refresh tokens, it may want to add a metadata policy that says: </p>
 <pre>
-"metadata_policy":
-   {
-      "openid_relying_party": {
-         "id_token_signing_alg_values_supported": [
-            "RS512"
-        ]
-      }
-}</pre>
+"metadata_policy": {
+  "openid_relying_party": {
+    "grant_types": {
+      "subset_of": [
+        "authorization_code"
+      ]
+    }
+  }
+}
+</pre>
 <p id="rfc.section.A.2.2.p.5">In which case the metadata used by the RP should be described like this: </p>
 <pre>
 {
-    "application_type": "web",
-    "client_name": "LIGO Wiki",
-    "contacts": [
-        "ops@ligo.org",
-        "ops@incommon.org",
-        "ops@edugain.geant.org"
-    ],
-    "grant_types": [
-        "authorization_code",
-        "refresh_token"
-    ],
-    "id_token_signing_alg_values_supported": [
-        "RS512"
-    ],
-    "jwks_uri": "https://wiki.ligo.org/jwks.json",
-    "redirect_uris": [
-        "https://wiki.ligo.org/callback"
-    ],
-    "response_types": [
-        "code"
-    ],
-    "subject_type": "public"
-}</pre>
+  "application_type": "web",
+  "client_name": "LIGO Wiki",
+  "contacts": [
+    "ops@edugain.geant.org",
+    "ops@incommon.org",
+    "ops@ligo.org"
+  ],
+  "grant_types": [
+    "authorization_code"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256",
+    "RS512"
+  ],
+  "jwks_uri": "https://wiki.ligo.org/jwks.json",
+  "redirect_uris": [
+    "https://wiki.ligo.org/callback"
+  ],
+  "response_types": [
+    "code"
+  ],
+  "subject_type": "public"
+}
+</pre>
 <h1 id="rfc.appendix.B">
 <a href="#rfc.appendix.B">Appendix B.</a> <a href="#Notices" id="Notices">Notices</a>
 </h1>
