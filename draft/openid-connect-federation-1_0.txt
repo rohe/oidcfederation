@@ -1246,11 +1246,11 @@ Hedberg, et al.           Expires July 24, 2020                [Page 22]
 
    id REQUIRED.  String.  An identifier of the trust mark.
 
-   mark  REQUIRED.  String.  An URL that points to a mark/logo that the
-      subject is allowed to display to a user of the entity.
-
    iat  REQUIRED.  INT.  When this trust mark was issued.  Expressed as
       seconds since epoch.
+
+   mark  OPTIONAL.  String.  An URL that points to a mark/logo that the
+      subject is allowed to display to a user of the entity.
 
    exp  OPTIONAL.  INT.  When this trust mark is not valid anymore.
       Expresses as seconds since epoch.  If not present it means that

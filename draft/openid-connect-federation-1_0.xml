@@ -390,7 +390,7 @@
       "id_token_signing_alg_values_supported":
         {"subset_of": ["RS256", "RS384", "RS512"]},
       "op_policy_uri": {
-        "regexp": "^https:\/\/[\w-]+\.example\.com\/[\w-]+\.html"}
+        "regexp": "^https:\/\/[\\w-]+\\.example\\.com\/[\\w-]+\\.html"}
     },
     "openid_relying_party": {
       "organization_name": {"value": "NTNU"},
@@ -402,7 +402,7 @@
   },
   "constraints": {
     "max_path_length": 2
-  }
+  },
   "jwks": {
     "keys": [
       {
@@ -697,10 +697,9 @@
         <figure>
             <artwork><![CDATA[
 "federation_entity": {
-    "federation_api_endpoint":
-        "https://example.com/federation_api_endpoint",
-    "name": "The example cooperation",
-    "homepage_uri": "https://www.example.com"
+  "federation_api_endpoint": "https://example.com/federation_api_endpoint",
+  "name": "The example cooperation",
+  "homepage_uri": "https://www.example.com"
 }
 ]]></artwork>
         </figure>
@@ -1091,15 +1090,33 @@
             </preamble>
             <artwork><![CDATA[
 {
-    "scopes": {
-        "subset_of": ["openid", "eduperson", "phone"],
-        "superset_of": ["openid"],
-        "default": ["openid", "eduperson"]},
-    "id_token_signed_response_alg": {
-        "one_of": ["ES256", "ES384", "ES512"]},
-    "contacts": {
-        "add": "helpdesk@federation.example.org"},
-    "application_type": {"value": "web"}
+  "scopes": {
+    "subset_of": [
+      "openid",
+      "eduperson",
+      "phone"
+    ],
+    "superset_of": [
+      "openid"
+    ],
+    "default": [
+      "openid",
+      "eduperson"
+    ]
+  },
+  "id_token_signed_response_alg": {
+    "one_of": [
+      "ES256",
+      "ES384",
+      "ES512"
+    ]
+  },
+  "contacts": {
+    "add": "helpdesk@federation.example.org"
+  },
+  "application_type": {
+    "value": "web"
+  }
 }
 ]]></artwork>
           </figure>
@@ -1109,14 +1126,27 @@
             </preamble>
             <artwork><![CDATA[
 {
-    "scopes": {
-        "subset_of": ["openid", "eduperson", "address"],
-        "default": ["openid", "eduperson"]},
-    "id_token_signed_response_alg": {
-        "one_of": ["ES256", "ES384"],
-        "default": "ES256"},
-    "contacts": {
-        "add": "helpdesk@org.example.org"}
+  "scopes": {
+    "subset_of": [
+      "openid",
+      "eduperson",
+      "address"
+    ],
+    "default": [
+      "openid",
+      "eduperson"
+    ]
+  },
+  "id_token_signed_response_alg": {
+    "one_of": [
+      "ES256",
+      "ES384"
+    ],
+    "default": "ES256"
+  },
+  "contacts": {
+    "add": "helpdesk@org.example.org"
+  }
 }
 ]]></artwork>
           </figure>
@@ -1126,18 +1156,35 @@
             </preamble>
             <artwork><![CDATA[
 {
-    "scopes": {
-        "subset_of": ["openid", "eduperson"],
-        "superset_of": ["openid"],
-        "default": ["openid", "eduperson"]},
-    "id_token_signed_response_alg": {
-        "one_of": ["ES256", "ES384"],
-        "default": "ES256"},
-    "contacts": {
-        "add": ["helpdesk@federation.example.org",
-                "helpdesk@org.example.org"]},
-    "application_type": {
-        "value": "web"}
+  "scopes": {
+    "subset_of": [
+      "openid",
+      "eduperson"
+    ],
+    "superset_of": [
+      "openid"
+    ],
+    "default": [
+      "openid",
+      "eduperson"
+    ]
+  },
+  "id_token_signed_response_alg": {
+    "one_of": [
+      "ES256",
+      "ES384"
+    ],
+    "default": "ES256"
+  },
+  "contacts": {
+    "add": [
+      "helpdesk@federation.example.org",
+      "helpdesk@org.example.org"
+    ]
+  },
+  "application_type": {
+    "value": "web"
+  }
 }
 ]]></artwork>
           </figure>
@@ -1176,9 +1223,15 @@
           </preamble>
           <artwork><![CDATA[
 {
-  "contacts": ["rp_admins@cs.example.com"],
-  "redirect_uris": ["https://cs.example.com/rp1"],
-  "response_types": ["code"]
+  "contacts": [
+    "rp_admins@cs.example.com"
+  ],
+  "redirect_uris": [
+    "https://cs.example.com/rp1"
+  ],
+  "response_types": [
+    "code"
+  ]
 }
 ]]></artwork>
         </figure>
@@ -1188,12 +1241,22 @@
           </preamble>
           <artwork><![CDATA[
 {
-    "scopes": {
-        "superset_of": ["openid", "eduperson"],
-        "default": ["openid", "eduperson"]
-    },
-    "response_types": {
-        "subset_of": ["code", "code id_token"]}
+  "scopes": {
+    "superset_of": [
+      "openid",
+      "eduperson"
+    ],
+    "default": [
+      "openid",
+      "eduperson"
+    ]
+  },
+  "response_types": {
+    "subset_of": [
+      "code",
+      "code id_token"
+    ]
+  }
 }
 ]]></artwork>
         </figure>
@@ -1204,16 +1267,21 @@
           <artwork><![CDATA[
 {
   "contacts": {
-    "add": "helpdesk@example.com"},
+    "add": "helpdesk@example.com"
+  },
   "logo_uri": {
-    "one_of": ["https://example.com/logo_small.jpg",
-               "https://example.com/logo_big.jpg"],
+    "one_of": [
+      "https://example.com/logo_small.jpg",
+      "https://example.com/logo_big.jpg"
+    ],
     "default": "https://example.com/logo_small.jpg"
   },
   "policy_uri": {
-    "value": "https://example.com/policy.html"},
+    "value": "https://example.com/policy.html"
+  },
   "tos_uri": {
-    "value": "https://example.com/tos.html"}
+    "value": "https://example.com/tos.html"
+  }
 }
 ]]></artwork>
         </figure>
@@ -1222,14 +1290,25 @@
           above, would then become:
         </t>
         <figure>
-          <artwork><![CDATA[{
-  "contacts": ["rp_admins@cs.example.com", "helpdesk@example.com"],
+          <artwork><![CDATA[
+{
+  "contacts": [
+    "rp_admins@cs.example.com",
+    "helpdesk@example.com"
+  ],
   "logo_uri": "https://example.com/logo_small.jpg",
   "policy_uri": "https://example.com/policy.html",
   "tos_uri": "https://example.com/tos.html",
-  "scopes": ["openid", "eduperson"],
-  "response_types": ["code"],
-  "redirect_uris": ["https://cs.example.com/rp1"]
+  "scopes": [
+    "openid",
+    "eduperson"
+  ],
+  "response_types": [
+    "code"
+  ],
+  "redirect_uris": [
+    "https://cs.example.com/rp1"
+  ]
 }
 ]]></artwork>
         </figure>
@@ -1268,7 +1347,8 @@
     ]
   },
   "max_path_length": 2
-}]]></artwork>
+}
+]]></artwork>
         </figure>
         <t>
           If a subordinate entity statement contains a constraint specification
@@ -1416,11 +1496,12 @@
   "sub": "https://example.com/op",
   "iat": 1579621160,
   "id": "https://openid.net/certification/op",
-  "mark": "http://openid.net/wordpress-content/uploads/2016/05/
-           oid-l-certification-mark-l-cmyk-150dpi-90mm.jpg",
-  "ref": "https://openid.net/wordpress-content/uploads/2015/09/
-           RolandHedberg-pyoidc-0.7.7-Basic-26-Sept-2015.zip"
-}]]></artwork>
+  "mark": "http://openid.net/wordpress-content/uploads/2016/
+    05/oid-l-certification-mark-l-cmyk-150dpi-90mm.jpg",
+  "ref": "https://openid.net/wordpress-content/uploads/2015/
+    09/RolandHedberg-pyoidc-0.7.7-Basic-26-Sept-2015.zip"
+}
+]]></artwork>
           </figure>
           <figure>
             <preamble>An example of a 3rd party accreditation authority</preamble>
@@ -1430,8 +1511,9 @@
   "sub": "https://umu.se/op",
   "iat": 1577833200,
   "exp": 1609369200,
-  "id": "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf",
-}]]></artwork>
+  "id": "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf"
+}
+]]></artwork>
           </figure>
         </section>
       </section>
@@ -1523,19 +1605,21 @@ Content-Type: application/jose
   "exp": 1516298022,
   "metadata": {
     "federation_entity": {
-      "federation_api_endpoint":
-        "https://example.com/federation_api_endpoint",
+      "federation_api_endpoint": "https://example.com/federation_api_endpoint",
       "name": "The example cooperation",
-      "homepage_uri": "https://www.example.com",
+      "homepage_uri": "https://www.example.com"
     }
   },
+  "authority_hints": ["https://federation.example.com"],
   "jwks": {
     "keys": [
       {
         "alg": "RS256",
         "e": "AQAB",
         "ext": true,
-        "key_ops": ["verify"],
+        "key_ops": [
+          "verify"
+        ],
         "kid": "key1",
         "kty": "RSA",
         "n": "pnXBOusEANuug6ewezb9J_...",
@@ -1543,7 +1627,8 @@ Content-Type: application/jose
       }
     ]
   }
-}]]></artwork>
+}
+]]></artwork>
           </figure>
         </t>
       </section>
@@ -1669,10 +1754,15 @@ Content-Type: application/jose
   "metadata": {
     "openid_relying_party": {
       "application_type": "web",
-      "redirect_uris": [ "https://openid.sunet.se/rp/callback" ],
+      "redirect_uris": [
+        "https://openid.sunet.se/rp/callback"
+      ],
       "organization_name": "SUNET",
       "logo_uri": "https://www.sunet.se/sunet/images/32x32.png",
-      "grant_types": ["authorization_code", "implicit"],
+      "grant_types": [
+        "authorization_code",
+        "implicit"
+      ],
       "jwks_uri": "https://openid.sunet.se/rp/jwks.json"
     }
   },
@@ -1682,7 +1772,9 @@ Content-Type: application/jose
         "alg": "RS256",
         "e": "AQAB",
         "ext": true,
-        "key_ops": ["verify"],
+        "key_ops": [
+          "verify"
+        ],
         "kid": "key1",
         "kty": "RSA",
         "n": "pnXBOusEANuug6ewezb9J_...",
@@ -1691,7 +1783,7 @@ Content-Type: application/jose
     ]
   },
   "authority_hints": [
-      "https://edugain.org/federation"
+    "https://edugain.org/federation"
   ]
 }
 ]]></artwork>
@@ -1781,8 +1873,11 @@ Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
 {
-  "organization": "University of Ume?",
-  "contacts": ["legal@umu.se", "technical@umu.se"],
+  "organization": "University of Umea",
+  "contacts": [
+    "legal@umu.se",
+    "technical@umu.se"
+  ],
   "logo_uri":
     "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
   "policy_uri":
@@ -1790,14 +1885,24 @@ Content-Type: application/json
   "authorization_endpoint":
     "https://idp.umu.se/openid/authorization",
   "token_endpoint": "https://idp.umu.se/openid/token",
-  "response_types_supported": ["code", "code id_token", "token"],
+  "response_types_supported": [
+    "code",
+    "code id_token",
+    "token"
+  ],
   "grant_types_supported": [
     "authorization_code",
     "implicit",
     "urn:ietf:params:oauth:grant-type:jwt-bearer"
   ],
-  "subject_types_supported": ["pairwise"],
-  "id_token_signing_alg_values_supported": ["RS256"]
+  "subject_types_supported": [
+    "pairwise"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256"
+  ],
+  "issuer": "https://idp.umu.se/openid",
+  "jwks_uri": "https://idp.umu.se/openid/jwks_uri.json"
 }
 ]]></artwork>
           </figure>
@@ -2186,7 +2291,7 @@ Content-Type: application/json
             Core.
           </t>
           <t>
-            The RP MUST authenticate at the authentication endpoint
+            The RP MUST authenticate at the authorization endpoint
             using the private_key_jwt method described in the client
             authentication section of
             <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
@@ -2742,57 +2847,65 @@ HTTP/1.1 302 Found
             <preamble>The result is this entity statement.</preamble>
             <artwork><![CDATA[
 {
-    "authority_hints": [
-        "https://umu.se"
-    ],
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://op.umu.se",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
-                "kty": "RSA",
-                "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
-            }
-        ]
-    },
-    "metadata": {
-        "openid_provider": {
-            "authorization_endpoint":
-              "https://op.umu.se/openid/authorization",
-            "federation_types_supported": [
-                "automatic",
-                "explicit"
-            ],
-            "grant_types_supported": [
-                "authorization_code",
-                "implicit",
-                "urn:ietf:params:oauth:grant-type:jwt-bearer"
-            ],
-            "id_token_signing_alg_values_supported": [
-                "ES256"
-            ],
-            "logo_uri":
-              "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-            "policy_uri":
-              "https://www.umu.se/en/website/legal-information/",
-            "response_types_supported": [
-                "code",
-                "code id_token",
-                "token"
-            ],
-            "subject_types_supported": [
-                "pairwise",
-                "public"
-            ],
-            "token_endpoint": "https://op.umu.se/openid/token",
-            "federation_registration_endpoint":
-              "https://op.umu.se/openid/fedreg"
-        }
-    },
-    "sub": "https://op.umu.se"
+  "authority_hints": [
+    "https://umu.se"
+  ],
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://op.umu.se",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
+        "kty": "RSA",
+        "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
+      }
+    ]
+  },
+  "metadata": {
+    "openid_provider": {
+      "issuer": "https://op.umu.se/openid",
+      "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
+      "authorization_endpoint":
+        "https://op.umu.se/openid/authorization",
+      "federation_types_supported": [
+        "automatic",
+        "explicit"
+      ],
+      "grant_types_supported": [
+        "authorization_code",
+        "implicit",
+        "urn:ietf:params:oauth:grant-type:jwt-bearer"
+      ],
+      "id_token_signing_alg_values_supported": [
+        "ES256", "RS256"
+      ],
+      "logo_uri":
+        "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
+      "policy_uri":
+        "https://www.umu.se/en/website/legal-information/",
+      "response_types_supported": [
+        "code",
+        "code id_token",
+        "token"
+      ],
+      "subject_types_supported": [
+        "pairwise",
+        "public"
+      ],
+      "token_endpoint": "https://op.umu.se/openid/token",
+      "federation_registration_endpoint":
+        "https://op.umu.se/openid/fedreg",
+      "token_endpoint_auth_methods_supported": [
+        "client_secret_post",
+        "client_secret_basic",
+        "client_secret_jwt",
+        "private_key_jwt"
+      ]
+    }
+  },
+  "sub": "https://op.umu.se"
 }
 ]]></artwork>
           </figure>
@@ -2813,31 +2926,31 @@ HTTP/1.1 302 Found
           <figure>
             <artwork><![CDATA[
 {
-    "authority_hints": [
-        "https://swamid.se"
-    ],
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://umu.se",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
-                "kty": "RSA",
-                "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
-            }
-        ]
-    },
-    "metadata": {
-        "federation_entity": {
-            "contacts": "ops@umu.se",
-            "federation_api_endpoint": "https://umu.se/oidc/fedapi",
-            "homepage_uri": "https://www.umu.se",
-            "name": "UmU"
-        }
-    },
-    "sub": "https://umu.se"
+  "authority_hints": [
+    "https://swamid.se"
+  ],
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://umu.se",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
+        "kty": "RSA",
+        "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
+      }
+    ]
+  },
+  "metadata": {
+    "federation_entity": {
+      "contacts": "ops@umu.se",
+      "federation_api_endpoint": "https://umu.se/oidc/fedapi",
+      "homepage_uri": "https://www.umu.se",
+      "name": "UmU"
+    }
+  },
+  "sub": "https://umu.se"
 }
 ]]></artwork>
           </figure>
@@ -2860,52 +2973,52 @@ HTTP/1.1 302 Found
           <figure>
             <artwork><![CDATA[
 {
-    "authority_hints": [
-        "https://swamid.se"
-    ],
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://umu.se",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
-                "kty": "RSA",
-                "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
-            }
+  "authority_hints": [
+    "https://swamid.se"
+  ],
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://umu.se",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
+        "kty": "RSA",
+        "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
+      }
+    ]
+  },
+  "metadata_policy": {
+    "openid_provider": {
+      "contacts": {
+        "add": [
+          "ops@swamid.se"
         ]
-    },
-    "metadata_policy": {
-        "openid_provider": {
-            "contacts": {
-                "add": [
-                    "ops@swamid.se"
-                ]
-            },
-            "organization": {
-                "value": "University of Ume\u00e5"
-            },
-            "subject_types_supported": {
-                "value": [
-                    "pairwise"
-                ]
-            },
-            "token_endpoint_auth_methods_supported": {
-                "default": [
-                    "private_key_jwt"
-                ],
-                "subset_of": [
-                    "private_key_jwt",
-                    "client_secret_jwt"
-                ],
-                "superset_of": [
-                    "private_key_jwt"
-                ]
-            }
-        }
-    },
-    "sub": "https://op.umu.se"
+      },
+      "organization": {
+        "value": "University of Ume\u00e5"
+      },
+      "subject_types_supported": {
+        "value": [
+          "pairwise"
+        ]
+      },
+      "token_endpoint_auth_methods_supported": {
+        "default": [
+          "private_key_jwt"
+        ],
+        "subset_of": [
+          "private_key_jwt",
+          "client_secret_jwt"
+        ],
+        "superset_of": [
+          "private_key_jwt"
+        ]
+      }
+    }
+  },
+  "sub": "https://op.umu.se"
 }
 ]]></artwork>
           </figure>
@@ -2927,32 +3040,31 @@ HTTP/1.1 302 Found
           <figure>
             <artwork><![CDATA[
 {
-    "authority_hints": [
-        "https://edugain.geant.org"
-    ],
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://swamid.se",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
-                "kty": "RSA",
-                "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
-            }
-        ]
-    },
-    "metadata": {
-        "federation_entity": {
-            "contacts": "ops@swamid.se",
-            "federation_api_endpoint":
-              "https://swamid.sunet.se/fedapi",
-            "homepage_uri": "https://www.sunet.se/swamid/",
-            "name": "SWAMID"
-        }
-    },
-    "sub": "https://swamid.se"
+  "authority_hints": [
+    "https://edugain.geant.org"
+  ],
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://swamid.se",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
+        "kty": "RSA",
+        "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
+      }
+    ]
+  },
+  "metadata": {
+    "federation_entity": {
+      "contacts": "ops@swamid.se",
+      "federation_api_endpoint": "https://swamid.sunet.se/fedapi",
+      "homepage_uri": "https://www.sunet.se/swamid/",
+      "name": "SWAMID"
+    }
+  },
+  "sub": "https://swamid.se"
 }
 ]]></artwork>
           </figure>
@@ -2976,48 +3088,48 @@ HTTP/1.1 302 Found
           <figure>
             <artwork><![CDATA[
 {
-    "authority_hints": [
-        "https://edugain.geant.org"
-    ],
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://swamid.se",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
-                "kty": "RSA",
-                "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
-            }
+  "authority_hints": [
+    "https://edugain.geant.org"
+  ],
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://swamid.se",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "endwNUZrNTJsX2NyQlp4bjhVcTFTTVltR2gxV2RV...",
+        "kty": "RSA",
+        "n": "vXdXzZwQo0hxRSmZEcDIsnpg-CMEkor50SOG-1XUlM..."
+      }
+    ]
+  },
+  "metadata_policy": {
+    "openid_provider": {
+      "id_token_signing_alg_values_supported": {
+        "subset_of": [
+          "RS256",
+          "ES256",
+          "ES384",
+          "ES512"
         ]
-    },
-    "metadata_policy": {
-        "openid_provider": {
-            "id_token_signing_alg_values_supported": {
-                "subset_of": [
-                    "RS256",
-                    "ES256",
-                    "ES384",
-                    "ES512"
-                ]
-            },
-            "token_endpoint_auth_methods_supported": {
-                "subset_of": [
-                    "client_secret_jwt",
-                    "private_key_jwt"
-                ]
-            },
-            "userinfo_signing_alg_values_supported": {
-                "subset_of": [
-                    "ES256",
-                    "ES384",
-                    "ES512"
-                ]
-            }
-        }
-    },
-    "sub": "https://umu.se"
+      },
+      "token_endpoint_auth_methods_supported": {
+        "subset_of": [
+          "client_secret_jwt",
+          "private_key_jwt"
+        ]
+      },
+      "userinfo_signing_alg_values_supported": {
+        "subset_of": [
+          "ES256",
+          "ES384",
+          "ES512"
+        ]
+      }
+    }
+  },
+  "sub": "https://umu.se"
 }
 ]]></artwork>
           </figure>
@@ -3040,27 +3152,27 @@ HTTP/1.1 302 Found
           <figure>
             <artwork><![CDATA[
 {
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://edugain.geant.org",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2Fr...",
-                "kty": "RSA",
-                "n": "xKlwocDXUw-mrvDSO4oRrTRrVuTwotoBFpozvlq-1q..."
-            }
-        ]
-    },
-    "metadata": {
-        "federation_entity": {
-            "federation_api_endpoint":
-              "https://geant.org/edugain/api"
-        }
-    },
-    "sub": "https://edugain.geant.org"
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://edugain.geant.org",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "Sl9DcjFxR3hrRGdabUNIR21KT3dvdWMyc2VUM2Fr...",
+        "kty": "RSA",
+        "n": "xKlwocDXUw-mrvDSO4oRrTRrVuTwotoBFpozvlq-1q..."
+      }
+    ]
+  },
+  "metadata": {
+    "federation_entity": {
+      "federation_api_endpoint": "https://geant.org/edugain/api"
+    }
+  },
+  "sub": "https://edugain.geant.org"
 }
+
 ]]></artwork>
           </figure>
           <t>
@@ -3086,32 +3198,32 @@ HTTP/1.1 302 Found
           <figure>
             <artwork><![CDATA[
 {
-    "exp": 1568397247,
-    "iat": 1568310847,
-    "iss": "https://edugain.geant.org",
-    "jwks": {
-        "keys": [
-            {
-                "e": "AQAB",
-                "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
-                "kty": "RSA",
-                "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
-            }
-        ]
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://edugain.geant.org",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "N1pQTzFxUXZ1RXVsUkVuMG5uMnVDSURGRVdhUzdO...",
+        "kty": "RSA",
+        "n": "3EQc6cR_GSBq9km9-WCHY_lWJZWkcn0M05TGtH6D9S..."
+      }
+    ]
+  },
+  "metadata_policy": {
+    "openid_provider": {
+      "contacts": {
+        "add": "ops@edugain.geant.org"
+      }
     },
-    "metadata_policy": {
-        "openid_provider": {
-            "contacts": {
-                "add": "ops@edugain.geant.org"
-            }
-        },
-        "openid_relying_part": {
-            "contacts": {
-                "add": "ops@edugain.geant.org"
-            }
-        }
-    },
-    "sub": "https://swamid.se"
+    "openid_relying_part": {
+      "contacts": {
+        "add": "ops@edugain.geant.org"
+      }
+    }
+  },
+  "sub": "https://swamid.se"
 }
 ]]></artwork>
           </figure>
@@ -3157,38 +3269,53 @@ HTTP/1.1 302 Found
           <figure>
             <artwork><![CDATA[
 {
-    "authorization_endpoint":
-      "https://op.umu.se/openid/authorization",
-    "contacts": "ops@edugain.geant.org",
-    "federation_types_supported": [
-        "automatic",
-        "explicit"
-    ],
-    "grant_types_supported": [
-        "authorization_code",
-        "implicit",
-        "urn:ietf:params:oauth:grant-type:jwt-bearer"
-    ],
-    "id_token_signing_alg_values_supported": [
-        "ES256"
-    ],
-    "logo_uri":
-      "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-    "policy_uri":
-      "https://www.umu.se/en/website/legal-information/",
-    "response_types_supported": [
-        "code",
-        "code id_token",
-        "token"
-    ],
-    "subject_types_supported": [
-        "pairwise",
-        "public"
-    ],
-    "token_endpoint": "https://op.umu.se/openid/token",
-    "federation_registration_endpoint":
-        "https://op.umu.se/openid/fedreg"
+  "authorization_endpoint":
+    "https://op.umu.se/openid/authorization",
+  "claims_parameter_supported": false,
+  "contacts": [
+    "ops@swamid.se"
+  ],
+  "federation_registration_endpoint":
+    "https://op.umu.se/openid/fedreg",
+  "federation_types_supported": [
+    "automatic",
+    "explicit"
+  ],
+  "grant_types_supported": [
+    "authorization_code",
+    "implicit",
+    "urn:ietf:params:oauth:grant-type:jwt-bearer"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256",
+    "ES256"
+  ],
+  "issuer": "https://op.umu.se/openid",
+  "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
+  "logo_uri":
+    "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
+  "organization": "University of Ume\u00e5",
+  "policy_uri":
+    "https://www.umu.se/en/website/legal-information/",
+  "request_parameter_supported": false,
+  "request_uri_parameter_supported": true,
+  "require_request_uri_registration": true,
+  "response_types_supported": [
+    "code",
+    "code id_token",
+    "token"
+  ],
+  "subject_types_supported": [
+    "pairwise"
+  ],
+  "token_endpoint": "https://op.umu.se/openid/token",
+  "token_endpoint_auth_methods_supported": [
+    "private_key_jwt",
+    "client_secret_jwt"
+  ],
+  "version": "3.0"
 }
+
 ]]></artwork>
           </figure>
           <t>
@@ -3302,43 +3429,43 @@ Host: op.umu.se
               <t hangText="edugain.geant.org">
                 <figure>
                   <artwork><![CDATA[
-    "metadata_policy": {
-        "openid_provider": {
-            "contacts": {
-                "add": "ops@edugain.geant.org"
-            }
-        },
-        "openid_relying_party": {
-            "contacts": {
-                "add": "ops@edugain.geant.org"
-            }
-        }
+"metadata_policy": {
+  "openid_provider": {
+    "contacts": {
+      "add": "ops@edugain.geant.org"
     }
+  },
+  "openid_relying_party": {
+    "contacts": {
+      "add": "ops@edugain.geant.org"
+    }
+  }
+}
                 ]]></artwork>
                 </figure>
               </t>
               <t hangText="incommon.org">
                 <figure>
                   <artwork><![CDATA[
-    "metadata_policy": {
-        "openid_relying_party": {
-            "application_type": {
-                "one_of": [
-                    "web",
-                    "native"
-                ]
-            },
-            "contacts": {
-                "add": "ops@incommon.org"
-            },
-            "grant_types": {
-                "subset_of": [
-                    "authorization_code",
-                    "refresh_token"
-                ]
-            }
-        }
+"metadata_policy": {
+  "openid_relying_party": {
+    "application_type": {
+      "one_of": [
+        "web",
+        "native"
+      ]
+    },
+    "contacts": {
+      "add": "ops@incommon.org"
+    },
+    "grant_types": {
+      "subset_of": [
+        "authorization_code",
+        "refresh_token"
+      ]
     }
+  }
+}
                 ]]></artwork>
                 </figure>
               </t>
@@ -3351,29 +3478,27 @@ Host: op.umu.se
           <figure>
             <artwork><![CDATA[
 "metadata": {
-    "openid_relying_party": {
-        "application_type": "web",
-        "client_name": "LIGO Wiki",
-        "contacts": [
-            "ops@ligo.org"
-        ],
-        "grant_types": [
-            "authorization_code",
-            "refresh_token"
-        ],
-        "id_token_signing_alg_values_supported": [
-            "RS256",
-            "RS512"
-        ],
-        "jwks_uri": "https://wiki.ligo.org/jwks.json",
-        "redirect_uris": [
-            "https://wiki.ligo.org/callback"
-        ],
-        "response_types": [
-            "code"
-        ],
-        "subject_type": "public"
-    }
+  "application_type": "web",
+  "client_name": "LIGO Wiki",
+  "contacts": [
+    "ops@ligo.org"
+  ],
+  "grant_types": [
+    "authorization_code",
+    "refresh_token"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256",
+    "RS512"
+  ],
+  "jwks_uri": "https://wiki.ligo.org/jwks.json",
+  "redirect_uris": [
+    "https://wiki.ligo.org/callback"
+  ],
+  "response_types": [
+    "code"
+  ],
+  "subject_type": "public"
 }
 ]]></artwork>
           </figure>
@@ -3383,30 +3508,31 @@ Host: op.umu.se
           <figure>
             <artwork><![CDATA[
 {
-    "application_type": "web",
-    "client_name": "LIGO Wiki",
-    "contacts": [
-        "ops@ligo.org",
-        "ops@incommon.org",
-        "ops@edugain.geant.org"
-    ],
-    "grant_types": [
-        "authorization_code",
-        "refresh_token"
-    ],
-    "id_token_signing_alg_values_supported": [
-        "RS256",
-        "RS512"
-    ],
-    "jwks_uri": "https://wiki.ligo.org/jwks.json",
-    "redirect_uris": [
-        "https://wiki.ligo.org/callback"
-    ],
-    "response_types": [
-        "code"
-    ],
-    "subject_type": "public"
-}]]></artwork>
+  "application_type": "web",
+  "client_name": "LIGO Wiki",
+  "contacts": [
+    "ops@ligo.org",
+    "ops@edugain.geant.org",
+    "ops@incommon.org"
+  ],
+  "grant_types": [
+    "refresh_token",
+    "authorization_code"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256",
+    "RS512"
+  ],
+  "jwks_uri": "https://wiki.ligo.org/jwks.json",
+  "redirect_uris": [
+    "https://wiki.ligo.org/callback"
+  ],
+  "response_types": [
+    "code"
+  ],
+  "subject_type": "public"
+}
+]]></artwork>
           </figure>
           <t>
             Having that, the "registration" is done, and the OP must now use
@@ -3437,19 +3563,21 @@ Host: op.umu.se
             RP's metadata.
           </t>
           <t>
-            If we assume that the OP has a bit more strict view on which type
-            of crypto keys to use, it may want to add a metadata policy that says:
+            If we assume that the OP does not support refresh tokens,
+            it may want to add a metadata policy that says:
           </t>
           <figure>
             <artwork><![CDATA[
-"metadata_policy":
-   {
-      "openid_relying_party": {
-         "id_token_signing_alg_values_supported": [
-            "RS512"
-        ]
-      }
-}]]></artwork>
+"metadata_policy": {
+  "openid_relying_party": {
+    "grant_types": {
+      "subset_of": [
+        "authorization_code"
+      ]
+    }
+  }
+}
+]]></artwork>
           </figure>
           <t>
             In which case the metadata used by the RP should be described like
@@ -3458,29 +3586,30 @@ Host: op.umu.se
           <figure>
             <artwork><![CDATA[
 {
-    "application_type": "web",
-    "client_name": "LIGO Wiki",
-    "contacts": [
-        "ops@ligo.org",
-        "ops@incommon.org",
-        "ops@edugain.geant.org"
-    ],
-    "grant_types": [
-        "authorization_code",
-        "refresh_token"
-    ],
-    "id_token_signing_alg_values_supported": [
-        "RS512"
-    ],
-    "jwks_uri": "https://wiki.ligo.org/jwks.json",
-    "redirect_uris": [
-        "https://wiki.ligo.org/callback"
-    ],
-    "response_types": [
-        "code"
-    ],
-    "subject_type": "public"
-}]]></artwork>
+  "application_type": "web",
+  "client_name": "LIGO Wiki",
+  "contacts": [
+    "ops@edugain.geant.org",
+    "ops@incommon.org",
+    "ops@ligo.org"
+  ],
+  "grant_types": [
+    "authorization_code"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256",
+    "RS512"
+  ],
+  "jwks_uri": "https://wiki.ligo.org/jwks.json",
+  "redirect_uris": [
+    "https://wiki.ligo.org/callback"
+  ],
+  "response_types": [
+    "code"
+  ],
+  "subject_type": "public"
+}
+]]></artwork>
           </figure>
 
         </section>
