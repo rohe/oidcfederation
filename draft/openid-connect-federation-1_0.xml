@@ -168,6 +168,10 @@
               be identified in a context. All entities in an OpenID Connect
               federation MUST have a globally unique identifier.
             </t>
+            <t hangText="Entity identifier">
+              <vspace/>
+              An URI which is globally unique and which is bound to one Entity.
+            </t>
             <t hangText="Entity statement">
               <vspace/>
               An entity statement is
@@ -279,6 +283,10 @@
               If the <spanx style="verb">iss</spanx> of an entity statement
               points to the same entity as the <spanx style="verb">sub</spanx>
               then the entity statement MUST contain a
+              <spanx style="verb">metadata</spanx> claim.
+              If <spanx style="verb">iss</spanx> and
+              <spanx style="verb">sub</spanx> are not the same
+              then the entity statement MUST NOT contain a
               <spanx style="verb">metadata</spanx> claim.
             </t>
             <t hangText="metadata_policy">
@@ -754,6 +762,11 @@
   "response_types": ["code", "code id_token"]
 ]]></artwork>
           </figure>
+          <t>
+            If an entity tries to register a value that is not in the
+            <spanx style="verb">subset_of</spanx> set of values,
+            applying the policy MUST lead to a failure.
+          </t>
         </section>
 
         <section title="one_of" anchor="one_of">
@@ -799,7 +812,7 @@
           <figure>
             <artwork><![CDATA[
  "request_object_signing_alg_values_supported": {
-    "superset": ["ES256", "RS256"]}
+    "superset_of": ["ES256", "RS256"]}
                 ]]></artwork>
           </figure>
           <t>is applied to the metadata statement</t>
@@ -936,8 +949,7 @@
           <t>
             If 'true' then claim MUST have a value.
             <spanx style="verb">essential</spanx>
-            can be
-            combined with all the other types.
+            can be merged with all the other types.
           </t>
           <figure>
             <artwork><![CDATA[
@@ -956,21 +968,21 @@
       <section title="Policy Type Combinations" anchor="policy_type_combo">
         <t>
           An entity may use more then one policy type when expressing a policy
-          for a claim. These are the policy types that can be combined in a
+          for a claim. These are the policy types that can be merged in a
           metadata_policy statement:
           <list style="hanging">
             <t hangText="essential">
               <vspace/>
-              Can be combined with all the others. If
+              Can be merged with all the others. If
               <spanx style="verb">essential</spanx>
               is not present that is the same as stating essential=true.
             </t>
             <t hangText="default">
               <vspace/>
-              Can be combined with <spanx style="verb">one_of</spanx>,
+              Can be merged with <spanx style="verb">one_of</spanx>,
               <spanx style="verb">subset_of</spanx>
               and <spanx style="verb">superset_of</spanx>.
-              If a <spanx style="verb">default</spanx> policy is combined
+              If a <spanx style="verb">default</spanx> policy is merged
               with <spanx style="verb">one_of</spanx>,
               <spanx style="verb">subset_of</spanx>
               or
@@ -984,7 +996,7 @@
             </t>
             <t hangText="superset_of">
               <vspace/>
-              Can be combined with <spanx style="verb">subset_of</spanx>.
+              Can be merged with <spanx style="verb">subset_of</spanx>.
               If <spanx style="verb">subset_of</spanx> and
               <spanx style="verb">superset_of</spanx>
               both appears in a
@@ -994,7 +1006,7 @@
             </t>
             <t hangText="subset_of">
               <vspace/>
-              Can be combined with <spanx style="verb">superset_of</spanx>.
+              Can be merged with <spanx style="verb">superset_of</spanx>.
               If <spanx style="verb">superset_of</spanx> and
               <spanx style="verb">subset_of</spanx>
               both appears in a metadata_policy statement for a claim
@@ -1003,7 +1015,7 @@
             </t>
             <t hangText="value">
               <vspace/>
-              Can be combined with <spanx style="verb">one_of</spanx>,
+              Can be merged with <spanx style="verb">one_of</spanx>,
               <spanx style="verb">subset_of</spanx>
               and <spanx style="verb">superset_of</spanx>.
               Here the order matters. If <spanx style="verb">value</spanx>
@@ -1036,7 +1048,7 @@
           adhere to the rules defined in <xref target="policy_type_combo"/>.
         </t>
         <t>
-          These are the policy types that can be combined when combining two
+          These are the policy types that can be merged when combining two
           policies:
           <list style="hanging">
             <t hangText="subset_of">
