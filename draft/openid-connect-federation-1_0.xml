@@ -2311,10 +2311,10 @@ Content-Type: application/json
             using the private_key_jwt method described in the client
             authentication section of
             <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
-            The private_key_jwt JWT used here diverge from what is described in
+            The JWT used here diverge from what is described in
             that section on a couple of points:
             <list>
-              <t>The Audience (aud) SHOULD be the URL of the Authorization
+              <t>The Audience (aud) MUST be the URL of the Authorization
                 Server's Authorization Endpoint. NOT the Token Endpoint.</t>
               <t>The claim iss MUST contain the entity ID of the OAuth client</t>
               <t>The claim sub MUST contain the entity ID of the OAuth client</t>
@@ -2332,11 +2332,25 @@ GET /authorization?
   &nonce=4LX0mFMxdBjkGmtx7a8WIOnB&
   &state=YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ
   &client_id=https%3A%2F%2Fexample.com%3A8090%2Firp
-  &client_assertion=eyJhbGciOiJSUzI1NiIs ... qx7xHcvPOdIhnpg
+  &client_assertion=eyJhbGciOiJSUzI1NiIs ... bv5fHHFgwc7RS4A
   &client_assertion_type=
     urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
   HTTP/1.1
-Host: example.org
+Host: op.example.org
+]]></artwork>
+          </figure>
+          <figure>
+            <preamble>
+              The content of the client assertion:
+            </preamble>
+            <artwork><![CDATA[
+{
+    'sub': 'https://example.com:8090/irp',
+    'iss': 'https://example.com:8090/irp',
+    'iat': 1587373393, 'exp': 1587373453,
+    'aud': 'https://op.example.org/authorization',
+    'jti': '8b1b5cd7f323476d9594713df093305e'
+}
 ]]></artwork>
           </figure>
         </section>
