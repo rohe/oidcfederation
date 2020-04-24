@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="21" month="January" year="2020"/>
+    <date day="23" month="April" year="2020"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -3634,7 +3634,7 @@ Host: op.umu.se
     </section>
     <section anchor="Notices" title="Notices">
       <t>
-        Copyright (c) 2019 The OpenID Foundation.
+        Copyright (c) 2020 The OpenID Foundation.
       </t>
       <t>
         The OpenID Foundation (OIDF) grants to any Contributor, developer,
@@ -3677,10 +3677,11 @@ Host: op.umu.se
       <t>
         The authors wish to acknowledge the contributions of the following
         individuals and organizations to this specification:
+	Vladimir Dzhuvinov,
         Heather Flanagan,
-        Marcos Sanz,
-        Misha Salle,
         Jouke Roorda,
+        Misha Salle,
+        Marcos Sanz,
         Peter Schober,
         Michael Schwartz,
         and
@@ -3737,6 +3738,23 @@ Host: op.umu.se
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+      <t>
+	-11
+	<list style="symbols">
+	  <t>
+	    Added section on trust marks.
+	  </t>
+	  <t>
+	    Clarified private_key_jwt usage in the authentication request.
+	  </t>
+	  <t>
+	    Fixed Bitbucket issues #1150 and #1155 by Vladimir Dzhuvinov.
+	  </t>
+	  <t>
+	    Fixed some examples to make them syntactically correct.
+	  </t>
+	</list>
+      </t>
       <t>
         -10
         <list style="symbols">
