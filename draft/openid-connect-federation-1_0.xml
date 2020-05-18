@@ -1919,7 +1919,7 @@ Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
 {
-  "organization": "University of Umea",
+  "organization_name": "University of Umea",
   "contacts": [
     "legal@umu.se",
     "technical@umu.se"
@@ -3083,7 +3083,7 @@ HTTP/1.1 302 Found
       ],
       "logo_uri":
         "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-      "policy_uri":
+      "op_policy_uri":
         "https://www.umu.se/en/website/legal-information/",
       "response_types_supported": [
         "code",
