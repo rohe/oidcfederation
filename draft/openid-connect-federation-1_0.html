@@ -436,20 +436,19 @@
 <link href="#rfc.section.9" rel="Chapter" title="9 OpenID Connect Communication">
 <link href="#rfc.section.9.1" rel="Chapter" title="9.1 Automatic Registration">
 <link href="#rfc.section.9.1.1" rel="Chapter" title="9.1.1 The Authentication Request">
-<link href="#rfc.section.9.1.1.1" rel="Chapter" title="9.1.1.1 Using Request Object">
-<link href="#rfc.section.9.1.1.2" rel="Chapter" title="9.1.1.2 Using Pushed Authorization">
 <link href="#rfc.section.9.1.2" rel="Chapter" title="9.1.2 Processing the Authentication Request">
 <link href="#rfc.section.9.1.3" rel="Chapter" title="9.1.3 Authentication Error Response">
 <link href="#rfc.section.9.2" rel="Chapter" title="9.2 Explicit Registration">
-<link href="#rfc.section.9.2.1" rel="Chapter" title="9.2.1 Client Registration">
-<link href="#rfc.section.9.2.1.1" rel="Chapter" title="9.2.1.1 Client Registration Request">
-<link href="#rfc.section.9.2.1.2" rel="Chapter" title="9.2.1.2 Client Registration Response">
-<link href="#rfc.section.9.2.1.2.1" rel="Chapter" title="9.2.1.2.1 The OP Constructing the Response">
-<link href="#rfc.section.9.2.1.2.2" rel="Chapter" title="9.2.1.2.2 The RP Parsing the Response">
-<link href="#rfc.section.9.2.2" rel="Chapter" title="9.2.2 After Client Registration">
-<link href="#rfc.section.9.2.2.1" rel="Chapter" title="9.2.2.1 What the RP MUST Do">
-<link href="#rfc.section.9.2.2.2" rel="Chapter" title="9.2.2.2 What the OP MUST Do">
-<link href="#rfc.section.9.2.3" rel="Chapter" title="9.2.3 Expiration Times">
+<link href="#rfc.section.9.2.1" rel="Chapter" title="9.2.1 Provider Discovery">
+<link href="#rfc.section.9.2.2" rel="Chapter" title="9.2.2 Client Registration">
+<link href="#rfc.section.9.2.2.1" rel="Chapter" title="9.2.2.1 Client Registration Request">
+<link href="#rfc.section.9.2.2.2" rel="Chapter" title="9.2.2.2 Client Registration Response">
+<link href="#rfc.section.9.2.2.2.1" rel="Chapter" title="9.2.2.2.1 The OP Constructing the Response">
+<link href="#rfc.section.9.2.2.2.2" rel="Chapter" title="9.2.2.2.2 The RP Parsing the Response">
+<link href="#rfc.section.9.2.3" rel="Chapter" title="9.2.3 After Client Registration">
+<link href="#rfc.section.9.2.3.1" rel="Chapter" title="9.2.3.1 What the RP MUST Do">
+<link href="#rfc.section.9.2.3.2" rel="Chapter" title="9.2.3.2 What the OP MUST Do">
+<link href="#rfc.section.9.2.4" rel="Chapter" title="9.2.4 Expiration Times">
 <link href="#rfc.section.10" rel="Chapter" title="10 IANA Considerations">
 <link href="#rfc.section.11" rel="Chapter" title="11 Security Considerations">
 <link href="#rfc.references" rel="Chapter" title="12 References">
@@ -477,14 +476,14 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.44.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
-  <meta name="dct.issued" scheme="ISO8601" content="2020-01-21" />
-  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
-  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-04-23" />
+  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.   " />
+  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.   " />
 
 </head>
 
@@ -535,7 +534,7 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">January 21, 2020</td>
+<td class="right">April 23, 2020</td>
 </tr>
 
     	
@@ -679,33 +678,31 @@
 </li>
 <ul><li>9.1.1.   <a href="#rfc.section.9.1.1">The Authentication Request</a>
 </li>
-<ul><li>9.1.1.1.   <a href="#rfc.section.9.1.1.1">Using Request Object</a>
-</li>
-<li>9.1.1.2.   <a href="#rfc.section.9.1.1.2">Using Pushed Authorization</a>
-</li>
-</ul><li>9.1.2.   <a href="#rfc.section.9.1.2">Processing the Authentication Request</a>
+<li>9.1.2.   <a href="#rfc.section.9.1.2">Processing the Authentication Request</a>
 </li>
 <li>9.1.3.   <a href="#rfc.section.9.1.3">Authentication Error Response</a>
 </li>
 </ul><li>9.2.   <a href="#rfc.section.9.2">Explicit Registration</a>
 </li>
-<ul><li>9.2.1.   <a href="#rfc.section.9.2.1">Client Registration</a>
+<ul><li>9.2.1.   <a href="#rfc.section.9.2.1">Provider Discovery</a>
 </li>
-<ul><li>9.2.1.1.   <a href="#rfc.section.9.2.1.1">Client Registration Request</a>
+<li>9.2.2.   <a href="#rfc.section.9.2.2">Client Registration</a>
 </li>
-<li>9.2.1.2.   <a href="#rfc.section.9.2.1.2">Client Registration Response</a>
+<ul><li>9.2.2.1.   <a href="#rfc.section.9.2.2.1">Client Registration Request</a>
 </li>
-<ul><li>9.2.1.2.1.   <a href="#rfc.section.9.2.1.2.1">The OP Constructing the Response</a>
+<li>9.2.2.2.   <a href="#rfc.section.9.2.2.2">Client Registration Response</a>
 </li>
-<li>9.2.1.2.2.   <a href="#rfc.section.9.2.1.2.2">The RP Parsing the Response</a>
+<ul><li>9.2.2.2.1.   <a href="#rfc.section.9.2.2.2.1">The OP Constructing the Response</a>
 </li>
-</ul></ul><li>9.2.2.   <a href="#rfc.section.9.2.2">After Client Registration</a>
+<li>9.2.2.2.2.   <a href="#rfc.section.9.2.2.2.2">The RP Parsing the Response</a>
 </li>
-<ul><li>9.2.2.1.   <a href="#rfc.section.9.2.2.1">What the RP MUST Do</a>
+</ul></ul><li>9.2.3.   <a href="#rfc.section.9.2.3">After Client Registration</a>
 </li>
-<li>9.2.2.2.   <a href="#rfc.section.9.2.2.2">What the OP MUST Do</a>
+<ul><li>9.2.3.1.   <a href="#rfc.section.9.2.3.1">What the RP MUST Do</a>
 </li>
-</ul><li>9.2.3.   <a href="#rfc.section.9.2.3">Expiration Times</a>
+<li>9.2.3.2.   <a href="#rfc.section.9.2.3.2">What the OP MUST Do</a>
+</li>
+</ul><li>9.2.4.   <a href="#rfc.section.9.2.4">Expiration Times</a>
 </li>
 </ul></ul><li>10.   <a href="#rfc.section.10">IANA Considerations</a>
 </li>
@@ -960,9 +957,6 @@
 <dt>organization_name</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. A human readable name representing the organization owning the RP.  </dd>
-<dt>trust_anchor_id</dt>
-<dd style="margin-left: 8">
-<br> OPTIONAL.  An OP MUST use this claim to tell the RP which trust anchor it chose to use when responding to an explicit client registration.  The value of trust_anchor_id is the entity identifier of a trust anchor.  </dd>
 </dl>
 
 <p> </p>
@@ -983,10 +977,7 @@
 <br> OPTIONAL. A human readable name representing the organization owning the OP. It is intended to be used in the user interface, being recognized by the end users that would be using the OP to authenticate.  </dd>
 <dt>federation_registration_endpoint</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL.  URL of the OP's Federation specific Dynamic Client Registration Endpoint. If the OP supports explicit client registration as described in<a href="#explicit" class="xref">Section 9.2</a>, then this claim is REQUIRED.  </dd>
-<dt>automatic_registration_client_authn_methods_supported</dt>
-<dd style="margin-left: 8">
-<br> OPTIONAL.  JSON array containing a list of Client Authentication methods supported by the authorization endpoint.  If the OP supports automatic client registration as described in <a href="#automatic" class="xref">Section 9.1</a>, then this claim is REQUIRED. The options are <samp>private_key_jwt</samp> (section 9 of <a href="#OpenID.Core" class="xref">[OpenID.Core]</a>), <samp>tls_client_auth</samp> (section 2.1 of <a href="#RFC8705" class="xref">[RFC8705]</a>) and <samp>self_signed_tls_client_auth</samp> (section 2.2 of <a href="#RFC8705" class="xref">[RFC8705]</a>. Note that if private_key_jwt is used the Audience SHOULD be the URL of the Authorization Server's Authorization Endpoint.  </dd>
+<br> OPTIONAL.  URL of the OP's Federation specific Dynamic Client Registration Endpoint. If the OP supports explicit client registration as described in <a href="#explicit" class="xref">Section 9.2</a>, then this claim is REQUIRED.  </dd>
 </dl>
 
 <p> </p>
@@ -1011,6 +1002,9 @@
 <dt>federation_api_endpoint</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  The endpoint used for the Federation API described in <a href="#federation_api" class="xref">Section 6</a>. Intermediate entities and trust anchors MUST publish a federation_api_endpoint.  Leaf entities MUST NOT.  </dd>
+<dt>trust_anchor_id</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL.  An OP MUST use this claim to tell the RP which trust anchor it chose to use when responding to an explicit client registration.  The value of trust_anchor_id is the entity identifier of a trust anchor.  </dd>
 <dt>name</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. String. The human readable name describing the subject entity. This may be, for example, the name of an organization.  </dd>
@@ -1192,19 +1186,19 @@
 <a href="#rfc.section.4.1.3">4.1.3.</a> Combining Policies</h1>
 <p id="rfc.section.4.1.3.p.1">If there is more than one metadata policy in a trust chain, then the policies MUST be combined before they are applied to the metadata statement.  </p>
 <p id="rfc.section.4.1.3.p.2">Using the notation we have defined in <a href="#trust_chain" class="xref">Section 2.2</a> policies are combined starting with ES[i] and then adding the policies from ES[j] j=i-1,..,1 before applying the combined policy to the entity's metadata.  </p>
-<p id="rfc.section.4.1.3.p.3">After having combined the policies, the policy for each claim MUST adhere to the rules defined in<a href="#policy_type_combo" class="xref">Section 4.1.2</a>.  </p>
+<p id="rfc.section.4.1.3.p.3">After having combined the policies, the policy for each claim MUST adhere to the rules defined in <a href="#policy_type_combo" class="xref">Section 4.1.2</a>.  </p>
 <p id="rfc.section.4.1.3.p.4">These are the policy types that can be merged when combining two policies: </p>
 
 <dl>
 <dt>subset_of</dt>
 <dd style="margin-left: 8">
-<br> The result of combining two <samp>subset_of </samp> policies is the intersection of the values.  </dd>
+<br> The result of combining two <samp>subset_of</samp> policies is the intersection of the values.  </dd>
 <dt>one_of</dt>
 <dd style="margin-left: 8">
 <br> The result of combining two <samp>one_of</samp> policies is the intersection of the values.  </dd>
 <dt>superset_of</dt>
 <dd style="margin-left: 8">
-<br> The result of combining two <samp>superset_of</samp> policies is the union of the values.  </dd>
+<br> The result of combining two <samp>superset_of</samp> policies is the intersection of the values.  </dd>
 <dt>add</dt>
 <dd style="margin-left: 8">
 <br> The result of combining two <samp>add</samp> policies is the union of the values.  </dd>
@@ -1216,7 +1210,7 @@
 <br> The result of combining two <samp>default</samp> policies is NOT allowed unless the two values are equal.  </dd>
 <dt>essential</dt>
 <dd style="margin-left: 8">
-<br> The result of combining two <samp>essential </samp> policies is True if any of the values are True otherwise it is False.  Note that a missing <samp>essential</samp> specification is to be treated as an essential=true statement.  </dd>
+<br> The result of combining two <samp>essential</samp> policies is True if any of the values are True otherwise it is False.  Note that a missing <samp>essential</samp> specification is to be treated as an essential=true statement.  </dd>
 </dl>
 
 <p> </p>
@@ -1414,7 +1408,7 @@
 <br> OPTIONAL. Integer. The maximum number of entities statements between this entity statement and the last entity statement in the trust chain.  </dd>
 <dt>naming_constraints</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. JSON object. Restriction on the entity identifiers of the entities below this entity. The behavior of this claim mimics what is defined in Section 4.2.1.10 in<a href="#RFC5280" class="xref">[RFC5280]</a>.  Restrictions are defined in terms of permitted or excluded name subtrees.  </dd>
+<br> OPTIONAL. JSON object. Restriction on the entity identifiers of the entities below this entity. The behavior of this claim mimics what is defined in Section 4.2.1.10 in <a href="#RFC5280" class="xref">[RFC5280]</a>.  Restrictions are defined in terms of permitted or excluded name subtrees.  </dd>
 </dl>
 
 <p> </p>
@@ -1438,7 +1432,7 @@
 <a href="#rfc.section.4.2.1">4.2.1.</a> <a href="#max_path_length" id="max_path_length">Max Path Length</a>
 </h1>
 <p id="rfc.section.4.2.1.p.1">The <samp>max_path_length</samp> constraint specifies the maximum number of entity statement a trust chain can have between the entity statement that contains the constraint specification and the leaf's entity statement.  </p>
-<p id="rfc.section.4.2.1.p.2">A <samp>max_path_length</samp> constraint of zero indicates that no entity statement may appear between this entity statement and the leaf entity statement. Where it appears, the <samp>max_path_length </samp> constraint MUST have a value that is greater than or equal to zero.  Where <samp>max_path_length</samp> does not appear, no limit is imposed.  </p>
+<p id="rfc.section.4.2.1.p.2">A <samp>max_path_length</samp> constraint of zero indicates that no entity statement may appear between this entity statement and the leaf entity statement. Where it appears, the <samp>max_path_length</samp> constraint MUST have a value that is greater than or equal to zero.  Where <samp>max_path_length</samp> does not appear, no limit is imposed.  </p>
 <p id="rfc.section.4.2.1.p.3">Assuming that we have a trust chain with four entity statements: </p>
 
 <ol>
@@ -1454,29 +1448,29 @@
 <ul>
 <li>The TA specifies a <samp>max_path_length</samp> that is equal to or bigger then 2.  </li>
 <li>TA specifies <samp>max_path_length</samp> of 2, I2 specifies <samp>max_path_length</samp> of 1, and I1 specifies no <samp>max_path_length</samp> constraint.  </li>
-<li>Neither TA nor I2 specifies any <samp>max_path_length </samp> constraint while I1 specifies <samp>max_path_length</samp> of 0.  </li>
+<li>Neither TA nor I2 specifies any <samp>max_path_length</samp> constraint while I1 specifies <samp>max_path_length</samp> of 0.</li>
 </ul>
 
 <p> </p>
 <p id="rfc.section.4.2.1.p.5">The trust chain does not fulfill the constraints if: </p>
 
-<ul><li>TA has specified <samp>max_path_length</samp> of 1.  </li></ul>
+<ul><li>TA has specified <samp>max_path_length</samp> of 1.</li></ul>
 
 <p> </p>
 <h1 id="rfc.section.4.2.2">
 <a href="#rfc.section.4.2.2">4.2.2.</a> <a href="#naming_constraints" id="naming_constraints">Naming Constraints</a>
 </h1>
 <p id="rfc.section.4.2.2.p.1">The name constraints indicates a name space within which all subject entity identifiers in subordinate entity statements in a trust chain MUST be located.  </p>
-<p id="rfc.section.4.2.2.p.2">Restrictions are defined in terms of permitted or excluded name subtrees. Any name matching a restriction in the excluded claim is invalid regardless of information appearing in the permitted claim.  </p>
-<p id="rfc.section.4.2.2.p.3">The constraint MUST be specified as a fully qualified domain name and MAY specify a host or a domain. Examples would be "host.example.com" and ".example.com". When the constraint begins with a period, it MAY be expanded with one or more labels.  That is, the constraint ".example.com" is satisfied by both host.example.com and my.host.example.com. However, the constraint ".example.com" is not satisfied by "example.com". When the constraint does not begin with a period, it specifies a host.  </p>
+<p id="rfc.section.4.2.2.p.2">Restrictions are defined in terms of permitted or excluded name subtrees.  Any name matching a restriction in the excluded claim is invalid regardless of information appearing in the permitted claim.  </p>
+<p id="rfc.section.4.2.2.p.3">The constraint MUST be specified as a fully qualified domain name and MAY specify a host or a domain.  Examples would be "host.example.com" and ".example.com".  When the constraint begins with a period, it MAY be expanded with one or more labels.  That is, the constraint ".example.com" is satisfied by both host.example.com and my.host.example.com.  However, the constraint ".example.com" is not satisfied by "example.com".  When the constraint does not begin with a period, it specifies a host.  </p>
 <h1 id="rfc.section.4.3">
 <a href="#rfc.section.4.3">4.3.</a> <a href="#trust_marks" id="trust_marks">Trust Marks</a>
 </h1>
 <p id="rfc.section.4.3.p.1">In this specification we use the US NSTIC definition</p>
-<p id="rfc.section.4.3.p.2">"A trustmark is used to indicate that a product or service provider has met the requirements of the Identity Ecosystem, as determined by an accreditation authority" </p>
-<p id="rfc.section.4.3.p.3">Technically trust marks as used by this specification are signed JWTs that represents a statement of conformance to a well-scoped set of trust and/or interoperability requirements.  </p>
-<p id="rfc.section.4.3.p.4">The trust marks are signed by a federation accredited authority. The validation of such a signed statement is performed in the same way as a self-signed entity statement is validated.  </p>
-<p id="rfc.section.4.3.p.5">Note that a federation may allow an entity to self-signed some trust marks.  </p>
+<p id="rfc.section.4.3.p.2">"A trustmark is used to indicate that a product or service provider has met the requirements of the Identity Ecosystem, as determined by an accreditation authority"</p>
+<p id="rfc.section.4.3.p.3">Technically trust marks as used by this specification are signed JWTs that represents a statement of conformance to a well-scoped set of trust and/or interoperability requirements.</p>
+<p id="rfc.section.4.3.p.4">The trust marks are signed by a federation accredited authority. The validation of such a signed statement is performed in the same way as a self-signed entity statement is validated.</p>
+<p id="rfc.section.4.3.p.5">Note that a federation may allow an entity to self-signed some trust marks.</p>
 <h1 id="rfc.section.4.3.1">
 <a href="#rfc.section.4.3.1">4.3.1.</a> <a href="#trust_prop" id="trust_prop">Trust mark properties</a>
 </h1>
@@ -1506,9 +1500,9 @@
 <h1 id="rfc.section.4.3.2">
 <a href="#rfc.section.4.3.2">4.3.2.</a> <a href="#trust_valid" id="trust_valid">Validating a trust mark</a>
 </h1>
-<p id="rfc.section.4.3.2.p.1">An entity should not try to validate a trust mark until it knows which trust anchors it wants to use.  </p>
+<p id="rfc.section.4.3.2.p.1">An entity should not try to validate a trust mark until it knows which trust anchors it wants to use.</p>
 <p id="rfc.section.4.3.2.p.2">validating a trust mark follows the procedure set out in <a href="#resolving_trust" class="xref">Section 7</a> </p>
-<p id="rfc.section.4.3.2.p.3">Note that the entity representing the accreditation authority MUST be immediately below the trust anchor. There can not be any intermediate between it and the trust anchor.  </p>
+<p id="rfc.section.4.3.2.p.3">Note that the entity representing the accreditation authority MUST be immediately below the trust anchor. There can not be any intermediate between it and the trust anchor.</p>
 <h1 id="rfc.section.4.3.3">
 <a href="#rfc.section.4.3.3">4.3.3.</a> <a href="#trust_example" id="trust_example">Trust mark example</a>
 </h1>
@@ -1525,7 +1519,7 @@
     09/RolandHedberg-pyoidc-0.7.7-Basic-26-Sept-2015.zip"
 }
 </pre>
-<p>An example of a 3rd party accreditation authority </p>
+<p>An example of a 3rd party accreditation authority</p>
 <pre>
 {
   "iss": "https://swamid.sunet.se",
@@ -1540,7 +1534,7 @@
 <a href="#rfc.section.5">5.</a> <a href="#federation_configuration" id="federation_configuration">Obtaining Federation Entity Configuration Information</a>
 </h1>
 <p id="rfc.section.5.p.1">The configuration endpoint is found using the <a href="#RFC8615" class="xref">Well-Known URIs</a> specification, with the suffix <samp>openid-federation</samp>. The scheme, host and port is taken directly from the entity identifier combined with the following path: <samp>/.well-known/openid-federation</samp>.  </p>
-<p id="rfc.section.5.p.2">If the entity identifier contains a path, it is concatenated after <samp>/.well-known/openid-federation</samp> in the same manner that path components are concatenated to the well-known identifier in the OAuth 2.0 Authorization Server Metadata <a href="#RFC8414" class="xref">[RFC8414]</a> specification.  Of course, in real multi-tenant deployments, in which the entity identifier might be of the form <samp>https://multi-tenant-service.example.com/my-tenant-identifier </samp> the tenant is very likely to not have control over the path <samp>https://multi-tenant-service.example.com/.well-known/openid-federation/my-tenant-identifier </samp> whereas it is very likely to have control over the path <samp>https://multi-tenant-service.example.com/my-tenant-identifier/.well-known/openid-federation</samp> .  Therefore, if using the configuration endpoint at the URL with the tenant path after the well-known part fails, it is RECOMMENDED that callers retry at the URL with the tenant path before the well-known part (even though this violates<a href="#RFC8615" class="xref">[RFC8615]</a>).  </p>
+<p id="rfc.section.5.p.2">If the entity identifier contains a path, it is concatenated after <samp>/.well-known/openid-federation</samp> in the same manner that path components are concatenated to the well-known identifier in the OAuth 2.0 Authorization Server Metadata <a href="#RFC8414" class="xref">[RFC8414]</a> specification.  Of course, in real multi-tenant deployments, in which the entity identifier might be of the form <samp>https://multi-tenant-service.example.com/my-tenant-identifier</samp> the tenant is very likely to not have control over the path <samp>https://multi-tenant-service.example.com/.well-known/openid-federation/my-tenant-identifier</samp> whereas it is very likely to have control over the path <samp>https://multi-tenant-service.example.com/my-tenant-identifier/.well-known/openid-federation</samp>.  Therefore, if using the configuration endpoint at the URL with the tenant path after the well-known part fails, it is RECOMMENDED that callers retry at the URL with the tenant path before the well-known part (even though this violates <a href="#RFC8615" class="xref">[RFC8615]</a>).  </p>
 <p id="rfc.section.5.p.3">Federation Entities MUST make an Entity Configuration Document available at the configuration endpoint.  </p>
 <h1 id="rfc.section.5.1">
 <a href="#rfc.section.5.1">5.1.</a> Federation Entity Configuration Request</h1>
@@ -1635,7 +1629,7 @@ Host: openid.sunet.se
 </pre>
 <h1 id="rfc.section.6.1.2">
 <a href="#rfc.section.6.1.2">6.1.2.</a> Fetch Entity Statements Response</h1>
-<p id="rfc.section.6.1.2.p.1">A positive response is a signed entity statement where the content type MUST be set to <samp>application/jose</samp>.  If it is negative response it will be a JSON object and the content type MUST be set to <samp>application/json</samp>.  See more about error responses in<a href="#error_response" class="xref">Section 6.4</a>.  </p>
+<p id="rfc.section.6.1.2.p.1">A positive response is a signed entity statement where the content type MUST be set to <samp>application/jose</samp>.  If it is negative response it will be a JSON object and the content type MUST be set to <samp>application/json</samp>.  See more about error responses in <a href="#error_response" class="xref">Section 6.4</a>.  </p>
 <p>The following is a non-normative example of a response, before serialization and adding a signature: </p>
 <pre>
 200 OK
@@ -1730,14 +1724,14 @@ Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
 {
-  "organization_name": "University of Umea",
+  "organization": "University of Umea",
   "contacts": [
     "legal@umu.se",
     "technical@umu.se"
   ],
   "logo_uri":
     "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-  "op_policy_uri":
+  "policy_uri":
     "https://www.umu.se/en/about-the-website/legal-information/",
   "authorization_endpoint":
     "https://idp.umu.se/openid/authorization",
@@ -1846,13 +1840,13 @@ Content-Type: application/json
 <a href="#rfc.section.7.1">7.1.</a> <a href="#fetching-es" id="fetching-es">Fetching Entity Statements to Establish a Trust Chain</a>
 </h1>
 <p id="rfc.section.7.1.p.1">Depending on the circumstances, the Consumer may either be handed the remote peer's self-issued entity statement, or it may have to fetch it by itself. If it needs to fetch it, it will use the process described in <a href="#fetch_statement" class="xref">Section 6.1.1</a> with both <samp>iss</samp> and <samp>sub</samp> set to the entity identifier of the remote peer.  </p>
-<p id="rfc.section.7.1.p.2">The next step is to iterate through the list of intermediates listed in <samp>authority_hints</samp>, ignoring the authority hints that end in an unknown trust anchor, requesting an entity statement about the remote peer from each of the intermediates.  If the received entity statement contains an authority hint this process is repeated. This time with the <samp>iss</samp> set to the intermediates entity identifier and the <samp>sub </samp> to be the <samp>iss</samp> of the previous query.  The Consumer SHOULD NOT attempt to fetch entity statements it already has fetched during this process (loop prevention).  </p>
+<p id="rfc.section.7.1.p.2">The next step is to iterate through the list of intermediates listed in <samp>authority_hints</samp>, ignoring the authority hints that end in an unknown trust anchor, requesting an entity statement about the remote peer from each of the intermediates.  If the received entity statement contains an authority hint this process is repeated. This time with the <samp>iss</samp> set to the intermediates entity identifier and the <samp>sub</samp> to be the <samp>iss</samp> of the previous query.  The Consumer SHOULD NOT attempt to fetch entity statements it already has fetched during this process (loop prevention).  </p>
 <p id="rfc.section.7.1.p.3">A successful operation will return one or more lists of entity statements. Each of the lists terminating in a self-signed entity statement issued by a trust anchor.  </p>
 <p id="rfc.section.7.1.p.4">If there is no path from the remote peer to at least one of the trusted trust anchors, then the list will be empty and there is no way of establishing trust in the remote peer's information. How the Consumer deals with this is out of scope for this specification.  </p>
 <h1 id="rfc.section.7.2">
 <a href="#rfc.section.7.2">7.2.</a> <a href="#trust_chain_validation" id="trust_chain_validation">Validating the Trust Chains</a>
 </h1>
-<p id="rfc.section.7.2.p.1">As described in<a href="#trust_chain" class="xref">Section 2.2</a>, a trust chain consists of an ordered list of entity statements. So whichever way the Consumer has acquired the set of entity statements, it must now verify that it is a proper trust chain using the rules laid out in that section.  </p>
+<p id="rfc.section.7.2.p.1">As described in <a href="#trust_chain" class="xref">Section 2.2</a>, a trust chain consists of an ordered list of entity statements. So whichever way the Consumer has acquired the set of entity statements, it must now verify that it is a proper trust chain using the rules laid out in that section.  </p>
 <p id="rfc.section.7.2.p.2">To validate the chain, the following must be done: </p>
 <p></p>
 
@@ -1886,7 +1880,7 @@ Content-Type: application/json
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> Updating Metadata, Key Rollover, and Revocation</h1>
 <p id="rfc.section.8.p.1">This specification allows for a smooth process of updating metadata and public keys.  </p>
-<p id="rfc.section.8.p.2">As described above in<a href="#trust_lifetime" class="xref">Section 7.4</a>, each trust chain has an expiration time.  A consumer of metadata using this specification MUST support refreshing a trust chain when it expires.  How often a consumer should re-evaluate the trust chain depends on how quickly the consumer wants to find out that something has changed in the trust chain.  </p>
+<p id="rfc.section.8.p.2">As described above in <a href="#trust_lifetime" class="xref">Section 7.4</a>, each trust chain has an expiration time.  A consumer of metadata using this specification MUST support refreshing a trust chain when it expires.  How often a consumer should re-evaluate the trust chain depends on how quickly the consumer wants to find out that something has changed in the trust chain.  </p>
 <h1 id="rfc.section.8.1">
 <a href="#rfc.section.8.1">8.1.</a> Protocol Key Rollover</h1>
 <p id="rfc.section.8.1.p.1">If a leaf entity publishes its public keys in the metadata part using <samp>jwks</samp>, setting an expiration time on the self-signed entity statement can be used to control how often the receiving entity is fetching an updated version of the public key.  </p>
@@ -1917,129 +1911,36 @@ Content-Type: application/json
 <h1 id="rfc.section.9.1">
 <a href="#rfc.section.9.1">9.1.</a> <a href="#automatic" id="automatic">Automatic Registration</a>
 </h1>
-<p id="rfc.section.9.1.p.1">Automatic registration allows an RP to send authorization requests to an OP without first registering with the OP. It basically works by the OP using the client_id in the request to find the RPs metadata using the process outlined in <a href="#resolving_trust" class="xref">Section 7</a> and then verifies the client authentication by using the RP's keys as published in the metadata.  </p>
-<p id="rfc.section.9.1.p.2">For automatic registration to work a number of things must be valid: </p>
-
-<ul>
-<li>The <samp>client_id</samp> of the RP MUST be set to be identically to the RP entity identifier.  </li>
-<li>Without a registration process, the RP does not have a client_secret. Instead the automatic registration model requires the RP to make use of asymmetric cryptography.  </li>
-<li>The client_id MUST point to a Federation API that allows the OP to fetch the RP's self signed entity statement.  </li>
-<li>The OP SHOULD publish which client authentication method it supports using the claim <samp>auto_registration_client_authentication_methods_supported</samp>.  .  </li>
-</ul>
-
-<p> </p>
+<p id="rfc.section.9.1.p.1">The <samp>client_id</samp> of the RP MUST be set identically to the RP entity identifier.  </p>
+<p id="rfc.section.9.1.p.2">Without a registration process, the RP does not have a client_secret. Instead the automatic registration model requires the RP to make use of asymmetric cryptography.  </p>
+<p id="rfc.section.9.1.p.3">The RP MUST host a Federation API that allows the OP to fetch the entity statements.  </p>
 <h1 id="rfc.section.9.1.1">
 <a href="#rfc.section.9.1.1">9.1.1.</a> The Authentication Request</h1>
-<p id="rfc.section.9.1.1.p.1">The authentication request is performed by passing a request object by value as described in section 6.1 in <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> or using pushed authorization as described in <a href="#PAR" class="xref">Pushed Authorization Requests</a>.  </p>
-<h1 id="rfc.section.9.1.1.1">
-<a href="#rfc.section.9.1.1.1">9.1.1.1.</a> Using Request Object</h1>
-<p id="rfc.section.9.1.1.1.p.1">In the case where a request object is used the value of the request parameter is a JWT whose Claims are the request parameters specified in Section 3.1.2 in <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  The JWT MUST be signed and MAY be encrypted.  The following restrictions applies to the JWT: </p>
+<p id="rfc.section.9.1.1.p.1">The authentication request is as specified in OpenID Connect Core.  </p>
+<p id="rfc.section.9.1.1.p.2">The RP MUST authenticate at the authorization endpoint using the private_key_jwt method described in the client authentication section of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  The private_key_jwt JWT used here diverge from what is described in that section on a couple of points: </p>
 
-<dl>
-<dt>aud</dt>
-<dd style="margin-left: 8">
-<br> REQUIRED. The Audience (aud) MUST be the URL of the Authorization Server's Authorization Endpoint.  </dd>
-<dt>iss</dt>
-<dd style="margin-left: 8">
-<br> REQUIRED. The claim iss MUST contain the entity ID of the OpenID Connect provider.  </dd>
-<dt>sub</dt>
-<dd style="margin-left: 8">
-<br> REQUIRED. The claim sub MUST contain the entity ID of the OpenID Connect provider.  </dd>
-<dt>jti</dt>
-<dd style="margin-left: 8">
-<br> REQUIRED. JWT ID. A unique identifier for the JWT, which can be used to prevent reuse of the token. These tokens MUST only be used once, unless conditions for reuse were negotiated between the parties; any such negotiation is beyond the scope of this specification.  </dd>
-<dt>exp</dt>
-<dd style="margin-left: 8">
-<br> REQUIRED. Expiration time on or after which the JWT MUST NOT be accepted for processing.  </dd>
-<dt>iat</dt>
-<dd style="margin-left: 8">
-<br> OPTIONAL. Time at which the JWT was issued.  </dd>
-</dl>
-
-<p> </p>
-<p>The following is a non-normative example of the Claims in a Request Object before base64url encoding and signing: </p>
-<pre>
-{
-  "aud": "https://op.example.org/authorization",
-  "client_id": "https://rp.example.com",
-  "exp": 1589699162,
-  "iat": 1589699102,
-  "iss": "https://rp.example.com",
-  "jti": "4d3ec0f81f134ee9a97e0449be6d32be",
-  "nonce": "4LX0mFMxdBjkGmtx7a8WIOnB",
-  "redirect_uri": "https://rp.example.com/authz_cb",
-  "response_type": "code",
-  "scope": "openid profile email address phone",
-  "state": "YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ",
-  "sub": "https://rp.example.com"
-}
-</pre>
-<p>The following is a non-normative example of an Authorization Request using the request parameter (with line wraps within values for display purposes only): </p>
-<pre>
-https://server.example.com/authorize?
-    redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb&amp;
-    request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umto
-    a1NXcGxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpY
-    bHBUemRRTkEifQ.eyJyZWRpcmVjdF91cmkiOiAiaHR0cHM6Ly9yc
-    C5leGFtcGxlLmNvbS9hdXRoel9jYiIsICJzY29wZSI6ICJvcGVua
-    WQgcHJvZmlsZSBlbWFpbCBhZGRyZXNzIHBob25lIiwgInJlc3Bvb
-    nNlX3R5cGUiOiAiY29kZSIsICJub25jZSI6ICI0TFgwbUZNeGRCa
-    mtHbXR4N2E4V0lPbkIiLCAic3RhdGUiOiAiWW1YOFBNOUk3V2JOb
-    01ubmllS0tCaXB0Vlcwc1AyT1oiLCAiY2xpZW50X2lkIjogImh0d
-    HBzOi8vcnAuZXhhbXBsZS5jb20iLCAic3ViIjogImh0dHBzOi8vc
-    nAuZXhhbXBsZS5jb20iLCAiaXNzIjogImh0dHBzOi8vcnAuZXhhb
-    XBsZS5jb20iLCAiaWF0IjogMTU4OTcwMDk1NiwgImV4cCI6IDE1O
-    Dk3MDEwMTYsICJhdWQiOiAiaHR0cHM6Ly9vcC5leGFtcGxlLm9yZ
-    y9hdXRob3JpemF0aW9uIiwgImp0aSI6ICI5MTI2YWI4ZjcxODY0O
-    DI3YmQ3OTE4MTU0NjY0ZWNmOCJ9.D51EQF-cJkzXTynQ-o6IL-Tv
-    xyC7W436-Qu-R8_StFYZRTfSHMa4M-TRuix7VHXgQiUxgdxuc4XU
-    NQ7cjfb_HhyCNMeO0Gd8mA2eo3GGdQMCcbIcMAV9tEz7-p5uz1iD
-    4H8l7AjK1LsVDYzSssTT9-xvuTy49wLKTlGk1sdvj_oW6e9KlrfQ
-    RFUR9gWudMpEj2FAhHeSvu1t_rafJ0VJ__ZvdfRT79BD45hNa6ST
-    pw4di3vIyrLHV9pxm_1HsvYqZ_mX3wECyJ7Soya93qzG3AA3XU_Q
-    wTPES4TA1x0k9gOYdm5ZxVcrlgV58n8BcCV4AK4Wrju5QTvg7Xob
-    tFqaCg
-</pre>
-<h1 id="rfc.section.9.1.1.2">
-<a href="#rfc.section.9.1.1.2">9.1.1.2.</a> Using Pushed Authorization</h1>
-<p><a href="#PAR" class="xref">Pushed Authorization</a> provides an interoperable way to push the payload of a request object directly to the AS in exchange for a request_uri.  </p>
-<p id="rfc.section.9.1.1.2.p.2">When it comes to client authentication the applicable authentication methods are two: </p>
-
-<ul>
-<li>Using a JWT for Client Authentication as described for <samp>private_key_jwt</samp> in section 9 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> </li>
-<li>mTLS as described in <a href="#RFC8705" class="xref">[RFC8705]</a>. If mTLS is used and the certificate used is a self signed certificate then the certificate MUST be present as the value of a x5c claim for one key in the JWKS describing the RP's keys.  </li>
+<ul class="empty">
+<li>The Audience (aud) SHOULD be the URL of the Authorization Server's Authorization Endpoint. NOT the Token Endpoint.</li>
+<li>The claim iss MUST contain the entity ID of the OAuth client</li>
+<li>The claim sub MUST contain the entity ID of the OAuth client</li>
 </ul>
 
 <p> </p>
-<p id="rfc.section.9.1.1.2.p.3">Using the example above a request could look like this:</p>
+<p>An authentication request example: </p>
 <pre>
-POST /par HTTP/1.1
-Host: op.example.org
-Content-Type: application/x-www-form-urlencoded
-
-redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
-&amp;scope=openid+profile+email+address+phone
-&amp;response_type=code
-&amp;nonce=4LX0mFMxdBjkGmtx7a8WIOnB
-&amp;state=YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ
-&amp;client_id=https%3A%2F%2Frp.example.com
-&amp;client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3A
-  client-assertion-type%3Ajwt-bearer
-&amp;client_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJ
-  hMDF3Umtoa1NXcGxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbW
-  hFUVhnelpYbHBUemRRTkEifQ.eyJzdWIiOiAiaHR0cHM6Ly9ycC
-  5leGFtcGxlLmNvbSIsICJpc3MiOiAiaHR0cHM6Ly9ycC5leGFtc
-  GxlLmNvbSIsICJpYXQiOiAxNTg5NzA0NzAxLCAiZXhwIjogMTU4
-  OTcwNDc2MSwgImF1ZCI6ICJodHRwczovL29wLmV4YW1wbGUub3J
-  nL2F1dGhvcml6YXRpb24iLCAianRpIjogIjM5ZDVhZTU1MmQ5Yz
-  Q4ZjBiOTEyZGM1NTY4ZWQ1MGQ2In0.oUt9Knx_lxb4V2S0tyNFH
-  CNZeP7sImBy5XDsFxv1cUpGkAojNXSy2dnU5HEzscMgNW4wguz6
-  KDkC01aq5OfN04SuVItS66bsx0h4Gs7grKAp_51bClzreBVzU4g
-  _-dFTgF15T9VLIgM_juFNPA_g4Lx7Eb5r37rWTUrzXdmfxeou0X
-  FC2p9BIqItU3m9gmH0ojdBCUX5Up0iDsys6_npYomqitAcvaBRD
-  PiuUBa5Iar9HVR-H7FMAr7aq7s-dH5gx2CHIfM3-qlc2-_Apsy0
-  BrQl6VePR6j-3q6JCWvNw7l4_F2UpHeanHb31fLKQbK-1yoXDNz
-  DwA7B0ZqmuSmMFQ</pre>
+GET /authorization?
+  redirect_uri=https%3A%2F%2Fexample.com%2Fauthz_cb
+  &amp;scope=openid+profile+email+address+phone
+  &amp;response_type=code
+  &amp;nonce=4LX0mFMxdBjkGmtx7a8WIOnB&amp;
+  &amp;state=YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ
+  &amp;client_id=https%3A%2F%2Fexample.com%3A8090%2Firp
+  &amp;client_assertion=eyJhbGciOiJSUzI1NiIs ... qx7xHcvPOdIhnpg
+  &amp;client_assertion_type=
+    urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
+  HTTP/1.1
+Host: example.org
+</pre>
 <h1 id="rfc.section.9.1.2">
 <a href="#rfc.section.9.1.2">9.1.2.</a> Processing the Authentication Request</h1>
 <p id="rfc.section.9.1.2.p.1">When the OP receives an incoming authentication request, the OP supports OpenID Connect Federation, the incoming client_id is a valid URL and the OP does not have the client_id registered as a known client then the OP should try to resolve and fetch trust chains starting with the RP's entity statement as described in <a href="#fetching-es" class="xref">Section 7.1</a>.  </p>
@@ -2062,6 +1963,8 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
 </dl>
 
 <p> </p>
+<p></p>
+
 <p>The following is a non-normative example error response: </p>
 <pre>
 HTTP/1.1 302 Found
@@ -2076,13 +1979,16 @@ HTTP/1.1 302 Found
 </h1>
 <p id="rfc.section.9.2.p.1">This method involves performing an explicit registration of a new client the first time an RP interacts with an OP using something that basically follows the steps in <a href="#OpenID.Registration" class="xref">OpenID Connect Dynamic Client Registration 1.0</a> but where the client registration request is a signed entity statement.  </p>
 <h1 id="rfc.section.9.2.1">
-<a href="#rfc.section.9.2.1">9.2.1.</a> <a href="#Clireg" id="Clireg">Client Registration</a>
+<a href="#rfc.section.9.2.1">9.2.1.</a> Provider Discovery</h1>
+<p id="rfc.section.9.2.1.p.1">The RP will start by gathering the OP's metadata using the process specified in <a href="#resolving_trust" class="xref">Section 7</a> above.  </p>
+<h1 id="rfc.section.9.2.2">
+<a href="#rfc.section.9.2.2">9.2.2.</a> <a href="#Clireg" id="Clireg">Client Registration</a>
 </h1>
-<h1 id="rfc.section.9.2.1.1">
-<a href="#rfc.section.9.2.1.1">9.2.1.1.</a> <a href="#Cliregreq" id="Cliregreq">Client Registration Request</a>
+<h1 id="rfc.section.9.2.2.1">
+<a href="#rfc.section.9.2.2.1">9.2.2.1.</a> <a href="#Cliregreq" id="Cliregreq">Client Registration Request</a>
 </h1>
-<p id="rfc.section.9.2.1.1.p.1">The OP MUST support OpenID Dynamic Client Registration as extended by this specification.  This is signaled by having the claim <samp>federation_registration_endpoint</samp> in the OP's metadata.  </p>
-<p id="rfc.section.9.2.1.1.p.2">Given that the OP supports explicit registration, the RP progresses as follows: </p>
+<p id="rfc.section.9.2.2.1.p.1">The OP MUST support OpenID Dynamic Client Registration as extended by this specification.  This is signaled by having the claim <samp>federation_registration_endpoint</samp> in the OP's metadata.  </p>
+<p id="rfc.section.9.2.2.1.p.2">Given that the OP supports explicit registration, the RP progresses as follows: </p>
 <p></p>
 
 <ol>
@@ -2093,11 +1999,11 @@ HTTP/1.1 302 Found
 </ol>
 
 <p> </p>
-<h1 id="rfc.section.9.2.1.2">
-<a href="#rfc.section.9.2.1.2">9.2.1.2.</a> <a href="#cliregresp" id="cliregresp">Client Registration Response</a>
+<h1 id="rfc.section.9.2.2.2">
+<a href="#rfc.section.9.2.2.2">9.2.2.2.</a> <a href="#cliregresp" id="cliregresp">Client Registration Response</a>
 </h1>
-<h1 id="rfc.section.9.2.1.2.1">
-<a href="#rfc.section.9.2.1.2.1">9.2.1.2.1.</a> The OP Constructing the Response</h1>
+<h1 id="rfc.section.9.2.2.2.1">
+<a href="#rfc.section.9.2.2.2.1">9.2.2.2.1.</a> The OP Constructing the Response</h1>
 <p></p>
 
 <ol>
@@ -2109,8 +2015,8 @@ HTTP/1.1 302 Found
 </ol>
 
 <p> </p>
-<h1 id="rfc.section.9.2.1.2.2">
-<a href="#rfc.section.9.2.1.2.2">9.2.1.2.2.</a> The RP Parsing the Response</h1>
+<h1 id="rfc.section.9.2.2.2.2">
+<a href="#rfc.section.9.2.2.2.2">9.2.2.2.2.</a> The RP Parsing the Response</h1>
 <p></p>
 
 <ol>
@@ -2121,12 +2027,12 @@ HTTP/1.1 302 Found
 </ol>
 
 <p> </p>
-<h1 id="rfc.section.9.2.2">
-<a href="#rfc.section.9.2.2">9.2.2.</a> After Client Registration</h1>
-<p id="rfc.section.9.2.2.p.1">A client registration using this specification is not expected to be valid forever. The entity statements exchanged all have expiration times, which means that the registration will eventually time out. An OP can also for administrative reasons decide that a client registration is not valid anymore. An example of this could be that the OP leaves the federation in use.  </p>
-<h1 id="rfc.section.9.2.2.1">
-<a href="#rfc.section.9.2.2.1">9.2.2.1.</a> What the RP MUST Do</h1>
-<p id="rfc.section.9.2.2.1.p.1">At regular intervals, the RP MUST: </p>
+<h1 id="rfc.section.9.2.3">
+<a href="#rfc.section.9.2.3">9.2.3.</a> After Client Registration</h1>
+<p id="rfc.section.9.2.3.p.1">A client registration using this specification is not expected to be valid forever. The entity statements exchanged all have expiration times, which means that the registration will eventually time out. An OP can also for administrative reasons decide that a client registration is not valid anymore. An example of this could be that the OP leaves the federation in use.  </p>
+<h1 id="rfc.section.9.2.3.1">
+<a href="#rfc.section.9.2.3.1">9.2.3.1.</a> What the RP MUST Do</h1>
+<p id="rfc.section.9.2.3.1.p.1">At regular intervals, the RP MUST: </p>
 <p></p>
 
 <ol>
@@ -2135,10 +2041,10 @@ HTTP/1.1 302 Found
 </ol>
 
 <p> </p>
-<p id="rfc.section.9.2.2.1.p.3">What is regarded as reasonable intervals will depend on federation policies and risk assessment by the maintainer of the RP.  </p>
-<h1 id="rfc.section.9.2.2.2">
-<a href="#rfc.section.9.2.2.2">9.2.2.2.</a> What the OP MUST Do</h1>
-<p id="rfc.section.9.2.2.2.p.1">At regular intervals, the OP MUST: </p>
+<p id="rfc.section.9.2.3.1.p.3">What is regarded as reasonable intervals will depend on federation policies and risk assessment by the maintainer of the RP.  </p>
+<h1 id="rfc.section.9.2.3.2">
+<a href="#rfc.section.9.2.3.2">9.2.3.2.</a> What the OP MUST Do</h1>
+<p id="rfc.section.9.2.3.2.p.1">At regular intervals, the OP MUST: </p>
 <p></p>
 
 <ol>
@@ -2147,9 +2053,9 @@ HTTP/1.1 302 Found
 </ol>
 
 <p> </p>
-<h1 id="rfc.section.9.2.3">
-<a href="#rfc.section.9.2.3">9.2.3.</a> Expiration Times</h1>
-<p id="rfc.section.9.2.3.p.1">An OP MUST NOT assign an expiration time to an RP's registration that is later than the trust chain's expiration time.  </p>
+<h1 id="rfc.section.9.2.4">
+<a href="#rfc.section.9.2.4">9.2.4.</a> Expiration Times</h1>
+<p id="rfc.section.9.2.4.p.1">An OP MUST NOT assign an expiration time to an RP's registration that is later than the trust chain's expiration time.  </p>
 <h1 id="rfc.section.10">
 <a href="#rfc.section.10">10.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>
@@ -2181,11 +2087,6 @@ HTTP/1.1 302 Found
 <a title="Nomura Research Institute, Ltd.">Sakimura, N.</a>, <a title="Ping Identity">Bradley, J.</a> and <a title="Microsoft">M. Jones</a>, "<a href="http://openid.net/specs/openid-connect-registration-1_0.html">OpenID Connect Dynamic Client Registration 1.0</a>", August 2015.</td>
 </tr>
 <tr>
-<td class="reference"><b id="PAR">[PAR]</b></td>
-<td class="top">
-<a title="yes.com">Lodderstedt, T.</a>, <a title="Nomura Research Institute, Ltd.">Sakimura, N.</a>, <a title="Ping Identity">Campbell, B.</a>, <a title="Moneyhub Financial Technology">Tonge, D.</a> and <a title="Auth0">F. Skokan</a>, "<a href="https://tools.ietf.org/id/draft-lodderstedt-oauth-par-00.html">OAuth 2.0 Pushed Authorization Requests</a>"</td>
-</tr>
-<tr>
 <td class="reference"><b id="RFC2119">[RFC2119]</b></td>
 <td class="top">
 <a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
@@ -2199,6 +2100,11 @@ HTTP/1.1 302 Found
 <td class="reference"><b id="RFC5280">[RFC5280]</b></td>
 <td class="top">
 <a>Cooper, D.</a>, <a>Santesson, S.</a>, <a>Farrell, S.</a>, <a>Boeyen, S.</a>, <a>Housley, R.</a> and <a>W. Polk</a>, "<a href="https://tools.ietf.org/html/rfc5280">Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile</a>", RFC 5280, DOI 10.17487/RFC5280, May 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6749">[RFC6749]</b></td>
+<td class="top">
+<a>Hardt, D.</a>, "<a href="https://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a>", RFC 6749, DOI 10.17487/RFC6749, October 2012.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC7515">[RFC7515]</b></td>
@@ -2216,11 +2122,6 @@ HTTP/1.1 302 Found
 <a>Jones, M.</a>, <a>Bradley, J.</a> and <a>N. Sakimura</a>, "<a href="https://tools.ietf.org/html/rfc7519">JSON Web Token (JWT)</a>", RFC 7519, DOI 10.17487/RFC7519, May 2015.</td>
 </tr>
 <tr>
-<td class="reference"><b id="RFC7523">[RFC7523]</b></td>
-<td class="top">
-<a>Jones, M.</a>, <a>Campbell, B.</a> and <a>C. Mortimore</a>, "<a href="https://tools.ietf.org/html/rfc7523">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</a>", RFC 7523, DOI 10.17487/RFC7523, May 2015.</td>
-</tr>
-<tr>
 <td class="reference"><b id="RFC7591">[RFC7591]</b></td>
 <td class="top">
 <a>Richer, J.</a>, <a>Jones, M.</a>, <a>Bradley, J.</a>, <a>Machulak, M.</a> and <a>P. Hunt</a>, "<a href="https://tools.ietf.org/html/rfc7591">OAuth 2.0 Dynamic Client Registration Protocol</a>", RFC 7591, DOI 10.17487/RFC7591, July 2015.</td>
@@ -2234,11 +2135,6 @@ HTTP/1.1 302 Found
 <td class="reference"><b id="RFC8615">[RFC8615]</b></td>
 <td class="top">
 <a>Nottingham, M.</a>, "<a href="https://tools.ietf.org/html/rfc8615">Well-Known Uniform Resource Identifiers (URIs)</a>", RFC 8615, DOI 10.17487/RFC8615, May 2019.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC8705">[RFC8705]</b></td>
-<td class="top">
-<a>Campbell, B.</a>, <a>Bradley, J.</a>, <a>Sakimura, N.</a> and <a>T. Lodderstedt</a>, "<a href="https://tools.ietf.org/html/rfc8705">OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens</a>", RFC 8705, DOI 10.17487/RFC8705, February 2020.</td>
 </tr>
 </tbody></table>
 <h1 id="rfc.references.2">
@@ -2285,7 +2181,7 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.p.4">The self-signed entity statement concerning intermediates are not part of the trust chain.  </p>
 <h1 id="rfc.appendix.A.1.1">
 <a href="#rfc.appendix.A.1.1">A.1.1.</a> Configuration Information for op.umu.se</h1>
-<p id="rfc.section.A.1.1.p.1">The LIGO WIKI RP fetches the self-signed entity statement from the OP (op.umu.se) using the process defined in<a href="#federation_configuration" class="xref">Section 5</a>.  </p>
+<p id="rfc.section.A.1.1.p.1">The LIGO WIKI RP fetches the self-signed entity statement from the OP (op.umu.se) using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
 <p>The result is this entity statement.</p>
 <pre>
 {
@@ -2325,7 +2221,7 @@ HTTP/1.1 302 Found
       ],
       "logo_uri":
         "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-      "op_policy_uri":
+      "policy_uri":
         "https://www.umu.se/en/website/legal-information/",
       "response_types_supported": [
         "code",
@@ -2354,7 +2250,7 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.1.p.3">This entity statement is the first link in the trust chain.  </p>
 <h1 id="rfc.appendix.A.1.2">
 <a href="#rfc.appendix.A.1.2">A.1.2.</a> Configuration Information for 'https://umu.se'</h1>
-<p id="rfc.section.A.1.2.p.1">The LIGO RP fetches the self-signed entity statement from "https://umu.se" using the process defined in<a href="#federation_configuration" class="xref">Section 5</a>.  </p>
+<p id="rfc.section.A.1.2.p.1">The LIGO RP fetches the self-signed entity statement from "https://umu.se" using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
 <pre>
 {
   "authority_hints": [
@@ -2413,7 +2309,7 @@ HTTP/1.1 302 Found
           "ops@swamid.se"
         ]
       },
-      "organization_name": {
+      "organization": {
         "value": "University of Ume\u00e5"
       },
       "subject_types_supported": {
@@ -2442,7 +2338,7 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.3.p.3">Notable here is that this path leads to two trust anchors using the same next step ("https://swamid.se").  </p>
 <h1 id="rfc.appendix.A.1.4">
 <a href="#rfc.appendix.A.1.4">A.1.4.</a> Configuration Information for 'https://swamid.se'</h1>
-<p id="rfc.section.A.1.4.p.1">The LIGO Wiki RP fetches the self-signed entity statement from "https://swamid.se" using the process defined in<a href="#federation_configuration" class="xref">Section 5</a>.  </p>
+<p id="rfc.section.A.1.4.p.1">The LIGO Wiki RP fetches the self-signed entity statement from "https://swamid.se" using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
 <pre>
 {
   "authority_hints": [
@@ -2527,7 +2423,7 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.1.5.p.3">If we assume that the issuer of this entity statement is not in the list of trust anchors the LIGO Wiki RP has access to we have to go one step further.  </p>
 <h1 id="rfc.appendix.A.1.6">
 <a href="#rfc.appendix.A.1.6">A.1.6.</a> Configuration Information for 'https://edugain.geant.org'</h1>
-<p id="rfc.section.A.1.6.p.1">RP fetches the self-signed entity statement from "https://edugain.geant.org" using the process defined in<a href="#federation_configuration" class="xref">Section 5</a>.  </p>
+<p id="rfc.section.A.1.6.p.1">RP fetches the self-signed entity statement from "https://edugain.geant.org" using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
 <pre>
 {
   "exp": 1568397247,
@@ -2629,8 +2525,8 @@ HTTP/1.1 302 Found
   "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
   "logo_uri":
     "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-  "organization_name": "University of Ume\u00e5",
-  "op_policy_uri":
+  "organization": "University of Ume\u00e5",
+  "policy_uri":
     "https://www.umu.se/en/website/legal-information/",
   "request_parameter_supported": false,
   "request_uri_parameter_supported": true,
@@ -2695,7 +2591,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.A.2.1.1.p.2">The OP starts to resolve metadata for the client identifier https://wiki.ligo.org by fetching the self-issued entity statement using the process described in<a href="#federation_configuration" class="xref">Section 5</a>.  </p>
+<p id="rfc.section.A.2.1.1.p.2">The OP starts to resolve metadata for the client identifier https://wiki.ligo.org by fetching the self-issued entity statement using the process described in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
 <p id="rfc.section.A.2.1.1.p.3">The process is the same as described in <a href="#op_discovery" class="xref">Appendix A.1</a> and will result in a trust chain with the following entity statements: </p>
 
 <ol>
@@ -2812,7 +2708,7 @@ Host: op.umu.se
 <h1 id="rfc.appendix.A.2.2">
 <a href="#rfc.appendix.A.2.2">A.2.2.</a> Client Starts with Registration (Explicit Client Registration)</h1>
 <p id="rfc.section.A.2.2.p.1">Here the LIGO Wiki RP sends a client registration request to the federation_registration_endpoint of the OP (op.umu.se).  What it sends is a self-signed entity statement.  </p>
-<p id="rfc.section.A.2.2.p.2">Once the OP has the entity statement, it proceeds with the same sequence of steps as laid out in<a href="#op_discovery" class="xref">Appendix A.1</a>.  </p>
+<p id="rfc.section.A.2.2.p.2">Once the OP has the entity statement, it proceeds with the same sequence of steps as laid out in <a href="#op_discovery" class="xref">Appendix A.1</a>.  </p>
 <p id="rfc.section.A.2.2.p.3">The OP will end up with the same RP metadata as was described in <a href="#rp_metadata_eval" class="xref">Appendix A.2.1.2</a>, but what it now can do is return a metadata policy that it wants to be applied to the RP's metadata. This metadata policy will be combined with the trust chain's combined metadata policy before being applied to the RP's metadata.  </p>
 <p id="rfc.section.A.2.2.p.4">If we assume that the OP does not support refresh tokens, it may want to add a metadata policy that says: </p>
 <pre>
@@ -2856,13 +2752,13 @@ Host: op.umu.se
 <h1 id="rfc.appendix.B">
 <a href="#rfc.appendix.B">Appendix B.</a> <a href="#Notices" id="Notices">Notices</a>
 </h1>
-<p id="rfc.section.B.p.1">Copyright (c) 2019 The OpenID Foundation.  </p>
+<p id="rfc.section.B.p.1">Copyright (c) 2020 The OpenID Foundation.  </p>
 <p id="rfc.section.B.p.2">The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.  </p>
 <p id="rfc.section.B.p.3">The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.  </p>
 <h1 id="rfc.appendix.C">
 <a href="#rfc.appendix.C">Appendix C.</a> <a href="#Acknowledgements" id="Acknowledgements">Acknowledgements</a>
 </h1>
-<p id="rfc.section.C.p.1">The authors wish to acknowledge the contributions of the following individuals and organizations to this specification: Heather Flanagan, Marcos Sanz, Misha Salle, Jouke Roorda, Peter Schober, Michael Schwartz, and the JRA3T3 task force of GEANT4-2.  </p>
+<p id="rfc.section.C.p.1">The authors wish to acknowledge the contributions of the following individuals and organizations to this specification: Vladimir Dzhuvinov, Heather Flanagan, Jouke Roorda, Misha Salle, Marcos Sanz, Peter Schober, Michael Schwartz, and the JRA3T3 task force of GEANT4-2.  </p>
 <h1 id="rfc.appendix.D">
 <a href="#rfc.appendix.D">Appendix D.</a> <a href="#TBD" id="TBD">Open Issues</a>
 </h1>
@@ -2886,12 +2782,22 @@ Host: op.umu.se
 <a href="#rfc.appendix.E">Appendix E.</a> <a href="#History" id="History">Document History</a>
 </h1>
 <p id="rfc.section.E.p.1">[[ To be removed from the final specification ]]</p>
-<p id="rfc.section.E.p.2">-10 </p>
+<p id="rfc.section.E.p.2">-11 </p>
+
+<ul>
+<li>Added section on trust marks.  </li>
+<li>Clarified private_key_jwt usage in the authentication request.  </li>
+<li>Fixed Bitbucket issues #1150 and #1155 by Vladimir Dzhuvinov.  </li>
+<li>Fixed some examples to make them syntactically correct.  </li>
+</ul>
+
+<p> </p>
+<p id="rfc.section.E.p.3">-10 </p>
 
 <ul><li>Incorporated additional review feedback from Marcos Sanz.  The primary change was moving constraints to their own section of the entity statement.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.3">-09 </p>
+<p id="rfc.section.E.p.4">-09 </p>
 
 <ul>
 <li>Incorporated review feedback from Marcos Sanz.  Major changes were as follows.  </li>
@@ -2901,7 +2807,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.4">-08 </p>
+<p id="rfc.section.E.p.5">-08 </p>
 
 <ul>
 <li>Incorporated review feedback from Michael B. Jones.  Major changes were as follows.  </li>
@@ -2921,7 +2827,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.5">-07 </p>
+<p id="rfc.section.E.p.6">-07 </p>
 
 <ul>
 <li>Split metadata into metadata and metadata_policy </li>
@@ -2929,7 +2835,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.6">-06 </p>
+<p id="rfc.section.E.p.7">-06 </p>
 
 <ul>
 <li>Some rewrites </li>
@@ -2937,12 +2843,12 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.7">-05 </p>
+<p id="rfc.section.E.p.8">-05 </p>
 
 <ul><li>A major rewrite.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.8">-04 </p>
+<p id="rfc.section.E.p.9">-04 </p>
 
 <ul>
 <li>Changed client metadata names <samp>scopes</samp> to <samp>rp_scopes</samp> and <samp>claims</samp> to <samp>rp_claims</samp>.  </li>
