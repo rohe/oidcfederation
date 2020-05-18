@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Federation">OpenID Connect Federation 1.0 -
-      draft 11
+      draft 12
     </title>
 
     <author fullname="Roland Hedberg" initials="R." role="editor"
@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="21" month="January" year="2020"/>
+    <date day="21" month="May" year="2020"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
