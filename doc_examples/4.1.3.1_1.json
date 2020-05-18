@@ -1,0 +1,29 @@
+{
+  "scopes": {
+    "subset_of": [
+      "openid",
+      "eduperson",
+      "phone"
+    ],
+    "superset_of": [
+      "openid"
+    ],
+    "default": [
+      "openid",
+      "eduperson"
+    ]
+  },
+  "id_token_signed_response_alg": {
+    "one_of": [
+      "ES256",
+      "ES384",
+      "ES512"
+    ]
+  },
+  "contacts": {
+    "add": "helpdesk@federation.example.org"
+  },
+  "application_type": {
+    "value": "web"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "openid_relying_party": {
+    "grant_types": {
+      "subset_of": [
+        "authorization_code"
+      ]
+    }
+  }
+}

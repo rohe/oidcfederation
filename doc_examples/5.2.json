@@ -1,0 +1,30 @@
+{
+  "iss": "https://example.com",
+  "sub": "https://example.com",
+  "iat": 1516239022,
+  "exp": 1516298022,
+  "metadata": {
+    "federation_entity": {
+      "federation_api_endpoint": "https://example.com/federation_api_endpoint",
+      "name": "The example cooperation",
+      "homepage_uri": "https://www.example.com"
+    }
+  },
+  "authority_hints": ["https://federation.example.com"],
+  "jwks": {
+    "keys": [
+      {
+        "alg": "RS256",
+        "e": "AQAB",
+        "ext": true,
+        "key_ops": [
+          "verify"
+        ],
+        "kid": "key1",
+        "kty": "RSA",
+        "n": "pnXBOusEANuug6ewezb9J_...",
+        "use": "sig"
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "contacts": {
+    "add": "helpdesk@example.com"
+  },
+  "logo_uri": {
+    "one_of": [
+      "https://example.com/logo_small.jpg",
+      "https://example.com/logo_big.jpg"
+    ],
+    "default": "https://example.com/logo_small.jpg"
+  },
+  "policy_uri": {
+    "value": "https://example.com/policy.html"
+  },
+  "tos_uri": {
+    "value": "https://example.com/tos.html"
+  }
+}

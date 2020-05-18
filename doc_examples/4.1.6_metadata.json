@@ -1,0 +1,11 @@
+{
+  "contacts": [
+    "rp_admins@cs.example.com"
+  ],
+  "redirect_uris": [
+    "https://cs.example.com/rp1"
+  ],
+  "response_types": [
+    "code"
+  ]
+}

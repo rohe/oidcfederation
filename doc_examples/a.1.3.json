@@ -1,0 +1,48 @@
+{
+  "authority_hints": [
+    "https://swamid.se"
+  ],
+  "exp": 1568397247,
+  "iat": 1568310847,
+  "iss": "https://umu.se",
+  "jwks": {
+    "keys": [
+      {
+        "e": "AQAB",
+        "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
+        "kty": "RSA",
+        "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
+      }
+    ]
+  },
+  "metadata_policy": {
+    "openid_provider": {
+      "contacts": {
+        "add": [
+          "ops@swamid.se"
+        ]
+      },
+      "organization": {
+        "value": "University of Ume\u00e5"
+      },
+      "subject_types_supported": {
+        "value": [
+          "pairwise"
+        ]
+      },
+      "token_endpoint_auth_methods_supported": {
+        "default": [
+          "private_key_jwt"
+        ],
+        "subset_of": [
+          "private_key_jwt",
+          "client_secret_jwt"
+        ],
+        "superset_of": [
+          "private_key_jwt"
+        ]
+      }
+    }
+  },
+  "sub": "https://op.umu.se"
+}

@@ -1,0 +1,19 @@
+{
+  "openid_relying_party": {
+    "application_type": {
+      "one_of": [
+        "web",
+        "native"
+      ]
+    },
+    "contacts": {
+      "add": "ops@incommon.org"
+    },
+    "grant_types": {
+      "subset_of": [
+        "authorization_code",
+        "refresh_token"
+      ]
+    }
+  }
+}

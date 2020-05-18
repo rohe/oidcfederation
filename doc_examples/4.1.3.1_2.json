@@ -1,0 +1,23 @@
+{
+  "scopes": {
+    "subset_of": [
+      "openid",
+      "eduperson",
+      "address"
+    ],
+    "default": [
+      "openid",
+      "eduperson"
+    ]
+  },
+  "id_token_signed_response_alg": {
+    "one_of": [
+      "ES256",
+      "ES384"
+    ],
+    "default": "ES256"
+  },
+  "contacts": {
+    "add": "helpdesk@org.example.org"
+  }
+}

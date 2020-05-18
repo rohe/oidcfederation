@@ -1,0 +1,18 @@
+{
+  "scopes": {
+    "superset_of": [
+      "openid",
+      "eduperson"
+    ],
+    "default": [
+      "openid",
+      "eduperson"
+    ]
+  },
+  "response_types": {
+    "subset_of": [
+      "code",
+      "code id_token"
+    ]
+  }
+}

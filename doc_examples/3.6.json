@@ -1,0 +1,5 @@
+{
+  "federation_api_endpoint": "https://example.com/federation_api_endpoint",
+  "name": "The example cooperation",
+  "homepage_uri": "https://www.example.com"
+}

@@ -1,0 +1,12 @@
+{
+  "openid_provider": {
+    "contacts": {
+      "add": "ops@edugain.geant.org"
+    }
+  },
+  "openid_relying_party": {
+    "contacts": {
+      "add": "ops@edugain.geant.org"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "application_type": "web",
+  "client_name": "LIGO Wiki",
+  "contacts": [
+    "ops@ligo.org"
+  ],
+  "grant_types": [
+    "authorization_code",
+    "refresh_token"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256",
+    "RS512"
+  ],
+  "jwks_uri": "https://wiki.ligo.org/jwks.json",
+  "redirect_uris": [
+    "https://wiki.ligo.org/callback"
+  ],
+  "response_types": [
+    "code"
+  ],
+  "subject_type": "public"
+}
