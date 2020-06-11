@@ -12,10 +12,10 @@
                                                                Schibsted
                                                               J. Bradley
                                                                   Yubico
-                                                          April 23, 2020
+                                                            May 21, 2020
 
 
-                OpenID Connect Federation 1.0 - draft 11
+                OpenID Connect Federation 1.0 - draft 12
                      openid-connect-federation-1_0
 
 Abstract
@@ -44,131 +44,133 @@ Table of Contents
      1.2.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   4
    2.  Components  . . . . . . . . . . . . . . . . . . . . . . . . .   5
      2.1.  Entity Statement  . . . . . . . . . . . . . . . . . . . .   5
-     2.2.  Trust Chain . . . . . . . . . . . . . . . . . . . . . . .   9
-   3.  Metadata  . . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     3.1.  RP Metadata . . . . . . . . . . . . . . . . . . . . . . .  10
-     3.2.  OP Metadata . . . . . . . . . . . . . . . . . . . . . . .  10
-     3.3.  OAuth Authorization Server  . . . . . . . . . . . . . . .  11
-     3.4.  OAuth Client  . . . . . . . . . . . . . . . . . . . . . .  11
+     2.2.  Trust Chain . . . . . . . . . . . . . . . . . . . . . . .  10
+   3.  Metadata  . . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     3.1.  RP Metadata . . . . . . . . . . . . . . . . . . . . . . .  11
+     3.2.  OP Metadata . . . . . . . . . . . . . . . . . . . . . . .  12
+     3.3.  OAuth Authorization Server  . . . . . . . . . . . . . . .  12
+     3.4.  OAuth Client  . . . . . . . . . . . . . . . . . . . . . .  13
 
 
 
-Hedberg, et al.         Expires October 25, 2020                [Page 1]
+Hedberg, et al.         Expires November 22, 2020               [Page 1]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
-     3.5.  OAuth Protected Resource  . . . . . . . . . . . . . . . .  11
-     3.6.  Federation Entity . . . . . . . . . . . . . . . . . . . .  11
-   4.  Federation Policy . . . . . . . . . . . . . . . . . . . . . .  12
-     4.1.  Applying Policy to Metadata . . . . . . . . . . . . . . .  12
-       4.1.1.  Policy Language . . . . . . . . . . . . . . . . . . .  13
-         4.1.1.1.  subset_of . . . . . . . . . . . . . . . . . . . .  13
-         4.1.1.2.  one_of  . . . . . . . . . . . . . . . . . . . . .  13
-         4.1.1.3.  superset_of . . . . . . . . . . . . . . . . . . .  14
-         4.1.1.4.  add . . . . . . . . . . . . . . . . . . . . . . .  14
-         4.1.1.5.  value . . . . . . . . . . . . . . . . . . . . . .  14
-         4.1.1.6.  default . . . . . . . . . . . . . . . . . . . . .  15
-         4.1.1.7.  essential . . . . . . . . . . . . . . . . . . . .  15
-       4.1.2.  Policy Type Combinations  . . . . . . . . . . . . . .  16
-       4.1.3.  Combining Policies  . . . . . . . . . . . . . . . . .  16
-         4.1.3.1.  Policy Combination Example  . . . . . . . . . . .  17
-       4.1.4.  Enforcing Policy  . . . . . . . . . . . . . . . . . .  20
-       4.1.5.  Extending the Policy Language . . . . . . . . . . . .  20
-       4.1.6.  Policy Example  . . . . . . . . . . . . . . . . . . .  21
-     4.2.  Applying Constraints  . . . . . . . . . . . . . . . . . .  23
-       4.2.1.  Max Path Length . . . . . . . . . . . . . . . . . . .  23
-       4.2.2.  Naming Constraints  . . . . . . . . . . . . . . . . .  24
-     4.3.  Trust Marks . . . . . . . . . . . . . . . . . . . . . . .  25
-       4.3.1.  Trust mark properties . . . . . . . . . . . . . . . .  25
-       4.3.2.  Validating a trust mark . . . . . . . . . . . . . . .  26
-       4.3.3.  Trust mark example  . . . . . . . . . . . . . . . . .  26
-   5.  Obtaining Federation Entity Configuration Information . . . .  26
-     5.1.  Federation Entity Configuration Request . . . . . . . . .  27
-     5.2.  Federation Entity Configuration Response  . . . . . . . .  27
-   6.  The Federation API  . . . . . . . . . . . . . . . . . . . . .  28
-     6.1.  Fetching Entity Statement (REQUIRED)  . . . . . . . . . .  29
-       6.1.1.  Fetch Entity Statements Request . . . . . . . . . . .  29
-       6.1.2.  Fetch Entity Statements Response  . . . . . . . . . .  30
-     6.2.  Trust Negotiation (OPTIONAL)  . . . . . . . . . . . . . .  32
-       6.2.1.  Trust Negotiation Request . . . . . . . . . . . . . .  32
-       6.2.2.  Trust Negotiation Response  . . . . . . . . . . . . .  33
-     6.3.  Entity Listings (OPTIONAL)  . . . . . . . . . . . . . . .  34
-       6.3.1.  Entity Listings Request . . . . . . . . . . . . . . .  34
-       6.3.2.  Entity Listing Response . . . . . . . . . . . . . . .  34
-     6.4.  Generic Error Response  . . . . . . . . . . . . . . . . .  35
-   7.  Resolving Trust Chain and Metadata  . . . . . . . . . . . . .  36
-     7.1.  Fetching Entity Statements to Establish a Trust Chain . .  36
-     7.2.  Validating the Trust Chains . . . . . . . . . . . . . . .  36
-     7.3.  Choosing One of the Valid Trust Chains  . . . . . . . . .  37
-     7.4.  Calculating the Expiration Time of a Trust Chain  . . . .  37
-   8.  Updating Metadata, Key Rollover, and Revocation . . . . . . .  38
-     8.1.  Protocol Key Rollover . . . . . . . . . . . . . . . . . .  38
-     8.2.  Key Rollover for a Trust Anchor . . . . . . . . . . . . .  38
-     8.3.  Revocation  . . . . . . . . . . . . . . . . . . . . . . .  38
+     3.5.  OAuth Protected Resource  . . . . . . . . . . . . . . . .  13
+     3.6.  Federation Entity . . . . . . . . . . . . . . . . . . . .  13
+   4.  Federation Policy . . . . . . . . . . . . . . . . . . . . . .  14
+     4.1.  Applying Policy to Metadata . . . . . . . . . . . . . . .  14
+       4.1.1.  Policy Language . . . . . . . . . . . . . . . . . . .  14
+         4.1.1.1.  subset_of . . . . . . . . . . . . . . . . . . . .  14
+         4.1.1.2.  one_of  . . . . . . . . . . . . . . . . . . . . .  15
+         4.1.1.3.  superset_of . . . . . . . . . . . . . . . . . . .  15
+         4.1.1.4.  add . . . . . . . . . . . . . . . . . . . . . . .  15
+         4.1.1.5.  value . . . . . . . . . . . . . . . . . . . . . .  16
+         4.1.1.6.  default . . . . . . . . . . . . . . . . . . . . .  16
+         4.1.1.7.  essential . . . . . . . . . . . . . . . . . . . .  17
+       4.1.2.  Policy Type Combinations  . . . . . . . . . . . . . .  17
+       4.1.3.  Combining Policies  . . . . . . . . . . . . . . . . .  18
+         4.1.3.1.  Policy Combination Example  . . . . . . . . . . .  19
+       4.1.4.  Enforcing Policy  . . . . . . . . . . . . . . . . . .  21
+       4.1.5.  Extending the Policy Language . . . . . . . . . . . .  21
+       4.1.6.  Policy Example  . . . . . . . . . . . . . . . . . . .  22
+     4.2.  Applying Constraints  . . . . . . . . . . . . . . . . . .  24
+       4.2.1.  Max Path Length . . . . . . . . . . . . . . . . . . .  24
+       4.2.2.  Naming Constraints  . . . . . . . . . . . . . . . . .  25
+     4.3.  Trust Marks . . . . . . . . . . . . . . . . . . . . . . .  26
+       4.3.1.  Trust mark properties . . . . . . . . . . . . . . . .  26
+       4.3.2.  Validating a trust mark . . . . . . . . . . . . . . .  27
+       4.3.3.  Trust mark example  . . . . . . . . . . . . . . . . .  27
+   5.  Obtaining Federation Entity Configuration Information . . . .  27
+     5.1.  Federation Entity Configuration Request . . . . . . . . .  28
+     5.2.  Federation Entity Configuration Response  . . . . . . . .  28
+   6.  The Federation API  . . . . . . . . . . . . . . . . . . . . .  29
+     6.1.  Fetching Entity Statement (REQUIRED)  . . . . . . . . . .  30
+       6.1.1.  Fetch Entity Statements Request . . . . . . . . . . .  30
+       6.1.2.  Fetch Entity Statements Response  . . . . . . . . . .  31
+     6.2.  Trust Negotiation (OPTIONAL)  . . . . . . . . . . . . . .  33
+       6.2.1.  Trust Negotiation Request . . . . . . . . . . . . . .  33
+       6.2.2.  Trust Negotiation Response  . . . . . . . . . . . . .  34
+     6.3.  Entity Listings (OPTIONAL)  . . . . . . . . . . . . . . .  35
+       6.3.1.  Entity Listings Request . . . . . . . . . . . . . . .  35
+       6.3.2.  Entity Listing Response . . . . . . . . . . . . . . .  35
+     6.4.  Generic Error Response  . . . . . . . . . . . . . . . . .  36
+   7.  Resolving Trust Chain and Metadata  . . . . . . . . . . . . .  37
+     7.1.  Fetching Entity Statements to Establish a Trust Chain . .  37
+     7.2.  Validating the Trust Chains . . . . . . . . . . . . . . .  37
+     7.3.  Choosing One of the Valid Trust Chains  . . . . . . . . .  38
+     7.4.  Calculating the Expiration Time of a Trust Chain  . . . .  38
+   8.  Updating Metadata, Key Rollover, and Revocation . . . . . . .  39
+     8.1.  Protocol Key Rollover . . . . . . . . . . . . . . . . . .  39
+     8.2.  Key Rollover for a Trust Anchor . . . . . . . . . . . . .  39
+     8.3.  Revocation  . . . . . . . . . . . . . . . . . . . . . . .  39
 
 
 
-Hedberg, et al.         Expires October 25, 2020                [Page 2]
+Hedberg, et al.         Expires November 22, 2020               [Page 2]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
-   9.  OpenID Connect Communication  . . . . . . . . . . . . . . . .  39
-     9.1.  Automatic Registration  . . . . . . . . . . . . . . . . .  39
-       9.1.1.  The Authentication Request  . . . . . . . . . . . . .  39
-       9.1.2.  Processing the Authentication Request . . . . . . . .  40
-       9.1.3.  Authentication Error Response . . . . . . . . . . . .  40
-     9.2.  Explicit Registration . . . . . . . . . . . . . . . . . .  41
-       9.2.1.  Provider Discovery  . . . . . . . . . . . . . . . . .  41
-       9.2.2.  Client Registration . . . . . . . . . . . . . . . . .  41
-         9.2.2.1.  Client Registration Request . . . . . . . . . . .  41
-         9.2.2.2.  Client Registration Response  . . . . . . . . . .  42
-           9.2.2.2.1.  The OP Constructing the Response  . . . . . .  42
-           9.2.2.2.2.  The RP Parsing the Response . . . . . . . . .  42
-       9.2.3.  After Client Registration . . . . . . . . . . . . . .  43
-         9.2.3.1.  What the RP MUST Do . . . . . . . . . . . . . . .  43
-         9.2.3.2.  What the OP MUST Do . . . . . . . . . . . . . . .  43
-       9.2.4.  Expiration Times  . . . . . . . . . . . . . . . . . .  44
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  44
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .  44
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  44
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  44
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  45
+   9.  OpenID Connect Communication  . . . . . . . . . . . . . . . .  40
+     9.1.  Automatic Registration  . . . . . . . . . . . . . . . . .  40
+       9.1.1.  The Authentication Request  . . . . . . . . . . . . .  40
+         9.1.1.1.  Using Request Object  . . . . . . . . . . . . . .  41
+         9.1.1.2.  Using Pushed Authorization  . . . . . . . . . . .  43
+       9.1.2.  Processing the Authentication Request . . . . . . . .  44
+       9.1.3.  Authentication Error Response . . . . . . . . . . . .  44
+     9.2.  Explicit Registration . . . . . . . . . . . . . . . . . .  45
+       9.2.1.  Client Registration . . . . . . . . . . . . . . . . .  45
+         9.2.1.1.  Client Registration Request . . . . . . . . . . .  45
+         9.2.1.2.  Client Registration Response  . . . . . . . . . .  45
+           9.2.1.2.1.  The OP Constructing the Response  . . . . . .  45
+           9.2.1.2.2.  The RP Parsing the Response . . . . . . . . .  46
+       9.2.2.  After Client Registration . . . . . . . . . . . . . .  47
+         9.2.2.1.  What the RP MUST Do . . . . . . . . . . . . . . .  47
+         9.2.2.2.  What the OP MUST Do . . . . . . . . . . . . . . .  47
+       9.2.3.  Expiration Times  . . . . . . . . . . . . . . . . . .  47
+   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  48
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  48
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  48
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  48
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  49
    Appendix A.  Provider Information Discovery and Client
-                Registration in a Federation . . . . . . . . . . . .  46
-     A.1.  The LIGO Wiki Discovers the OP's Metadata . . . . . . . .  46
-       A.1.1.  Configuration Information for op.umu.se . . . . . . .  47
-       A.1.2.  Configuration Information for 'https://umu.se'  . . .  49
+                Registration in a Federation . . . . . . . . . . . .  50
+     A.1.  The LIGO Wiki Discovers the OP's Metadata . . . . . . . .  50
+       A.1.1.  Configuration Information for op.umu.se . . . . . . .  51
+       A.1.2.  Configuration Information for 'https://umu.se'  . . .  53
        A.1.3.  Entity Statement Published by 'https://umu.se' about
-               'https://op.umu.se' . . . . . . . . . . . . . . . . .  49
-       A.1.4.  Configuration Information for 'https://swamid.se' . .  51
+               'https://op.umu.se' . . . . . . . . . . . . . . . . .  53
+       A.1.4.  Configuration Information for 'https://swamid.se' . .  55
        A.1.5.  Entity Statement Published by 'https://swamid.se'
-               about 'https://umu.se'  . . . . . . . . . . . . . . .  51
+               about 'https://umu.se'  . . . . . . . . . . . . . . .  55
        A.1.6.  Configuration Information for
-               'https://edugain.geant.org' . . . . . . . . . . . . .  53
+               'https://edugain.geant.org' . . . . . . . . . . . . .  57
        A.1.7.  Entity Statement Published by
-               'https://edugain.geant.org' about 'https://swamid.se'  53
-       A.1.8.  Verified Metadata for op.umu.se . . . . . . . . . . .  55
-     A.2.  The Two Ways of Doing Client Registration . . . . . . . .  57
+               'https://edugain.geant.org' about 'https://swamid.se'  57
+       A.1.8.  Verified Metadata for op.umu.se . . . . . . . . . . .  59
+     A.2.  The Two Ways of Doing Client Registration . . . . . . . .  61
        A.2.1.  RP Sends Authentication Request (Automatic
-               Registration) . . . . . . . . . . . . . . . . . . . .  57
-         A.2.1.1.  OP Fetches Entity Statements  . . . . . . . . . .  57
-         A.2.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  58
+               Registration) . . . . . . . . . . . . . . . . . . . .  61
+         A.2.1.1.  OP Fetches Entity Statements  . . . . . . . . . .  61
+         A.2.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  62
        A.2.2.  Client Starts with Registration (Explicit Client
-               Registration) . . . . . . . . . . . . . . . . . . . .  60
-   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  61
-   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  62
-   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  62
-   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  63
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  65
+               Registration) . . . . . . . . . . . . . . . . . . . .  64
+   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  65
+   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  66
+   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  66
+   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  67
 
 
 
-Hedberg, et al.         Expires October 25, 2020                [Page 3]
+Hedberg, et al.         Expires November 22, 2020               [Page 3]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
+
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  69
 
 1.  Introduction
 
@@ -216,15 +218,16 @@ Hedberg, et al.         Expires October 25, 2020                [Page 3]
       be identified in a context.  All entities in an OpenID Connect
       federation MUST have a globally unique identifier.
 
+
+
+
+Hedberg, et al.         Expires November 22, 2020               [Page 4]
+
+                        OpenID Connect Federation               May 2020
+
+
    Entity identifier
       An URI which is globally unique and which is bound to one Entity.
-
-
-
-Hedberg, et al.         Expires October 25, 2020                [Page 4]
-
-                        OpenID Connect Federation             April 2020
-
 
    Entity statement
       An entity statement is issued by an entity, which pertains to a
@@ -270,18 +273,19 @@ Hedberg, et al.         Expires October 25, 2020                [Page 4]
    iat
       REQUIRED.  The time the statement was issued.  Its value is a JSON
       number representing the number of seconds from 1970-01-01T0:0:0Z
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020               [Page 5]
+
+                        OpenID Connect Federation               May 2020
+
+
       as measured in UTC until the date/time.  See RFC 3339 [RFC3339]
       for details regarding date/times in general and UTC in particular.
 
    exp
-
-
-
-Hedberg, et al.         Expires October 25, 2020                [Page 5]
-
-                        OpenID Connect Federation             April 2020
-
-
       REQUIRED.  Expiration time on or after which the statement MUST
       NOT be accepted for processing.  Its value is a JSON number
       representing the number of seconds from 1970-01-01T0:0:0Z as
@@ -326,17 +330,18 @@ Hedberg, et al.         Expires October 25, 2020                [Page 5]
       of the JSON object represents a metadata type identifier, and each
       value MUST be a JSON object representing the metadata policy
       according to the metadata schema of that metadata type.  An entity
+
+
+
+Hedberg, et al.         Expires November 22, 2020               [Page 6]
+
+                        OpenID Connect Federation               May 2020
+
+
       statement may contain multiple metadata policy statements, but
       only one for each metadata type.  Only non-leaf entities MAY
       contain a "metadata_policy" claim.  Leaf entities MUST NOT contain
       a metadata_policy claim.
-
-
-
-Hedberg, et al.         Expires October 25, 2020                [Page 6]
-
-                        OpenID Connect Federation             April 2020
-
 
    constraints
       OPTIONAL.  JSON object that describes a set of trust chain
@@ -381,6 +386,14 @@ Hedberg, et al.         Expires October 25, 2020                [Page 6]
    The following is a non-normative example of an entity statement
    before serialization and adding a signature.  The example contains a
    critical extension "jti" (JWT ID) to the entity statement and one
+
+
+
+Hedberg, et al.         Expires November 22, 2020               [Page 7]
+
+                        OpenID Connect Federation               May 2020
+
+
    critical extension to the policy language "regexp" (Regular
    expression).
 
@@ -389,9 +402,52 @@ Hedberg, et al.         Expires October 25, 2020                [Page 6]
 
 
 
-Hedberg, et al.         Expires October 25, 2020                [Page 7]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020               [Page 8]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    {
@@ -445,9 +501,9 @@ Hedberg, et al.         Expires October 25, 2020                [Page 7]
 
 
 
-Hedberg, et al.         Expires October 25, 2020                [Page 8]
+Hedberg, et al.         Expires November 22, 2020               [Page 9]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
 2.2.  Trust Chain
@@ -501,9 +557,9 @@ Hedberg, et al.         Expires October 25, 2020                [Page 8]
 
 
 
-Hedberg, et al.         Expires October 25, 2020                [Page 9]
+Hedberg, et al.         Expires November 22, 2020              [Page 10]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    The signing key that MUST be used to verify ES[i] is distributed from
@@ -547,20 +603,27 @@ Hedberg, et al.         Expires October 25, 2020                [Page 9]
       OPTIONAL.  A human readable name representing the organization
       owning the RP.
 
+   trust_anchor_id
+      OPTIONAL.  An OP MUST use this claim to tell the RP which trust
+      anchor it chose to use when responding to an explicit client
+      registration.  The value of trust_anchor_id is the entity
+      identifier of a trust anchor.
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 11]
+
+                        OpenID Connect Federation               May 2020
+
+
 3.2.  OP Metadata
 
    The metadata type identifier is "openid_provider".
 
    All parameters defined in Section 3 of OpenID Connect Discovery 1.0
    [OpenID.Discovery] are applicable.
-
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 10]
-
-                        OpenID Connect Federation             April 2020
-
 
    In addition, the following parameters are defined by this
    specification:
@@ -579,8 +642,19 @@ Hedberg, et al.         Expires October 25, 2020               [Page 10]
    federation_registration_endpoint
       OPTIONAL.  URL of the OP's Federation specific Dynamic Client
       Registration Endpoint.  If the OP supports explicit client
-      registration as described in Section 9.2, then this claim is
+      registration as described inSection 9.2, then this claim is
       REQUIRED.
+
+   automatic_registration_client_authn_methods_supported
+      OPTIONAL.  JSON array containing a list of Client Authentication
+      methods supported by the authorization endpoint.  If the OP
+      supports automatic client registration as described in
+      Section 9.1, then this claim is REQUIRED.  The options are
+      "private_key_jwt" (section 9 of [OpenID.Core]), "tls_client_auth"
+      (section 2.1 of [RFC8705]) and "self_signed_tls_client_auth"
+      (section 2.2 of [RFC8705].  Note that if private_key_jwt is used
+      the Audience SHOULD be the URL of the Authorization Server's
+      Authorization Endpoint.
 
 3.3.  OAuth Authorization Server
 
@@ -588,6 +662,17 @@ Hedberg, et al.         Expires October 25, 2020               [Page 10]
 
    All parameters defined in Section 2 of RFC 8414 [RFC8414] are
    applicable.
+
+
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 12]
+
+                        OpenID Connect Federation               May 2020
+
 
 3.4.  OAuth Client
 
@@ -611,23 +696,10 @@ Hedberg, et al.         Expires October 25, 2020               [Page 10]
 
    The following properties are allowed:
 
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 11]
-
-                        OpenID Connect Federation             April 2020
-
-
    federation_api_endpoint
       OPTIONAL.  The endpoint used for the Federation API described in
       Section 6.  Intermediate entities and trust anchors MUST publish a
       federation_api_endpoint.  Leaf entities MUST NOT.
-
-   trust_anchor_id
-      OPTIONAL.  An OP MUST use this claim to tell the RP which trust
-      anchor it chose to use when responding to an explicit client
-      registration.  The value of trust_anchor_id is the entity
-      identifier of a trust anchor.
 
    name
       OPTIONAL.  String.  The human readable name describing the subject
@@ -650,6 +722,14 @@ Hedberg, et al.         Expires October 25, 2020               [Page 11]
       a certification mark.  More about certification marks in
       Section 4.3
 
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 13]
+
+                        OpenID Connect Federation               May 2020
+
+
    Example
 
    "federation_entity": {
@@ -666,14 +746,6 @@ Hedberg, et al.         Expires October 25, 2020               [Page 11]
    The metadata for a specific entity can be constructed by combining
    the metadata polices defined by the trust anchor and possible
    intermediates starting with the trust anchor and the applying this
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 12]
-
-                        OpenID Connect Federation             April 2020
-
-
    combined policy to the metadata information in a leaf entity's entity
    statement.
 
@@ -704,6 +776,16 @@ Hedberg, et al.         Expires October 25, 2020               [Page 12]
    If an entity tries to register a value that is not in the "subset_of"
    set of values, applying the policy MUST lead to a failure.
 
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 14]
+
+                        OpenID Connect Federation               May 2020
+
+
 4.1.1.2.  one_of
 
    The value of the claim MUST be one of the ones listed here.  As an
@@ -722,13 +804,6 @@ Hedberg, et al.         Expires October 25, 2020               [Page 12]
 
    If an entity tries to register a value that is not in the "one_of"
    set of values, applying the policy MUST lead to a failure.
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 13]
-
-                        OpenID Connect Federation             April 2020
-
 
 4.1.1.3.  superset_of
 
@@ -758,6 +833,15 @@ Hedberg, et al.         Expires October 25, 2020               [Page 13]
    Adds the value or values specified to the list of values for the
    metadata statement claim.  If the specified value is already present
    in the list, this operation has no effect.  If the claim has no value
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 15]
+
+                        OpenID Connect Federation               May 2020
+
+
    then the claim is initialized with the specified value.  As an
    example, if the claim policy:
 
@@ -778,13 +862,6 @@ Hedberg, et al.         Expires October 25, 2020               [Page 13]
    Disregarding what value the claim had, if any, the claims value will
    be set to what is specified here.  As an example, if the claim
    policy:
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 14]
-
-                        OpenID Connect Federation             April 2020
-
 
      "require_auth_time": {
        "value": true}
@@ -813,6 +890,14 @@ Hedberg, et al.         Expires October 25, 2020               [Page 14]
 
      "require_auth_time": false
 
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 16]
+
+                        OpenID Connect Federation               May 2020
+
+
    If on the other hand, the metadata statement did not contain a
    "require_auth_time" claim then the following claim statement would be
    added to the metadata statement:
@@ -830,17 +915,6 @@ Hedberg, et al.         Expires October 25, 2020               [Page 14]
    The upshot of applying this policy to a metadata statement is that
    the metadata statement MUST contain such a claim otherwise the
    metadata statement is incorrect.
-
-
-
-
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 15]
-
-                        OpenID Connect Federation             April 2020
-
 
 4.1.2.  Policy Type Combinations
 
@@ -872,6 +946,14 @@ Hedberg, et al.         Expires October 25, 2020               [Page 15]
    value
       Can be merged with "one_of", "subset_of" and "superset_of".  Here
       the order matters.  If "value" appear in a superiors policy
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 17]
+
+                        OpenID Connect Federation               May 2020
+
+
       statement then the others MUST be ignored.  If "value" are defined
       by the subordinate then it MUST be a subset of "subset_of",
       superset of "superset_of" and one of "one_of".
@@ -889,14 +971,6 @@ Hedberg, et al.         Expires October 25, 2020               [Page 15]
 
    After having combined the policies, the policy for each claim MUST
    adhere to the rules defined in Section 4.1.2.
-
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 16]
-
-                        OpenID Connect Federation             April 2020
-
 
    These are the policy types that can be merged when combining two
    policies:
@@ -928,6 +1002,14 @@ Hedberg, et al.         Expires October 25, 2020               [Page 16]
    essential
       The result of combining two "essential" policies is True if any of
       the values are True otherwise it is False.  Note that a missing
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 18]
+
+                        OpenID Connect Federation               May 2020
+
+
       "essential" specification is to be treated as an essential=true
       statement.
 
@@ -935,24 +1017,6 @@ Hedberg, et al.         Expires October 25, 2020               [Page 16]
    "one_of" to an empty value will result in an empty value.
 
 4.1.3.1.  Policy Combination Example
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 17]
-
-                        OpenID Connect Federation             April 2020
-
 
    A federations policy for RPs:
 
@@ -997,17 +1061,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 17]
 
 
 
-
-
-
-
-
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 18]
+Hedberg, et al.         Expires November 22, 2020              [Page 19]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    An organization's policy for RPs:
@@ -1061,9 +1117,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 18]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 19]
+Hedberg, et al.         Expires November 22, 2020              [Page 20]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    The combined metadata policy then becomes:
@@ -1117,9 +1173,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 19]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 20]
+Hedberg, et al.         Expires November 22, 2020              [Page 21]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    extension keyword is listed in the "policy_language_crit" list and
@@ -1173,9 +1229,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 20]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 21]
+Hedberg, et al.         Expires November 22, 2020              [Page 22]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    The organization's policy for RPs:
@@ -1229,9 +1285,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 21]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 22]
+Hedberg, et al.         Expires November 22, 2020              [Page 23]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
 4.2.  Applying Constraints
@@ -1285,9 +1341,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 22]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 23]
+Hedberg, et al.         Expires November 22, 2020              [Page 24]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    MUST have a value that is greater than or equal to zero.  Where
@@ -1341,9 +1397,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 23]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 24]
+Hedberg, et al.         Expires November 22, 2020              [Page 25]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
 4.3.  Trust Marks
@@ -1397,9 +1453,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 24]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 25]
+Hedberg, et al.         Expires November 22, 2020              [Page 26]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
 4.3.2.  Validating a trust mark
@@ -1453,9 +1509,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 25]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 26]
+Hedberg, et al.         Expires November 22, 2020              [Page 27]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    course, in real multi-tenant deployments, in which the entity
@@ -1509,9 +1565,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 26]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 27]
+Hedberg, et al.         Expires November 22, 2020              [Page 28]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    200 OK
@@ -1565,9 +1621,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 27]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 28]
+Hedberg, et al.         Expires November 22, 2020              [Page 29]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    support.  All the other operations are OPTIONAL.  The list of defined
@@ -1621,9 +1677,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 28]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 29]
+Hedberg, et al.         Expires November 22, 2020              [Page 30]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    The following is a non-normative example of an API request for an
@@ -1677,9 +1733,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 29]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 30]
+Hedberg, et al.         Expires November 22, 2020              [Page 31]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    The following is a non-normative example of a response, before
@@ -1733,9 +1789,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 30]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 31]
+Hedberg, et al.         Expires November 22, 2020              [Page 32]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
 6.2.  Trust Negotiation (OPTIONAL)
@@ -1789,9 +1845,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 31]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 32]
+Hedberg, et al.         Expires November 22, 2020              [Page 33]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
 6.2.2.  Trust Negotiation Response
@@ -1806,14 +1862,14 @@ Hedberg, et al.         Expires October 25, 2020               [Page 32]
    Content-Type: application/json
 
    {
-     "organization": "University of Umea",
+     "organization_name": "University of Umea",
      "contacts": [
        "legal@umu.se",
        "technical@umu.se"
      ],
      "logo_uri":
        "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-     "policy_uri":
+     "op_policy_uri":
        "https://www.umu.se/en/about-the-website/legal-information/",
      "authorization_endpoint":
        "https://idp.umu.se/openid/authorization",
@@ -1845,9 +1901,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 32]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 33]
+Hedberg, et al.         Expires November 22, 2020              [Page 34]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
 6.3.  Entity Listings (OPTIONAL)
@@ -1901,9 +1957,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 33]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 34]
+Hedberg, et al.         Expires November 22, 2020              [Page 35]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    The following is a non-normative example of a response:
@@ -1957,9 +2013,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 34]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 35]
+Hedberg, et al.         Expires November 22, 2020              [Page 36]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
 7.  Resolving Trust Chain and Metadata
@@ -2003,19 +2059,19 @@ Hedberg, et al.         Expires October 25, 2020               [Page 35]
 
 7.2.  Validating the Trust Chains
 
-   As described in Section 2.2, a trust chain consists of an ordered
-   list of entity statements.  So whichever way the Consumer has
-   acquired the set of entity statements, it must now verify that it is
-   a proper trust chain using the rules laid out in that section.
+   As described inSection 2.2, a trust chain consists of an ordered list
+   of entity statements.  So whichever way the Consumer has acquired the
+   set of entity statements, it must now verify that it is a proper
+   trust chain using the rules laid out in that section.
 
    To validate the chain, the following must be done:
 
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 36]
+Hedberg, et al.         Expires November 22, 2020              [Page 37]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    o  For each entity statement ES[j] j=i,..,0:
@@ -2069,9 +2125,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 36]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 37]
+Hedberg, et al.         Expires November 22, 2020              [Page 38]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
 8.  Updating Metadata, Key Rollover, and Revocation
@@ -2079,7 +2135,7 @@ Hedberg, et al.         Expires October 25, 2020               [Page 37]
    This specification allows for a smooth process of updating metadata
    and public keys.
 
-   As described above in Section 7.4, each trust chain has an expiration
+   As described above inSection 7.4, each trust chain has an expiration
    time.  A consumer of metadata using this specification MUST support
    refreshing a trust chain when it expires.  How often a consumer
    should re-evaluate the trust chain depends on how quickly the
@@ -2125,9 +2181,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 37]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 38]
+Hedberg, et al.         Expires November 22, 2020              [Page 39]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    standard revocation process.  Specific federations may make a
@@ -2151,55 +2207,208 @@ Hedberg, et al.         Expires October 25, 2020               [Page 38]
 
 9.1.  Automatic Registration
 
-   The "client_id" of the RP MUST be set identically to the RP entity
-   identifier.
+   Automatic registration allows an RP to send authorization requests to
+   an OP without first registering with the OP.  It basically works by
+   the OP using the client_id in the request to find the RPs metadata
+   using the process outlined in Section 7 and then verifies the client
+   authentication by using the RP's keys as published in the metadata.
 
-   Without a registration process, the RP does not have a client_secret.
-   Instead the automatic registration model requires the RP to make use
-   of asymmetric cryptography.
+   For automatic registration to work a number of things must be valid:
 
-   The RP MUST host a Federation API that allows the OP to fetch the
-   entity statements.
+   o  The "client_id" of the RP MUST be set to be identically to the RP
+      entity identifier.
+
+   o  Without a registration process, the RP does not have a
+      client_secret.  Instead the automatic registration model requires
+      the RP to make use of asymmetric cryptography.
+
+   o  The client_id MUST point to a Federation API that allows the OP to
+      fetch the RP's self signed entity statement.
+
+   o  The OP SHOULD publish which client authentication method it
+      supports using the claim
+      "auto_registration_client_authentication_methods_supported".  .
 
 9.1.1.  The Authentication Request
 
-   The authentication request is as specified in OpenID Connect Core.
-
-   The RP MUST authenticate at the authorization endpoint using the
-   private_key_jwt method described in the client authentication section
-   of OpenID Connect Core 1.0 [OpenID.Core].  The private_key_jwt JWT
-   used here diverge from what is described in that section on a couple
-   of points:
-
-      The Audience (aud) SHOULD be the URL of the Authorization Server's
-      Authorization Endpoint.  NOT the Token Endpoint.
-
-      The claim iss MUST contain the entity ID of the OAuth client
-
-      The claim sub MUST contain the entity ID of the OAuth client
+   The authentication request is performed by passing a request object
+   by value as described in section 6.1 in OpenID Connect Core 1.0
 
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 39]
+Hedberg, et al.         Expires November 22, 2020              [Page 40]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
-   An authentication request example:
+   [OpenID.Core] or using pushed authorization as described in Pushed
+   Authorization Requests [PAR].
 
-   GET /authorization?
-     redirect_uri=https%3A%2F%2Fexample.com%2Fauthz_cb
-     &scope=openid+profile+email+address+phone
-     &response_type=code
-     &nonce=4LX0mFMxdBjkGmtx7a8WIOnB&
-     &state=YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ
-     &client_id=https%3A%2F%2Fexample.com%3A8090%2Firp
-     &client_assertion=eyJhbGciOiJSUzI1NiIs ... qx7xHcvPOdIhnpg
-     &client_assertion_type=
-       urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
-     HTTP/1.1
-   Host: example.org
+9.1.1.1.  Using Request Object
+
+   In the case where a request object is used the value of the request
+   parameter is a JWT whose Claims are the request parameters specified
+   in Section 3.1.2 in OpenID Connect Core 1.0 [OpenID.Core].  The JWT
+   MUST be signed and MAY be encrypted.  The following restrictions
+   applies to the JWT:
+
+   aud
+      REQUIRED.  The Audience (aud) MUST be the URL of the Authorization
+      Server's Authorization Endpoint.
+
+   iss
+      REQUIRED.  The claim iss MUST contain the entity ID of the OpenID
+      Connect provider.
+
+   sub
+      REQUIRED.  The claim sub MUST contain the entity ID of the OpenID
+      Connect provider.
+
+   jti
+      REQUIRED.  JWT ID.  A unique identifier for the JWT, which can be
+      used to prevent reuse of the token.  These tokens MUST only be
+      used once, unless conditions for reuse were negotiated between the
+      parties; any such negotiation is beyond the scope of this
+      specification.
+
+   exp
+      REQUIRED.  Expiration time on or after which the JWT MUST NOT be
+      accepted for processing.
+
+   iat
+      OPTIONAL.  Time at which the JWT was issued.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 41]
+
+                        OpenID Connect Federation               May 2020
+
+
+   The following is a non-normative example of the Claims in a Request
+   Object before base64url encoding and signing:
+
+   {
+     "aud": "https://op.example.org/authorization",
+     "client_id": "https://rp.example.com",
+     "exp": 1589699162,
+     "iat": 1589699102,
+     "iss": "https://rp.example.com",
+     "jti": "4d3ec0f81f134ee9a97e0449be6d32be",
+     "nonce": "4LX0mFMxdBjkGmtx7a8WIOnB",
+     "redirect_uri": "https://rp.example.com/authz_cb",
+     "response_type": "code",
+     "scope": "openid profile email address phone",
+     "state": "YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ",
+     "sub": "https://rp.example.com"
+   }
+
+   The following is a non-normative example of an Authorization Request
+   using the request parameter (with line wraps within values for
+   display purposes only):
+
+   https://server.example.com/authorize?
+       redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb&
+       request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umto
+       a1NXcGxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpY
+       bHBUemRRTkEifQ.eyJyZWRpcmVjdF91cmkiOiAiaHR0cHM6Ly9yc
+       C5leGFtcGxlLmNvbS9hdXRoel9jYiIsICJzY29wZSI6ICJvcGVua
+       WQgcHJvZmlsZSBlbWFpbCBhZGRyZXNzIHBob25lIiwgInJlc3Bvb
+       nNlX3R5cGUiOiAiY29kZSIsICJub25jZSI6ICI0TFgwbUZNeGRCa
+       mtHbXR4N2E4V0lPbkIiLCAic3RhdGUiOiAiWW1YOFBNOUk3V2JOb
+       01ubmllS0tCaXB0Vlcwc1AyT1oiLCAiY2xpZW50X2lkIjogImh0d
+       HBzOi8vcnAuZXhhbXBsZS5jb20iLCAic3ViIjogImh0dHBzOi8vc
+       nAuZXhhbXBsZS5jb20iLCAiaXNzIjogImh0dHBzOi8vcnAuZXhhb
+       XBsZS5jb20iLCAiaWF0IjogMTU4OTcwMDk1NiwgImV4cCI6IDE1O
+       Dk3MDEwMTYsICJhdWQiOiAiaHR0cHM6Ly9vcC5leGFtcGxlLm9yZ
+       y9hdXRob3JpemF0aW9uIiwgImp0aSI6ICI5MTI2YWI4ZjcxODY0O
+       DI3YmQ3OTE4MTU0NjY0ZWNmOCJ9.D51EQF-cJkzXTynQ-o6IL-Tv
+       xyC7W436-Qu-R8_StFYZRTfSHMa4M-TRuix7VHXgQiUxgdxuc4XU
+       NQ7cjfb_HhyCNMeO0Gd8mA2eo3GGdQMCcbIcMAV9tEz7-p5uz1iD
+       4H8l7AjK1LsVDYzSssTT9-xvuTy49wLKTlGk1sdvj_oW6e9KlrfQ
+       RFUR9gWudMpEj2FAhHeSvu1t_rafJ0VJ__ZvdfRT79BD45hNa6ST
+       pw4di3vIyrLHV9pxm_1HsvYqZ_mX3wECyJ7Soya93qzG3AA3XU_Q
+       wTPES4TA1x0k9gOYdm5ZxVcrlgV58n8BcCV4AK4Wrju5QTvg7Xob
+       tFqaCg
+
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 42]
+
+                        OpenID Connect Federation               May 2020
+
+
+9.1.1.2.  Using Pushed Authorization
+
+   Pushed Authorization [PAR] provides an interoperable way to push the
+   payload of a request object directly to the AS in exchange for a
+   request_uri.
+
+   When it comes to client authentication the applicable authentication
+   methods are two:
+
+   o  Using a JWT for Client Authentication as described for
+      "private_key_jwt" in section 9 of OpenID Connect Core 1.0
+      [OpenID.Core]
+
+   o  mTLS as described in [RFC8705].  If mTLS is used and the
+      certificate used is a self signed certificate then the certificate
+      MUST be present as the value of a x5c claim for one key in the
+      JWKS describing the RP's keys.
+
+   Using the example above a request could look like this:
+
+   POST /par HTTP/1.1
+   Host: op.example.org
+   Content-Type: application/x-www-form-urlencoded
+
+   redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
+   &scope=openid+profile+email+address+phone
+   &response_type=code
+   &nonce=4LX0mFMxdBjkGmtx7a8WIOnB
+   &state=YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ
+   &client_id=https%3A%2F%2Frp.example.com
+   &client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3A
+     client-assertion-type%3Ajwt-bearer
+   &client_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJ
+     hMDF3Umtoa1NXcGxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbW
+     hFUVhnelpYbHBUemRRTkEifQ.eyJzdWIiOiAiaHR0cHM6Ly9ycC
+     5leGFtcGxlLmNvbSIsICJpc3MiOiAiaHR0cHM6Ly9ycC5leGFtc
+     GxlLmNvbSIsICJpYXQiOiAxNTg5NzA0NzAxLCAiZXhwIjogMTU4
+     OTcwNDc2MSwgImF1ZCI6ICJodHRwczovL29wLmV4YW1wbGUub3J
+     nL2F1dGhvcml6YXRpb24iLCAianRpIjogIjM5ZDVhZTU1MmQ5Yz
+     Q4ZjBiOTEyZGM1NTY4ZWQ1MGQ2In0.oUt9Knx_lxb4V2S0tyNFH
+     CNZeP7sImBy5XDsFxv1cUpGkAojNXSy2dnU5HEzscMgNW4wguz6
+     KDkC01aq5OfN04SuVItS66bsx0h4Gs7grKAp_51bClzreBVzU4g
+     _-dFTgF15T9VLIgM_juFNPA_g4Lx7Eb5r37rWTUrzXdmfxeou0X
+     FC2p9BIqItU3m9gmH0ojdBCUX5Up0iDsys6_npYomqitAcvaBRD
+     PiuUBa5Iar9HVR-H7FMAr7aq7s-dH5gx2CHIfM3-qlc2-_Apsy0
+     BrQl6VePR6j-3q6JCWvNw7l4_F2UpHeanHb31fLKQbK-1yoXDNz
+     DwA7B0ZqmuSmMFQ
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 43]
+
+                        OpenID Connect Federation               May 2020
+
 
 9.1.2.  Processing the Authentication Request
 
@@ -2234,14 +2443,6 @@ Hedberg, et al.         Expires October 25, 2020               [Page 39]
       No trusted trust anchor could be found.
 
    validation_failed
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 40]
-
-                        OpenID Connect Federation             April 2020
-
-
       Trust chain validation failed.
 
    The following is a non-normative example error response:
@@ -2253,6 +2454,18 @@ Hedberg, et al.         Expires October 25, 2020               [Page 40]
          Could%20not%20find%20a%20trusted%20anchor
        &state=af0ifjsldkj
 
+
+
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 44]
+
+                        OpenID Connect Federation               May 2020
+
+
 9.2.  Explicit Registration
 
    This method involves performing an explicit registration of a new
@@ -2261,14 +2474,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 40]
    Registration 1.0 [OpenID.Registration] but where the client
    registration request is a signed entity statement.
 
-9.2.1.  Provider Discovery
+9.2.1.  Client Registration
 
-   The RP will start by gathering the OP's metadata using the process
-   specified in Section 7 above.
-
-9.2.2.  Client Registration
-
-9.2.2.1.  Client Registration Request
+9.2.1.1.  Client Registration Request
 
    The OP MUST support OpenID Dynamic Client Registration as extended by
    this specification.  This is signaled by having the claim
@@ -2291,26 +2499,28 @@ Hedberg, et al.         Expires October 25, 2020               [Page 40]
        and the "authority_hints" included are picked by the process
        described above.
 
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 41]
-
-                        OpenID Connect Federation             April 2020
-
-
    4.  The entity statement is sent, using POST, to the
        "federation_registration_endpoint" defined in this document.  The
        content type MUST be set to "application/jose".
 
-9.2.2.2.  Client Registration Response
+9.2.1.2.  Client Registration Response
 
-9.2.2.2.1.  The OP Constructing the Response
+9.2.1.2.1.  The OP Constructing the Response
 
    1.  After the OP receives the request, it collects and evaluates the
        trust chains starting with the "authority_hints" in the
        registration request.  After it has verified at least one trust
        chain it MUST verify that the signature on the received
        registration request is correct.
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 45]
+
+                        OpenID Connect Federation               May 2020
+
 
    2.  If it finds more than one acceptable trust chain, it MUST choose
        one trust anchor from those chains as the one it will proceed
@@ -2332,7 +2542,7 @@ Hedberg, et al.         Expires October 25, 2020               [Page 41]
    5.  It will sign and return the registration response (a signed
        entity statement) to the RP.
 
-9.2.2.2.2.  The RP Parsing the Response
+9.2.1.2.2.  The RP Parsing the Response
 
    1.  The RP verifies the correctness of the received entity statement,
        making sure that the trust chains starting at the
@@ -2346,14 +2556,6 @@ Hedberg, et al.         Expires October 25, 2020               [Page 41]
        chose.  Once it has applied those policies it can the apply the
        policy returned from the OP.  When it has applied all the
        metadata policies to its metadata statement, it then stores the
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 42]
-
-                        OpenID Connect Federation             April 2020
-
-
        result and can continue communicating with the OP using the
        agreed-upon metadata.
 
@@ -2366,7 +2568,17 @@ Hedberg, et al.         Expires October 25, 2020               [Page 42]
        reason, then it has the choice to restart the registration
        process or to give up.
 
-9.2.3.  After Client Registration
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 46]
+
+                        OpenID Connect Federation               May 2020
+
+
+9.2.2.  After Client Registration
 
    A client registration using this specification is not expected to be
    valid forever.  The entity statements exchanged all have expiration
@@ -2375,7 +2587,7 @@ Hedberg, et al.         Expires October 25, 2020               [Page 42]
    registration is not valid anymore.  An example of this could be that
    the OP leaves the federation in use.
 
-9.2.3.1.  What the RP MUST Do
+9.2.2.1.  What the RP MUST Do
 
    At regular intervals, the RP MUST:
 
@@ -2394,7 +2606,7 @@ Hedberg, et al.         Expires October 25, 2020               [Page 42]
    What is regarded as reasonable intervals will depend on federation
    policies and risk assessment by the maintainer of the RP.
 
-9.2.3.2.  What the OP MUST Do
+9.2.2.2.  What the OP MUST Do
 
    At regular intervals, the OP MUST:
 
@@ -2402,22 +2614,25 @@ Hedberg, et al.         Expires October 25, 2020               [Page 42]
        mark the registration as invalid and demand that the RP MUST re-
        register.  Else
 
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 43]
-
-                        OpenID Connect Federation             April 2020
-
-
    2.  starting with the RP's client registration request, the OP MUST
        verify that there still is a valid trust chain terminating in the
        trust anchor the OP chose during the registration process.
 
-9.2.4.  Expiration Times
+9.2.3.  Expiration Times
 
    An OP MUST NOT assign an expiration time to an RP's registration that
    is later than the trust chain's expiration time.
+
+
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 47]
+
+                        OpenID Connect Federation               May 2020
+
 
 10.  IANA Considerations
 
@@ -2453,32 +2668,33 @@ Hedberg, et al.         Expires October 25, 2020               [Page 43]
               <http://openid.net/specs/openid-connect-registration-
               1_0.html>.
 
+   [PAR]      Lodderstedt, T., Sakimura, N., Campbell, B., Tonge, D.,
+              and F. Skokan, "OAuth 2.0 Pushed Authorization Requests",
+              <https://tools.ietf.org/id/draft-lodderstedt-oauth-par-
+              00.html>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 44]
-
-                        OpenID Connect Federation             April 2020
-
-
    [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
               <https://www.rfc-editor.org/info/rfc3339>.
+
+
+
+
+Hedberg, et al.         Expires November 22, 2020              [Page 48]
+
+                        OpenID Connect Federation               May 2020
+
 
    [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
               Housley, R., and W. Polk, "Internet X.509 Public Key
               Infrastructure Certificate and Certificate Revocation List
               (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
               <https://www.rfc-editor.org/info/rfc5280>.
-
-   [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
-              RFC 6749, DOI 10.17487/RFC6749, October 2012,
-              <https://www.rfc-editor.org/info/rfc6749>.
 
    [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
@@ -2491,6 +2707,11 @@ Hedberg, et al.         Expires October 25, 2020               [Page 44]
    [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
               (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
               <https://www.rfc-editor.org/info/rfc7519>.
+
+   [RFC7523]  Jones, M., Campbell, B., and C. Mortimore, "JSON Web Token
+              (JWT) Profile for OAuth 2.0 Client Authentication and
+              Authorization Grants", RFC 7523, DOI 10.17487/RFC7523, May
+              2015, <https://www.rfc-editor.org/info/rfc7523>.
 
    [RFC7591]  Richer, J., Ed., Jones, M., Bradley, J., Machulak, M., and
               P. Hunt, "OAuth 2.0 Dynamic Client Registration Protocol",
@@ -2506,6 +2727,12 @@ Hedberg, et al.         Expires October 25, 2020               [Page 44]
               (URIs)", RFC 8615, DOI 10.17487/RFC8615, May 2019,
               <https://www.rfc-editor.org/info/rfc8615>.
 
+   [RFC8705]  Campbell, B., Bradley, J., Sakimura, N., and T.
+              Lodderstedt, "OAuth 2.0 Mutual-TLS Client Authentication
+              and Certificate-Bound Access Tokens", RFC 8705,
+              DOI 10.17487/RFC8705, February 2020,
+              <https://www.rfc-editor.org/info/rfc8705>.
+
 12.2.  Informative References
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
@@ -2514,12 +2741,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 44]
 
 
 
-
-
-
-Hedberg, et al.         Expires October 25, 2020               [Page 45]
+Hedberg, et al.         Expires November 22, 2020              [Page 49]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
 Appendix A.  Provider Information Discovery and Client Registration in a
@@ -2573,9 +2797,9 @@ A.1.  The LIGO Wiki Discovers the OP's Metadata
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 46]
+Hedberg, et al.         Expires November 22, 2020              [Page 50]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    1.  Pick out the immediate superior entities using the authority
@@ -2629,9 +2853,9 @@ A.1.1.  Configuration Information for op.umu.se
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 47]
+Hedberg, et al.         Expires November 22, 2020              [Page 51]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
          "issuer": "https://op.umu.se/openid",
@@ -2652,7 +2876,7 @@ Hedberg, et al.         Expires October 25, 2020               [Page 47]
          ],
          "logo_uri":
            "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-         "policy_uri":
+         "op_policy_uri":
            "https://www.umu.se/en/website/legal-information/",
          "response_types_supported": [
            "code",
@@ -2685,9 +2909,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 47]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 48]
+Hedberg, et al.         Expires November 22, 2020              [Page 52]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
 A.1.2.  Configuration Information for 'https://umu.se'
@@ -2741,9 +2965,9 @@ A.1.3.  Entity Statement Published by 'https://umu.se' about
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 49]
+Hedberg, et al.         Expires November 22, 2020              [Page 53]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    {
@@ -2770,7 +2994,7 @@ Hedberg, et al.         Expires October 25, 2020               [Page 49]
              "ops@swamid.se"
            ]
          },
-         "organization": {
+         "organization_name": {
            "value": "University of Ume\u00e5"
          },
          "subject_types_supported": {
@@ -2797,9 +3021,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 49]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 50]
+Hedberg, et al.         Expires November 22, 2020              [Page 54]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    This is the second link in the trust chain.
@@ -2853,9 +3077,9 @@ A.1.5.  Entity Statement Published by 'https://swamid.se' about
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 51]
+Hedberg, et al.         Expires November 22, 2020              [Page 55]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    {
@@ -2909,9 +3133,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 51]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 52]
+Hedberg, et al.         Expires November 22, 2020              [Page 56]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    If we assume that the issuer of this entity statement is not in the
@@ -2965,9 +3189,9 @@ A.1.7.  Entity Statement Published by 'https://edugain.geant.org' about
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 53]
+Hedberg, et al.         Expires November 22, 2020              [Page 57]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    {
@@ -3021,9 +3245,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 53]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 54]
+Hedberg, et al.         Expires November 22, 2020              [Page 58]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    Using the public keys of the trust anchor that the LIGO Wiki RP has
@@ -3077,9 +3301,9 @@ A.1.8.  Verified Metadata for op.umu.se
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 55]
+Hedberg, et al.         Expires November 22, 2020              [Page 59]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    {
@@ -3108,8 +3332,8 @@ Hedberg, et al.         Expires October 25, 2020               [Page 55]
      "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
      "logo_uri":
        "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-     "organization": "University of Ume\u00e5",
-     "policy_uri":
+     "organization_name": "University of Ume\u00e5",
+     "op_policy_uri":
        "https://www.umu.se/en/website/legal-information/",
      "request_parameter_supported": false,
      "request_uri_parameter_supported": true,
@@ -3133,9 +3357,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 55]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 56]
+Hedberg, et al.         Expires November 22, 2020              [Page 60]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    We have now reached the end of the Provider Discovery process.
@@ -3189,9 +3413,9 @@ A.2.1.1.  OP Fetches Entity Statements
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 57]
+Hedberg, et al.         Expires November 22, 2020              [Page 61]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    o  https://edugain.geant.org
@@ -3245,9 +3469,9 @@ A.2.1.2.  OP Evaluates the RP Metadata
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 58]
+Hedberg, et al.         Expires November 22, 2020              [Page 62]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    "metadata_policy": {
@@ -3301,9 +3525,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 58]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 59]
+Hedberg, et al.         Expires November 22, 2020              [Page 63]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    {
@@ -3357,9 +3581,9 @@ A.2.2.  Client Starts with Registration (Explicit Client Registration)
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 60]
+Hedberg, et al.         Expires November 22, 2020              [Page 64]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    "metadata_policy": {
@@ -3413,9 +3637,9 @@ Appendix B.  Notices
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 61]
+Hedberg, et al.         Expires November 22, 2020              [Page 65]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    Specifications based on such documents, provided that attribution be
@@ -3469,9 +3693,9 @@ Appendix D.  Open Issues
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 62]
+Hedberg, et al.         Expires November 22, 2020              [Page 66]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    o  A mechanism may be needed for bounding key lifetimes.
@@ -3525,9 +3749,9 @@ Appendix E.  Document History
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 63]
+Hedberg, et al.         Expires November 22, 2020              [Page 67]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    o  Also incorporated review feedback from Michael B.  Jones.
@@ -3581,9 +3805,9 @@ Hedberg, et al.         Expires October 25, 2020               [Page 63]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 64]
+Hedberg, et al.         Expires November 22, 2020              [Page 68]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    -06
@@ -3637,9 +3861,9 @@ Authors' Addresses
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 65]
+Hedberg, et al.         Expires November 22, 2020              [Page 69]
 
-                        OpenID Connect Federation             April 2020
+                        OpenID Connect Federation               May 2020
 
 
    Samuel Gulliksson
@@ -3693,4 +3917,4 @@ Hedberg, et al.         Expires October 25, 2020               [Page 65]
 
 
 
-Hedberg, et al.         Expires October 25, 2020               [Page 66]
+Hedberg, et al.         Expires November 22, 2020              [Page 70]

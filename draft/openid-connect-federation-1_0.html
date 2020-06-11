@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>OpenID Connect Federation 1.0 - draft 11 </title>
+  <title>OpenID Connect Federation 1.0 - draft 12 </title>
 
   <style type="text/css" title="Xml2Rfc (sans serif)">
   /*<![CDATA[*/
@@ -436,19 +436,20 @@
 <link href="#rfc.section.9" rel="Chapter" title="9 OpenID Connect Communication">
 <link href="#rfc.section.9.1" rel="Chapter" title="9.1 Automatic Registration">
 <link href="#rfc.section.9.1.1" rel="Chapter" title="9.1.1 The Authentication Request">
+<link href="#rfc.section.9.1.1.1" rel="Chapter" title="9.1.1.1 Using Request Object">
+<link href="#rfc.section.9.1.1.2" rel="Chapter" title="9.1.1.2 Using Pushed Authorization">
 <link href="#rfc.section.9.1.2" rel="Chapter" title="9.1.2 Processing the Authentication Request">
 <link href="#rfc.section.9.1.3" rel="Chapter" title="9.1.3 Authentication Error Response">
 <link href="#rfc.section.9.2" rel="Chapter" title="9.2 Explicit Registration">
-<link href="#rfc.section.9.2.1" rel="Chapter" title="9.2.1 Provider Discovery">
-<link href="#rfc.section.9.2.2" rel="Chapter" title="9.2.2 Client Registration">
-<link href="#rfc.section.9.2.2.1" rel="Chapter" title="9.2.2.1 Client Registration Request">
-<link href="#rfc.section.9.2.2.2" rel="Chapter" title="9.2.2.2 Client Registration Response">
-<link href="#rfc.section.9.2.2.2.1" rel="Chapter" title="9.2.2.2.1 The OP Constructing the Response">
-<link href="#rfc.section.9.2.2.2.2" rel="Chapter" title="9.2.2.2.2 The RP Parsing the Response">
-<link href="#rfc.section.9.2.3" rel="Chapter" title="9.2.3 After Client Registration">
-<link href="#rfc.section.9.2.3.1" rel="Chapter" title="9.2.3.1 What the RP MUST Do">
-<link href="#rfc.section.9.2.3.2" rel="Chapter" title="9.2.3.2 What the OP MUST Do">
-<link href="#rfc.section.9.2.4" rel="Chapter" title="9.2.4 Expiration Times">
+<link href="#rfc.section.9.2.1" rel="Chapter" title="9.2.1 Client Registration">
+<link href="#rfc.section.9.2.1.1" rel="Chapter" title="9.2.1.1 Client Registration Request">
+<link href="#rfc.section.9.2.1.2" rel="Chapter" title="9.2.1.2 Client Registration Response">
+<link href="#rfc.section.9.2.1.2.1" rel="Chapter" title="9.2.1.2.1 The OP Constructing the Response">
+<link href="#rfc.section.9.2.1.2.2" rel="Chapter" title="9.2.1.2.2 The RP Parsing the Response">
+<link href="#rfc.section.9.2.2" rel="Chapter" title="9.2.2 After Client Registration">
+<link href="#rfc.section.9.2.2.1" rel="Chapter" title="9.2.2.1 What the RP MUST Do">
+<link href="#rfc.section.9.2.2.2" rel="Chapter" title="9.2.2.2 What the OP MUST Do">
+<link href="#rfc.section.9.2.3" rel="Chapter" title="9.2.3 Expiration Times">
 <link href="#rfc.section.10" rel="Chapter" title="10 IANA Considerations">
 <link href="#rfc.section.11" rel="Chapter" title="11 Security Considerations">
 <link href="#rfc.references" rel="Chapter" title="12 References">
@@ -476,14 +477,14 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.44.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
-  <meta name="dct.issued" scheme="ISO8601" content="2020-04-23" />
-  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.   " />
-  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.   " />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-05-21" />
+  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
+  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
 
 </head>
 
@@ -534,14 +535,14 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">April 23, 2020</td>
+<td class="right">May 21, 2020</td>
 </tr>
 
     	
     </tbody>
   </table>
 
-  <p class="title">OpenID Connect Federation 1.0 - draft 11 <br />
+  <p class="title">OpenID Connect Federation 1.0 - draft 12 <br />
   <span class="filename">openid-connect-federation-1_0</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
@@ -678,31 +679,33 @@
 </li>
 <ul><li>9.1.1.   <a href="#rfc.section.9.1.1">The Authentication Request</a>
 </li>
-<li>9.1.2.   <a href="#rfc.section.9.1.2">Processing the Authentication Request</a>
+<ul><li>9.1.1.1.   <a href="#rfc.section.9.1.1.1">Using Request Object</a>
+</li>
+<li>9.1.1.2.   <a href="#rfc.section.9.1.1.2">Using Pushed Authorization</a>
+</li>
+</ul><li>9.1.2.   <a href="#rfc.section.9.1.2">Processing the Authentication Request</a>
 </li>
 <li>9.1.3.   <a href="#rfc.section.9.1.3">Authentication Error Response</a>
 </li>
 </ul><li>9.2.   <a href="#rfc.section.9.2">Explicit Registration</a>
 </li>
-<ul><li>9.2.1.   <a href="#rfc.section.9.2.1">Provider Discovery</a>
+<ul><li>9.2.1.   <a href="#rfc.section.9.2.1">Client Registration</a>
 </li>
-<li>9.2.2.   <a href="#rfc.section.9.2.2">Client Registration</a>
+<ul><li>9.2.1.1.   <a href="#rfc.section.9.2.1.1">Client Registration Request</a>
 </li>
-<ul><li>9.2.2.1.   <a href="#rfc.section.9.2.2.1">Client Registration Request</a>
+<li>9.2.1.2.   <a href="#rfc.section.9.2.1.2">Client Registration Response</a>
 </li>
-<li>9.2.2.2.   <a href="#rfc.section.9.2.2.2">Client Registration Response</a>
+<ul><li>9.2.1.2.1.   <a href="#rfc.section.9.2.1.2.1">The OP Constructing the Response</a>
 </li>
-<ul><li>9.2.2.2.1.   <a href="#rfc.section.9.2.2.2.1">The OP Constructing the Response</a>
+<li>9.2.1.2.2.   <a href="#rfc.section.9.2.1.2.2">The RP Parsing the Response</a>
 </li>
-<li>9.2.2.2.2.   <a href="#rfc.section.9.2.2.2.2">The RP Parsing the Response</a>
+</ul></ul><li>9.2.2.   <a href="#rfc.section.9.2.2">After Client Registration</a>
 </li>
-</ul></ul><li>9.2.3.   <a href="#rfc.section.9.2.3">After Client Registration</a>
+<ul><li>9.2.2.1.   <a href="#rfc.section.9.2.2.1">What the RP MUST Do</a>
 </li>
-<ul><li>9.2.3.1.   <a href="#rfc.section.9.2.3.1">What the RP MUST Do</a>
+<li>9.2.2.2.   <a href="#rfc.section.9.2.2.2">What the OP MUST Do</a>
 </li>
-<li>9.2.3.2.   <a href="#rfc.section.9.2.3.2">What the OP MUST Do</a>
-</li>
-</ul><li>9.2.4.   <a href="#rfc.section.9.2.4">Expiration Times</a>
+</ul><li>9.2.3.   <a href="#rfc.section.9.2.3">Expiration Times</a>
 </li>
 </ul></ul><li>10.   <a href="#rfc.section.10">IANA Considerations</a>
 </li>
@@ -957,6 +960,9 @@
 <dt>organization_name</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. A human readable name representing the organization owning the RP.  </dd>
+<dt>trust_anchor_id</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL.  An OP MUST use this claim to tell the RP which trust anchor it chose to use when responding to an explicit client registration.  The value of trust_anchor_id is the entity identifier of a trust anchor.  </dd>
 </dl>
 
 <p> </p>
@@ -977,7 +983,10 @@
 <br> OPTIONAL. A human readable name representing the organization owning the OP. It is intended to be used in the user interface, being recognized by the end users that would be using the OP to authenticate.  </dd>
 <dt>federation_registration_endpoint</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL.  URL of the OP's Federation specific Dynamic Client Registration Endpoint. If the OP supports explicit client registration as described in <a href="#explicit" class="xref">Section 9.2</a>, then this claim is REQUIRED.  </dd>
+<br> OPTIONAL.  URL of the OP's Federation specific Dynamic Client Registration Endpoint. If the OP supports explicit client registration as described in<a href="#explicit" class="xref">Section 9.2</a>, then this claim is REQUIRED.  </dd>
+<dt>automatic_registration_client_authn_methods_supported</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL.  JSON array containing a list of Client Authentication methods supported by the authorization endpoint.  If the OP supports automatic client registration as described in <a href="#automatic" class="xref">Section 9.1</a>, then this claim is REQUIRED. The options are <samp>private_key_jwt</samp> (section 9 of <a href="#OpenID.Core" class="xref">[OpenID.Core]</a>), <samp>tls_client_auth</samp> (section 2.1 of <a href="#RFC8705" class="xref">[RFC8705]</a>) and <samp>self_signed_tls_client_auth</samp> (section 2.2 of <a href="#RFC8705" class="xref">[RFC8705]</a>. Note that if private_key_jwt is used the Audience SHOULD be the URL of the Authorization Server's Authorization Endpoint.  </dd>
 </dl>
 
 <p> </p>
@@ -1002,9 +1011,6 @@
 <dt>federation_api_endpoint</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  The endpoint used for the Federation API described in <a href="#federation_api" class="xref">Section 6</a>. Intermediate entities and trust anchors MUST publish a federation_api_endpoint.  Leaf entities MUST NOT.  </dd>
-<dt>trust_anchor_id</dt>
-<dd style="margin-left: 8">
-<br> OPTIONAL.  An OP MUST use this claim to tell the RP which trust anchor it chose to use when responding to an explicit client registration.  The value of trust_anchor_id is the entity identifier of a trust anchor.  </dd>
 <dt>name</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. String. The human readable name describing the subject entity. This may be, for example, the name of an organization.  </dd>
@@ -1724,14 +1730,14 @@ Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
 {
-  "organization": "University of Umea",
+  "organization_name": "University of Umea",
   "contacts": [
     "legal@umu.se",
     "technical@umu.se"
   ],
   "logo_uri":
     "https://www.umu.se/SRWStatic/img/umu-logo-left-neg-SE.svg",
-  "policy_uri":
+  "op_policy_uri":
     "https://www.umu.se/en/about-the-website/legal-information/",
   "authorization_endpoint":
     "https://idp.umu.se/openid/authorization",
@@ -1846,7 +1852,7 @@ Content-Type: application/json
 <h1 id="rfc.section.7.2">
 <a href="#rfc.section.7.2">7.2.</a> <a href="#trust_chain_validation" id="trust_chain_validation">Validating the Trust Chains</a>
 </h1>
-<p id="rfc.section.7.2.p.1">As described in <a href="#trust_chain" class="xref">Section 2.2</a>, a trust chain consists of an ordered list of entity statements. So whichever way the Consumer has acquired the set of entity statements, it must now verify that it is a proper trust chain using the rules laid out in that section.  </p>
+<p id="rfc.section.7.2.p.1">As described in<a href="#trust_chain" class="xref">Section 2.2</a>, a trust chain consists of an ordered list of entity statements. So whichever way the Consumer has acquired the set of entity statements, it must now verify that it is a proper trust chain using the rules laid out in that section.  </p>
 <p id="rfc.section.7.2.p.2">To validate the chain, the following must be done: </p>
 <p></p>
 
@@ -1880,7 +1886,7 @@ Content-Type: application/json
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> Updating Metadata, Key Rollover, and Revocation</h1>
 <p id="rfc.section.8.p.1">This specification allows for a smooth process of updating metadata and public keys.  </p>
-<p id="rfc.section.8.p.2">As described above in <a href="#trust_lifetime" class="xref">Section 7.4</a>, each trust chain has an expiration time.  A consumer of metadata using this specification MUST support refreshing a trust chain when it expires.  How often a consumer should re-evaluate the trust chain depends on how quickly the consumer wants to find out that something has changed in the trust chain.  </p>
+<p id="rfc.section.8.p.2">As described above in<a href="#trust_lifetime" class="xref">Section 7.4</a>, each trust chain has an expiration time.  A consumer of metadata using this specification MUST support refreshing a trust chain when it expires.  How often a consumer should re-evaluate the trust chain depends on how quickly the consumer wants to find out that something has changed in the trust chain.  </p>
 <h1 id="rfc.section.8.1">
 <a href="#rfc.section.8.1">8.1.</a> Protocol Key Rollover</h1>
 <p id="rfc.section.8.1.p.1">If a leaf entity publishes its public keys in the metadata part using <samp>jwks</samp>, setting an expiration time on the self-signed entity statement can be used to control how often the receiving entity is fetching an updated version of the public key.  </p>
@@ -1911,36 +1917,129 @@ Content-Type: application/json
 <h1 id="rfc.section.9.1">
 <a href="#rfc.section.9.1">9.1.</a> <a href="#automatic" id="automatic">Automatic Registration</a>
 </h1>
-<p id="rfc.section.9.1.p.1">The <samp>client_id</samp> of the RP MUST be set identically to the RP entity identifier.  </p>
-<p id="rfc.section.9.1.p.2">Without a registration process, the RP does not have a client_secret. Instead the automatic registration model requires the RP to make use of asymmetric cryptography.  </p>
-<p id="rfc.section.9.1.p.3">The RP MUST host a Federation API that allows the OP to fetch the entity statements.  </p>
-<h1 id="rfc.section.9.1.1">
-<a href="#rfc.section.9.1.1">9.1.1.</a> The Authentication Request</h1>
-<p id="rfc.section.9.1.1.p.1">The authentication request is as specified in OpenID Connect Core.  </p>
-<p id="rfc.section.9.1.1.p.2">The RP MUST authenticate at the authorization endpoint using the private_key_jwt method described in the client authentication section of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  The private_key_jwt JWT used here diverge from what is described in that section on a couple of points: </p>
+<p id="rfc.section.9.1.p.1">Automatic registration allows an RP to send authorization requests to an OP without first registering with the OP. It basically works by the OP using the client_id in the request to find the RPs metadata using the process outlined in <a href="#resolving_trust" class="xref">Section 7</a> and then verifies the client authentication by using the RP's keys as published in the metadata.  </p>
+<p id="rfc.section.9.1.p.2">For automatic registration to work a number of things must be valid: </p>
 
-<ul class="empty">
-<li>The Audience (aud) SHOULD be the URL of the Authorization Server's Authorization Endpoint. NOT the Token Endpoint.</li>
-<li>The claim iss MUST contain the entity ID of the OAuth client</li>
-<li>The claim sub MUST contain the entity ID of the OAuth client</li>
+<ul>
+<li>The <samp>client_id</samp> of the RP MUST be set to be identically to the RP entity identifier.  </li>
+<li>Without a registration process, the RP does not have a client_secret. Instead the automatic registration model requires the RP to make use of asymmetric cryptography.  </li>
+<li>The client_id MUST point to a Federation API that allows the OP to fetch the RP's self signed entity statement.  </li>
+<li>The OP SHOULD publish which client authentication method it supports using the claim <samp>auto_registration_client_authentication_methods_supported</samp>.  .  </li>
 </ul>
 
 <p> </p>
-<p>An authentication request example: </p>
+<h1 id="rfc.section.9.1.1">
+<a href="#rfc.section.9.1.1">9.1.1.</a> The Authentication Request</h1>
+<p id="rfc.section.9.1.1.p.1">The authentication request is performed by passing a request object by value as described in section 6.1 in <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> or using pushed authorization as described in <a href="#PAR" class="xref">Pushed Authorization Requests</a>.  </p>
+<h1 id="rfc.section.9.1.1.1">
+<a href="#rfc.section.9.1.1.1">9.1.1.1.</a> Using Request Object</h1>
+<p id="rfc.section.9.1.1.1.p.1">In the case where a request object is used the value of the request parameter is a JWT whose Claims are the request parameters specified in Section 3.1.2 in <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  The JWT MUST be signed and MAY be encrypted.  The following restrictions applies to the JWT: </p>
+
+<dl>
+<dt>aud</dt>
+<dd style="margin-left: 8">
+<br> REQUIRED. The Audience (aud) MUST be the URL of the Authorization Server's Authorization Endpoint.  </dd>
+<dt>iss</dt>
+<dd style="margin-left: 8">
+<br> REQUIRED. The claim iss MUST contain the entity ID of the OpenID Connect provider.  </dd>
+<dt>sub</dt>
+<dd style="margin-left: 8">
+<br> REQUIRED. The claim sub MUST contain the entity ID of the OpenID Connect provider.  </dd>
+<dt>jti</dt>
+<dd style="margin-left: 8">
+<br> REQUIRED. JWT ID. A unique identifier for the JWT, which can be used to prevent reuse of the token. These tokens MUST only be used once, unless conditions for reuse were negotiated between the parties; any such negotiation is beyond the scope of this specification.  </dd>
+<dt>exp</dt>
+<dd style="margin-left: 8">
+<br> REQUIRED. Expiration time on or after which the JWT MUST NOT be accepted for processing.  </dd>
+<dt>iat</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. Time at which the JWT was issued.  </dd>
+</dl>
+
+<p> </p>
+<p>The following is a non-normative example of the Claims in a Request Object before base64url encoding and signing: </p>
 <pre>
-GET /authorization?
-  redirect_uri=https%3A%2F%2Fexample.com%2Fauthz_cb
-  &amp;scope=openid+profile+email+address+phone
-  &amp;response_type=code
-  &amp;nonce=4LX0mFMxdBjkGmtx7a8WIOnB&amp;
-  &amp;state=YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ
-  &amp;client_id=https%3A%2F%2Fexample.com%3A8090%2Firp
-  &amp;client_assertion=eyJhbGciOiJSUzI1NiIs ... qx7xHcvPOdIhnpg
-  &amp;client_assertion_type=
-    urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
-  HTTP/1.1
-Host: example.org
+{
+  "aud": "https://op.example.org/authorization",
+  "client_id": "https://rp.example.com",
+  "exp": 1589699162,
+  "iat": 1589699102,
+  "iss": "https://rp.example.com",
+  "jti": "4d3ec0f81f134ee9a97e0449be6d32be",
+  "nonce": "4LX0mFMxdBjkGmtx7a8WIOnB",
+  "redirect_uri": "https://rp.example.com/authz_cb",
+  "response_type": "code",
+  "scope": "openid profile email address phone",
+  "state": "YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ",
+  "sub": "https://rp.example.com"
+}
 </pre>
+<p>The following is a non-normative example of an Authorization Request using the request parameter (with line wraps within values for display purposes only): </p>
+<pre>
+https://server.example.com/authorize?
+    redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb&amp;
+    request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umto
+    a1NXcGxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpY
+    bHBUemRRTkEifQ.eyJyZWRpcmVjdF91cmkiOiAiaHR0cHM6Ly9yc
+    C5leGFtcGxlLmNvbS9hdXRoel9jYiIsICJzY29wZSI6ICJvcGVua
+    WQgcHJvZmlsZSBlbWFpbCBhZGRyZXNzIHBob25lIiwgInJlc3Bvb
+    nNlX3R5cGUiOiAiY29kZSIsICJub25jZSI6ICI0TFgwbUZNeGRCa
+    mtHbXR4N2E4V0lPbkIiLCAic3RhdGUiOiAiWW1YOFBNOUk3V2JOb
+    01ubmllS0tCaXB0Vlcwc1AyT1oiLCAiY2xpZW50X2lkIjogImh0d
+    HBzOi8vcnAuZXhhbXBsZS5jb20iLCAic3ViIjogImh0dHBzOi8vc
+    nAuZXhhbXBsZS5jb20iLCAiaXNzIjogImh0dHBzOi8vcnAuZXhhb
+    XBsZS5jb20iLCAiaWF0IjogMTU4OTcwMDk1NiwgImV4cCI6IDE1O
+    Dk3MDEwMTYsICJhdWQiOiAiaHR0cHM6Ly9vcC5leGFtcGxlLm9yZ
+    y9hdXRob3JpemF0aW9uIiwgImp0aSI6ICI5MTI2YWI4ZjcxODY0O
+    DI3YmQ3OTE4MTU0NjY0ZWNmOCJ9.D51EQF-cJkzXTynQ-o6IL-Tv
+    xyC7W436-Qu-R8_StFYZRTfSHMa4M-TRuix7VHXgQiUxgdxuc4XU
+    NQ7cjfb_HhyCNMeO0Gd8mA2eo3GGdQMCcbIcMAV9tEz7-p5uz1iD
+    4H8l7AjK1LsVDYzSssTT9-xvuTy49wLKTlGk1sdvj_oW6e9KlrfQ
+    RFUR9gWudMpEj2FAhHeSvu1t_rafJ0VJ__ZvdfRT79BD45hNa6ST
+    pw4di3vIyrLHV9pxm_1HsvYqZ_mX3wECyJ7Soya93qzG3AA3XU_Q
+    wTPES4TA1x0k9gOYdm5ZxVcrlgV58n8BcCV4AK4Wrju5QTvg7Xob
+    tFqaCg
+</pre>
+<h1 id="rfc.section.9.1.1.2">
+<a href="#rfc.section.9.1.1.2">9.1.1.2.</a> Using Pushed Authorization</h1>
+<p><a href="#PAR" class="xref">Pushed Authorization</a> provides an interoperable way to push the payload of a request object directly to the AS in exchange for a request_uri.  </p>
+<p id="rfc.section.9.1.1.2.p.2">When it comes to client authentication the applicable authentication methods are two: </p>
+
+<ul>
+<li>Using a JWT for Client Authentication as described for <samp>private_key_jwt</samp> in section 9 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> </li>
+<li>mTLS as described in <a href="#RFC8705" class="xref">[RFC8705]</a>. If mTLS is used and the certificate used is a self signed certificate then the certificate MUST be present as the value of a x5c claim for one key in the JWKS describing the RP's keys.  </li>
+</ul>
+
+<p> </p>
+<p id="rfc.section.9.1.1.2.p.3">Using the example above a request could look like this:</p>
+<pre>
+POST /par HTTP/1.1
+Host: op.example.org
+Content-Type: application/x-www-form-urlencoded
+
+redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
+&amp;scope=openid+profile+email+address+phone
+&amp;response_type=code
+&amp;nonce=4LX0mFMxdBjkGmtx7a8WIOnB
+&amp;state=YmX8PM9I7WbNoMnnieKKBiptVW0sP2OZ
+&amp;client_id=https%3A%2F%2Frp.example.com
+&amp;client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3A
+  client-assertion-type%3Ajwt-bearer
+&amp;client_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJ
+  hMDF3Umtoa1NXcGxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbW
+  hFUVhnelpYbHBUemRRTkEifQ.eyJzdWIiOiAiaHR0cHM6Ly9ycC
+  5leGFtcGxlLmNvbSIsICJpc3MiOiAiaHR0cHM6Ly9ycC5leGFtc
+  GxlLmNvbSIsICJpYXQiOiAxNTg5NzA0NzAxLCAiZXhwIjogMTU4
+  OTcwNDc2MSwgImF1ZCI6ICJodHRwczovL29wLmV4YW1wbGUub3J
+  nL2F1dGhvcml6YXRpb24iLCAianRpIjogIjM5ZDVhZTU1MmQ5Yz
+  Q4ZjBiOTEyZGM1NTY4ZWQ1MGQ2In0.oUt9Knx_lxb4V2S0tyNFH
+  CNZeP7sImBy5XDsFxv1cUpGkAojNXSy2dnU5HEzscMgNW4wguz6
+  KDkC01aq5OfN04SuVItS66bsx0h4Gs7grKAp_51bClzreBVzU4g
+  _-dFTgF15T9VLIgM_juFNPA_g4Lx7Eb5r37rWTUrzXdmfxeou0X
+  FC2p9BIqItU3m9gmH0ojdBCUX5Up0iDsys6_npYomqitAcvaBRD
+  PiuUBa5Iar9HVR-H7FMAr7aq7s-dH5gx2CHIfM3-qlc2-_Apsy0
+  BrQl6VePR6j-3q6JCWvNw7l4_F2UpHeanHb31fLKQbK-1yoXDNz
+  DwA7B0ZqmuSmMFQ</pre>
 <h1 id="rfc.section.9.1.2">
 <a href="#rfc.section.9.1.2">9.1.2.</a> Processing the Authentication Request</h1>
 <p id="rfc.section.9.1.2.p.1">When the OP receives an incoming authentication request, the OP supports OpenID Connect Federation, the incoming client_id is a valid URL and the OP does not have the client_id registered as a known client then the OP should try to resolve and fetch trust chains starting with the RP's entity statement as described in <a href="#fetching-es" class="xref">Section 7.1</a>.  </p>
@@ -1963,8 +2062,6 @@ Host: example.org
 </dl>
 
 <p> </p>
-<p></p>
-
 <p>The following is a non-normative example error response: </p>
 <pre>
 HTTP/1.1 302 Found
@@ -1979,16 +2076,13 @@ HTTP/1.1 302 Found
 </h1>
 <p id="rfc.section.9.2.p.1">This method involves performing an explicit registration of a new client the first time an RP interacts with an OP using something that basically follows the steps in <a href="#OpenID.Registration" class="xref">OpenID Connect Dynamic Client Registration 1.0</a> but where the client registration request is a signed entity statement.  </p>
 <h1 id="rfc.section.9.2.1">
-<a href="#rfc.section.9.2.1">9.2.1.</a> Provider Discovery</h1>
-<p id="rfc.section.9.2.1.p.1">The RP will start by gathering the OP's metadata using the process specified in <a href="#resolving_trust" class="xref">Section 7</a> above.  </p>
-<h1 id="rfc.section.9.2.2">
-<a href="#rfc.section.9.2.2">9.2.2.</a> <a href="#Clireg" id="Clireg">Client Registration</a>
+<a href="#rfc.section.9.2.1">9.2.1.</a> <a href="#Clireg" id="Clireg">Client Registration</a>
 </h1>
-<h1 id="rfc.section.9.2.2.1">
-<a href="#rfc.section.9.2.2.1">9.2.2.1.</a> <a href="#Cliregreq" id="Cliregreq">Client Registration Request</a>
+<h1 id="rfc.section.9.2.1.1">
+<a href="#rfc.section.9.2.1.1">9.2.1.1.</a> <a href="#Cliregreq" id="Cliregreq">Client Registration Request</a>
 </h1>
-<p id="rfc.section.9.2.2.1.p.1">The OP MUST support OpenID Dynamic Client Registration as extended by this specification.  This is signaled by having the claim <samp>federation_registration_endpoint</samp> in the OP's metadata.  </p>
-<p id="rfc.section.9.2.2.1.p.2">Given that the OP supports explicit registration, the RP progresses as follows: </p>
+<p id="rfc.section.9.2.1.1.p.1">The OP MUST support OpenID Dynamic Client Registration as extended by this specification.  This is signaled by having the claim <samp>federation_registration_endpoint</samp> in the OP's metadata.  </p>
+<p id="rfc.section.9.2.1.1.p.2">Given that the OP supports explicit registration, the RP progresses as follows: </p>
 <p></p>
 
 <ol>
@@ -1999,11 +2093,11 @@ HTTP/1.1 302 Found
 </ol>
 
 <p> </p>
-<h1 id="rfc.section.9.2.2.2">
-<a href="#rfc.section.9.2.2.2">9.2.2.2.</a> <a href="#cliregresp" id="cliregresp">Client Registration Response</a>
+<h1 id="rfc.section.9.2.1.2">
+<a href="#rfc.section.9.2.1.2">9.2.1.2.</a> <a href="#cliregresp" id="cliregresp">Client Registration Response</a>
 </h1>
-<h1 id="rfc.section.9.2.2.2.1">
-<a href="#rfc.section.9.2.2.2.1">9.2.2.2.1.</a> The OP Constructing the Response</h1>
+<h1 id="rfc.section.9.2.1.2.1">
+<a href="#rfc.section.9.2.1.2.1">9.2.1.2.1.</a> The OP Constructing the Response</h1>
 <p></p>
 
 <ol>
@@ -2015,8 +2109,8 @@ HTTP/1.1 302 Found
 </ol>
 
 <p> </p>
-<h1 id="rfc.section.9.2.2.2.2">
-<a href="#rfc.section.9.2.2.2.2">9.2.2.2.2.</a> The RP Parsing the Response</h1>
+<h1 id="rfc.section.9.2.1.2.2">
+<a href="#rfc.section.9.2.1.2.2">9.2.1.2.2.</a> The RP Parsing the Response</h1>
 <p></p>
 
 <ol>
@@ -2027,12 +2121,12 @@ HTTP/1.1 302 Found
 </ol>
 
 <p> </p>
-<h1 id="rfc.section.9.2.3">
-<a href="#rfc.section.9.2.3">9.2.3.</a> After Client Registration</h1>
-<p id="rfc.section.9.2.3.p.1">A client registration using this specification is not expected to be valid forever. The entity statements exchanged all have expiration times, which means that the registration will eventually time out. An OP can also for administrative reasons decide that a client registration is not valid anymore. An example of this could be that the OP leaves the federation in use.  </p>
-<h1 id="rfc.section.9.2.3.1">
-<a href="#rfc.section.9.2.3.1">9.2.3.1.</a> What the RP MUST Do</h1>
-<p id="rfc.section.9.2.3.1.p.1">At regular intervals, the RP MUST: </p>
+<h1 id="rfc.section.9.2.2">
+<a href="#rfc.section.9.2.2">9.2.2.</a> After Client Registration</h1>
+<p id="rfc.section.9.2.2.p.1">A client registration using this specification is not expected to be valid forever. The entity statements exchanged all have expiration times, which means that the registration will eventually time out. An OP can also for administrative reasons decide that a client registration is not valid anymore. An example of this could be that the OP leaves the federation in use.  </p>
+<h1 id="rfc.section.9.2.2.1">
+<a href="#rfc.section.9.2.2.1">9.2.2.1.</a> What the RP MUST Do</h1>
+<p id="rfc.section.9.2.2.1.p.1">At regular intervals, the RP MUST: </p>
 <p></p>
 
 <ol>
@@ -2041,10 +2135,10 @@ HTTP/1.1 302 Found
 </ol>
 
 <p> </p>
-<p id="rfc.section.9.2.3.1.p.3">What is regarded as reasonable intervals will depend on federation policies and risk assessment by the maintainer of the RP.  </p>
-<h1 id="rfc.section.9.2.3.2">
-<a href="#rfc.section.9.2.3.2">9.2.3.2.</a> What the OP MUST Do</h1>
-<p id="rfc.section.9.2.3.2.p.1">At regular intervals, the OP MUST: </p>
+<p id="rfc.section.9.2.2.1.p.3">What is regarded as reasonable intervals will depend on federation policies and risk assessment by the maintainer of the RP.  </p>
+<h1 id="rfc.section.9.2.2.2">
+<a href="#rfc.section.9.2.2.2">9.2.2.2.</a> What the OP MUST Do</h1>
+<p id="rfc.section.9.2.2.2.p.1">At regular intervals, the OP MUST: </p>
 <p></p>
 
 <ol>
@@ -2053,9 +2147,9 @@ HTTP/1.1 302 Found
 </ol>
 
 <p> </p>
-<h1 id="rfc.section.9.2.4">
-<a href="#rfc.section.9.2.4">9.2.4.</a> Expiration Times</h1>
-<p id="rfc.section.9.2.4.p.1">An OP MUST NOT assign an expiration time to an RP's registration that is later than the trust chain's expiration time.  </p>
+<h1 id="rfc.section.9.2.3">
+<a href="#rfc.section.9.2.3">9.2.3.</a> Expiration Times</h1>
+<p id="rfc.section.9.2.3.p.1">An OP MUST NOT assign an expiration time to an RP's registration that is later than the trust chain's expiration time.  </p>
 <h1 id="rfc.section.10">
 <a href="#rfc.section.10">10.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>
@@ -2087,6 +2181,11 @@ HTTP/1.1 302 Found
 <a title="Nomura Research Institute, Ltd.">Sakimura, N.</a>, <a title="Ping Identity">Bradley, J.</a> and <a title="Microsoft">M. Jones</a>, "<a href="http://openid.net/specs/openid-connect-registration-1_0.html">OpenID Connect Dynamic Client Registration 1.0</a>", August 2015.</td>
 </tr>
 <tr>
+<td class="reference"><b id="PAR">[PAR]</b></td>
+<td class="top">
+<a title="yes.com">Lodderstedt, T.</a>, <a title="Nomura Research Institute, Ltd.">Sakimura, N.</a>, <a title="Ping Identity">Campbell, B.</a>, <a title="Moneyhub Financial Technology">Tonge, D.</a> and <a title="Auth0">F. Skokan</a>, "<a href="https://tools.ietf.org/id/draft-lodderstedt-oauth-par-00.html">OAuth 2.0 Pushed Authorization Requests</a>"</td>
+</tr>
+<tr>
 <td class="reference"><b id="RFC2119">[RFC2119]</b></td>
 <td class="top">
 <a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
@@ -2100,11 +2199,6 @@ HTTP/1.1 302 Found
 <td class="reference"><b id="RFC5280">[RFC5280]</b></td>
 <td class="top">
 <a>Cooper, D.</a>, <a>Santesson, S.</a>, <a>Farrell, S.</a>, <a>Boeyen, S.</a>, <a>Housley, R.</a> and <a>W. Polk</a>, "<a href="https://tools.ietf.org/html/rfc5280">Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile</a>", RFC 5280, DOI 10.17487/RFC5280, May 2008.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC6749">[RFC6749]</b></td>
-<td class="top">
-<a>Hardt, D.</a>, "<a href="https://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a>", RFC 6749, DOI 10.17487/RFC6749, October 2012.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC7515">[RFC7515]</b></td>
@@ -2122,6 +2216,11 @@ HTTP/1.1 302 Found
 <a>Jones, M.</a>, <a>Bradley, J.</a> and <a>N. Sakimura</a>, "<a href="https://tools.ietf.org/html/rfc7519">JSON Web Token (JWT)</a>", RFC 7519, DOI 10.17487/RFC7519, May 2015.</td>
 </tr>
 <tr>
+<td class="reference"><b id="RFC7523">[RFC7523]</b></td>
+<td class="top">
+<a>Jones, M.</a>, <a>Campbell, B.</a> and <a>C. Mortimore</a>, "<a href="https://tools.ietf.org/html/rfc7523">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</a>", RFC 7523, DOI 10.17487/RFC7523, May 2015.</td>
+</tr>
+<tr>
 <td class="reference"><b id="RFC7591">[RFC7591]</b></td>
 <td class="top">
 <a>Richer, J.</a>, <a>Jones, M.</a>, <a>Bradley, J.</a>, <a>Machulak, M.</a> and <a>P. Hunt</a>, "<a href="https://tools.ietf.org/html/rfc7591">OAuth 2.0 Dynamic Client Registration Protocol</a>", RFC 7591, DOI 10.17487/RFC7591, July 2015.</td>
@@ -2135,6 +2234,11 @@ HTTP/1.1 302 Found
 <td class="reference"><b id="RFC8615">[RFC8615]</b></td>
 <td class="top">
 <a>Nottingham, M.</a>, "<a href="https://tools.ietf.org/html/rfc8615">Well-Known Uniform Resource Identifiers (URIs)</a>", RFC 8615, DOI 10.17487/RFC8615, May 2019.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8705">[RFC8705]</b></td>
+<td class="top">
+<a>Campbell, B.</a>, <a>Bradley, J.</a>, <a>Sakimura, N.</a> and <a>T. Lodderstedt</a>, "<a href="https://tools.ietf.org/html/rfc8705">OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens</a>", RFC 8705, DOI 10.17487/RFC8705, February 2020.</td>
 </tr>
 </tbody></table>
 <h1 id="rfc.references.2">
@@ -2221,7 +2325,7 @@ HTTP/1.1 302 Found
       ],
       "logo_uri":
         "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-      "policy_uri":
+      "op_policy_uri":
         "https://www.umu.se/en/website/legal-information/",
       "response_types_supported": [
         "code",
@@ -2309,7 +2413,7 @@ HTTP/1.1 302 Found
           "ops@swamid.se"
         ]
       },
-      "organization": {
+      "organization_name": {
         "value": "University of Ume\u00e5"
       },
       "subject_types_supported": {
@@ -2525,8 +2629,8 @@ HTTP/1.1 302 Found
   "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
   "logo_uri":
     "https://www.umu.se/img/umu-logo-left-neg-SE.svg",
-  "organization": "University of Ume\u00e5",
-  "policy_uri":
+  "organization_name": "University of Ume\u00e5",
+  "op_policy_uri":
     "https://www.umu.se/en/website/legal-information/",
   "request_parameter_supported": false,
   "request_uri_parameter_supported": true,
