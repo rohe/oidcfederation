@@ -566,7 +566,7 @@
         <t>
           To that list is added:
           <list style="hanging">
-            <t hangText="client_registration_type">
+            <t hangText="client_registration_types">
               <vspace/>
               REQUIRED. Array of strings specifying the client registration
               types the RP wants to use. Values defined by this specification
@@ -628,7 +628,7 @@
               registration as described in <xref target="explicit"/>,
               then this claim is REQUIRED.
             </t>
-            <t hangText="client_registration_auth_methods_supported">
+            <t hangText="client_registration_authn_methods_supported">
               <vspace/>
               OPTIONAL.
               JSON object with keys representing processes/endpoints and
@@ -697,7 +697,7 @@
   "client_registration_types_supported": ["automatic", "explicit"],
   "federation_registration_endpoint":
     "https://server.example.com/fedreg",
-  "client_registration_auth_methods_supported": {
+  "client_registration_authn_methods_supported": {
     "ar": ["request_object"],
     "par": ["private_key_jwt", "self_signed_tls_client_auth"]
   }
@@ -2400,9 +2400,9 @@ Content-Type: application/json
             described in <xref target="federation_configuration"/>.
           </t>
           <t>
-            The OP MUST publish that is supports a client authentication method
+            The OP MUST publish that it supports a client authentication method
             using the metadata claim
-            <spanx style="verb">client_registration_auth_methods_supported
+            <spanx style="verb">client_registration_authn_methods_supported
             </spanx>.
           </t>
         </list>
@@ -2603,7 +2603,7 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
             </figure>
         <section title="Processing the Authentication Request">
           <t>
-            There are three different path the OP must follow when processing
+            There are three different paths the OP must follow when processing
             the authentication request depending on which client authentication
             method that was used. It all starts the same though.
             When the OP receives an incoming authentication request,
@@ -3608,7 +3608,7 @@ Host: geant.org
             </list>
           </t>
           <t>We also have the self-signed entity statements from https://umu.se,
-            https://swamid.se and https://edugain.geant.org about them self but
+            https://swamid.se and https://edugain.geant.org about themselves but
             those are not used in the trust chain verification.
           </t>
           <t>
