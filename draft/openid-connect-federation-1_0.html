@@ -829,7 +829,7 @@
 <br> REQUIRED.  Expiration time on or after which the statement MUST NOT be accepted for processing. Its value is a JSON number representing the number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the date/time.  </dd>
 <dt>jwks</dt>
 <dd style="margin-left: 8">
-<br> REQUIRED. A <a href="#RFC7517" class="xref">JSON Web Key Set (JWKS)</a> representing the public part of the subject entity's signing keys. The corresponding private key is used by leaf entities to sign entity statements about themselves, and intermediate entities to sign statements about other entities.  The keys that can be found here are primarily intended to sign entity statements and should not be used in other protocols.  </dd>
+<br> OPTIONAL. A <a href="#RFC7517" class="xref">JSON Web Key Set (JWKS)</a> representing the public part of the subject entity's signing keys. The corresponding private key is used by leaf entities to sign entity statements about themselves, and intermediate entities to sign statements about other entities.  The keys that can be found here are primarily intended to sign entity statements and should not be used in other protocols.  This claim is only optional for the entity statement returned from an OP when the client is doing explicit registration.  In all other cases it is REQUIRED.  </dd>
 <dt>aud</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  The entity statement may be specifically created for an entity.  The entity identifier for that entity MUST appear in this claim.  </dd>
@@ -957,7 +957,7 @@
 <p id="rfc.section.3.1.p.3">To that list is added: </p>
 
 <dl>
-<dt>client_registration_type</dt>
+<dt>client_registration_types</dt>
 <dd style="margin-left: 8">
 <br> REQUIRED. Array of strings specifying the client registration types the RP wants to use. Values defined by this specification are <samp>automatic</samp> and <samp>explicit</samp>.  </dd>
 <dt>organization_name</dt>
@@ -987,7 +987,7 @@
 <dt>federation_registration_endpoint</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  URL of the OP's Federation specific Dynamic Client Registration Endpoint. If the OP supports explicit client registration as described in <a href="#explicit" class="xref">Section 9.2</a>, then this claim is REQUIRED.  </dd>
-<dt>client_registration_auth_methods_supported</dt>
+<dt>client_registration_authn_methods_supported</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  JSON object with keys representing processes/endpoints and lists of Client Authentication methods as values.  supported by the authorization endpoint.  In this specification we use the process/endpoints: authorization request (ar) as described in Section 3 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> and pushed authorization request (par) as described in <a href="#PAR" class="xref">[PAR]</a> .  The Client Authentication methods are: <dl>
 <dt>request_object</dt>
@@ -1025,7 +1025,7 @@
   "client_registration_types_supported": ["automatic", "explicit"],
   "federation_registration_endpoint":
     "https://server.example.com/fedreg",
-  "client_registration_auth_methods_supported": {
+  "client_registration_authn_methods_supported": {
     "ar": ["request_object"],
     "par": ["private_key_jwt", "self_signed_tls_client_auth"]
   }
@@ -1965,7 +1965,7 @@ Content-Type: application/json
 <li>The <samp>client_id</samp> of the RP MUST be set to be identical to the RP entity identifier.  </li>
 <li>Without a registration process, the RP does not have a client_secret. Instead the automatic registration model requires the RP to make use of asymmetric cryptography. Bascially the RP must prove that it has control of the RP's private keys.  </li>
 <li>The client_id MUST be a URL from which the OP can fetch the RP's self-signed entity statement using the process described in <a href="#federation_configuration" class="xref">Section 5</a>.  </li>
-<li>The OP MUST publish that is supports a client authentication method using the metadata claim <samp>client_registration_auth_methods_supported </samp>.  </li>
+<li>The OP MUST publish that it supports a client authentication method using the metadata claim <samp>client_registration_authn_methods_supported </samp>.  </li>
 </ul>
 
 <p> </p>
@@ -2054,7 +2054,8 @@ https://server.example.com/authorize?
 
 <ul>
 <li>Using a JWT for Client Authentication as described for <samp>private_key_jwt</samp> in section 9 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> </li>
-<li>mTLS as described in <a href="#RFC8705" class="xref">[RFC8705]</a>.  Here both self-signed certificates and certificates signed by a proper CA can be used.  If mTLS is used and the certificate used is a self signed certificate then the certificate MUST be present as the value of a x5c claim for one key in the JWKS describing the RP's keys.  </li>
+<li>mTLS as described in section 2.2 of <a href="#RFC8705" class="xref">[RFC8705]</a> based on self-signed certificates.  In this case the self-signed certificate MUST be present as the value of a x5c claim for one key in the JWKS describing the RP's keys.  </li>
+<li>mTLS as described in section 2.1 of <a href="#RFC8705" class="xref">[RFC8705]</a> based on public key infrastructure (PKI).  </li>
 </ul>
 
 <p> </p>
@@ -2089,7 +2090,7 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
   DwA7B0ZqmuSmMFQ</pre>
 <h1 id="rfc.section.9.1.1.2.1">
 <a href="#rfc.section.9.1.1.2.1">9.1.1.2.1.</a> Processing the Authentication Request</h1>
-<p id="rfc.section.9.1.1.2.1.p.1">There are three different path the OP must follow when processing the authentication request depending on which client authentication method that was used. It all starts the same though.  When the OP receives an incoming authentication request, the OP supports OpenID Connect Federation, the incoming client_id is a valid URL, the OP does not have the client_id registered as a known client and the OP supports the client authentication method used then the OP should try to resolve and fetch trust chains starting with the RP's entity statement as described in <a href="#fetching-es" class="xref">Section 7.1</a>.  </p>
+<p id="rfc.section.9.1.1.2.1.p.1">There are three different paths the OP must follow when processing the authentication request depending on which client authentication method that was used. It all starts the same though.  When the OP receives an incoming authentication request, the OP supports OpenID Connect Federation, the incoming client_id is a valid URL, the OP does not have the client_id registered as a known client and the OP supports the client authentication method used then the OP should try to resolve and fetch trust chains starting with the RP's entity statement as described in <a href="#fetching-es" class="xref">Section 7.1</a>.  </p>
 <p id="rfc.section.9.1.1.2.1.p.2">The OP should validate the possible trust chains, as described in <a href="#trust_chain_validation" class="xref">Section 7.2</a>, and resolve the RP metadata with type <samp>openid_relying_party</samp>.  </p>
 <p id="rfc.section.9.1.1.2.1.p.3">The OP should consider the resolved metadata of the RP, and verify that it complies with the client metadata specification in <a href="#OpenID.Registration" class="xref">OpenID Connect Dynamic Client Registration 1.0</a>.  </p>
 <p id="rfc.section.9.1.1.2.1.p.4">Once the OP has the RP's metadata, it can verify the client authentication. This is where it diverges depending on which client auhentication method was used.  </p>
@@ -2161,7 +2162,7 @@ HTTP/1.1 302 Found
 <ol>
 <li>After the OP receives the request, it collects and evaluates the trust chains starting with the <samp>authority_hints</samp> in the registration request.  After it has verified at least one trust chain it MUST verify that the signature on the received registration request is correct.  </li>
 <li>If it finds more than one acceptable trust chain, it MUST choose one trust anchor from those chains as the one it will proceed with.  </li>
-<li>At this point, if there already exists a client registration under the same entity identifier then that registration MUST be regarded as invalid.  <samp>Note</samp> that key material from the previous registration MUST be kept to make key rollover possible.  </li>
+<li>At this point, if there already exists a client registration under the same entity identifier then that registration MUST be regarded as invalid.  <samp>Note</samp> that key material from the previous registration SHOULD be kept to allow verifying a signature on, or decrypting archived data.  </li>
 <li>The OP will now construct a metadata policy that, if applied to the RP's metadata statement, will result in metadata that the OP finds acceptable.  <samp>Note</samp> that the client_id the OP chooses does not have to be the same as the entity identifier of the RP.  To the entity statement it will add one or more <samp>authority_hints</samp>, from its collection, that terminate in the trust anchor chosen above.  </li>
 <li>It will sign and return the registration response (a signed entity statement) to the RP.  </li>
 </ol>
@@ -2694,7 +2695,7 @@ Host: geant.org
 </ol>
 
 <p> </p>
-<p id="rfc.section.A.1.7.p.6">We also have the self-signed entity statements from https://umu.se, https://swamid.se and https://edugain.geant.org about them self but those are not used in the trust chain verification.  </p>
+<p id="rfc.section.A.1.7.p.6">We also have the self-signed entity statements from https://umu.se, https://swamid.se and https://edugain.geant.org about themselves but those are not used in the trust chain verification.  </p>
 <p id="rfc.section.A.1.7.p.7">Using the public keys of the trust anchor that the LIGO Wiki RP has been provided with in some secure out-of-band way, it can now verify the trust chain as described in <a href="#trust_chain_validation" class="xref">Section 7.2</a>.  </p>
 <h1 id="rfc.appendix.A.1.8">
 <a href="#rfc.appendix.A.1.8">A.1.8.</a> Verified Metadata for op.umu.se</h1>

@@ -292,13 +292,15 @@ Hedberg, et al.          Expires January 1, 2021                [Page 5]
       measured in UTC until the date/time.
 
    jwks
-      REQUIRED.  A JSON Web Key Set (JWKS) [RFC7517] representing the
+      OPTIONAL.  A JSON Web Key Set (JWKS) [RFC7517] representing the
       public part of the subject entity's signing keys.  The
       corresponding private key is used by leaf entities to sign entity
       statements about themselves, and intermediate entities to sign
       statements about other entities.  The keys that can be found here
       are primarily intended to sign entity statements and should not be
-      used in other protocols.
+      used in other protocols.  This claim is only optional for the
+      entity statement returned from an OP when the client is doing
+      explicit registration.  In all other cases it is REQUIRED.
 
    aud
       OPTIONAL.  The entity statement may be specifically created for an
@@ -328,8 +330,6 @@ Hedberg, et al.          Expires January 1, 2021                [Page 5]
    metadata_policy
       OPTIONAL.  JSON object that describes a metadata policy.  Each key
       of the JSON object represents a metadata type identifier, and each
-      value MUST be a JSON object representing the metadata policy
-      according to the metadata schema of that metadata type.  An entity
 
 
 
@@ -338,6 +338,8 @@ Hedberg, et al.          Expires January 1, 2021                [Page 6]
                         OpenID Connect Federation              June 2020
 
 
+      value MUST be a JSON object representing the metadata policy
+      according to the metadata schema of that metadata type.  An entity
       statement may contain multiple metadata policy statements, but
       only one for each metadata type.  Only non-leaf entities MAY
       contain a "metadata_policy" claim.  Leaf entities MUST NOT contain
@@ -384,8 +386,6 @@ Hedberg, et al.          Expires January 1, 2021                [Page 6]
    entity, in the form of a JSON Web Signature (JWS) [RFC7515].
 
    The following is a non-normative example of an entity statement
-   before serialization and adding a signature.  The example contains a
-   critical extension "jti" (JWT ID) to the entity statement and one
 
 
 
@@ -394,10 +394,10 @@ Hedberg, et al.          Expires January 1, 2021                [Page 7]
                         OpenID Connect Federation              June 2020
 
 
+   before serialization and adding a signature.  The example contains a
+   critical extension "jti" (JWT ID) to the entity statement and one
    critical extension to the policy language "regexp" (Regular
    expression).
-
-
 
 
 
@@ -594,7 +594,7 @@ Hedberg, et al.          Expires January 1, 2021               [Page 10]
 
    To that list is added:
 
-   client_registration_type
+   client_registration_types
       REQUIRED.  Array of strings specifying the client registration
       types the RP wants to use.  Values defined by this specification
       are "automatic" and "explicit".
@@ -645,7 +645,7 @@ Hedberg, et al.          Expires January 1, 2021               [Page 11]
       registration as described in Section 9.2, then this claim is
       REQUIRED.
 
-   client_registration_auth_methods_supported
+   client_registration_authn_methods_supported
       OPTIONAL.  JSON object with keys representing processes/endpoints
       and lists of Client Authentication methods as values.  supported
       by the authorization endpoint.  In this specification we use the
@@ -702,7 +702,7 @@ Hedberg, et al.          Expires January 1, 2021               [Page 12]
      "client_registration_types_supported": ["automatic", "explicit"],
      "federation_registration_endpoint":
        "https://server.example.com/fedreg",
-     "client_registration_auth_methods_supported": {
+     "client_registration_authn_methods_supported": {
        "ar": ["request_object"],
        "par": ["private_key_jwt", "self_signed_tls_client_auth"]
      }
@@ -2284,9 +2284,9 @@ Hedberg, et al.          Expires January 1, 2021               [Page 40]
       self-signed entity statement using the process described in
       Section 5.
 
-   o  The OP MUST publish that is supports a client authentication
+   o  The OP MUST publish that it supports a client authentication
       method using the metadata claim
-      "client_registration_auth_methods_supported ".
+      "client_registration_authn_methods_supported ".
 
 
 
@@ -2444,15 +2444,15 @@ Hedberg, et al.          Expires January 1, 2021               [Page 43]
       "private_key_jwt" in section 9 of OpenID Connect Core 1.0
       [OpenID.Core]
 
-   o  mTLS as described in [RFC8705].  Here both self-signed
-      certificates and certificates signed by a proper CA can be used.
-      If mTLS is used and the certificate used is a self signed
-      certificate then the certificate MUST be present as the value of a
-      x5c claim for one key in the JWKS describing the RP's keys.
+   o  mTLS as described in section 2.2 of [RFC8705] based on self-signed
+      certificates.  In this case the self-signed certificate MUST be
+      present as the value of a x5c claim for one key in the JWKS
+      describing the RP's keys.
+
+   o  mTLS as described in section 2.1 of [RFC8705] based on public key
+      infrastructure (PKI).
 
    Using the example above a request could look like this:
-
-
 
 
 
@@ -2496,8 +2496,8 @@ Hedberg, et al.          Expires January 1, 2021               [Page 44]
 
 9.1.1.2.1.  Processing the Authentication Request
 
-   There are three different path the OP must follow when processing the
-   authentication request depending on which client authentication
+   There are three different paths the OP must follow when processing
+   the authentication request depending on which client authentication
    method that was used.  It all starts the same though.  When the OP
    receives an incoming authentication request, the OP supports OpenID
    Connect Federation, the incoming client_id is a valid URL, the OP
@@ -2635,7 +2635,8 @@ Hedberg, et al.          Expires January 1, 2021               [Page 47]
 
 
        regarded as invalid.  "Note" that key material from the previous
-       registration MUST be kept to make key rollover possible.
+       registration SHOULD be kept to allow verifying a signature on, or
+       decrypting archived data.
 
    4.  The OP will now construct a metadata policy that, if applied to
        the RP's metadata statement, will result in metadata that the OP
@@ -2680,8 +2681,7 @@ Hedberg, et al.          Expires January 1, 2021               [Page 47]
    valid forever.  The entity statements exchanged all have expiration
    times, which means that the registration will eventually time out.
    An OP can also for administrative reasons decide that a client
-   registration is not valid anymore.  An example of this could be that
-   the OP leaves the federation in use.
+
 
 
 
@@ -2689,6 +2689,9 @@ Hedberg, et al.          Expires January 1, 2021               [Page 48]
 
                         OpenID Connect Federation              June 2020
 
+
+   registration is not valid anymore.  An example of this could be that
+   the OP leaves the federation in use.
 
 9.2.2.1.  What the RP MUST Do
 
@@ -2734,9 +2737,6 @@ Hedberg, et al.          Expires January 1, 2021               [Page 48]
    TBD Register federation_type for RP registration metadata.
 
    TBD Register federation_registration_endpoint for the OP metadata.
-
-
-
 
 
 
@@ -3488,7 +3488,7 @@ Hedberg, et al.          Expires January 1, 2021               [Page 62]
        https://swamid.se
 
    We also have the self-signed entity statements from https://umu.se,
-   https://swamid.se and https://edugain.geant.org about them self but
+   https://swamid.se and https://edugain.geant.org about themselves but
    those are not used in the trust chain verification.
 
    Using the public keys of the trust anchor that the LIGO Wiki RP has

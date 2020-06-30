@@ -2561,12 +2561,15 @@ https://server.example.com/authorize?
                 <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>
               </t>
               <t>
-                mTLS as described in <xref target="RFC8705"/>.
-                Here both self-signed certificates and certificates signed
-                by a proper CA can be used.
-                If mTLS is used and the certificate used is a self signed
-                certificate then the certificate MUST be present as the value
-                of a x5c claim for one key in the JWKS describing the RP's keys.
+                mTLS as described in section 2.2 of <xref target="RFC8705"/>
+                based on self-signed certificates.
+                In this case the self-signed certificate MUST be present as the
+                value of a x5c claim for one key in the JWKS describing the
+                RP's keys.
+              </t>
+              <t>
+                mTLS as described in section 2.1 of <xref target="RFC8705"/>
+                based on public key infrastructure (PKI).
               </t>
             </list>
           </t>
