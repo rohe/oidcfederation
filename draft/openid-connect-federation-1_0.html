@@ -437,9 +437,10 @@
 <link href="#rfc.section.9.1" rel="Chapter" title="9.1 Automatic Registration">
 <link href="#rfc.section.9.1.1" rel="Chapter" title="9.1.1 The Authentication Request">
 <link href="#rfc.section.9.1.1.1" rel="Chapter" title="9.1.1.1 Using Request Object">
+<link href="#rfc.section.9.1.1.1.1" rel="Chapter" title="9.1.1.1.1 Processing the Authentication Request">
 <link href="#rfc.section.9.1.1.2" rel="Chapter" title="9.1.1.2 Using Pushed Authorization">
-<link href="#rfc.section.9.1.2" rel="Chapter" title="9.1.2 Processing the Authentication Request">
-<link href="#rfc.section.9.1.3" rel="Chapter" title="9.1.3 Authentication Error Response">
+<link href="#rfc.section.9.1.1.2.1" rel="Chapter" title="9.1.1.2.1 Processing the Authentication Request">
+<link href="#rfc.section.9.1.2" rel="Chapter" title="9.1.2 Authentication Error Response">
 <link href="#rfc.section.9.2" rel="Chapter" title="9.2 Explicit Registration">
 <link href="#rfc.section.9.2.1" rel="Chapter" title="9.2.1 Client Registration">
 <link href="#rfc.section.9.2.1.1" rel="Chapter" title="9.2.1.1 Client Registration Request">
@@ -482,7 +483,7 @@
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
-  <meta name="dct.issued" scheme="ISO8601" content="2020-05-21" />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-06-30" />
   <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
   <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
 
@@ -535,7 +536,7 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">May 21, 2020</td>
+<td class="right">June 30, 2020</td>
 </tr>
 
     	
@@ -681,11 +682,13 @@
 </li>
 <ul><li>9.1.1.1.   <a href="#rfc.section.9.1.1.1">Using Request Object</a>
 </li>
-<li>9.1.1.2.   <a href="#rfc.section.9.1.1.2">Using Pushed Authorization</a>
+<ul><li>9.1.1.1.1.   <a href="#rfc.section.9.1.1.1.1">Processing the Authentication Request</a>
 </li>
-</ul><li>9.1.2.   <a href="#rfc.section.9.1.2">Processing the Authentication Request</a>
+</ul><li>9.1.1.2.   <a href="#rfc.section.9.1.1.2">Using Pushed Authorization</a>
 </li>
-<li>9.1.3.   <a href="#rfc.section.9.1.3">Authentication Error Response</a>
+<ul><li>9.1.1.2.1.   <a href="#rfc.section.9.1.1.2.1">Processing the Authentication Request</a>
+</li>
+</ul></ul><li>9.1.2.   <a href="#rfc.section.9.1.2">Authentication Error Response</a>
 </li>
 </ul><li>9.2.   <a href="#rfc.section.9.2">Explicit Registration</a>
 </li>
@@ -954,9 +957,9 @@
 <p id="rfc.section.3.1.p.3">To that list is added: </p>
 
 <dl>
-<dt>federation_type</dt>
+<dt>client_registration_type</dt>
 <dd style="margin-left: 8">
-<br> REQUIRED. Array of strings specifying the federation types supported. Values defined by this specification are <samp>automatic</samp> and <samp>explicit</samp>.  </dd>
+<br> REQUIRED. Array of strings specifying the client registration types the RP wants to use. Values defined by this specification are <samp>automatic</samp> and <samp>explicit</samp>.  </dd>
 <dt>organization_name</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. A human readable name representing the organization owning the RP.  </dd>
@@ -975,7 +978,7 @@
 <p></p>
 
 <dl>
-<dt>federation_types_supported</dt>
+<dt>client_registration_types_supported</dt>
 <dd style="margin-left: 8">
 <br> REQUIRED. Array specifying the federation types supported.  Federation type values defined by this specification are <samp>automatic</samp> and <samp>explicit</samp>.  </dd>
 <dt>organization_name</dt>
@@ -983,13 +986,51 @@
 <br> OPTIONAL. A human readable name representing the organization owning the OP. It is intended to be used in the user interface, being recognized by the end users that would be using the OP to authenticate.  </dd>
 <dt>federation_registration_endpoint</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL.  URL of the OP's Federation specific Dynamic Client Registration Endpoint. If the OP supports explicit client registration as described in<a href="#explicit" class="xref">Section 9.2</a>, then this claim is REQUIRED.  </dd>
-<dt>automatic_registration_client_authn_methods_supported</dt>
+<br> OPTIONAL.  URL of the OP's Federation specific Dynamic Client Registration Endpoint. If the OP supports explicit client registration as described in <a href="#explicit" class="xref">Section 9.2</a>, then this claim is REQUIRED.  </dd>
+<dt>client_registration_auth_methods_supported</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL.  JSON array containing a list of Client Authentication methods supported by the authorization endpoint.  If the OP supports automatic client registration as described in <a href="#automatic" class="xref">Section 9.1</a>, then this claim is REQUIRED. The options are <samp>private_key_jwt</samp> (section 9 of <a href="#OpenID.Core" class="xref">[OpenID.Core]</a>), <samp>tls_client_auth</samp> (section 2.1 of <a href="#RFC8705" class="xref">[RFC8705]</a>) and <samp>self_signed_tls_client_auth</samp> (section 2.2 of <a href="#RFC8705" class="xref">[RFC8705]</a>. Note that if private_key_jwt is used the Audience SHOULD be the URL of the Authorization Server's Authorization Endpoint.  </dd>
+<br> OPTIONAL.  JSON object with keys representing processes/endpoints and lists of Client Authentication methods as values.  supported by the authorization endpoint.  In this specification we use the process/endpoints: authorization request (ar) as described in Section 3 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> and pushed authorization request (par) as described in <a href="#PAR" class="xref">[PAR]</a> .  The Client Authentication methods are: <dl>
+<dt>request_object</dt>
+<dd style="margin-left: 8">
+<br> This uses a request object as described in <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  More about this in <a href="#automatic" class="xref">Section 9.1</a> </dd>
+<dt>private_key_jwt</dt>
+<dd style="margin-left: 8">
+<br> Described in section 9 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  Note that if private_key_jwt is used the audience of the signed JWT MUST be either the URL of the Authorization Server's Authorization Endpoint or the Authorization Server's entity_id.  </dd>
+<dt>tls_client_auth</dt>
+<dd style="margin-left: 8">
+<br> section 2.1 of <a href="#RFC8705" class="xref">[RFC8705]</a> </dd>
+<dt>self_signed_tls_client_auth</dt>
+<dd style="margin-left: 8">
+<br> section 2.2 of <a href="#RFC8705" class="xref">[RFC8705]</a> </dd>
+</dl>
+<p> The only client authentication method that can be used if doing authentication as described in </p>
+<a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> is <samp>request_object</samp>.  If pushed authorization is used then one of <samp>private_key_jwt</samp>, <samp>tls_client_auth</samp> and <samp>self_signed_tls_client_auth</samp> can be used.  </dd>
 </dl>
 
 <p> </p>
+<p id="rfc.section.3.2.p.5">The following is a non-normative example of OP metadata:' </p>
+<pre>
+{
+  "issuer": "https://server.example.com",
+  "authorization_endpoint":
+    "https://server.example.com/authorization",
+  "token_endpoint": "https://server.example.com/token",
+  "jwks_uri": "https://server.example.com/jwks.json",
+  "response_types_supported": ["code", "id_token", "id_token token"],
+  "subject_types_supported": ["public"],
+  "id_token_signing_alg_values_supported": ["RS256", "ES256"],
+  "token_endpoint_auth_methods_supported": ["private_key_jwt"],
+  "pushed_authorization_request_endpoint":
+    "https://server.example.com/par",
+  "client_registration_types_supported": ["automatic", "explicit"],
+  "federation_registration_endpoint":
+    "https://server.example.com/fedreg",
+  "client_registration_auth_methods_supported": {
+    "ar": ["request_object"],
+    "par": ["private_key_jwt", "self_signed_tls_client_auth"]
+  }
+}
+</pre>
 <h1 id="rfc.section.3.3">
 <a href="#rfc.section.3.3">3.3.</a> OAuth Authorization Server</h1>
 <p id="rfc.section.3.3.p.1">The metadata type identifier is <samp>oauth_authorization_server</samp>.  </p>
@@ -1917,14 +1958,14 @@ Content-Type: application/json
 <h1 id="rfc.section.9.1">
 <a href="#rfc.section.9.1">9.1.</a> <a href="#automatic" id="automatic">Automatic Registration</a>
 </h1>
-<p id="rfc.section.9.1.p.1">Automatic registration allows an RP to send authorization requests to an OP without first registering with the OP. It basically works by the OP using the client_id in the request to find the RPs metadata using the process outlined in <a href="#resolving_trust" class="xref">Section 7</a> and then verifies the client authentication by using the RP's keys as published in the metadata.  </p>
+<p id="rfc.section.9.1.p.1">Automatic registration allows an RP to send authorization requests to an OP without first registering with the OP. It basically works by the OP using the client_id in the request to find the RP's metadata using the process outlined in <a href="#resolving_trust" class="xref">Section 7</a> and then verifies that the RP is in control of a private key that is a companion to one of the public keys the RP published through its metadata.  </p>
 <p id="rfc.section.9.1.p.2">For automatic registration to work a number of things must be valid: </p>
 
 <ul>
-<li>The <samp>client_id</samp> of the RP MUST be set to be identically to the RP entity identifier.  </li>
-<li>Without a registration process, the RP does not have a client_secret. Instead the automatic registration model requires the RP to make use of asymmetric cryptography.  </li>
-<li>The client_id MUST point to a Federation API that allows the OP to fetch the RP's self signed entity statement.  </li>
-<li>The OP SHOULD publish which client authentication method it supports using the claim <samp>auto_registration_client_authentication_methods_supported</samp>.  .  </li>
+<li>The <samp>client_id</samp> of the RP MUST be set to be identical to the RP entity identifier.  </li>
+<li>Without a registration process, the RP does not have a client_secret. Instead the automatic registration model requires the RP to make use of asymmetric cryptography. Bascially the RP must prove that it has control of the RP's private keys.  </li>
+<li>The client_id MUST be a URL from which the OP can fetch the RP's self-signed entity statement using the process described in <a href="#federation_configuration" class="xref">Section 5</a>.  </li>
+<li>The OP MUST publish that is supports a client authentication method using the metadata claim <samp>client_registration_auth_methods_supported </samp>.  </li>
 </ul>
 
 <p> </p>
@@ -2000,14 +2041,20 @@ https://server.example.com/authorize?
     wTPES4TA1x0k9gOYdm5ZxVcrlgV58n8BcCV4AK4Wrju5QTvg7Xob
     tFqaCg
 </pre>
+<h1 id="rfc.section.9.1.1.1.1">
+<a href="#rfc.section.9.1.1.1.1">9.1.1.1.1.</a> Processing the Authentication Request</h1>
+<p id="rfc.section.9.1.1.1.1.p.1">When the OP receives an incoming authentication request, the OP supports OpenID Connect Federation, the incoming client_id is a valid URL and the OP does not have the client_id registered as a known client then the OP should try to resolve and fetch trust chains starting with the RP's entity statement as described in <a href="#fetching-es" class="xref">Section 7.1</a>.  </p>
+<p id="rfc.section.9.1.1.1.1.p.2">The OP MUST then validate the possible trust chains, as described in <a href="#trust_chain_validation" class="xref">Section 7.2</a>, and resolve the RP metadata with type <samp>openid_relying_party</samp>.  </p>
+<p id="rfc.section.9.1.1.1.1.p.3">The OP furthermore should consider the resolved metadata of the RP, and verify that it complies with the client metadata specification in <a href="#OpenID.Registration" class="xref">OpenID Connect Dynamic Client Registration 1.0</a>.  </p>
+<p id="rfc.section.9.1.1.1.1.p.4">Once the OP has the RP's metadata, it can verify that the client was actually the one sending the authorization request by verifying the signature of the request object using the key material the client published through its metadata.  </p>
 <h1 id="rfc.section.9.1.1.2">
 <a href="#rfc.section.9.1.1.2">9.1.1.2.</a> Using Pushed Authorization</h1>
 <p><a href="#PAR" class="xref">Pushed Authorization</a> provides an interoperable way to push the payload of a request object directly to the AS in exchange for a request_uri.  </p>
-<p id="rfc.section.9.1.1.2.p.2">When it comes to client authentication the applicable authentication methods are two: </p>
+<p id="rfc.section.9.1.1.2.p.2">When it comes to client authentication the applicable authentication methods are three: </p>
 
 <ul>
 <li>Using a JWT for Client Authentication as described for <samp>private_key_jwt</samp> in section 9 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> </li>
-<li>mTLS as described in <a href="#RFC8705" class="xref">[RFC8705]</a>. If mTLS is used and the certificate used is a self signed certificate then the certificate MUST be present as the value of a x5c claim for one key in the JWKS describing the RP's keys.  </li>
+<li>mTLS as described in <a href="#RFC8705" class="xref">[RFC8705]</a>.  Here both self-signed certificates and certificates signed by a proper CA can be used.  If mTLS is used and the certificate used is a self signed certificate then the certificate MUST be present as the value of a x5c claim for one key in the JWKS describing the RP's keys.  </li>
 </ul>
 
 <p> </p>
@@ -2040,16 +2087,27 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
   PiuUBa5Iar9HVR-H7FMAr7aq7s-dH5gx2CHIfM3-qlc2-_Apsy0
   BrQl6VePR6j-3q6JCWvNw7l4_F2UpHeanHb31fLKQbK-1yoXDNz
   DwA7B0ZqmuSmMFQ</pre>
+<h1 id="rfc.section.9.1.1.2.1">
+<a href="#rfc.section.9.1.1.2.1">9.1.1.2.1.</a> Processing the Authentication Request</h1>
+<p id="rfc.section.9.1.1.2.1.p.1">There are three different path the OP must follow when processing the authentication request depending on which client authentication method that was used. It all starts the same though.  When the OP receives an incoming authentication request, the OP supports OpenID Connect Federation, the incoming client_id is a valid URL, the OP does not have the client_id registered as a known client and the OP supports the client authentication method used then the OP should try to resolve and fetch trust chains starting with the RP's entity statement as described in <a href="#fetching-es" class="xref">Section 7.1</a>.  </p>
+<p id="rfc.section.9.1.1.2.1.p.2">The OP should validate the possible trust chains, as described in <a href="#trust_chain_validation" class="xref">Section 7.2</a>, and resolve the RP metadata with type <samp>openid_relying_party</samp>.  </p>
+<p id="rfc.section.9.1.1.2.1.p.3">The OP should consider the resolved metadata of the RP, and verify that it complies with the client metadata specification in <a href="#OpenID.Registration" class="xref">OpenID Connect Dynamic Client Registration 1.0</a>.  </p>
+<p id="rfc.section.9.1.1.2.1.p.4">Once the OP has the RP's metadata, it can verify the client authentication. This is where it diverges depending on which client auhentication method was used.  </p>
+
+<dl>
+<dt>private_key_jwt</dt>
+<dd style="margin-left: 8">If this method is used then the OP will try to verify the signature of the signed JWT using the key material published by the RP in its metadata. If the verification is successful then the registration is regarded as correct.  </dd>
+<dt>tls_client_auth</dt>
+<dd style="margin-left: 8">If mTLS is used and the certificate used was not self-signed then the Subject Alternative Name of the certificate MUST match the entity identifier of the RP.  </dd>
+<dt>self_signed_tls_client_auth</dt>
+<dd style="margin-left: 8">If mTLS is used and the certificate used is a self signed certificate then the certificate MUST be present as the value of a x5c claim for one key in the JWKS describing the RP's keys.  </dd>
+</dl>
+
+<p> </p>
 <h1 id="rfc.section.9.1.2">
-<a href="#rfc.section.9.1.2">9.1.2.</a> Processing the Authentication Request</h1>
-<p id="rfc.section.9.1.2.p.1">When the OP receives an incoming authentication request, the OP supports OpenID Connect Federation, the incoming client_id is a valid URL and the OP does not have the client_id registered as a known client then the OP should try to resolve and fetch trust chains starting with the RP's entity statement as described in <a href="#fetching-es" class="xref">Section 7.1</a>.  </p>
-<p id="rfc.section.9.1.2.p.2">The OP should validate the possible trust chains, as described in <a href="#trust_chain_validation" class="xref">Section 7.2</a>, and resolve the RP metadata with type <samp>openid_relying_party</samp>.  </p>
-<p id="rfc.section.9.1.2.p.3">The OP should consider the resolved metadata of the RP, and verify that it complies with the client metadata specification in <a href="#OpenID.Registration" class="xref">OpenID Connect Dynamic Client Registration 1.0</a>.  </p>
-<p id="rfc.section.9.1.2.p.4">Once the OP has the RP's metadata, it can verify the client authentication.  </p>
-<h1 id="rfc.section.9.1.3">
-<a href="#rfc.section.9.1.3">9.1.3.</a> Authentication Error Response</h1>
-<p id="rfc.section.9.1.3.p.1">If the OP fails to establish trust with the RP, it should use an appropriate error code, and an <samp>error_description</samp> that aids the RP to understand what is wrong.  </p>
-<p id="rfc.section.9.1.3.p.2">In addition to the error codes defined in Section 3.1.2.6 of OpenID Connect core, this specification also defines the following error codes: </p>
+<a href="#rfc.section.9.1.2">9.1.2.</a> Authentication Error Response</h1>
+<p id="rfc.section.9.1.2.p.1">If the OP fails to establish trust with the RP, it should use an appropriate error code, and an <samp>error_description</samp> that aids the RP to understand what is wrong.  </p>
+<p id="rfc.section.9.1.2.p.2">In addition to the error codes defined in Section 3.1.2.6 of OpenID Connect core, this specification also defines the following error codes: </p>
 <p></p>
 
 <dl>
@@ -2355,6 +2413,12 @@ HTTP/1.1 302 Found
 <h1 id="rfc.appendix.A.1.2">
 <a href="#rfc.appendix.A.1.2">A.1.2.</a> Configuration Information for 'https://umu.se'</h1>
 <p id="rfc.section.A.1.2.p.1">The LIGO RP fetches the self-signed entity statement from "https://umu.se" using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
+<p id="rfc.section.A.1.2.p.2">The request will look like this:</p>
+<pre>
+GET /.well-known/openid-federation HTTP/1.1
+Host: umu.se
+            </pre>
+<p id="rfc.section.A.1.2.p.3">And the GET will return:</p>
 <pre>
 {
   "authority_hints": [
@@ -2384,10 +2448,17 @@ HTTP/1.1 302 Found
   "sub": "https://umu.se"
 }
 </pre>
-<p id="rfc.section.A.1.2.p.2">The only piece of information that is used from this entity statement is the <samp>federation_api_endpoint</samp>, which is used in the next step.  </p>
+<p id="rfc.section.A.1.2.p.4">The only piece of information that is used from this entity statement is the <samp>federation_api_endpoint</samp>, which is used in the next step.  </p>
 <h1 id="rfc.appendix.A.1.3">
 <a href="#rfc.appendix.A.1.3">A.1.3.</a> Entity Statement Published by 'https://umu.se' about 'https://op.umu.se'</h1>
 <p id="rfc.section.A.1.3.p.1">The RP uses the federation API and the "fetch" command as defined in <a href="#fetch_statement" class="xref">Section 6.1.1</a> to fetch information about "https://op.umu.se" from the API endpoint published in https://umu.se's configuration.  </p>
+<p id="rfc.section.A.1.3.p.2">The request will look like this:</p>
+<pre>
+GET /oidc/fedapi?sub=https%3A%2F%2Fop.umu.se&amp;
+iss=https%3A%2F%2Fumu.se HTTP/1.1
+Host: umu.se
+            </pre>
+<p id="rfc.section.A.1.3.p.3">and the result is this:</p>
 <pre>
 {
   "authority_hints": [
@@ -2438,11 +2509,17 @@ HTTP/1.1 302 Found
   "sub": "https://op.umu.se"
 }
 </pre>
-<p id="rfc.section.A.1.3.p.2">This is the second link in the trust chain.  </p>
-<p id="rfc.section.A.1.3.p.3">Notable here is that this path leads to two trust anchors using the same next step ("https://swamid.se").  </p>
+<p id="rfc.section.A.1.3.p.4">This is the second link in the trust chain.  </p>
+<p id="rfc.section.A.1.3.p.5">Notable here is that this path leads to two trust anchors using the same next step ("https://swamid.se").  </p>
 <h1 id="rfc.appendix.A.1.4">
 <a href="#rfc.appendix.A.1.4">A.1.4.</a> Configuration Information for 'https://swamid.se'</h1>
 <p id="rfc.section.A.1.4.p.1">The LIGO Wiki RP fetches the self-signed entity statement from "https://swamid.se" using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
+<p id="rfc.section.A.1.4.p.2">The request will look like this:</p>
+<pre>
+GET /.well-known/openid-federation HTTP/1.1
+Host: swamid.se
+            </pre>
+<p id="rfc.section.A.1.4.p.3">And the GET will return:</p>
 <pre>
 {
   "authority_hints": [
@@ -2473,10 +2550,17 @@ HTTP/1.1 302 Found
   "sub": "https://swamid.se"
 }
 </pre>
-<p id="rfc.section.A.1.4.p.2">The only piece of information that is used from this entity statement is the <samp>federation_api_endpoint</samp>, which is used in the next step.  </p>
+<p id="rfc.section.A.1.4.p.4">The only piece of information that is used from this entity statement is the <samp>federation_api_endpoint</samp>, which is used in the next step.  </p>
 <h1 id="rfc.appendix.A.1.5">
 <a href="#rfc.appendix.A.1.5">A.1.5.</a> Entity Statement Published by 'https://swamid.se' about 'https://umu.se'</h1>
 <p id="rfc.section.A.1.5.p.1">The LIGO Wiki RP uses the federation API and the "fetch" command as defined in <a href="#fetch_statement" class="xref">Section 6.1.1</a> to fetch information about "https://umu.se" from the API endpoint published in https://swamid.se's configuration.  </p>
+<p id="rfc.section.A.1.5.p.2">The request will look like this:</p>
+<pre>
+GET /fedapi?sub=https%3A%2F%2Fumu.se&amp;
+iss=https%3A%2F%2Fswamid.se HTTP/1.1
+Host: swamid.se
+            </pre>
+<p id="rfc.section.A.1.5.p.3">and the result is this:</p>
 <pre>
 {
   "authority_hints": [
@@ -2523,11 +2607,17 @@ HTTP/1.1 302 Found
   "sub": "https://umu.se"
 }
 </pre>
-<p id="rfc.section.A.1.5.p.2">This is the third link in the trust chain.  </p>
-<p id="rfc.section.A.1.5.p.3">If we assume that the issuer of this entity statement is not in the list of trust anchors the LIGO Wiki RP has access to we have to go one step further.  </p>
+<p id="rfc.section.A.1.5.p.4">This is the third link in the trust chain.  </p>
+<p id="rfc.section.A.1.5.p.5">If we assume that the issuer of this entity statement is not in the list of trust anchors the LIGO Wiki RP has access to we have to go one step further.  </p>
 <h1 id="rfc.appendix.A.1.6">
 <a href="#rfc.appendix.A.1.6">A.1.6.</a> Configuration Information for 'https://edugain.geant.org'</h1>
 <p id="rfc.section.A.1.6.p.1">RP fetches the self-signed entity statement from "https://edugain.geant.org" using the process defined in <a href="#federation_configuration" class="xref">Section 5</a>.  </p>
+<p id="rfc.section.A.1.6.p.2">The request will look like this:</p>
+<pre>
+GET /.well-known/openid-federation HTTP/1.1
+Host: edugain.geant.org
+            </pre>
+<p id="rfc.section.A.1.6.p.3">And the GET will return:</p>
 <pre>
 {
   "exp": 1568397247,
@@ -2552,10 +2642,17 @@ HTTP/1.1 302 Found
 }
 
 </pre>
-<p id="rfc.section.A.1.6.p.2">Again, the only thing we need is the <samp>federation_api_endpoint</samp>.  As described in <a href="#key_rollover_anchor" class="xref">Section 8.2</a>, note should also be taken to <samp>jwks</samp> as the trust anchor may be performing a key rollover.  </p>
+<p id="rfc.section.A.1.6.p.4">Again, the only thing we need is the <samp>federation_api_endpoint</samp>.  As described in <a href="#key_rollover_anchor" class="xref">Section 8.2</a>, note should also be taken to <samp>jwks</samp> as the trust anchor may be performing a key rollover.  </p>
 <h1 id="rfc.appendix.A.1.7">
 <a href="#rfc.appendix.A.1.7">A.1.7.</a> Entity Statement Published by 'https://edugain.geant.org' about 'https://swamid.se'</h1>
 <p id="rfc.section.A.1.7.p.1">The LIGO Wiki RP uses the federation API and the "fetch" command as defined in <a href="#fetch_statement" class="xref">Section 6.1.1</a> to fetch information about "https://swamid.se" from the API endpoint published in https://edugain.geant.org's configuration.  </p>
+<p id="rfc.section.A.1.7.p.2">The request will look like this:</p>
+<pre>
+GET /edugain/api?sub=https%3A%2F%2Fswamid.se&amp;
+iss=https%3A%2F%2Fedugain.geant.org HTTP/1.1
+Host: geant.org
+            </pre>
+<p id="rfc.section.A.1.7.p.3">and the result is this:</p>
 <pre>
 {
   "exp": 1568397247,
@@ -2586,8 +2683,8 @@ HTTP/1.1 302 Found
   "sub": "https://swamid.se"
 }
 </pre>
-<p id="rfc.section.A.1.7.p.2">If we assume that the issuer of this statement appears in the list of trust anchors the LIGO Wiki RP has access to this would be the fourth and final entity statement in the trust chain.  </p>
-<p id="rfc.section.A.1.7.p.3">We now have the whole chain from the self-signed entity statement of the leaf up until the last one which is issued by a trust anchor. All in all, we have: </p>
+<p id="rfc.section.A.1.7.p.4">If we assume that the issuer of this statement appears in the list of trust anchors the LIGO Wiki RP has access to this would be the fourth and final entity statement in the trust chain.  </p>
+<p id="rfc.section.A.1.7.p.5">We now have the whole chain from the self-signed entity statement of the leaf up until the last one which is issued by a trust anchor. All in all, we have: </p>
 
 <ol>
 <li>Self-signed entity statement by the leaf (https://op.umu.se) </li>
@@ -2597,7 +2694,8 @@ HTTP/1.1 302 Found
 </ol>
 
 <p> </p>
-<p id="rfc.section.A.1.7.p.4">Using the public keys of the trust anchor that the LIGO Wiki RP has been provided with in some secure out-of-band way, it can now verify the trust chain as described in <a href="#trust_chain_validation" class="xref">Section 7.2</a>.  </p>
+<p id="rfc.section.A.1.7.p.6">We also have the self-signed entity statements from https://umu.se, https://swamid.se and https://edugain.geant.org about them self but those are not used in the trust chain verification.  </p>
+<p id="rfc.section.A.1.7.p.7">Using the public keys of the trust anchor that the LIGO Wiki RP has been provided with in some secure out-of-band way, it can now verify the trust chain as described in <a href="#trust_chain_validation" class="xref">Section 7.2</a>.  </p>
 <h1 id="rfc.appendix.A.1.8">
 <a href="#rfc.appendix.A.1.8">A.1.8.</a> Verified Metadata for op.umu.se</h1>
 <p id="rfc.section.A.1.8.p.1">Having verified the chain, the LIGO Wiki RP can proceed with the next step.  </p>

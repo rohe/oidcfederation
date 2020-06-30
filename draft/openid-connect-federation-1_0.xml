@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="21" month="May" year="2020"/>
+    <date day="30" month="June" year="2020"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -247,7 +247,7 @@
             </t>
             <t hangText="jwks">
               <vspace/>
-              REQUIRED. A
+              OPTIONAL. A
               <xref target="RFC7517">JSON Web Key Set (JWKS)</xref>
               representing the public part of the subject
               entity's signing keys. The corresponding private key is
@@ -255,6 +255,9 @@
               and intermediate entities to sign statements about other entities.
               The keys that can be found here are primarily intended to sign
               entity statements and should not be used in other protocols.
+              This claim is only optional for the entity statement returned
+              from an OP when the client is doing explicit registration.
+              In all other cases it is REQUIRED.
             </t>
             <t hangText="aud">
               <vspace/>
@@ -563,13 +566,12 @@
         <t>
           To that list is added:
           <list style="hanging">
-            <t hangText="federation_type">
+            <t hangText="client_registration_type">
               <vspace/>
-              REQUIRED. Array of strings specifying the federation types
-              supported. Values defined by this specification are
-              <spanx style="verb">automatic</spanx>
-              and
-              <spanx style="verb">explicit</spanx>.
+              REQUIRED. Array of strings specifying the client registration
+              types the RP wants to use. Values defined by this specification
+              are <spanx style="verb">automatic</spanx>
+              and <spanx style="verb">explicit</spanx>.
             </t>
             <t hangText="organization_name">
               <vspace/>
@@ -604,7 +606,7 @@
         </t>
         <t>
           <list style="hanging">
-            <t hangText="federation_types_supported">
+            <t hangText="client_registration_types_supported">
               <vspace/>
               REQUIRED. Array specifying the federation types supported.
               Federation type values defined by this specification are
@@ -623,30 +625,85 @@
               OPTIONAL.
               URL of the OP's Federation specific Dynamic Client Registration
               Endpoint. If the OP supports explicit client
-              registration as described in<xref target="explicit"/>,
+              registration as described in <xref target="explicit"/>,
               then this claim is REQUIRED.
             </t>
-            <t hangText="automatic_registration_client_authn_methods_supported">
+            <t hangText="client_registration_auth_methods_supported">
               <vspace/>
               OPTIONAL.
-              JSON array containing a list of Client Authentication methods
+              JSON object with keys representing processes/endpoints and
+              lists of Client Authentication methods as values.
               supported by the authorization endpoint.
-              If the OP supports automatic client
-              registration as described in <xref target="automatic"/>,
-              then this claim is REQUIRED. The options are
-              <spanx style="verb">private_key_jwt</spanx> (section 9 of
-              <xref target="OpenID.Core"/>),
-              <spanx style="verb">tls_client_auth</spanx> (section 2.1 of <xref
-                  target="RFC8705"/>) and
-              <spanx style="verb">self_signed_tls_client_auth</spanx> (section
-              2.2 of <xref target="RFC8705"/>. Note that if private_key_jwt is
-              used the Audience SHOULD be the URL of the Authorization Server's
-              Authorization Endpoint.
+              In this specification we use the process/endpoints: authorization
+              request (ar) as described in Section 3 of
+              <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> and
+              pushed authorization request
+              (par) as described in <xref target="PAR"/> .
+              The Client Authentication methods are:
+              <list style="hanging">
+                <t hangText="request_object">
+                  <vspace/>
+                  This uses a request object as described in
+                  <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
+                  More about this in <xref target="automatic"/>
+                </t>
+                <t hangText="private_key_jwt">
+                  <vspace/>
+                  Described in section 9 of
+                  <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
+                  Note that if private_key_jwt is
+                  used the audience of the signed JWT MUST be either the URL of
+                  the Authorization Server's Authorization Endpoint or the
+                  Authorization Server's entity_id.
+                </t>
+                <t hangText="tls_client_auth">
+                  <vspace/>
+                  section 2.1 of <xref target="RFC8705"/>
+                </t>
+                <t hangText="self_signed_tls_client_auth">
+                  <vspace/>
+                  section 2.2 of <xref target="RFC8705"/>
+                </t>
+              </list>
+              The only client authentication method that can be used if
+              doing authentication as described in
+              <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> is
+              <spanx style="verb">request_object</spanx>.
+              If pushed authorization is used then one of
+              <spanx style="verb">private_key_jwt</spanx>,
+              <spanx style="verb">tls_client_auth</spanx> and
+              <spanx style="verb">self_signed_tls_client_auth</spanx> can be
+              used.
             </t>
           </list>
         </t>
+        <t>
+          The following is a non-normative example of OP metadata:'
+        </t>
+              <figure>
+<artwork><![CDATA[
+{
+  "issuer": "https://server.example.com",
+  "authorization_endpoint":
+    "https://server.example.com/authorization",
+  "token_endpoint": "https://server.example.com/token",
+  "jwks_uri": "https://server.example.com/jwks.json",
+  "response_types_supported": ["code", "id_token", "id_token token"],
+  "subject_types_supported": ["public"],
+  "id_token_signing_alg_values_supported": ["RS256", "ES256"],
+  "token_endpoint_auth_methods_supported": ["private_key_jwt"],
+  "pushed_authorization_request_endpoint":
+    "https://server.example.com/par",
+  "client_registration_types_supported": ["automatic", "explicit"],
+  "federation_registration_endpoint":
+    "https://server.example.com/fedreg",
+  "client_registration_auth_methods_supported": {
+    "ar": ["request_object"],
+    "par": ["private_key_jwt", "self_signed_tls_client_auth"]
+  }
+}
+]]></artwork></figure>
       </section>
-
       <section title="OAuth Authorization Server">
         <t>
           The metadata type identifier is
@@ -1568,8 +1625,8 @@
             anchor="federation_configuration">
       <t>
         The configuration endpoint is found using the
-	<xref target="RFC8615">Well-Known URIs</xref>
-	specification, with the suffix
+	      <xref target="RFC8615">Well-Known URIs</xref>
+	      specification, with the suffix
         <spanx style="verb">openid-federation</spanx>. The scheme, host and port
         is taken directly from the entity identifier combined with the following
         path: <spanx style="verb">/.well-known/openid-federation</spanx>.
@@ -2319,32 +2376,34 @@ Content-Type: application/json
       <t>
         Automatic registration allows an RP to send authorization requests
         to an OP without first registering with the OP. It basically works by
-        the OP using the client_id in the request to find the RPs metadata
+        the OP using the client_id in the request to find the RP's metadata
         using the process outlined in <xref target="resolving_trust"/> and then
-        verifies the client authentication by using the RP's keys
-        as published in the metadata.
+        verifies that the RP is in control of a private key that is a companion
+        to one of the public keys the RP published through its metadata.
       </t>
       <t>
         For automatic registration to work a number of things must be valid:
         <list style="symbols">
           <t>
             The <spanx style="verb">client_id</spanx> of the RP
-            MUST be set to be identically to the RP entity identifier.
+            MUST be set to be identical to the RP entity identifier.
           </t>
           <t>
             Without a registration process, the RP does not have a
             client_secret. Instead the automatic registration model requires the
-            RP to make use of asymmetric cryptography.
+            RP to make use of asymmetric cryptography. Bascially the RP must
+            prove that it has control of the RP's private keys.
           </t>
           <t>
-            The client_id MUST point to a Federation API that allows the OP to
-            fetch the RP's self signed entity statement.
+            The client_id MUST be a URL from which the OP can
+            fetch the RP's self-signed entity statement using the process
+            described in <xref target="federation_configuration"/>.
           </t>
           <t>
-            The OP SHOULD publish which client authentication method it
-            supports using the claim
-            <spanx style="verb">auto_registration_client_authentication_methods_supported</spanx>.
-            .
+            The OP MUST publish that is supports a client authentication method
+            using the metadata claim
+            <spanx style="verb">client_registration_auth_methods_supported
+            </spanx>.
           </t>
         </list>
       </t>
@@ -2456,6 +2515,35 @@ https://server.example.com/authorize?
     tFqaCg
 ]]></artwork>
           </figure>
+                  <section title="Processing the Authentication Request">
+          <t>
+            When the OP receives an incoming authentication request,
+            the OP supports OpenID Connect Federation, the incoming client_id
+            is a valid URL and the OP does not have the client_id
+            registered as a known
+            client then the OP should try to resolve and fetch trust
+            chains starting with the RP's entity
+            statement as described in <xref target="fetching-es"/>.
+          </t>
+          <t>
+            The OP MUST then validate the possible trust chains, as described in
+            <xref target="trust_chain_validation"/>,
+            and resolve the RP metadata with type
+            <spanx style="verb">openid_relying_party</spanx>.
+          </t>
+          <t>
+            The OP furthermore should consider the resolved metadata of the RP,
+            and verify that it complies with the client metadata specification
+            in <xref target="OpenID.Registration">OpenID Connect Dynamic Client
+              Registration 1.0</xref>.
+          </t>
+          <t>
+            Once the OP has the RP's metadata, it can verify that the client
+            was actually the one sending the authorization request by
+            verifying the signature of the request object using the key
+            material the client published through its metadata.
+          </t>
+        </section>
         </section>
         <section title="Using Pushed Authorization">
           <t>
@@ -2466,17 +2554,19 @@ https://server.example.com/authorize?
           </t>
           <t>
             When it comes to client authentication the applicable
-            authentication methods are two:
+            authentication methods are three:
             <list style="symbols">
               <t>Using a JWT for Client Authentication as described
                 for <spanx style="verb">private_key_jwt</spanx> in section 9 of
                 <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>
               </t>
               <t>
-                mTLS as described in <xref target="RFC8705"/>. If mTLS is
-                used and the certificate used is a self signed certificate
-                then the certificate MUST be present as the value of a x5c
-                claim for one key in the JWKS describing the RP's keys.
+                mTLS as described in <xref target="RFC8705"/>.
+                Here both self-signed certificates and certificates signed
+                by a proper CA can be used.
+                If mTLS is used and the certificate used is a self signed
+                certificate then the certificate MUST be present as the value
+                of a x5c claim for one key in the JWKS describing the RP's keys.
               </t>
             </list>
           </t>
@@ -2511,16 +2601,17 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
   BrQl6VePR6j-3q6JCWvNw7l4_F2UpHeanHb31fLKQbK-1yoXDNz
   DwA7B0ZqmuSmMFQ]]></artwork>
             </figure>
-          </section>
-      </section>
         <section title="Processing the Authentication Request">
           <t>
+            There are three different path the OP must follow when processing
+            the authentication request depending on which client authentication
+            method that was used. It all starts the same though.
             When the OP receives an incoming authentication request,
             the OP supports OpenID Connect Federation, the incoming client_id
-            is a valid URL and the OP does not have the client_id
-            registered as a known
-            client then the OP should try to resolve and fetch trust
-            chains starting with the RP's entity
+            is a valid URL, the OP does not have the client_id
+            registered as a known client and the OP supports the client
+            authentication method used then the OP should try to resolve and
+            fetch trust chains starting with the RP's entity
             statement as described in <xref target="fetching-es"/>.
           </t>
           <t>
@@ -2537,9 +2628,30 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
           </t>
           <t>
             Once the OP has the RP's metadata, it can verify the client
-            authentication.
+            authentication. This is where it diverges depending on which client
+            auhentication method was used.
+            <list style="hanging">
+              <t hangText="private_key_jwt">
+                If this method is used then the OP will try to verify the
+                signature of the signed JWT using the key material published
+                by the RP in its metadata. If the verification is successful
+                then the registration is regarded as correct.
+              </t>
+              <t hangText="tls_client_auth">
+                If mTLS is used and the certificate used was not
+                self-signed then the Subject Alternative Name of the certificate
+                MUST match the entity identifier of the RP.
+              </t>
+              <t hangText="self_signed_tls_client_auth">
+                If mTLS is used and the certificate used is a self signed
+                certificate then the certificate MUST be present as the value
+                of a x5c claim for one key in the JWKS describing the RP's keys.
+              </t>
+            </list>
           </t>
         </section>
+          </section>
+      </section>
         <section title="Authentication Error Response">
           <t>
             If the OP fails to establish trust with the RP, it should use an
@@ -2655,13 +2767,12 @@ HTTP/1.1 302 Found
                   </t>
                   <t>
                     At this point, if there already exists a client
-                    registration under the same entity identifier then that registration
-                    MUST be regarded as invalid.
+                    registration under the same entity identifier then that
+                    registration MUST be regarded as invalid.
                     <spanx style="verb">Note</spanx>
-                    that key material from
-                    the
-                    previous registration MUST be kept to make key rollover
-                    possible.
+                    that key material from the previous registration SHOULD be
+                    kept to allow verifying a signature on, or decrypting
+                    archived data.
                   </t>
                   <t>
                     The OP will now construct a metadata policy that, if
@@ -3119,10 +3230,17 @@ HTTP/1.1 302 Found
         </section>
         <section title="Configuration Information for 'https://umu.se'">
           <t>The LIGO RP fetches the self-signed entity statement from
-            "https://umu.se"
-            using the process defined in <xref
-                    target="federation_configuration"/>.
+            "https://umu.se" using the process defined in
+            <xref target="federation_configuration"/>.
           </t>
+          <t>The request will look like this:</t>
+          <figure>
+            <artwork><![CDATA[
+GET /.well-known/openid-federation HTTP/1.1
+Host: umu.se
+            ]]></artwork>
+          </figure>
+          <t>And the GET will return:</t>
           <figure>
             <artwork><![CDATA[
 {
@@ -3170,6 +3288,15 @@ HTTP/1.1 302 Found
             "https://op.umu.se" from the API endpoint published in
             https://umu.se's configuration.
           </t>
+          <t>The request will look like this:</t>
+          <figure>
+            <artwork><![CDATA[
+GET /oidc/fedapi?sub=https%3A%2F%2Fop.umu.se&
+iss=https%3A%2F%2Fumu.se HTTP/1.1
+Host: umu.se
+            ]]></artwork>
+          </figure>
+          <t>and the result is this:</t>
           <figure>
             <artwork><![CDATA[
 {
@@ -3227,16 +3354,22 @@ HTTP/1.1 302 Found
           </t>
           <t>
             Notable here is that this path leads to two trust anchors using the
-            same
-            next step ("https://swamid.se").
+            same next step ("https://swamid.se").
           </t>
         </section>
         <section title="Configuration Information for 'https://swamid.se'">
           <t>The LIGO Wiki RP fetches the self-signed entity statement from
-            "https://swamid.se"
-            using the process defined in <xref
-                    target="federation_configuration"/>.
+            "https://swamid.se" using the process defined in
+            <xref target="federation_configuration"/>.
           </t>
+          <t>The request will look like this:</t>
+          <figure>
+            <artwork><![CDATA[
+GET /.well-known/openid-federation HTTP/1.1
+Host: swamid.se
+            ]]></artwork>
+          </figure>
+          <t>And the GET will return:</t>
           <figure>
             <artwork><![CDATA[
 {
@@ -3280,12 +3413,21 @@ HTTP/1.1 302 Found
                 title="Entity Statement Published by 'https://swamid.se' about 'https://umu.se'">
           <t>
             The LIGO Wiki RP uses the federation API and the "fetch" command as
-            defined in
-            <xref target="fetch_statement"/>
+            defined in <xref target="fetch_statement"/>
             to fetch information about
             "https://umu.se" from the API endpoint published in
             https://swamid.se's configuration.
           </t>
+          <t>The request will look like this:</t>
+          <figure>
+            <artwork><![CDATA[
+GET /fedapi?sub=https%3A%2F%2Fumu.se&
+iss=https%3A%2F%2Fswamid.se HTTP/1.1
+Host: swamid.se
+            ]]></artwork>
+          </figure>
+          <t>and the result is this:</t>
+
           <figure>
             <artwork><![CDATA[
 {
@@ -3346,10 +3488,17 @@ HTTP/1.1 302 Found
         <section
                 title="Configuration Information for 'https://edugain.geant.org'">
           <t>RP fetches the self-signed entity statement from
-            "https://edugain.geant.org"
-            using the process defined in <xref
-                    target="federation_configuration"/>.
+            "https://edugain.geant.org" using the process defined in
+            <xref target="federation_configuration"/>.
           </t>
+                    <t>The request will look like this:</t>
+          <figure>
+            <artwork><![CDATA[
+GET /.well-known/openid-federation HTTP/1.1
+Host: edugain.geant.org
+            ]]></artwork>
+          </figure>
+          <t>And the GET will return:</t>
           <figure>
             <artwork><![CDATA[
 {
@@ -3396,6 +3545,15 @@ HTTP/1.1 302 Found
             "https://swamid.se" from the API endpoint published in
             https://edugain.geant.org's configuration.
           </t>
+          <t>The request will look like this:</t>
+          <figure>
+            <artwork><![CDATA[
+GET /edugain/api?sub=https%3A%2F%2Fswamid.se&
+iss=https%3A%2F%2Fedugain.geant.org HTTP/1.1
+Host: geant.org
+            ]]></artwork>
+          </figure>
+          <t>and the result is this:</t>
           <figure>
             <artwork><![CDATA[
 {
@@ -3448,6 +3606,10 @@ HTTP/1.1 302 Found
                 https://swamid.se
               </t>
             </list>
+          </t>
+          <t>We also have the self-signed entity statements from https://umu.se,
+            https://swamid.se and https://edugain.geant.org about them self but
+            those are not used in the trust chain verification.
           </t>
           <t>
             Using the public keys of the trust anchor that the LIGO Wiki RP has
