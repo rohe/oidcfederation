@@ -155,13 +155,13 @@ Hedberg, et al.          Expires January 1, 2021                [Page 2]
      A.2.  The Two Ways of Doing Client Registration . . . . . . . .  65
        A.2.1.  RP Sends Authentication Request (Automatic
                Registration) . . . . . . . . . . . . . . . . . . . .  65
-         A.2.1.1.  OP Fetches Entity Statements  . . . . . . . . . .  65
+         A.2.1.1.  OP Fetches Entity Statements  . . . . . . . . . .  66
          A.2.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  66
        A.2.2.  Client Starts with Registration (Explicit Client
-               Registration) . . . . . . . . . . . . . . . . . . . .  68
-   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  69
-   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  70
-   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  70
+               Registration) . . . . . . . . . . . . . . . . . . . .  69
+   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  70
+   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  71
+   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  71
 
 
 
@@ -170,8 +170,8 @@ Hedberg, et al.          Expires January 1, 2021                [Page 3]
                         OpenID Connect Federation              June 2020
 
 
-   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  71
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  73
+   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  72
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  74
 
 1.  Introduction
 
@@ -2960,7 +2960,7 @@ A.1.1.  Configuration Information for op.umu.se
          "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
          "authorization_endpoint":
            "https://op.umu.se/openid/authorization",
-         "federation_types_supported": [
+         "client_registration_type": [
            "automatic",
 
 
@@ -3539,7 +3539,7 @@ Hedberg, et al.          Expires January 1, 2021               [Page 63]
      ],
      "federation_registration_endpoint":
        "https://op.umu.se/openid/fedreg",
-     "federation_types_supported": [
+     "client_registration_type": [
        "automatic",
        "explicit"
      ],
@@ -3610,29 +3610,29 @@ A.2.1.  RP Sends Authentication Request (Automatic Registration)
    The LIGO Wiki RP does not do any registration but goes directly to
    sending an authentication request.
 
-   Here is an example of an authentication request:
+   Here is an example of such an authentication request:
 
    GET /authorize?
-     response_type=code
-     &scope=openid%20profile%20email
-     &client_id=https%3A%2F%2Fwiki.ligo.org%2F
-     &state=2ff7e589-3848-46da-a3d2-949e1235e671
-     &redirect_uri=https%3A%2F%2Fwiki.ligo.org%2Fopenid%2Fcallback
-     &client_assertion=eyJhbGciOiJSUzI1NiIs ... qx7xHcvPOdIhnpg
-     &client_assertion_type=
-       urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
+     request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umtoa1NXc
+       GxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpYbHBUemRR
+       TkEifQ.eyJyZXNwb25zZV90eXBlIjogImNvZGUiLCAic2NvcGUiOiAi
+       b3BlbmlkIHByb2ZpbGUgZW1haWwiLCAiY2xpZW50X2lkIjogImh0dHB
+       zOi8vd2lraS5saWdvLm9yZyIsICJzdGF0ZSI6ICIyZmY3ZTU4OS0zOD
+       Q4LTQ2ZGEtYTNkMi05NDllMTIzNWU2NzEiLCAibm9uY2UiOiAiZjU4M
+       WExODYtYWNhNC00NmIzLTk0ZmMtODA0ODQwODNlYjJjIiwgInJlZGly
+       ZWN0X3VyaSI6ICJodHRwczovL3dpa2kubGlnby5vcmcvb3BlbmlkL2N
+       hbGxiYWNrIiwgImlzcyI6ICIiLCAiaWF0IjogMTU5MzU4ODA4NSwgIm
+       F1ZCI6ICJodHRwczovL29wLnVtdS5zZSJ9.cRwSFNcDx6VsacAQDcIx
+       5OAt_Pj30I_uUKRh04N4QJd6MZ0f50sETRv8uspSt9fMa-5yV3uzthX
+       _v8OtQrV33gW1vzgOSRCdHgeCN40StbzjFk102seDwtU_Uzrcsy7KrX
+       YSBp8U0dBDjuxC6h18L8ExjeR-NFjcrhy0wwua7Tnb4QqtN0QCia6DD
+       8QBNVTL1Ga0YPmMdT25wS26wug23IgpbZB20VUosmMGgGtS5yCI5AwK
+       Bhozv-oBH5KxxHzH1Oss-RkIGiQnjRnaWwEOTITmfZWra1eHP254wFF
+       2se-EnWtz1q2XwsD9NSsOEJwWJPirPPJaKso8ng6qrrOSgw
+     &response_type=code
+     &client_id=https%3A%2F%2Fwiki.ligo.org
      HTTP/1.1
    Host: op.umu.se
-
-   The OP receiving this authentication request will, unless the RP is
-   cached or statically configured, start to dynamically fetch and
-   establish trust with the RP.
-
-A.2.1.1.  OP Fetches Entity Statements
-
-   The OP needs to establish a trust chain for the RP (wiki.ligo.org).
-   The OP in this example are configured with public key of 2
-   federations:
 
 
 
@@ -3641,6 +3641,16 @@ Hedberg, et al.          Expires January 1, 2021               [Page 65]
 
                         OpenID Connect Federation              June 2020
 
+
+   The OP receiving this authentication request will, unless the RP is
+   already registered, start to dynamically fetch and establish trust
+   with the RP.
+
+A.2.1.1.  OP Fetches Entity Statements
+
+   The OP needs to establish a trust chain for the RP (wiki.ligo.org).
+   The OP in this example are configured with public key of 2
+   federations:
 
    o  https://edugain.geant.org
 
@@ -3673,6 +3683,21 @@ A.2.1.2.  OP Evaluates the RP Metadata
 
    edugain.geant.org
 
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires January 1, 2021               [Page 66]
+
+                        OpenID Connect Federation              June 2020
+
+
    "metadata_policy": {
      "openid_provider": {
        "contacts": {
@@ -3687,16 +3712,6 @@ A.2.1.2.  OP Evaluates the RP Metadata
    }
 
    incommon.org
-
-
-
-
-
-
-Hedberg, et al.          Expires January 1, 2021               [Page 66]
-
-                        OpenID Connect Federation              June 2020
-
 
    "metadata_policy": {
      "openid_relying_party": {
@@ -3720,6 +3735,24 @@ Hedberg, et al.          Expires January 1, 2021               [Page 66]
 
    If you combine these and apply them to the metadata for wiki.ligo.org
    :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires January 1, 2021               [Page 67]
+
+                        OpenID Connect Federation              June 2020
+
 
    "metadata": {
      "application_type": "web",
@@ -3749,7 +3782,30 @@ Hedberg, et al.          Expires January 1, 2021               [Page 66]
 
 
 
-Hedberg, et al.          Expires January 1, 2021               [Page 67]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires January 1, 2021               [Page 68]
 
                         OpenID Connect Federation              June 2020
 
@@ -3781,8 +3837,8 @@ Hedberg, et al.          Expires January 1, 2021               [Page 67]
    }
 
    Having that, the "registration" is done, and the OP must now use the
-   keys found at the URL specified in "jwks_uri" to verify the client
-   assertion in the authentication request.
+   keys found at the URL specified in "jwks_uri" to verify the signature
+   on the request object in the authentication request.
 
 A.2.2.  Client Starts with Registration (Explicit Client Registration)
 
@@ -3805,7 +3861,7 @@ A.2.2.  Client Starts with Registration (Explicit Client Registration)
 
 
 
-Hedberg, et al.          Expires January 1, 2021               [Page 68]
+Hedberg, et al.          Expires January 1, 2021               [Page 69]
 
                         OpenID Connect Federation              June 2020
 
@@ -3861,7 +3917,7 @@ Appendix B.  Notices
 
 
 
-Hedberg, et al.          Expires January 1, 2021               [Page 69]
+Hedberg, et al.          Expires January 1, 2021               [Page 70]
 
                         OpenID Connect Federation              June 2020
 
@@ -3917,7 +3973,7 @@ Appendix D.  Open Issues
 
 
 
-Hedberg, et al.          Expires January 1, 2021               [Page 70]
+Hedberg, et al.          Expires January 1, 2021               [Page 71]
 
                         OpenID Connect Federation              June 2020
 
@@ -3944,6 +4000,25 @@ Appendix E.  Document History
 
    [[ To be removed from the final specification ]]
 
+   -12
+
+   o  Made JWKS optional in an entity statement returned by OP as
+      response of an explict client registration
+
+   o  Renamed entity type to client registration type.
+
+   o  Added more text describing
+      client_registration_auth_methods_supported.
+
+   o  Made "Processing the Authentication Request" into two separate
+      sections one for authentication request and one for pushed
+      authorization request.
+
+   o  Added example of URLs to some examples in the appendix.
+
+   o  Changed the automatic client registation example in the appendix
+      to use request object instead of a client_assertion.
+
    -11
 
    o  Added section on trust marks.
@@ -3951,6 +4026,13 @@ Appendix E.  Document History
    o  Clarified private_key_jwt usage in the authentication request.
 
    o  Fixed Bitbucket issues #1150 and #1155 by Vladimir Dzhuvinov.
+
+
+
+Hedberg, et al.          Expires January 1, 2021               [Page 72]
+
+                        OpenID Connect Federation              June 2020
+
 
    o  Fixed some examples to make them syntactically correct.
 
@@ -3969,14 +4051,6 @@ Appendix E.  Document History
       by the federation API.
 
    o  Defined new authentication error codes.
-
-
-
-
-Hedberg, et al.          Expires January 1, 2021               [Page 71]
-
-                        OpenID Connect Federation              June 2020
-
 
    o  Also incorporated review feedback from Michael B.  Jones.
 
@@ -4008,6 +4082,14 @@ Hedberg, et al.          Expires January 1, 2021               [Page 71]
 
    o  Renamed "oauth_service" to "oauth_authorization_server".
 
+
+
+
+Hedberg, et al.          Expires January 1, 2021               [Page 73]
+
+                        OpenID Connect Federation              June 2020
+
+
    o  Renamed "implicit" registration to "automatic" registration to
       avoid naming confusion with the implicit grant type.
 
@@ -4025,14 +4107,6 @@ Hedberg, et al.          Expires January 1, 2021               [Page 71]
    o  Split metadata into metadata and metadata_policy
 
    o  Updated example
-
-
-
-
-Hedberg, et al.          Expires January 1, 2021               [Page 72]
-
-                        OpenID Connect Federation              June 2020
-
 
    -06
 
@@ -4066,6 +4140,12 @@ Authors' Addresses
    Email: roland@catalogix.se
 
 
+
+Hedberg, et al.          Expires January 1, 2021               [Page 74]
+
+                        OpenID Connect Federation              June 2020
+
+
    Michael B. Jones
    Microsoft
 
@@ -4078,16 +4158,6 @@ Authors' Addresses
 
    Email: andreas.solberg@uninett.no
    URI:   https://www.linkedin.com/in/andreassolberg/
-
-
-
-
-
-
-
-Hedberg, et al.          Expires January 1, 2021               [Page 73]
-
-                        OpenID Connect Federation              June 2020
 
 
    Samuel Gulliksson
@@ -4127,18 +4197,4 @@ Hedberg, et al.          Expires January 1, 2021               [Page 73]
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hedberg, et al.          Expires January 1, 2021               [Page 74]
+Hedberg, et al.          Expires January 1, 2021               [Page 75]

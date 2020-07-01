@@ -3721,26 +3721,36 @@ Host: geant.org
             sending an authentication request.
           </t>
           <t>
-            Here is an example of an authentication request:
+            Here is an example of such an authentication request:
           </t>
           <figure>
             <artwork><![CDATA[
 GET /authorize?
-  response_type=code
-  &scope=openid%20profile%20email
-  &client_id=https%3A%2F%2Fwiki.ligo.org%2F
-  &state=2ff7e589-3848-46da-a3d2-949e1235e671
-  &redirect_uri=https%3A%2F%2Fwiki.ligo.org%2Fopenid%2Fcallback
-  &client_assertion=eyJhbGciOiJSUzI1NiIs ... qx7xHcvPOdIhnpg
-  &client_assertion_type=
-    urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
+  request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umtoa1NXc
+    GxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpYbHBUemRR
+    TkEifQ.eyJyZXNwb25zZV90eXBlIjogImNvZGUiLCAic2NvcGUiOiAi
+    b3BlbmlkIHByb2ZpbGUgZW1haWwiLCAiY2xpZW50X2lkIjogImh0dHB
+    zOi8vd2lraS5saWdvLm9yZyIsICJzdGF0ZSI6ICIyZmY3ZTU4OS0zOD
+    Q4LTQ2ZGEtYTNkMi05NDllMTIzNWU2NzEiLCAibm9uY2UiOiAiZjU4M
+    WExODYtYWNhNC00NmIzLTk0ZmMtODA0ODQwODNlYjJjIiwgInJlZGly
+    ZWN0X3VyaSI6ICJodHRwczovL3dpa2kubGlnby5vcmcvb3BlbmlkL2N
+    hbGxiYWNrIiwgImlzcyI6ICIiLCAiaWF0IjogMTU5MzU4ODA4NSwgIm
+    F1ZCI6ICJodHRwczovL29wLnVtdS5zZSJ9.cRwSFNcDx6VsacAQDcIx
+    5OAt_Pj30I_uUKRh04N4QJd6MZ0f50sETRv8uspSt9fMa-5yV3uzthX
+    _v8OtQrV33gW1vzgOSRCdHgeCN40StbzjFk102seDwtU_Uzrcsy7KrX
+    YSBp8U0dBDjuxC6h18L8ExjeR-NFjcrhy0wwua7Tnb4QqtN0QCia6DD
+    8QBNVTL1Ga0YPmMdT25wS26wug23IgpbZB20VUosmMGgGtS5yCI5AwK
+    Bhozv-oBH5KxxHzH1Oss-RkIGiQnjRnaWwEOTITmfZWra1eHP254wFF
+    2se-EnWtz1q2XwsD9NSsOEJwWJPirPPJaKso8ng6qrrOSgw
+  &response_type=code
+  &client_id=https%3A%2F%2Fwiki.ligo.org
   HTTP/1.1
 Host: op.umu.se
 ]]></artwork>
           </figure>
           <t>
             The OP receiving this authentication request will, unless the
-            RP is cached or statically configured, start to dynamically fetch
+            RP is already registered, start to dynamically fetch
             and
             establish trust with the RP.
           </t>
@@ -3904,8 +3914,8 @@ Host: op.umu.se
             Having that, the "registration" is done, and the OP must now use
             the keys found at the URL specified in
             <spanx style="verb">jwks_uri</spanx>
-            to verify the client
-            assertion in the authentication request.
+            to verify the signature on the request object in the authentication
+            request.
           </t>
         </section>
         </section>
@@ -4107,6 +4117,10 @@ Host: op.umu.se
 	  <t>
 	    Added example of URLs to some examples in the appendix.
 	  </t>
+    <t>
+      Changed the automatic client registation example in the appendix to use
+      request object instead of a client_assertion.
+    </t>
   </list></t><t>
 	-11
 	<list style="symbols">

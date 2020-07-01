@@ -2370,7 +2370,7 @@ HTTP/1.1 302 Found
       "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
       "authorization_endpoint":
         "https://op.umu.se/openid/authorization",
-      "federation_types_supported": [
+      "client_registration_type": [
         "automatic",
         "explicit"
       ],
@@ -2711,7 +2711,7 @@ Host: geant.org
   ],
   "federation_registration_endpoint":
     "https://op.umu.se/openid/fedreg",
-  "federation_types_supported": [
+  "client_registration_type": [
     "automatic",
     "explicit"
   ],
@@ -2769,21 +2769,31 @@ Host: geant.org
 <h1 id="rfc.appendix.A.2.1">
 <a href="#rfc.appendix.A.2.1">A.2.1.</a> RP Sends Authentication Request (Automatic Registration)</h1>
 <p id="rfc.section.A.2.1.p.1">The LIGO Wiki RP does not do any registration but goes directly to sending an authentication request.  </p>
-<p id="rfc.section.A.2.1.p.2">Here is an example of an authentication request: </p>
+<p id="rfc.section.A.2.1.p.2">Here is an example of such an authentication request: </p>
 <pre>
 GET /authorize?
-  response_type=code
-  &amp;scope=openid%20profile%20email
-  &amp;client_id=https%3A%2F%2Fwiki.ligo.org%2F
-  &amp;state=2ff7e589-3848-46da-a3d2-949e1235e671
-  &amp;redirect_uri=https%3A%2F%2Fwiki.ligo.org%2Fopenid%2Fcallback
-  &amp;client_assertion=eyJhbGciOiJSUzI1NiIs ... qx7xHcvPOdIhnpg
-  &amp;client_assertion_type=
-    urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
+  request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umtoa1NXc
+    GxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpYbHBUemRR
+    TkEifQ.eyJyZXNwb25zZV90eXBlIjogImNvZGUiLCAic2NvcGUiOiAi
+    b3BlbmlkIHByb2ZpbGUgZW1haWwiLCAiY2xpZW50X2lkIjogImh0dHB
+    zOi8vd2lraS5saWdvLm9yZyIsICJzdGF0ZSI6ICIyZmY3ZTU4OS0zOD
+    Q4LTQ2ZGEtYTNkMi05NDllMTIzNWU2NzEiLCAibm9uY2UiOiAiZjU4M
+    WExODYtYWNhNC00NmIzLTk0ZmMtODA0ODQwODNlYjJjIiwgInJlZGly
+    ZWN0X3VyaSI6ICJodHRwczovL3dpa2kubGlnby5vcmcvb3BlbmlkL2N
+    hbGxiYWNrIiwgImlzcyI6ICIiLCAiaWF0IjogMTU5MzU4ODA4NSwgIm
+    F1ZCI6ICJodHRwczovL29wLnVtdS5zZSJ9.cRwSFNcDx6VsacAQDcIx
+    5OAt_Pj30I_uUKRh04N4QJd6MZ0f50sETRv8uspSt9fMa-5yV3uzthX
+    _v8OtQrV33gW1vzgOSRCdHgeCN40StbzjFk102seDwtU_Uzrcsy7KrX
+    YSBp8U0dBDjuxC6h18L8ExjeR-NFjcrhy0wwua7Tnb4QqtN0QCia6DD
+    8QBNVTL1Ga0YPmMdT25wS26wug23IgpbZB20VUosmMGgGtS5yCI5AwK
+    Bhozv-oBH5KxxHzH1Oss-RkIGiQnjRnaWwEOTITmfZWra1eHP254wFF
+    2se-EnWtz1q2XwsD9NSsOEJwWJPirPPJaKso8ng6qrrOSgw
+  &amp;response_type=code
+  &amp;client_id=https%3A%2F%2Fwiki.ligo.org
   HTTP/1.1
 Host: op.umu.se
 </pre>
-<p id="rfc.section.A.2.1.p.3">The OP receiving this authentication request will, unless the RP is cached or statically configured, start to dynamically fetch and establish trust with the RP.  </p>
+<p id="rfc.section.A.2.1.p.3">The OP receiving this authentication request will, unless the RP is already registered, start to dynamically fetch and establish trust with the RP.  </p>
 <h1 id="rfc.appendix.A.2.1.1">
 <a href="#rfc.appendix.A.2.1.1">A.2.1.1.</a> OP Fetches Entity Statements</h1>
 <p id="rfc.section.A.2.1.1.p.1">The OP needs to establish a trust chain for the RP (wiki.ligo.org).  The OP in this example are configured with public key of 2 federations: </p>
@@ -2907,7 +2917,7 @@ Host: op.umu.se
   "subject_type": "public"
 }
 </pre>
-<p id="rfc.section.A.2.1.2.p.5">Having that, the "registration" is done, and the OP must now use the keys found at the URL specified in <samp>jwks_uri</samp> to verify the client assertion in the authentication request.  </p>
+<p id="rfc.section.A.2.1.2.p.5">Having that, the "registration" is done, and the OP must now use the keys found at the URL specified in <samp>jwks_uri</samp> to verify the signature on the request object in the authentication request.  </p>
 <h1 id="rfc.appendix.A.2.2">
 <a href="#rfc.appendix.A.2.2">A.2.2.</a> Client Starts with Registration (Explicit Client Registration)</h1>
 <p id="rfc.section.A.2.2.p.1">Here the LIGO Wiki RP sends a client registration request to the federation_registration_endpoint of the OP (op.umu.se).  What it sends is a self-signed entity statement.  </p>
@@ -2985,7 +2995,17 @@ Host: op.umu.se
 <a href="#rfc.appendix.E">Appendix E.</a> <a href="#History" id="History">Document History</a>
 </h1>
 <p id="rfc.section.E.p.1">[[ To be removed from the final specification ]]</p>
-<p id="rfc.section.E.p.2">-11 </p>
+<p id="rfc.section.E.p.2">-12 </p>
+
+<ul>
+<li>Made JWKS optional in an entity statement returned by OP as response of an explict client registration </li>
+<li>Renamed entity type to client registration type.  </li>
+<li>Added more text describing client_registration_auth_methods_supported.  </li>
+<li>Made "Processing the Authentication Request" into two separate sections one for authentication request and one for pushed authorization request.  </li>
+<li>Added example of URLs to some examples in the appendix.  </li>
+<li>Changed the automatic client registation example in the appendix to use request object instead of a client_assertion.  </li>
+</ul>
+<p id="rfc.section.E.p.3">-11 </p>
 
 <ul>
 <li>Added section on trust marks.  </li>
@@ -2995,12 +3015,12 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.3">-10 </p>
+<p id="rfc.section.E.p.4">-10 </p>
 
 <ul><li>Incorporated additional review feedback from Marcos Sanz.  The primary change was moving constraints to their own section of the entity statement.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.4">-09 </p>
+<p id="rfc.section.E.p.5">-09 </p>
 
 <ul>
 <li>Incorporated review feedback from Marcos Sanz.  Major changes were as follows.  </li>
@@ -3010,7 +3030,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.5">-08 </p>
+<p id="rfc.section.E.p.6">-08 </p>
 
 <ul>
 <li>Incorporated review feedback from Michael B. Jones.  Major changes were as follows.  </li>
@@ -3030,7 +3050,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.6">-07 </p>
+<p id="rfc.section.E.p.7">-07 </p>
 
 <ul>
 <li>Split metadata into metadata and metadata_policy </li>
@@ -3038,7 +3058,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.7">-06 </p>
+<p id="rfc.section.E.p.8">-06 </p>
 
 <ul>
 <li>Some rewrites </li>
@@ -3046,12 +3066,12 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.8">-05 </p>
+<p id="rfc.section.E.p.9">-05 </p>
 
 <ul><li>A major rewrite.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.9">-04 </p>
+<p id="rfc.section.E.p.10">-04 </p>
 
 <ul>
 <li>Changed client metadata names <samp>scopes</samp> to <samp>rp_scopes</samp> and <samp>claims</samp> to <samp>rp_claims</samp>.  </li>
