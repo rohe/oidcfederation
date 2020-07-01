@@ -3740,6 +3740,8 @@ GET /authorize?
     2se-EnWtz1q2XwsD9NSsOEJwWJPirPPJaKso8ng6qrrOSgw
   &response_type=code
   &client_id=https%3A%2F%2Fwiki.ligo.org
+  &redirect_uri=https%3A%2F%2Fwiki.ligo.org/openid/callback
+  &scope=openid+profile+email
   HTTP/1.1
 Host: op.umu.se
 ]]></artwork>

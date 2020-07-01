@@ -156,7 +156,7 @@ Hedberg, et al.          Expires January 1, 2021                [Page 2]
        A.2.1.  RP Sends Authentication Request (Automatic
                Registration) . . . . . . . . . . . . . . . . . . . .  65
          A.2.1.1.  OP Fetches Entity Statements  . . . . . . . . . .  66
-         A.2.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  66
+         A.2.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  67
        A.2.2.  Client Starts with Registration (Explicit Client
                Registration) . . . . . . . . . . . . . . . . . . . .  69
    Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  70
@@ -3612,6 +3612,36 @@ A.2.1.  RP Sends Authentication Request (Automatic Registration)
 
    Here is an example of such an authentication request:
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires January 1, 2021               [Page 65]
+
+                        OpenID Connect Federation              June 2020
+
+
    GET /authorize?
      request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umtoa1NXc
        GxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpYbHBUemRR
@@ -3631,16 +3661,10 @@ A.2.1.  RP Sends Authentication Request (Automatic Registration)
        2se-EnWtz1q2XwsD9NSsOEJwWJPirPPJaKso8ng6qrrOSgw
      &response_type=code
      &client_id=https%3A%2F%2Fwiki.ligo.org
+     &redirect_uri=https%3A%2F%2Fwiki.ligo.org/openid/callback
+     &scope=openid+profile+email
      HTTP/1.1
    Host: op.umu.se
-
-
-
-
-Hedberg, et al.          Expires January 1, 2021               [Page 65]
-
-                        OpenID Connect Federation              June 2020
-
 
    The OP receiving this authentication request will, unless the RP is
    already registered, start to dynamically fetch and establish trust
@@ -3665,6 +3689,15 @@ A.2.1.1.  OP Fetches Entity Statements
 
    1.  Self-signed entity statement by the leaf https://wiki.ligo.org
 
+
+
+
+
+Hedberg, et al.          Expires January 1, 2021               [Page 66]
+
+                        OpenID Connect Federation              June 2020
+
+
    2.  Statement issued by https://incommon.org about
        https://wiki.ligo.org
 
@@ -3683,21 +3716,6 @@ A.2.1.2.  OP Evaluates the RP Metadata
 
    edugain.geant.org
 
-
-
-
-
-
-
-
-
-
-
-Hedberg, et al.          Expires January 1, 2021               [Page 66]
-
-                        OpenID Connect Federation              June 2020
-
-
    "metadata_policy": {
      "openid_provider": {
        "contacts": {
@@ -3712,6 +3730,29 @@ Hedberg, et al.          Expires January 1, 2021               [Page 66]
    }
 
    incommon.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires January 1, 2021               [Page 67]
+
+                        OpenID Connect Federation              June 2020
+
 
    "metadata_policy": {
      "openid_relying_party": {
@@ -3735,24 +3776,6 @@ Hedberg, et al.          Expires January 1, 2021               [Page 66]
 
    If you combine these and apply them to the metadata for wiki.ligo.org
    :
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hedberg, et al.          Expires January 1, 2021               [Page 67]
-
-                        OpenID Connect Federation              June 2020
-
 
    "metadata": {
      "application_type": "web",
@@ -3779,29 +3802,6 @@ Hedberg, et al.          Expires January 1, 2021               [Page 67]
    }
 
    You will get
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
