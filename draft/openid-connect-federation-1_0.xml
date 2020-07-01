@@ -3183,7 +3183,7 @@ HTTP/1.1 302 Found
       "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
       "authorization_endpoint":
         "https://op.umu.se/openid/authorization",
-      "federation_types_supported": [
+      "client_registration_type": [
         "automatic",
         "explicit"
       ],
@@ -3643,7 +3643,7 @@ Host: geant.org
   ],
   "federation_registration_endpoint":
     "https://op.umu.se/openid/fedreg",
-  "federation_types_supported": [
+  "client_registration_type": [
     "automatic",
     "explicit"
   ],
@@ -4088,6 +4088,26 @@ Host: op.umu.se
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
       <t>
+	-12
+	<list style="symbols">
+	  <t>
+	    Made JWKS optional in an entity statement returned by OP as response
+      of an explict client registration
+	  </t>
+	  <t>
+	    Renamed entity type to client registration type.
+	  </t>
+	  <t>
+	    Added more text describing client_registration_auth_methods_supported.
+	  </t>
+    <t>
+      Made "Processing the Authentication Request" into two separate sections
+      one for authentication request and one for pushed authorization request.
+    </t>
+	  <t>
+	    Added example of URLs to some examples in the appendix.
+	  </t>
+  </list></t><t>
 	-11
 	<list style="symbols">
 	  <t>
