@@ -118,7 +118,7 @@ Hedberg, et al.          Expires January 1, 2021                [Page 2]
      9.1.  Automatic Registration  . . . . . . . . . . . . . . . . .  41
        9.1.1.  The Authentication Request  . . . . . . . . . . . . .  42
          9.1.1.1.  Using Request Object  . . . . . . . . . . . . . .  42
-           9.1.1.1.1.  Processing the Authentication Request . . . .  44
+           9.1.1.1.1.  Processing the Authentication Request . . . .  43
          9.1.1.2.  Using Pushed Authorization  . . . . . . . . . . .  44
            9.1.1.2.1.  Processing the Authentication Request . . . .  45
        9.1.2.  Authentication Error Response . . . . . . . . . . . .  46
@@ -2377,30 +2377,30 @@ Hedberg, et al.          Expires January 1, 2021               [Page 42]
    display purposes only):
 
    https://server.example.com/authorize?
-       redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb&
-       request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umto
-       a1NXcGxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpY
-       bHBUemRRTkEifQ.eyJyZWRpcmVjdF91cmkiOiAiaHR0cHM6Ly9yc
-       C5leGFtcGxlLmNvbS9hdXRoel9jYiIsICJzY29wZSI6ICJvcGVua
-       WQgcHJvZmlsZSBlbWFpbCBhZGRyZXNzIHBob25lIiwgInJlc3Bvb
-       nNlX3R5cGUiOiAiY29kZSIsICJub25jZSI6ICI0TFgwbUZNeGRCa
-       mtHbXR4N2E4V0lPbkIiLCAic3RhdGUiOiAiWW1YOFBNOUk3V2JOb
-       01ubmllS0tCaXB0Vlcwc1AyT1oiLCAiY2xpZW50X2lkIjogImh0d
-       HBzOi8vcnAuZXhhbXBsZS5jb20iLCAic3ViIjogImh0dHBzOi8vc
-       nAuZXhhbXBsZS5jb20iLCAiaXNzIjogImh0dHBzOi8vcnAuZXhhb
-       XBsZS5jb20iLCAiaWF0IjogMTU4OTcwMDk1NiwgImV4cCI6IDE1O
-       Dk3MDEwMTYsICJhdWQiOiAiaHR0cHM6Ly9vcC5leGFtcGxlLm9yZ
-       y9hdXRob3JpemF0aW9uIiwgImp0aSI6ICI5MTI2YWI4ZjcxODY0O
-       DI3YmQ3OTE4MTU0NjY0ZWNmOCJ9.D51EQF-cJkzXTynQ-o6IL-Tv
-       xyC7W436-Qu-R8_StFYZRTfSHMa4M-TRuix7VHXgQiUxgdxuc4XU
-       NQ7cjfb_HhyCNMeO0Gd8mA2eo3GGdQMCcbIcMAV9tEz7-p5uz1iD
-       4H8l7AjK1LsVDYzSssTT9-xvuTy49wLKTlGk1sdvj_oW6e9KlrfQ
-       RFUR9gWudMpEj2FAhHeSvu1t_rafJ0VJ__ZvdfRT79BD45hNa6ST
-       pw4di3vIyrLHV9pxm_1HsvYqZ_mX3wECyJ7Soya93qzG3AA3XU_Q
-       wTPES4TA1x0k9gOYdm5ZxVcrlgV58n8BcCV4AK4Wrju5QTvg7Xob
-       tFqaCg
+       redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
+       &scope=openid+profile+email+address+phone
+       &response_type=code
+       &client_id=https%3A%2F%2Frp.example.com
+       &request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umtoa1
+         NXcGxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpYbHB
+         UemRRTkEifQ.eyJzdWIiOiAiaHR0cHM6Ly9ycC5leGFtcGxlLmNvb
+         SIsICJpc3MiOiAiaHR0cHM6Ly9ycC5leGFtcGxlLmNvbSIsICJpYX
+         QiOiAxNTkzNjE1Nzk0LCAiZXhwIjogMTU5MzYxNTg1NCwgImF1ZCI
+         6ICJodHRwczovL29wLmV4YW1wbGUub3JnL2F1dGhvcml6YXRpb24i
+         LCAianRpIjogIjlhNDY2Njc3ZDZkOTQ5OWZiOTFjNDg4YTY1NzA0N
+         TU2In0.mFq0V4KIb6eM-WV5vvQAvSSwoUyi-cy_ASMDgR1-amotjK
+         6El0T1WV9-Hdrkgi_zBJtARs6VE380GmwpXXuMF1p6y-IoyIBJUSR
+         w9LaeK9oi3d1stTT_J6VL8JwsNuetB6r9YLAQS-1p6mFKsv7TQSjk
+         xNHfw0BTxfZftcDnooCqusC17xrz11qEY1CCtjDbbxYM1cYfzGFwS
+         I0UZneQUZqa2ChOqWTguumG7XonB5NFZWieAtvyyPZaSI7AW5wCs2
+         sH6kjMxOHEAIvxygZZwKpTiToccYtU7t0n2xKRr-oYDQaFjuRIemE
+         xsuzVl6pbvCVYqyjxFscS9NgDB-hAAQ
 
+9.1.1.1.1.  Processing the Authentication Request
 
+   When the OP receives an incoming authentication request, the OP
+   supports OpenID Connect Federation, the incoming client_id is a valid
+   URL and the OP does not have the client_id registered as a known
 
 
 
@@ -2410,11 +2410,6 @@ Hedberg, et al.          Expires January 1, 2021               [Page 43]
                         OpenID Connect Federation              June 2020
 
 
-9.1.1.1.1.  Processing the Authentication Request
-
-   When the OP receives an incoming authentication request, the OP
-   supports OpenID Connect Federation, the incoming client_id is a valid
-   URL and the OP does not have the client_id registered as a known
    client then the OP should try to resolve and fetch trust chains
    starting with the RP's entity statement as described in Section 7.1.
 
@@ -2453,6 +2448,11 @@ Hedberg, et al.          Expires January 1, 2021               [Page 43]
       infrastructure (PKI).
 
    Using the example above a request could look like this:
+
+
+
+
+
 
 
 

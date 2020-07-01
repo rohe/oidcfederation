@@ -2018,28 +2018,24 @@ Content-Type: application/json
 <p>The following is a non-normative example of an Authorization Request using the request parameter (with line wraps within values for display purposes only): </p>
 <pre>
 https://server.example.com/authorize?
-    redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb&amp;
-    request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umto
-    a1NXcGxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpY
-    bHBUemRRTkEifQ.eyJyZWRpcmVjdF91cmkiOiAiaHR0cHM6Ly9yc
-    C5leGFtcGxlLmNvbS9hdXRoel9jYiIsICJzY29wZSI6ICJvcGVua
-    WQgcHJvZmlsZSBlbWFpbCBhZGRyZXNzIHBob25lIiwgInJlc3Bvb
-    nNlX3R5cGUiOiAiY29kZSIsICJub25jZSI6ICI0TFgwbUZNeGRCa
-    mtHbXR4N2E4V0lPbkIiLCAic3RhdGUiOiAiWW1YOFBNOUk3V2JOb
-    01ubmllS0tCaXB0Vlcwc1AyT1oiLCAiY2xpZW50X2lkIjogImh0d
-    HBzOi8vcnAuZXhhbXBsZS5jb20iLCAic3ViIjogImh0dHBzOi8vc
-    nAuZXhhbXBsZS5jb20iLCAiaXNzIjogImh0dHBzOi8vcnAuZXhhb
-    XBsZS5jb20iLCAiaWF0IjogMTU4OTcwMDk1NiwgImV4cCI6IDE1O
-    Dk3MDEwMTYsICJhdWQiOiAiaHR0cHM6Ly9vcC5leGFtcGxlLm9yZ
-    y9hdXRob3JpemF0aW9uIiwgImp0aSI6ICI5MTI2YWI4ZjcxODY0O
-    DI3YmQ3OTE4MTU0NjY0ZWNmOCJ9.D51EQF-cJkzXTynQ-o6IL-Tv
-    xyC7W436-Qu-R8_StFYZRTfSHMa4M-TRuix7VHXgQiUxgdxuc4XU
-    NQ7cjfb_HhyCNMeO0Gd8mA2eo3GGdQMCcbIcMAV9tEz7-p5uz1iD
-    4H8l7AjK1LsVDYzSssTT9-xvuTy49wLKTlGk1sdvj_oW6e9KlrfQ
-    RFUR9gWudMpEj2FAhHeSvu1t_rafJ0VJ__ZvdfRT79BD45hNa6ST
-    pw4di3vIyrLHV9pxm_1HsvYqZ_mX3wECyJ7Soya93qzG3AA3XU_Q
-    wTPES4TA1x0k9gOYdm5ZxVcrlgV58n8BcCV4AK4Wrju5QTvg7Xob
-    tFqaCg
+    redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
+    &amp;scope=openid+profile+email+address+phone
+    &amp;response_type=code
+    &amp;client_id=https%3A%2F%2Frp.example.com
+    &amp;request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umtoa1
+      NXcGxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpYbHB
+      UemRRTkEifQ.eyJzdWIiOiAiaHR0cHM6Ly9ycC5leGFtcGxlLmNvb
+      SIsICJpc3MiOiAiaHR0cHM6Ly9ycC5leGFtcGxlLmNvbSIsICJpYX
+      QiOiAxNTkzNjE1Nzk0LCAiZXhwIjogMTU5MzYxNTg1NCwgImF1ZCI
+      6ICJodHRwczovL29wLmV4YW1wbGUub3JnL2F1dGhvcml6YXRpb24i
+      LCAianRpIjogIjlhNDY2Njc3ZDZkOTQ5OWZiOTFjNDg4YTY1NzA0N
+      TU2In0.mFq0V4KIb6eM-WV5vvQAvSSwoUyi-cy_ASMDgR1-amotjK
+      6El0T1WV9-Hdrkgi_zBJtARs6VE380GmwpXXuMF1p6y-IoyIBJUSR
+      w9LaeK9oi3d1stTT_J6VL8JwsNuetB6r9YLAQS-1p6mFKsv7TQSjk
+      xNHfw0BTxfZftcDnooCqusC17xrz11qEY1CCtjDbbxYM1cYfzGFwS
+      I0UZneQUZqa2ChOqWTguumG7XonB5NFZWieAtvyyPZaSI7AW5wCs2
+      sH6kjMxOHEAIvxygZZwKpTiToccYtU7t0n2xKRr-oYDQaFjuRIemE
+      xsuzVl6pbvCVYqyjxFscS9NgDB-hAAQ
 </pre>
 <h1 id="rfc.section.9.1.1.1.1">
 <a href="#rfc.section.9.1.1.1.1">9.1.1.1.1.</a> Processing the Authentication Request</h1>
