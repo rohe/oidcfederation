@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Federation">OpenID Connect Federation 1.0 -
-      draft 12
+      draft 13
     </title>
 
     <author fullname="Roland Hedberg" initials="R." role="editor"
@@ -258,6 +258,7 @@
               This claim is only optional for the entity statement returned
               from an OP when the client is doing explicit registration.
               In all other cases it is REQUIRED.
+              Every JWK in the JWKS MUST have a key id (kid).
             </t>
             <t hangText="aud">
               <vspace/>
@@ -1654,8 +1655,11 @@
         (even though this violates <xref target="RFC8615"/>).
       </t>
       <t>
-        Federation Entities MUST make an Entity Configuration Document available
-        at the configuration endpoint.
+        Federation Entities SHOULD make an Entity Configuration Document available
+        at the configuration endpoint. There is only one exception to this
+        rule and that is for an RP that only does explicit registration. Since it
+        posts the self-signed entity statement to the OP during client
+        registration, the OP has everything it needs from the RP.
       </t>
       <section title="Federation Entity Configuration Request">
         <t>
@@ -2748,6 +2752,10 @@ HTTP/1.1 302 Found
 
           <section anchor="cliregresp" title="Client Registration Response">
             <section title="The OP Constructing the Response">
+              <t>
+                The trust chains MUST be constructed using the received
+                entity statement.
+              </t>
               <t>
                 <list style="numbers">
                   <t>
@@ -4096,6 +4104,16 @@ Host: op.umu.se
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
       <t>
+	-13
+	<list style="symbols">
+    <t>
+      An RP doing only explicit client registation are not required to
+      publish and support a .well-known/openid-federation endpoint.
+    </t>
+	  <t>
+	    Every key in a JWKS in an entity statement MUST have a kid.
+	  </t>
+  </list>
 	-12
 	<list style="symbols">
 	  <t>
