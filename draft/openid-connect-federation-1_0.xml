@@ -1037,7 +1037,7 @@
           <t>
             If 'true' then claim MUST have a value.
             <spanx style="verb">essential</spanx>
-            can be merged with all the other types.
+            can be combined with all the other types.
           </t>
           <figure>
             <artwork><![CDATA[
@@ -1056,21 +1056,21 @@
       <section title="Policy Type Combinations" anchor="policy_type_combo">
         <t>
           An entity may use more then one policy type when expressing a policy
-          for a claim. These are the policy types that can be merged in a
+          for a claim. These are the policy types that can be combined in a
           metadata_policy statement:
           <list style="hanging">
             <t hangText="essential">
               <vspace/>
-              Can be merged with all the others. If
+              Can be combined with all the others. If
               <spanx style="verb">essential</spanx>
               is not present that is the same as stating essential=true.
             </t>
             <t hangText="default">
               <vspace/>
-              Can be merged with <spanx style="verb">one_of</spanx>,
+              Can be combined with <spanx style="verb">one_of</spanx>,
               <spanx style="verb">subset_of</spanx>
               and <spanx style="verb">superset_of</spanx>.
-              If a <spanx style="verb">default</spanx> policy is merged
+              If a <spanx style="verb">default</spanx> policy is combined
               with <spanx style="verb">one_of</spanx>,
               <spanx style="verb">subset_of</spanx>
               or
@@ -1084,7 +1084,7 @@
             </t>
             <t hangText="superset_of">
               <vspace/>
-              Can be merged with <spanx style="verb">subset_of</spanx>.
+              Can be combined with <spanx style="verb">subset_of</spanx>.
               If <spanx style="verb">subset_of</spanx> and
               <spanx style="verb">superset_of</spanx>
               both appears in a
@@ -1094,7 +1094,7 @@
             </t>
             <t hangText="subset_of">
               <vspace/>
-              Can be merged with <spanx style="verb">superset_of</spanx>.
+              Can be combined with <spanx style="verb">superset_of</spanx>.
               If <spanx style="verb">superset_of</spanx> and
               <spanx style="verb">subset_of</spanx>
               both appears in a metadata_policy statement for a claim
@@ -1103,7 +1103,7 @@
             </t>
             <t hangText="value">
               <vspace/>
-              Can be merged with <spanx style="verb">one_of</spanx>,
+              Can be combined with <spanx style="verb">one_of</spanx>,
               <spanx style="verb">subset_of</spanx>
               and <spanx style="verb">superset_of</spanx>.
               Here the order matters. If <spanx style="verb">value</spanx>
@@ -1141,38 +1141,38 @@
           <list style="hanging">
             <t hangText="subset_of">
               <vspace/>
-              The result of combining two <spanx style="verb">subset_of</spanx> policies
+              The result of merging two <spanx style="verb">subset_of</spanx> policies
               is the intersection of the values.
             </t>
             <t hangText="one_of">
               <vspace/>
-              The result of combining two <spanx style="verb">one_of</spanx> policies
+              The result of merging two <spanx style="verb">one_of</spanx> policies
               is the intersection of the values.
             </t>
             <t hangText="superset_of">
               <vspace/>
-              The result of combining two
+              The result of merging two
               <spanx style="verb">superset_of</spanx>
               policies is the intersection of the values.
             </t>
             <t hangText="add">
               <vspace/>
-              The result of combining two <spanx style="verb">add</spanx> policies
+              The result of merging two <spanx style="verb">add</spanx> policies
               is the union of the values.
             </t>
             <t hangText="value">
               <vspace/>
-              The result of combining two <spanx style="verb">value</spanx> policies
+              The result of merging two <spanx style="verb">value</spanx> policies
               is NOT allowed unless the two values are equal.
             </t>
             <t hangText="default">
               <vspace/>
-              The result of combining two <spanx style="verb">default</spanx> policies
+              The result of merging two <spanx style="verb">default</spanx> policies
               is NOT allowed unless the two values are equal.
             </t>
             <t hangText="essential">
               <vspace/>
-              The result of combining two <spanx style="verb">essential</spanx> policies
+              The result of merging two <spanx style="verb">essential</spanx> policies
               is True if any of the values are True otherwise it is False.
               Note that a missing <spanx style="verb">essential</spanx> specification
               is to be treated as an essential=true statement.
@@ -3630,7 +3630,7 @@ Host: geant.org
           <t>Having verified the chain, the LIGO Wiki RP can proceed with the
             next step.
           </t>
-          <t>Merging the metadata policies from the tree entity statements we
+          <t>Combining the metadata policies from the tree entity statements we
             have, by
             a superior about its subordinate, and applying the combined policy
             to the
