@@ -2329,7 +2329,7 @@ Content-Type: application/json
         <list style="symbols">
           <t>
             The <spanx style="verb">client_id</spanx> of the RP
-            MUST be set to be identically to the RP entity identifier.
+            MUST be set to be identically to the RPs entity identifier.
           </t>
           <t>
             Without a registration process, the RP does not have a
@@ -2370,18 +2370,17 @@ Content-Type: application/json
               <t hangText="aud">
                 <vspace/>
                 REQUIRED. The Audience (aud) MUST be the URL of the
-                Authorization
-                Server's Authorization Endpoint.
+                Authorization Server's Authorization Endpoint.
               </t>
               <t hangText="iss">
                 <vspace/>
-                REQUIRED. The claim iss MUST contain the entity ID of the OpenID
-                Connect provider.
+                REQUIRED. The claim iss MUST contain the client identifier.
               </t>
               <t hangText="sub">
                 <vspace/>
-                REQUIRED. The claim sub MUST contain the entity ID of the OpenID
-                Connect provider.
+                MUST NOT be present. This together with the value of aud should
+                make reuse of the statement for private_key_jwt client
+                authentication not feasible.
               </t>
               <t hangText="jti">
                 <vspace/>
@@ -2915,7 +2914,7 @@ HTTP/1.1 302 Found
         </front>
       </reference>
       <reference anchor="PAR"
-                 target="https://tools.ietf.org/id/draft-lodderstedt-oauth-par-00.html">
+                 target="https://tools.ietf.org/id/draft-ietf-oauth-par-04.html">
         <front>
           <title>OAuth 2.0 Pushed Authorization Requests</title>
           <author fullname="Torsten Lodderstedt" initials="T."
