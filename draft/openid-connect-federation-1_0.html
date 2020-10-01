@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>OpenID Connect Federation 1.0 - draft 12 </title>
+  <title>OpenID Connect Federation 1.0 - draft 13 </title>
 
   <style type="text/css" title="Xml2Rfc (sans serif)">
   /*<![CDATA[*/
@@ -478,7 +478,7 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.32.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
@@ -543,7 +543,7 @@
     </tbody>
   </table>
 
-  <p class="title">OpenID Connect Federation 1.0 - draft 12 <br />
+  <p class="title">OpenID Connect Federation 1.0 - draft 13 <br />
   <span class="filename">openid-connect-federation-1_0</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
@@ -829,7 +829,7 @@
 <br> REQUIRED.  Expiration time on or after which the statement MUST NOT be accepted for processing. Its value is a JSON number representing the number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the date/time.  </dd>
 <dt>jwks</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. A <a href="#RFC7517" class="xref">JSON Web Key Set (JWKS)</a> representing the public part of the subject entity's signing keys. The corresponding private key is used by leaf entities to sign entity statements about themselves, and intermediate entities to sign statements about other entities.  The keys that can be found here are primarily intended to sign entity statements and should not be used in other protocols.  This claim is only optional for the entity statement returned from an OP when the client is doing explicit registration.  In all other cases it is REQUIRED.  </dd>
+<br> OPTIONAL. A <a href="#RFC7517" class="xref">JSON Web Key Set (JWKS)</a> representing the public part of the subject entity's signing keys. The corresponding private key is used by leaf entities to sign entity statements about themselves, and intermediate entities to sign statements about other entities.  The keys that can be found here are primarily intended to sign entity statements and should not be used in other protocols.  This claim is only optional for the entity statement returned from an OP when the client is doing explicit registration.  In all other cases it is REQUIRED.  Every JWK in the JWKS MUST have a key id (kid).  </dd>
 <dt>aud</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  The entity statement may be specifically created for an entity.  The entity identifier for that entity MUST appear in this claim.  </dd>
@@ -1582,7 +1582,7 @@
 </h1>
 <p id="rfc.section.5.p.1">The configuration endpoint is found using the <a href="#RFC8615" class="xref">Well-Known URIs</a> specification, with the suffix <samp>openid-federation</samp>. The scheme, host and port is taken directly from the entity identifier combined with the following path: <samp>/.well-known/openid-federation</samp>.  </p>
 <p id="rfc.section.5.p.2">If the entity identifier contains a path, it is concatenated after <samp>/.well-known/openid-federation</samp> in the same manner that path components are concatenated to the well-known identifier in the OAuth 2.0 Authorization Server Metadata <a href="#RFC8414" class="xref">[RFC8414]</a> specification.  Of course, in real multi-tenant deployments, in which the entity identifier might be of the form <samp>https://multi-tenant-service.example.com/my-tenant-identifier</samp> the tenant is very likely to not have control over the path <samp>https://multi-tenant-service.example.com/.well-known/openid-federation/my-tenant-identifier</samp> whereas it is very likely to have control over the path <samp>https://multi-tenant-service.example.com/my-tenant-identifier/.well-known/openid-federation</samp>.  Therefore, if using the configuration endpoint at the URL with the tenant path after the well-known part fails, it is RECOMMENDED that callers retry at the URL with the tenant path before the well-known part (even though this violates <a href="#RFC8615" class="xref">[RFC8615]</a>).  </p>
-<p id="rfc.section.5.p.3">Federation Entities MUST make an Entity Configuration Document available at the configuration endpoint.  </p>
+<p id="rfc.section.5.p.3">Federation Entities SHOULD make an Entity Configuration Document available at the configuration endpoint. There is only one exception to this rule and that is for an RP that only does explicit registration. Since it posts the self-signed entity statement to the OP during client registration, the OP has everything it needs from the RP.  </p>
 <h1 id="rfc.section.5.1">
 <a href="#rfc.section.5.1">5.1.</a> Federation Entity Configuration Request</h1>
 <p id="rfc.section.5.1.p.1">A federation Entity Configuration Document MUST be queried using an HTTP GET request at the previously specified path.  The requesting party would make the following request to the Entity <samp>https://example.com</samp> to obtain its Configuration information: </p>
@@ -1982,10 +1982,10 @@ Content-Type: application/json
 <br> REQUIRED. The Audience (aud) MUST be the URL of the Authorization Server's Authorization Endpoint.  </dd>
 <dt>iss</dt>
 <dd style="margin-left: 8">
-<br> REQUIRED. The claim iss MUST contain the entity ID of the OpenID Connect provider.  </dd>
+<br> REQUIRED. The claim iss MUST contain the client identifier.  </dd>
 <dt>sub</dt>
 <dd style="margin-left: 8">
-<br> REQUIRED. The claim sub MUST contain the entity ID of the OpenID Connect provider.  </dd>
+<br> MUST NOT be present. This together with the value of aud should make reuse of the statement for private_key_jwt client authentication not feasible.  </dd>
 <dt>jti</dt>
 <dd style="margin-left: 8">
 <br> REQUIRED. JWT ID. A unique identifier for the JWT, which can be used to prevent reuse of the token. These tokens MUST only be used once, unless conditions for reuse were negotiated between the parties; any such negotiation is beyond the scope of this specification.  </dd>
@@ -2153,6 +2153,7 @@ HTTP/1.1 302 Found
 </h1>
 <h1 id="rfc.section.9.2.1.2.1">
 <a href="#rfc.section.9.2.1.2.1">9.2.1.2.1.</a> The OP Constructing the Response</h1>
+<p id="rfc.section.9.2.1.2.1.p.1">The trust chains MUST be constructed using the received entity statement.  </p>
 <p></p>
 
 <ol>
@@ -2238,7 +2239,7 @@ HTTP/1.1 302 Found
 <tr>
 <td class="reference"><b id="PAR">[PAR]</b></td>
 <td class="top">
-<a title="yes.com">Lodderstedt, T.</a>, <a title="Nomura Research Institute, Ltd.">Sakimura, N.</a>, <a title="Ping Identity">Campbell, B.</a>, <a title="Moneyhub Financial Technology">Tonge, D.</a> and <a title="Auth0">F. Skokan</a>, "<a href="https://tools.ietf.org/id/draft-lodderstedt-oauth-par-00.html">OAuth 2.0 Pushed Authorization Requests</a>"</td>
+<a title="yes.com">Lodderstedt, T.</a>, <a title="Nomura Research Institute, Ltd.">Sakimura, N.</a>, <a title="Ping Identity">Campbell, B.</a>, <a title="Moneyhub Financial Technology">Tonge, D.</a> and <a title="Auth0">F. Skokan</a>, "<a href="https://tools.ietf.org/id/draft-ietf-oauth-par-04.html">OAuth 2.0 Pushed Authorization Requests</a>"</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC2119">[RFC2119]</b></td>
@@ -2993,7 +2994,14 @@ Host: op.umu.se
 <a href="#rfc.appendix.E">Appendix E.</a> <a href="#History" id="History">Document History</a>
 </h1>
 <p id="rfc.section.E.p.1">[[ To be removed from the final specification ]]</p>
-<p id="rfc.section.E.p.2">-12 </p>
+<p id="rfc.section.E.p.2">-13 </p>
+
+<ul>
+<li>An RP doing only explicit client registation are not required to publish and support a .well-known/openid-federation endpoint.  </li>
+<li>Every key in a JWKS in an entity statement MUST have a kid.  </li>
+</ul>
+
+<p> -12 </p>
 
 <ul>
 <li>Made JWKS optional in an entity statement returned by OP as response of an explict client registration </li>

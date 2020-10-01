@@ -15,7 +15,7 @@
                                                            June 30, 2020
 
 
-                OpenID Connect Federation 1.0 - draft 12
+                OpenID Connect Federation 1.0 - draft 13
                      openid-connect-federation-1_0
 
 Abstract
@@ -171,7 +171,7 @@ Hedberg, et al.          Expires January 1, 2021                [Page 3]
 
 
    Appendix E.  Document History . . . . . . . . . . . . . . . . . .  72
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  74
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  75
 
 1.  Introduction
 
@@ -300,7 +300,8 @@ Hedberg, et al.          Expires January 1, 2021                [Page 5]
       are primarily intended to sign entity statements and should not be
       used in other protocols.  This claim is only optional for the
       entity statement returned from an OP when the client is doing
-      explicit registration.  In all other cases it is REQUIRED.
+      explicit registration.  In all other cases it is REQUIRED.  Every
+      JWK in the JWKS MUST have a key id (kid).
 
    aud
       OPTIONAL.  The entity statement may be specifically created for an
@@ -328,8 +329,7 @@ Hedberg, et al.          Expires January 1, 2021                [Page 5]
       statement MUST NOT contain a "metadata" claim.
 
    metadata_policy
-      OPTIONAL.  JSON object that describes a metadata policy.  Each key
-      of the JSON object represents a metadata type identifier, and each
+
 
 
 
@@ -338,6 +338,8 @@ Hedberg, et al.          Expires January 1, 2021                [Page 6]
                         OpenID Connect Federation              June 2020
 
 
+      OPTIONAL.  JSON object that describes a metadata policy.  Each key
+      of the JSON object represents a metadata type identifier, and each
       value MUST be a JSON object representing the metadata policy
       according to the metadata schema of that metadata type.  An entity
       statement may contain multiple metadata policy statements, but
@@ -385,8 +387,6 @@ Hedberg, et al.          Expires January 1, 2021                [Page 6]
    The entity statement is signed using the private key of the issuer
    entity, in the form of a JSON Web Signature (JWS) [RFC7515].
 
-   The following is a non-normative example of an entity statement
-
 
 
 Hedberg, et al.          Expires January 1, 2021                [Page 7]
@@ -394,11 +394,11 @@ Hedberg, et al.          Expires January 1, 2021                [Page 7]
                         OpenID Connect Federation              June 2020
 
 
+   The following is a non-normative example of an entity statement
    before serialization and adding a signature.  The example contains a
    critical extension "jti" (JWT ID) to the entity statement and one
    critical extension to the policy language "regexp" (Regular
    expression).
-
 
 
 
@@ -1583,8 +1583,12 @@ Hedberg, et al.          Expires January 1, 2021               [Page 28]
    tenant path before the well-known part (even though this violates
    [RFC8615]).
 
-   Federation Entities MUST make an Entity Configuration Document
-   available at the configuration endpoint.
+   Federation Entities SHOULD make an Entity Configuration Document
+   available at the configuration endpoint.  There is only one exception
+   to this rule and that is for an RP that only does explicit
+   registration.  Since it posts the self-signed entity statement to the
+   OP during client registration, the OP has everything it needs from
+   the RP.
 
 5.1.  Federation Entity Configuration Request
 
@@ -1612,10 +1616,6 @@ Hedberg, et al.          Expires January 1, 2021               [Page 28]
 
    The following is a non-normative example response from an
    intermediate entity, before serialization and adding a signature:
-
-
-
-
 
 
 
@@ -2318,12 +2318,12 @@ Hedberg, et al.          Expires January 1, 2021               [Page 41]
       Server's Authorization Endpoint.
 
    iss
-      REQUIRED.  The claim iss MUST contain the entity ID of the OpenID
-      Connect provider.
+      REQUIRED.  The claim iss MUST contain the client identifier.
 
    sub
-      REQUIRED.  The claim sub MUST contain the entity ID of the OpenID
-      Connect provider.
+      MUST NOT be present.  This together with the value of aud should
+      make reuse of the statement for private_key_jwt client
+      authentication not feasible.
 
    jti
       REQUIRED.  JWT ID.  A unique identifier for the JWT, which can be
@@ -2614,6 +2614,9 @@ Hedberg, et al.          Expires January 1, 2021               [Page 46]
 
 9.2.1.2.1.  The OP Constructing the Response
 
+   The trust chains MUST be constructed using the received entity
+   statement.
+
    1.  After the OP receives the request, it collects and evaluates the
        trust chains starting with the "authority_hints" in the
        registration request.  After it has verified at least one trust
@@ -2624,9 +2627,6 @@ Hedberg, et al.          Expires January 1, 2021               [Page 46]
        one trust anchor from those chains as the one it will proceed
        with.
 
-   3.  At this point, if there already exists a client registration
-       under the same entity identifier then that registration MUST be
-
 
 
 Hedberg, et al.          Expires January 1, 2021               [Page 47]
@@ -2634,6 +2634,8 @@ Hedberg, et al.          Expires January 1, 2021               [Page 47]
                         OpenID Connect Federation              June 2020
 
 
+   3.  At this point, if there already exists a client registration
+       under the same entity identifier then that registration MUST be
        regarded as invalid.  "Note" that key material from the previous
        registration SHOULD be kept to allow verifying a signature on, or
        decrypting archived data.
@@ -2680,8 +2682,6 @@ Hedberg, et al.          Expires January 1, 2021               [Page 47]
    A client registration using this specification is not expected to be
    valid forever.  The entity statements exchanged all have expiration
    times, which means that the registration will eventually time out.
-   An OP can also for administrative reasons decide that a client
-
 
 
 
@@ -2690,6 +2690,7 @@ Hedberg, et al.          Expires January 1, 2021               [Page 48]
                         OpenID Connect Federation              June 2020
 
 
+   An OP can also for administrative reasons decide that a client
    registration is not valid anymore.  An example of this could be that
    the OP leaves the federation in use.
 
@@ -2740,7 +2741,6 @@ Hedberg, et al.          Expires January 1, 2021               [Page 48]
 
 
 
-
 Hedberg, et al.          Expires January 1, 2021               [Page 49]
 
                         OpenID Connect Federation              June 2020
@@ -2773,8 +2773,7 @@ Hedberg, et al.          Expires January 1, 2021               [Page 49]
 
    [PAR]      Lodderstedt, T., Sakimura, N., Campbell, B., Tonge, D.,
               and F. Skokan, "OAuth 2.0 Pushed Authorization Requests",
-              <https://tools.ietf.org/id/draft-lodderstedt-oauth-par-
-              00.html>.
+              <https://tools.ietf.org/id/draft-ietf-oauth-par-04.html>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2794,6 +2793,7 @@ Hedberg, et al.          Expires January 1, 2021               [Page 49]
    [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
               2015, <https://www.rfc-editor.org/info/rfc7515>.
+
 
 
 
@@ -4000,6 +4000,13 @@ Appendix E.  Document History
 
    [[ To be removed from the final specification ]]
 
+   -13
+
+   o  An RP doing only explicit client registation are not required to
+      publish and support a .well-known/openid-federation endpoint.
+
+   o  Every key in a JWKS in an entity statement MUST have a kid.
+
    -12
 
    o  Made JWKS optional in an entity statement returned by OP as
@@ -4019,13 +4026,6 @@ Appendix E.  Document History
    o  Changed the automatic client registation example in the appendix
       to use request object instead of a client_assertion.
 
-   -11
-
-   o  Added section on trust marks.
-
-   o  Clarified private_key_jwt usage in the authentication request.
-
-   o  Fixed Bitbucket issues #1150 and #1155 by Vladimir Dzhuvinov.
 
 
 
@@ -4033,6 +4033,14 @@ Hedberg, et al.          Expires January 1, 2021               [Page 72]
 
                         OpenID Connect Federation              June 2020
 
+
+   -11
+
+   o  Added section on trust marks.
+
+   o  Clarified private_key_jwt usage in the authentication request.
+
+   o  Fixed Bitbucket issues #1150 and #1155 by Vladimir Dzhuvinov.
 
    o  Fixed some examples to make them syntactically correct.
 
@@ -4074,14 +4082,6 @@ Hedberg, et al.          Expires January 1, 2021               [Page 72]
    o  Renamed "sub_is_leaf" to "is_leaf" in the Entity Listings Request
       operation parameters.
 
-   o  Added "crit" and "policy_language_crit", enabling control over
-      which entity statement and policy language extensions MUST be
-      understood and processed.
-
-   o  Renamed "openid_client" to "openid_relying_party".
-
-   o  Renamed "oauth_service" to "oauth_authorization_server".
-
 
 
 
@@ -4089,6 +4089,14 @@ Hedberg, et al.          Expires January 1, 2021               [Page 73]
 
                         OpenID Connect Federation              June 2020
 
+
+   o  Added "crit" and "policy_language_crit", enabling control over
+      which entity statement and policy language extensions MUST be
+      understood and processed.
+
+   o  Renamed "openid_client" to "openid_relying_party".
+
+   o  Renamed "oauth_service" to "oauth_authorization_server".
 
    o  Renamed "implicit" registration to "automatic" registration to
       avoid naming confusion with the implicit grant type.
@@ -4129,6 +4137,15 @@ Hedberg, et al.          Expires January 1, 2021               [Page 73]
 
    o  Editorial improvements.
 
+
+
+
+
+Hedberg, et al.          Expires January 1, 2021               [Page 74]
+
+                        OpenID Connect Federation              June 2020
+
+
    o  Added standard Notices section, which is present in all OpenID
       specifications.
 
@@ -4138,12 +4155,6 @@ Authors' Addresses
    independent
 
    Email: roland@catalogix.se
-
-
-
-Hedberg, et al.          Expires January 1, 2021               [Page 74]
-
-                        OpenID Connect Federation              June 2020
 
 
    Michael B. Jones
@@ -4171,17 +4182,6 @@ Hedberg, et al.          Expires January 1, 2021               [Page 74]
 
    Email: ve7jtb@ve7jtb.com
    URI:   http://www.thread-safe.com/
-
-
-
-
-
-
-
-
-
-
-
 
 
 
