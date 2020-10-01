@@ -378,7 +378,10 @@
         <t>
           The entity statement is signed using the private key of the issuer
           entity, in the form of a <xref target="RFC7515">JSON Web Signature
-          (JWS)</xref>.
+          (JWS)</xref>. Entities MUST support signing Entity Statements with
+          the RSA SHA-256 algorithm (an alg value of RS256). Consequently
+          entities MUST support signature verification where the statement was
+          signed using RS256.
         </t>
 
         <figure>
@@ -2736,8 +2739,10 @@ HTTP/1.1 302 Found
                   The RP will now construct a self-signed entity statement
                   where the metadata statement chosen is influenced by the OPs
                   metadata and the <spanx style="verb">authority_hints</spanx> included
-                  are picked by the
-                  process described above.
+                  are picked by the process described above.
+                  Note that the <spanx style="verb">aud</spanx> claim in the
+                  entity statement is REQUIRED
+                  in this case and MUST be set to the OP issuer identifier.
                 </t>
                 <t>
                   The entity statement is sent, using POST, to the
