@@ -372,6 +372,12 @@
               <spanx style="verb">[]</spanx>
               as the <spanx style="verb">policy_language_crit</spanx> value.
             </t>
+            <t hangText="trust_marks">
+              <vspace/>
+              OPTIONAL. JSON object that describes a set of trust marks.
+              More about this in
+              <xref target="trust_marks"/>
+            </t>
           </list>
         </t>
 
