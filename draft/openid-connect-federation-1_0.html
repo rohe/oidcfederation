@@ -478,7 +478,7 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.32.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
@@ -1248,7 +1248,7 @@
 <br> The result of merging two <samp>one_of</samp> policies is the intersection of the values.  </dd>
 <dt>superset_of</dt>
 <dd style="margin-left: 8">
-<br> The result of merging two <samp>superset_of</samp> policies is the intersection of the values.  </dd>
+<br> The result of merging two <samp>superset_of</samp> policies is the union of the values.  </dd>
 <dt>add</dt>
 <dd style="margin-left: 8">
 <br> The result of merging two <samp>add</samp> policies is the union of the values.  </dd>
@@ -2163,7 +2163,7 @@ HTTP/1.1 302 Found
 <li>After the OP receives the request, it collects and evaluates the trust chains starting with the <samp>authority_hints</samp> in the registration request.  After it has verified at least one trust chain it MUST verify that the signature on the received registration request is correct.  </li>
 <li>If it finds more than one acceptable trust chain, it MUST choose one trust anchor from those chains as the one it will proceed with.  </li>
 <li>At this point, if there already exists a client registration under the same entity identifier then that registration MUST be regarded as invalid.  <samp>Note</samp> that key material from the previous registration SHOULD be kept to allow verifying a signature on, or decrypting archived data.  </li>
-<li>The OP will now construct a metadata policy that, if applied to the RP's metadata statement, will result in metadata that the OP finds acceptable.  <samp>Note</samp> that the client_id the OP chooses does not have to be the same as the entity identifier of the RP.  To the entity statement it will add one or more <samp>authority_hints</samp>, from its collection, that terminate in the trust anchor chosen above.  </li>
+<li>The OP will now construct a metadata policy that, if applied to the RP's metadata statement, will result in metadata that the OP finds acceptable.  <samp>Note</samp> that the client_id the OP chooses does not have to be the same as the entity identifier of the RP.  To the entity statement it will add a <samp>trust_anchor_id</samp> claim, containing the trust anchor chosen above.  </li>
 <li>It will sign and return the registration response (a signed entity statement) to the RP.  </li>
 </ol>
 
@@ -2937,7 +2937,88 @@ Host: op.umu.se
   }
 }
 </pre>
-<p id="rfc.section.A.2.2.p.5">In which case the metadata used by the RP should be described like this: </p>
+<p id="rfc.section.A.2.2.p.5">Thus the entity statement returned by the OP to the RP may look like this: </p>
+<pre>
+              
+{
+  "metadata": {
+    "federation_entity": {
+      "trust_anchor_id": "https://edugain.geant.org"
+    }
+  },
+  "metadata_policy": {
+    "openid_relying_party": {
+      "application_type": {
+        "one_of": [
+          "web",
+          "native"
+        ]
+      },
+      "contacts": {
+        "add": [
+          "ops@incommon.org",
+          "ops@edugain.geant.org"
+        ]
+      },
+      "grant_types": {
+        "subset_of": [
+          "authorization_code",
+          "refresh_token"
+        ]
+      }
+      "registration_access_token": {
+        "value": "nLe19cJ5e9SXXiPqnRRuxpjyWI73bDhD"
+      },
+      "client_id": {
+        "value": "m3GyHwVlyld3"
+      },
+      "client_secret_expires_at": {
+        "value": 1604049619
+      },
+      "registration_client_uri": {
+        "value":
+          "https://op.umu.se/openid/registration_api?client_id=m3GyHwVl"
+      },
+      "client_secret": {
+        "value": "cb44eed577f3b5edf3e08362d47a0dc44630b3dc6ea99f7a79205"
+      },
+      "client_id_issued_at": {
+        "value": 1601457619
+      }
+    }
+  },
+  "authority_hints": [
+    "https://incommon.org"
+  ],
+  "aud": "https://wiki.ligo.org",
+  "jwks": {
+    "keys": [
+      {
+        "kty": "RSA",
+        "use": "sig",
+        "kid":
+          "U2JTWHY0VFg0a2FEVVdTaHptVDJsNDNiSDk5MXRBVEtNSFVkeXZwbTZ2QQ",
+        "e": "AQAB",
+        "n":
+          "4AZjgqFwMhTVSLrpzzNcwaCyVD88C_Hb3Bmor97vH-2AzldhuVb8Ka..."
+      },
+      {
+        "kty": "EC",
+        "use": "sig",
+        "kid":
+          "LWtFcklLOGdrWXdvN1hjS2tjSUEzbG5VYTRrd0djdHgyQjVGUVB1MXBCdw",
+        "crv": "P-256",
+        "x": "X2S1dFE7zokQDST0bfHdlOWxOc8FC1l4_sG1Kwa4l4s",
+        "y": "812nU6OCKxgc2ZgSPt_dkXbYldG_smHJi4wXByDHc6g"
+      }
+    ]
+  },
+  "iss": "https://op.umu.se",
+  "iat": 1601457619,
+  "exp": 1601544019
+}
+</pre>
+<p id="rfc.section.A.2.2.p.6">And the resulting metadata used by the RP could be described as: </p>
 <pre>
 {
   "application_type": "web",

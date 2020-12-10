@@ -159,9 +159,9 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 2]
          A.2.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  67
        A.2.2.  Client Starts with Registration (Explicit Client
                Registration) . . . . . . . . . . . . . . . . . . . .  69
-   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  70
-   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  71
-   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  71
+   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  72
+   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  73
+   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  73
 
 
 
@@ -170,8 +170,8 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 3]
                         OpenID Connect Federation          December 2020
 
 
-   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  72
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  75
+   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  74
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  77
 
 1.  Introduction
 
@@ -1040,8 +1040,8 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 18]
       the values.
 
    superset_of
-      The result of merging two "superset_of" policies is the
-      intersection of the values.
+      The result of merging two "superset_of" policies is the union of
+      the values.
 
    add
       The result of merging two "add" policies is the union of the
@@ -2648,9 +2648,8 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 47]
        the RP's metadata statement, will result in metadata that the OP
        finds acceptable.  "Note" that the client_id the OP chooses does
        not have to be the same as the entity identifier of the RP.  To
-       the entity statement it will add one or more "authority_hints",
-       from its collection, that terminate in the trust anchor chosen
-       above.
+       the entity statement it will add a "trust_anchor_id" claim,
+       containing the trust anchor chosen above.
 
    5.  It will sign and return the registration response (a signed
        entity statement) to the RP.
@@ -2680,6 +2679,7 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 47]
    4.  If the RP does not accept the received entity statement for some
        reason, then it has the choice to restart the registration
        process or to give up.
+
 
 
 
@@ -3876,8 +3876,107 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 69]
      }
    }
 
-   In which case the metadata used by the RP should be described like
+   Thus the entity statement returned by the OP to the RP may look like
    this:
+
+
+{
+  "metadata": {
+    "federation_entity": {
+      "trust_anchor_id": "https://edugain.geant.org"
+    }
+  },
+  "metadata_policy": {
+    "openid_relying_party": {
+      "application_type": {
+        "one_of": [
+          "web",
+          "native"
+        ]
+      },
+      "contacts": {
+        "add": [
+          "ops@incommon.org",
+          "ops@edugain.geant.org"
+        ]
+      },
+      "grant_types": {
+        "subset_of": [
+          "authorization_code",
+          "refresh_token"
+        ]
+      }
+      "registration_access_token": {
+        "value": "nLe19cJ5e9SXXiPqnRRuxpjyWI73bDhD"
+      },
+      "client_id": {
+        "value": "m3GyHwVlyld3"
+      },
+      "client_secret_expires_at": {
+        "value": 1604049619
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 70]
+
+                        OpenID Connect Federation          December 2020
+
+
+      },
+      "registration_client_uri": {
+        "value":
+          "https://op.umu.se/openid/registration_api?client_id=m3GyHwVl"
+      },
+      "client_secret": {
+        "value": "cb44eed577f3b5edf3e08362d47a0dc44630b3dc6ea99f7a79205"
+      },
+      "client_id_issued_at": {
+        "value": 1601457619
+      }
+    }
+  },
+  "authority_hints": [
+    "https://incommon.org"
+  ],
+  "aud": "https://wiki.ligo.org",
+  "jwks": {
+    "keys": [
+      {
+        "kty": "RSA",
+        "use": "sig",
+        "kid":
+          "U2JTWHY0VFg0a2FEVVdTaHptVDJsNDNiSDk5MXRBVEtNSFVkeXZwbTZ2QQ",
+        "e": "AQAB",
+        "n":
+          "4AZjgqFwMhTVSLrpzzNcwaCyVD88C_Hb3Bmor97vH-2AzldhuVb8Ka..."
+      },
+      {
+        "kty": "EC",
+        "use": "sig",
+        "kid":
+          "LWtFcklLOGdrWXdvN1hjS2tjSUEzbG5VYTRrd0djdHgyQjVGUVB1MXBCdw",
+        "crv": "P-256",
+        "x": "X2S1dFE7zokQDST0bfHdlOWxOc8FC1l4_sG1Kwa4l4s",
+        "y": "812nU6OCKxgc2ZgSPt_dkXbYldG_smHJi4wXByDHc6g"
+      }
+    ]
+  },
+  "iss": "https://op.umu.se",
+  "iat": 1601457619,
+  "exp": 1601544019
+}
+
+   And the resulting metadata used by the RP could be described as:
+
+
+
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 71]
+
+                        OpenID Connect Federation          December 2020
+
 
    {
      "application_type": "web",
@@ -3914,14 +4013,6 @@ Appendix B.  Notices
    from, distribute, perform and display, this Implementers Draft or
    Final Specification solely for the purposes of (i) developing
    specifications, and (ii) implementing Implementers Drafts and Final
-
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 70]
-
-                        OpenID Connect Federation          December 2020
-
-
    Specifications based on such documents, provided that attribution be
    made to the OIDF as the source of the material, but that such
    attribution does not indicate an endorsement by the OIDF.
@@ -3935,6 +4026,14 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 70]
    pertain to the implementation or use of the technology described in
    this specification or the extent to which any license under such
    rights might or might not be available; neither does it represent
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 72]
+
+                        OpenID Connect Federation          December 2020
+
+
    that it has made any independent effort to identify any such rights.
    The OpenID Foundation and the contributors to this specification make
    no (and hereby expressly disclaim any) warranties (express, implied,
@@ -3970,14 +4069,6 @@ Appendix D.  Open Issues
    o  A mechanism is needed for key rotation of federation operator keys
       for long-term security and maintainability of federations.
 
-
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 71]
-
-                        OpenID Connect Federation          December 2020
-
-
    o  A mechanism may be needed for bounding key lifetimes.
 
    o  Discuss that key IDs may be chosen as the JWK Thumbprint [RFC
@@ -3988,6 +4079,16 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 71]
    o  SAML2 as used in Research and Education federations uses
       post-/prefix matching on metadata in some cases.  We might need
       something similar or just use regular expressions.
+
+
+
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 73]
+
+                        OpenID Connect Federation          December 2020
+
 
    o  Define the relationship between trust anchors and Federation
       Operators, as people will expect to find the Federation Operator
@@ -4026,14 +4127,6 @@ Appendix E.  Document History
    o  Made JWKS optional in an entity statement returned by OP as
       response of an explict client registration
 
-
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 72]
-
-                        OpenID Connect Federation          December 2020
-
-
    o  Renamed entity type to client registration type.
 
    o  Added more text describing
@@ -4044,6 +4137,14 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 72]
       authorization request.
 
    o  Added example of URLs to some examples in the appendix.
+
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 74]
+
+                        OpenID Connect Federation          December 2020
+
 
    o  Changed the automatic client registation example in the appendix
       to use request object instead of a client_assertion.
@@ -4083,13 +4184,6 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 72]
 
    o  Deleted "sub_is_leaf" entity statement since it was redundant.
 
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 73]
-
-                        OpenID Connect Federation          December 2020
-
-
    o  Added "federation_type" RP registration metadata value and
       "federation_types_supported" OP metadata value.
 
@@ -4099,6 +4193,14 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 73]
    o  Entity identifier paths are now included when using the Federation
       API, enabling use in multi-tenant deployments sharing a common
       domain name.
+
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 75]
+
+                        OpenID Connect Federation          December 2020
+
 
    o  Renamed "sub_is_leaf" to "is_leaf" in the Entity Listings Request
       operation parameters.
@@ -4139,13 +4241,6 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 73]
 
    o  A major rewrite.
 
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 74]
-
-                        OpenID Connect Federation          December 2020
-
-
    -04
 
    o  Changed client metadata names "scopes" to "rp_scopes" and "claims"
@@ -4154,6 +4249,14 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 74]
    o  Added Open Issues appendix.
 
    o  Added additional references.
+
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 76]
+
+                        OpenID Connect Federation          December 2020
+
 
    o  Editorial improvements.
 
@@ -4197,4 +4300,13 @@ Authors' Addresses
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 75]
+
+
+
+
+
+
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 77]
