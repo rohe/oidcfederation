@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="01" month="October" year="2020"/>
+    <date day="01" month="December" year="2020"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -371,6 +371,12 @@
               Producers MUST NOT use the empty list
               <spanx style="verb">[]</spanx>
               as the <spanx style="verb">policy_language_crit</spanx> value.
+            </t>
+            <t hangText="trust_marks">
+              <vspace/>
+              OPTIONAL. JSON object that describes a set of trust marks.
+              More about this in
+              <xref target="trust_marks"/>
             </t>
           </list>
         </t>
@@ -4191,7 +4197,26 @@ Host: op.umu.se
 	-13
 	<list style="symbols">
     <t>
-      An RP doing only explicit client registation are not required to
+      Added 'trust_marks' as a parameter in the entity statement.
+    </t>
+    <t>
+      An RP's self-signed entity statement MUST have the OP's issuer identifier
+      as the value of 'aud'.
+    </t>
+    <t>
+      Added RS256 as default signing algorithm for entity statements.
+    </t>
+    <t>
+      Specified that the value of 'aud' in the entity statement use in
+      automatic client registration MUST have the ASs authorization endpoint
+      URL as value. Also the 'sub' claim MUST NOT be present.
+    </t>
+    <t>
+      Separating the usage of merge and combine as proposed by Vladimir
+      Dzhuvinov in Bitbucket issue #1157.
+    </t>
+    <t>
+      An RP doing only explicit client registration are not required to
       publish and support a .well-known/openid-federation endpoint.
     </t>
 	  <t>

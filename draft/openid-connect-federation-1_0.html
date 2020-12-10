@@ -478,12 +478,12 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.32.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
-  <meta name="dct.issued" scheme="ISO8601" content="2020-06-30" />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-12-01" />
   <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
   <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
 
@@ -536,7 +536,7 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">June 30, 2020</td>
+<td class="right">December 01, 2020</td>
 </tr>
 
     	
@@ -851,10 +851,13 @@
 <dt>policy_language_crit</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  The <samp>policy_language_crit</samp> (critical) entity statement claim indicates that extensions to the policy language defined by this specification are being used that MUST be understood and processed.  It is used in the same way that <samp>crit</samp> is used for extension <a href="#RFC7515" class="xref">JSON Web Signature (JWS)</a> header parameters that MUST be understood and processed.  Its value is an array listing the policy language extensions present in the policy language statements that use those extensions.  If any of the listed extension policy language extensions are not understood and supported by the recipient, then the entity statement is invalid.  Producers MUST NOT include policy language names defined by this specification or names that do not occur in policy language statements in the entity statement in the <samp>policy_language_crit</samp> list.  Producers MUST NOT use the empty list <samp>[]</samp> as the <samp>policy_language_crit</samp> value.  </dd>
+<dt>trust_marks</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. JSON object that describes a set of trust marks.  More about this in <a href="#trust_marks" class="xref">Section 4.3</a> </dd>
 </dl>
 
 <p> </p>
-<p id="rfc.section.2.1.p.4">The entity statement is signed using the private key of the issuer entity, in the form of a <a href="#RFC7515" class="xref">JSON Web Signature (JWS)</a>.  </p>
+<p id="rfc.section.2.1.p.4">The entity statement is signed using the private key of the issuer entity, in the form of a <a href="#RFC7515" class="xref">JSON Web Signature (JWS)</a>. Entities MUST support signing Entity Statements with the RSA SHA-256 algorithm (an alg value of RS256). Consequently entities MUST support signature verification where the statement was signed using RS256.  </p>
 <p>The following is a non-normative example of an entity statement before serialization and adding a signature. The example contains a critical extension <samp>jti</samp> (JWT ID) to the entity statement and one critical extension to the policy language <samp>regexp</samp> (Regular expression).  </p>
 <pre>
 {
@@ -1199,7 +1202,7 @@
 <h1 id="rfc.section.4.1.1.7">
 <a href="#rfc.section.4.1.1.7">4.1.1.7.</a> <a href="#essential" id="essential">essential</a>
 </h1>
-<p id="rfc.section.4.1.1.7.p.1">If 'true' then claim MUST have a value.  <samp>essential</samp> can be merged with all the other types.  </p>
+<p id="rfc.section.4.1.1.7.p.1">If 'true' then claim MUST have a value.  <samp>essential</samp> can be combined with all the other types.  </p>
 <pre>
   "tos_uri": {
     "essential": true}
@@ -1208,24 +1211,24 @@
 <h1 id="rfc.section.4.1.2">
 <a href="#rfc.section.4.1.2">4.1.2.</a> <a href="#policy_type_combo" id="policy_type_combo">Policy Type Combinations</a>
 </h1>
-<p id="rfc.section.4.1.2.p.1">An entity may use more then one policy type when expressing a policy for a claim. These are the policy types that can be merged in a metadata_policy statement: </p>
+<p id="rfc.section.4.1.2.p.1">An entity may use more then one policy type when expressing a policy for a claim. These are the policy types that can be combined in a metadata_policy statement: </p>
 
 <dl>
 <dt>essential</dt>
 <dd style="margin-left: 8">
-<br> Can be merged with all the others. If <samp>essential</samp> is not present that is the same as stating essential=true.  </dd>
+<br> Can be combined with all the others. If <samp>essential</samp> is not present that is the same as stating essential=true.  </dd>
 <dt>default</dt>
 <dd style="margin-left: 8">
-<br> Can be merged with <samp>one_of</samp>, <samp>subset_of</samp> and <samp>superset_of</samp>.  If a <samp>default</samp> policy is merged with <samp>one_of</samp>, <samp>subset_of</samp> or <samp>superset_of</samp> and it is not a subset of the <samp>subset_of</samp> policy or the <samp>one_of</samp> policy or a superset of the <samp>superset_of</samp> policy then an error MUST be raised.  </dd>
+<br> Can be combined with <samp>one_of</samp>, <samp>subset_of</samp> and <samp>superset_of</samp>.  If a <samp>default</samp> policy is combined with <samp>one_of</samp>, <samp>subset_of</samp> or <samp>superset_of</samp> and it is not a subset of the <samp>subset_of</samp> policy or the <samp>one_of</samp> policy or a superset of the <samp>superset_of</samp> policy then an error MUST be raised.  </dd>
 <dt>superset_of</dt>
 <dd style="margin-left: 8">
-<br> Can be merged with <samp>subset_of</samp>.  If <samp>subset_of</samp> and <samp>superset_of</samp> both appears in a metadata_policy statement <samp>subset_of</samp> MUST be a superset of <samp>superset_of</samp>.  </dd>
+<br> Can be combined with <samp>subset_of</samp>.  If <samp>subset_of</samp> and <samp>superset_of</samp> both appears in a metadata_policy statement <samp>subset_of</samp> MUST be a superset of <samp>superset_of</samp>.  </dd>
 <dt>subset_of</dt>
 <dd style="margin-left: 8">
-<br> Can be merged with <samp>superset_of</samp>.  If <samp>superset_of</samp> and <samp>subset_of</samp> both appears in a metadata_policy statement for a claim <samp>subset_of</samp> MUST be a superset of <samp>superset_of</samp>.  </dd>
+<br> Can be combined with <samp>superset_of</samp>.  If <samp>superset_of</samp> and <samp>subset_of</samp> both appears in a metadata_policy statement for a claim <samp>subset_of</samp> MUST be a superset of <samp>superset_of</samp>.  </dd>
 <dt>value</dt>
 <dd style="margin-left: 8">
-<br> Can be merged with <samp>one_of</samp>, <samp>subset_of</samp> and <samp>superset_of</samp>.  Here the order matters. If <samp>value</samp> appear in a superiors policy statement then the others MUST be ignored. If <samp>value</samp> are defined by the subordinate then it MUST be a subset of <samp>subset_of</samp>, superset of <samp>superset_of</samp> and one of <samp>one_of</samp>.  </dd>
+<br> Can be combined with <samp>one_of</samp>, <samp>subset_of</samp> and <samp>superset_of</samp>.  Here the order matters. If <samp>value</samp> appear in a superiors policy statement then the others MUST be ignored. If <samp>value</samp> are defined by the subordinate then it MUST be a subset of <samp>subset_of</samp>, superset of <samp>superset_of</samp> and one of <samp>one_of</samp>.  </dd>
 </dl>
 
 <p> </p>
@@ -1239,25 +1242,25 @@
 <dl>
 <dt>subset_of</dt>
 <dd style="margin-left: 8">
-<br> The result of combining two <samp>subset_of</samp> policies is the intersection of the values.  </dd>
+<br> The result of merging two <samp>subset_of</samp> policies is the intersection of the values.  </dd>
 <dt>one_of</dt>
 <dd style="margin-left: 8">
-<br> The result of combining two <samp>one_of</samp> policies is the intersection of the values.  </dd>
+<br> The result of merging two <samp>one_of</samp> policies is the intersection of the values.  </dd>
 <dt>superset_of</dt>
 <dd style="margin-left: 8">
-<br> The result of combining two <samp>superset_of</samp> policies is the intersection of the values.  </dd>
+<br> The result of merging two <samp>superset_of</samp> policies is the intersection of the values.  </dd>
 <dt>add</dt>
 <dd style="margin-left: 8">
-<br> The result of combining two <samp>add</samp> policies is the union of the values.  </dd>
+<br> The result of merging two <samp>add</samp> policies is the union of the values.  </dd>
 <dt>value</dt>
 <dd style="margin-left: 8">
-<br> The result of combining two <samp>value</samp> policies is NOT allowed unless the two values are equal.  </dd>
+<br> The result of merging two <samp>value</samp> policies is NOT allowed unless the two values are equal.  </dd>
 <dt>default</dt>
 <dd style="margin-left: 8">
-<br> The result of combining two <samp>default</samp> policies is NOT allowed unless the two values are equal.  </dd>
+<br> The result of merging two <samp>default</samp> policies is NOT allowed unless the two values are equal.  </dd>
 <dt>essential</dt>
 <dd style="margin-left: 8">
-<br> The result of combining two <samp>essential</samp> policies is True if any of the values are True otherwise it is False.  Note that a missing <samp>essential</samp> specification is to be treated as an essential=true statement.  </dd>
+<br> The result of merging two <samp>essential</samp> policies is True if any of the values are True otherwise it is False.  Note that a missing <samp>essential</samp> specification is to be treated as an essential=true statement.  </dd>
 </dl>
 
 <p> </p>
@@ -2143,7 +2146,7 @@ HTTP/1.1 302 Found
 <ol>
 <li>Once it has the list of acceptable trust chains for the OP it MUST choose the subset it wants to progress with. The subset can be as small as one trust chain, but it can also contain more than one.  </li>
 <li>Based on the trust anchors referenced in the subset of trust chains, the RP will choose a set of <samp>authority_hints</samp> from its own set that terminates in those trust anchors.  </li>
-<li>The RP will now construct a self-signed entity statement where the metadata statement chosen is influenced by the OPs metadata and the <samp>authority_hints</samp> included are picked by the process described above.  </li>
+<li>The RP will now construct a self-signed entity statement where the metadata statement chosen is influenced by the OPs metadata and the <samp>authority_hints</samp> included are picked by the process described above.  Note that the <samp>aud</samp> claim in the entity statement is REQUIRED in this case and MUST be set to the OP issuer identifier.  </li>
 <li>The entity statement is sent, using POST, to the <samp>federation_registration_endpoint</samp> defined in this document. The content type MUST be set to <samp>application/jose</samp>.  </li>
 </ol>
 
@@ -2697,7 +2700,7 @@ Host: geant.org
 <h1 id="rfc.appendix.A.1.8">
 <a href="#rfc.appendix.A.1.8">A.1.8.</a> Verified Metadata for op.umu.se</h1>
 <p id="rfc.section.A.1.8.p.1">Having verified the chain, the LIGO Wiki RP can proceed with the next step.  </p>
-<p id="rfc.section.A.1.8.p.2">Merging the metadata policies from the tree entity statements we have, by a superior about its subordinate, and applying the combined policy to the metadata statement that the leaf entity presented, we get: </p>
+<p id="rfc.section.A.1.8.p.2">Combining the metadata policies from the tree entity statements we have, by a superior about its subordinate, and applying the combined policy to the metadata statement that the leaf entity presented, we get: </p>
 <pre>
 {
   "authorization_endpoint":
@@ -2997,7 +3000,12 @@ Host: op.umu.se
 <p id="rfc.section.E.p.2">-13 </p>
 
 <ul>
-<li>An RP doing only explicit client registation are not required to publish and support a .well-known/openid-federation endpoint.  </li>
+<li>Added 'trust_marks' as a parameter in the entity statement.  </li>
+<li>An RP's self-signed entity statement MUST have the OP's issuer identifier as the value of 'aud'.  </li>
+<li>Added RS256 as default signing algorithm for entity statements.  </li>
+<li>Specified that the value of 'aud' in the entity statement use in automatic client registration MUST have the ASs authorization endpoint URL as value. Also the 'sub' claim MUST NOT be present.  </li>
+<li>Separating the usage of merge and combine as proposed by Vladimir Dzhuvinov in Bitbucket issue #1157.  </li>
+<li>An RP doing only explicit client registration are not required to publish and support a .well-known/openid-federation endpoint.  </li>
 <li>Every key in a JWKS in an entity statement MUST have a kid.  </li>
 </ul>
 
