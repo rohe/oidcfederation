@@ -1156,7 +1156,7 @@
               <vspace/>
               The result of merging two
               <spanx style="verb">superset_of</spanx>
-              policies is the intersection of the values.
+              policies is the union of the values.
             </t>
             <t hangText="add">
               <vspace/>
@@ -2792,10 +2792,9 @@ HTTP/1.1 302 Found
                     <spanx style="verb">Note</spanx>
                     that the client_id the OP chooses does not have to be
                     the same as the entity identifier of the RP.
-                    To the entity statement it will add one or more
-                    <spanx style="verb">authority_hints</spanx>, from its
-                    collection, that terminate in the
-                    trust anchor chosen above.
+                    To the entity statement it will add a
+                    <spanx style="verb">trust_anchor_id</spanx> claim,
+                    containing the trust anchor chosen above.
                   </t>
                   <t>
                     It will sign and return the registration response (a signed
@@ -3966,8 +3965,89 @@ Host: op.umu.se
 ]]></artwork>
           </figure>
           <t>
-            In which case the metadata used by the RP should be described like
-            this:
+            Thus the entity statement returned by the OP to the RP may look
+            like this:
+          </t>
+          <figure>
+            <artwork><![CDATA[
+              
+{
+  "metadata": {
+    "federation_entity": {
+      "trust_anchor_id": "https://edugain.geant.org"
+    }
+  },
+  "metadata_policy": {
+    "openid_relying_party": {
+      "application_type": {
+        "one_of": [
+          "web",
+          "native"
+        ]
+      },
+      "contacts": {
+        "add": [
+          "ops@incommon.org",
+          "ops@edugain.geant.org"
+        ]
+      },
+      "grant_types": {
+        "subset_of": [
+          "authorization_code",
+          "refresh_token"
+        ]
+      }
+      "registration_access_token": {
+        "value": "nLe19cJ5e9SXXiPqnRRuxpjyWI73bDhD"
+      },
+      "client_id": {
+        "value": "m3GyHwVlyld3"
+      },
+      "client_secret_expires_at": {
+        "value": 1604049619
+      },
+      "registration_client_uri": {
+        "value": "https://op.umu.se/openid/registration_api?client_id=m3GyHwVlyld3"
+      },
+      "client_secret": {
+        "value": "cb44eed577f3b5edf3e08362d47a0dc44630b3dc6ea99f7a792050d9"
+      },
+      "client_id_issued_at": {
+        "value": 1601457619
+      }
+    }
+  },
+  "authority_hints": [
+    "https://incommon.org"
+  ],
+  "aud": "https://wiki.ligo.org",
+  "jwks": {
+    "keys": [
+      {
+        "kty": "RSA",
+        "use": "sig",
+        "kid": "U2JTWHY0VFg0a2FEVVdTaHptVDJsNDNiSDk5MXRBVEtNSFVkeXZwbTZ2QQ",
+        "e": "AQAB",
+        "n": "4AZjgqFwMhTVSLrpzzNcwaCyVD88C_Hb3Bmor97vH-2AzldhuVb8KaF7OCkFxLoxc5_bjCR7CL66bxr2iiIi7wAiekApEXg-jI-MLmb7gYPT5mTRyMHoO9u4Xd-h3y1Uj1SxUpCZkoLucuiu3A6LTJw79zl0CCfsPKGLJw7m2BogI2hnUyktuWp5KhZNSI9E6kzOaxDo0hPmF6lUbk_j5ZT86nJJGDnjM7AathWOVEwe2zCFlm6kapnAFA2OVjVkyf1fPFAuwzS_Ti1aHwLsT6toKRrVMaYmteWLsIuqISRapKRL6bD9rjkaXI3ro9EZigLUkSOvmrZZ9GWoBVnB2w"
+      },
+      {
+        "kty": "EC",
+        "use": "sig",
+        "kid": "LWtFcklLOGdrWXdvN1hjS2tjSUEzbG5VYTRrd0djdHgyQjVGUVB1MXBCdw",
+        "crv": "P-256",
+        "x": "X2S1dFE7zokQDST0bfHdlOWxOc8FC1l4_sG1Kwa4l4s",
+        "y": "812nU6OCKxgc2ZgSPt_dkXbYldG_smHJi4wXByDHc6g"
+      }
+    ]
+  },
+  "iss": "https://op.umu.se",
+  "iat": 1601457619,
+  "exp": 1601544019
+}
+]]></artwork>
+          </figure>
+          <t>
+            And the resulting metadata used by the RP could be described as:
           </t>
           <figure>
             <artwork><![CDATA[
