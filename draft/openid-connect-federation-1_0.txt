@@ -15,7 +15,7 @@
                                                        December 01, 2020
 
 
-                OpenID Connect Federation 1.0 - draft 13
+                OpenID Connect Federation 1.0 - draft 14
                      openid-connect-federation-1_0
 
 Abstract
@@ -48,8 +48,8 @@ Table of Contents
    3.  Metadata  . . . . . . . . . . . . . . . . . . . . . . . . . .  11
      3.1.  RP Metadata . . . . . . . . . . . . . . . . . . . . . . .  11
      3.2.  OP Metadata . . . . . . . . . . . . . . . . . . . . . . .  12
-     3.3.  OAuth Authorization Server  . . . . . . . . . . . . . . .  13
-     3.4.  OAuth Client  . . . . . . . . . . . . . . . . . . . . . .  13
+     3.3.  OAuth Authorization Server  . . . . . . . . . . . . . . .  14
+     3.4.  OAuth Client  . . . . . . . . . . . . . . . . . . . . . .  14
 
 
 
@@ -61,21 +61,16 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 1]
      3.5.  OAuth Protected Resource  . . . . . . . . . . . . . . . .  14
      3.6.  Federation Entity . . . . . . . . . . . . . . . . . . . .  14
    4.  Federation Policy . . . . . . . . . . . . . . . . . . . . . .  15
-     4.1.  Applying Policy to Metadata . . . . . . . . . . . . . . .  15
-       4.1.1.  Policy Language . . . . . . . . . . . . . . . . . . .  15
-         4.1.1.1.  subset_of . . . . . . . . . . . . . . . . . . . .  15
-         4.1.1.2.  one_of  . . . . . . . . . . . . . . . . . . . . .  16
-         4.1.1.3.  superset_of . . . . . . . . . . . . . . . . . . .  16
-         4.1.1.4.  add . . . . . . . . . . . . . . . . . . . . . . .  16
-         4.1.1.5.  value . . . . . . . . . . . . . . . . . . . . . .  17
-         4.1.1.6.  default . . . . . . . . . . . . . . . . . . . . .  17
-         4.1.1.7.  essential . . . . . . . . . . . . . . . . . . . .  18
-       4.1.2.  Policy Type Combinations  . . . . . . . . . . . . . .  18
-       4.1.3.  Combining Policies  . . . . . . . . . . . . . . . . .  19
-         4.1.3.1.  Policy Combination Example  . . . . . . . . . . .  20
-       4.1.4.  Enforcing Policy  . . . . . . . . . . . . . . . . . .  22
-       4.1.5.  Extending the Policy Language . . . . . . . . . . . .  22
-       4.1.6.  Policy Example  . . . . . . . . . . . . . . . . . . .  23
+     4.1.  Metadata policy . . . . . . . . . . . . . . . . . . . . .  15
+       4.1.1.  Operators . . . . . . . . . . . . . . . . . . . . . .  16
+       4.1.2.  Restrictions on policy entries  . . . . . . . . . . .  17
+       4.1.3.  Combining policies  . . . . . . . . . . . . . . . . .  17
+         4.1.3.1.  Merging operators . . . . . . . . . . . . . . . .  18
+       4.1.4.  Applying policies . . . . . . . . . . . . . . . . . .  18
+       4.1.5.  Policy Combination Example  . . . . . . . . . . . . .  19
+       4.1.6.  Enforcing Policy  . . . . . . . . . . . . . . . . . .  22
+       4.1.7.  Extending the Policy Language . . . . . . . . . . . .  22
+       4.1.8.  Policy Example  . . . . . . . . . . . . . . . . . . .  23
      4.2.  Applying Constraints  . . . . . . . . . . . . . . . . . .  25
        4.2.1.  Max Path Length . . . . . . . . . . . . . . . . . . .  25
        4.2.2.  Naming Constraints  . . . . . . . . . . . . . . . . .  26
@@ -106,6 +101,11 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 1]
      8.1.  Protocol Key Rollover . . . . . . . . . . . . . . . . . .  40
      8.2.  Key Rollover for a Trust Anchor . . . . . . . . . . . . .  40
      8.3.  Revocation  . . . . . . . . . . . . . . . . . . . . . . .  40
+   9.  OpenID Connect Communication  . . . . . . . . . . . . . . . .  41
+     9.1.  Automatic Registration  . . . . . . . . . . . . . . . . .  41
+       9.1.1.  The Authentication Request  . . . . . . . . . . . . .  42
+         9.1.1.1.  Using Request Object  . . . . . . . . . . . . . .  42
+           9.1.1.1.1.  Processing the Authentication Request . . . .  43
 
 
 
@@ -114,11 +114,6 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 2]
                         OpenID Connect Federation          December 2020
 
 
-   9.  OpenID Connect Communication  . . . . . . . . . . . . . . . .  41
-     9.1.  Automatic Registration  . . . . . . . . . . . . . . . . .  41
-       9.1.1.  The Authentication Request  . . . . . . . . . . . . .  42
-         9.1.1.1.  Using Request Object  . . . . . . . . . . . . . .  42
-           9.1.1.1.1.  Processing the Authentication Request . . . .  43
          9.1.1.2.  Using Pushed Authorization  . . . . . . . . . . .  44
            9.1.1.2.1.  Processing the Authentication Request . . . .  45
        9.1.2.  Authentication Error Response . . . . . . . . . . . .  46
@@ -162,6 +157,11 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 2]
    Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  72
    Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  73
    Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  73
+   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  74
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  77
+
+
+
 
 
 
@@ -169,9 +169,6 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 3]
 
                         OpenID Connect Federation          December 2020
 
-
-   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  74
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  77
 
 1.  Introduction
 
@@ -219,15 +216,15 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 3]
       be identified in a context.  All entities in an OpenID Connect
       federation MUST have a globally unique identifier.
 
+   Entity identifier
+      An URI which is globally unique and which is bound to one Entity.
+
 
 
 Hedberg, et al.           Expires June 4, 2021                  [Page 4]
 
                         OpenID Connect Federation          December 2020
 
-
-   Entity identifier
-      An URI which is globally unique and which is bound to one Entity.
 
    Entity statement
       An entity statement is issued by an entity, which pertains to a
@@ -273,7 +270,10 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 4]
    iat
       REQUIRED.  The time the statement was issued.  Its value is a JSON
       number representing the number of seconds from 1970-01-01T0:0:0Z
+      as measured in UTC until the date/time.  See RFC 3339 [RFC3339]
+      for details regarding date/times in general and UTC in particular.
 
+   exp
 
 
 
@@ -282,10 +282,6 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 5]
                         OpenID Connect Federation          December 2020
 
 
-      as measured in UTC until the date/time.  See RFC 3339 [RFC3339]
-      for details regarding date/times in general and UTC in particular.
-
-   exp
       REQUIRED.  Expiration time on or after which the statement MUST
       NOT be accepted for processing.  Its value is a JSON number
       representing the number of seconds from 1970-01-01T0:0:0Z as
@@ -329,7 +325,11 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 5]
       statement MUST NOT contain a "metadata" claim.
 
    metadata_policy
-
+      OPTIONAL.  JSON object that describes a metadata policy.  Each key
+      of the JSON object represents a metadata type identifier, and each
+      value MUST be a JSON object representing the metadata policy
+      according to the metadata schema of that metadata type.  An entity
+      statement may contain multiple metadata policy statements, but
 
 
 
@@ -338,11 +338,6 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 6]
                         OpenID Connect Federation          December 2020
 
 
-      OPTIONAL.  JSON object that describes a metadata policy.  Each key
-      of the JSON object represents a metadata type identifier, and each
-      value MUST be a JSON object representing the metadata policy
-      according to the metadata schema of that metadata type.  An entity
-      statement may contain multiple metadata policy statements, but
       only one for each metadata type.  Only non-leaf entities MAY
       contain a "metadata_policy" claim.  Leaf entities MUST NOT contain
       a metadata_policy claim.
@@ -385,7 +380,12 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 6]
       "policy_language_crit" value.
 
    trust_marks
+      OPTIONAL.  JSON object that describes a set of trust marks.  More
+      about this in Section 4.3
 
+   The entity statement is signed using the private key of the issuer
+   entity, in the form of a JSON Web Signature (JWS) [RFC7515].
+   Entities MUST support signing Entity Statements with the RSA SHA-256
 
 
 
@@ -394,12 +394,6 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 7]
                         OpenID Connect Federation          December 2020
 
 
-      OPTIONAL.  JSON object that describes a set of trust marks.  More
-      about this in Section 4.3
-
-   The entity statement is signed using the private key of the issuer
-   entity, in the form of a JSON Web Signature (JWS) [RFC7515].
-   Entities MUST support signing Entity Statements with the RSA SHA-256
    algorithm (an alg value of RS256).  Consequently entities MUST
    support signature verification where the statement was signed using
    RS256.
@@ -409,6 +403,12 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 7]
    critical extension "jti" (JWT ID) to the entity statement and one
    critical extension to the policy language "regexp" (Regular
    expression).
+
+
+
+
+
+
 
 
 
@@ -642,17 +642,37 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 11]
    federation_registration_endpoint
       OPTIONAL.  URL of the OP's Federation specific Dynamic Client
       Registration Endpoint.  If the OP supports explicit client
-      registration as described in Section 9.2, then this claim is
+      registration as described inSection 9.2, then this claim is
       REQUIRED.
 
-   client_registration_authn_methods_supported
-      OPTIONAL.  JSON object with keys representing processes/endpoints
-      and lists of Client Authentication methods as values.  supported
-      by the authorization endpoint.  In this specification we use the
-      process/endpoints: authorization request (ar) as described in
-      Section 3 of OpenID Connect Core 1.0 [OpenID.Core] and pushed
+   client_verification_methods_supported
+      OPTIONAL.  In OIDC Core no authentication is performed at the
+      authentication endpoint.  Instead you can say that a client
+      verification is performed.  What it amounts to, is that the OP
+      maps the information in the request to the information it has on
+      the client, through static or dynamic registration.  If the map is
+      successful then the request is permitted to proceed.  Something
+      similar happens when automatic registration is used.  Since there
+      has been no explicit registration the OP will gather information
+      about the RP using the process outlined in Section 5.  Once it has
+      the RP metadata the OP can verify the information the RP provides
+      in the request.  We make this a bit more secure by demanding the
+      use of the request parameter or pushed authorization.  The claim
+      value is a JSON object with keys representing processes/endpoints
+      and as values lists of Client verification methods that are
+      supported by the authorization endpoint.  In this specification we
+      use the process/endpoints: authorization request (ar) as described
+      in Section 3 of OpenID Connect Core 1.0 [OpenID.Core] and pushed
       authorization request (par) as described in [PAR] .  The Client
-      Authentication methods are:
+      verification methods are:
+
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 12]
+
+                        OpenID Connect Federation          December 2020
+
 
       request_object
          This uses a request object as described in OpenID Connect Core
@@ -666,20 +686,12 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 11]
          Authorization Server's entity_id.
 
       tls_client_auth
-
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 12]
-
-                        OpenID Connect Federation          December 2020
-
-
          section 2.1 of [RFC8705]
 
       self_signed_tls_client_auth
          section 2.2 of [RFC8705]
 
-      The only client authentication method that can be used if doing
+      The only client verification method that can be used if doing
       authentication as described in OpenID Connect Core 1.0
       [OpenID.Core] is "request_object".  If pushed authorization is
       used then one of "private_key_jwt", "tls_client_auth" and
@@ -702,11 +714,21 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 12]
      "client_registration_types_supported": ["automatic", "explicit"],
      "federation_registration_endpoint":
        "https://server.example.com/fedreg",
-     "client_registration_authn_methods_supported": {
+     "client_verification_methods_supported": {
        "ar": ["request_object"],
        "par": ["private_key_jwt", "self_signed_tls_client_auth"]
      }
    }
+
+
+
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 13]
+
+                        OpenID Connect Federation          December 2020
+
 
 3.3.  OAuth Authorization Server
 
@@ -721,14 +743,6 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 12]
 
    All parameters defined in Section 2 of RFC 7591 [RFC7591] are
    applicable.
-
-
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 13]
-
-                        OpenID Connect Federation          December 2020
-
 
 3.5.  OAuth Protected Resource
 
@@ -764,6 +778,14 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 13]
       relevant to this entity.
 
    homepage_uri
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 14]
+
+                        OpenID Connect Federation          December 2020
+
+
       OPTIONAL.  URL to a generic home page representing this entity.
 
    trust_marks
@@ -772,19 +794,6 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 13]
       Section 4.3
 
    Example
-
-
-
-
-
-
-
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 14]
-
-                        OpenID Connect Federation          December 2020
-
 
    "federation_entity": {
      "federation_api_endpoint":
@@ -795,40 +804,31 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 14]
 
 4.  Federation Policy
 
-4.1.  Applying Policy to Metadata
+4.1.  Metadata policy
 
-   The metadata for a specific entity can be constructed by combining
-   the metadata polices defined by the trust anchor and possible
-   intermediates starting with the trust anchor and the applying this
-   combined policy to the metadata information in a leaf entity's entity
-   statement.
+   An entity can publish metadata policies pertaining to entities of a
+   specific type.  Entity type identifiers specified in this document
+   can be found inSection 3.
 
-4.1.1.  Policy Language
+   Each such metadata policy has the following structure:
 
-   Policies are expressed using a JSON object.
+   o  It consists of one or more policy entries
 
-   The following keywords represent different actions/checks that MUST
-   be applied to the metadata.
+   o  Each policy entry applies to one metadata parameter, such as
+      "id_token_signing_alg"
 
-4.1.1.1.  subset_of
+   o  Each policy entry consists of one or more operators, which can be
+      value modifiers or value checks.
 
-   The resulting value of the claim will be the intersection of the
-   values specified here and the values of the claim.  For instance, the
-   claim policy:
+   o  An operator can only appear once in a policy entry.
 
-     "response_types": {
-       "subset_of": ["code", "code token", "code id_token"]}
+   An example of a policy entry:
 
-   if applied to a metadata statement with:
+   "id_token_signing_alg": {
+     "default": "ES256",
+     "one_of" : ["ES256", "ES384", "ES512"]
+   }
 
-     "response_types": ["code", "code id_token token", "code id_token"]
-
-   will update the claim in the metadata statement to be:
-
-     "response_types": ["code", "code id_token"]
-
-   If an entity tries to register a value that is not in the "subset_of"
-   set of values, applying the policy MUST lead to a failure.
 
 
 
@@ -842,53 +842,53 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 15]
                         OpenID Connect Federation          December 2020
 
 
-4.1.1.2.  one_of
+   Which fits into a metadata policy like this:
 
-   The value of the claim MUST be one of the ones listed here.  As an
-   example, if the claim policy:
+   "metadata_policy" : {
+     "openid_relying_party": {
+       "id_token_signing_alg": {
+         "default": "ES256",
+         "one_of" : ["ES256", "ES384", "ES512"]
+       }
+     }
+   }
 
-     "request_object_signing_alg": {
-       "one_of": ["ES256", "ES384", "ES512"]}
+4.1.1.  Operators
 
-   is applied to the metadata statement
+   Value modifiers are:
 
-     "request_object_signing_alg": "ES384"
+   value
+      Disregarding what value the parameter had, if any, the parameters
+      value will be set to operators value.
 
-   the resulting claim statement will be:
+   add
+      Adds the value or values specified to the metadata parameter.  If
+      the any of the specified values are already present as values of
+      the parameter, they will not be added.  If the parameter has no
+      value then the parameter is initialized with the specified value/-
+      s.
 
-     "request_object_signing_alg": "ES384"
+   default
+      if no value is assigned to this parameter, then the parameter's
+      value will be set to the operators value/-s.
 
-   If an entity tries to register a value that is not in the "one_of"
-   set of values, applying the policy MUST lead to a failure.
+   value checks are:
 
-4.1.1.3.  superset_of
+   one_of
+      The value of the parameter MUST be one of the ones listed in this
+      directive.
 
-   The values of the claim MUST contain the ones listed here.  We define
-   superset the mathematical way, that is equality is included.  As an
-   example, if the claim policy:
+   subset_of
+      The resulting value of the parameter will be the intersection of
+      the values in the directive and the values of the parameter.
 
-    "request_object_signing_alg_values_supported": {
-       "superset_of": ["ES256", "RS256"]}
+   superset_of
+      The values of the parameter MUST contain the ones in the
+      directive.  We define superset the mathematical way, that is
+      equality is included.
 
-   is applied to the metadata statement
-
-   "request_object_signing_alg_values_supported": [
-     "ES256", "ES384", "RS256", "RS512"]
-
-   the resulting claim statement will be:
-
-   "request_object_signing_alg_values_supported": [
-     "ES256", "ES384", "RS256", "RS512"]
-
-   If an entity tries to register a set of values that are not a
-   superset of the ones specified by "superset_of", applying the policy
-   MUST lead to a failure.
-
-4.1.1.4.  add
-
-   Adds the value or values specified to the list of values for the
-   metadata statement claim.  If the specified value is already present
-   in the list, this operation has no effect.  If the claim has no value
+   essential
+      If 'true' then the parameter MUST have a value.
 
 
 
@@ -898,53 +898,53 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 16]
                         OpenID Connect Federation          December 2020
 
 
-   then the claim is initialized with the specified value.  As an
-   example, if the claim policy:
+4.1.2.  Restrictions on policy entries
 
-     "contacts": {
-       "add": "support@federation.example.com"}
+   As stated a policy entry can contain one or more operators.  Not all
+   operators are allowed to appear together in a policy entry.
 
-   is applied to the following claim in the metadata statement:
+   subset_of/superset_of and one_of
+      "subset_of" and "superset_of" applies to parameters that can have
+      more than one value (for instance "contacts") while "one_of"
+      applies to parameters that can only have one value (for instance
+      "id_token_signed_response_alg" ).  This means that "one_of" can
+      not appear beside "subset_of"/ "superset_of" in a policy entry.
 
-     "contacts": "support@org.example.com"
+   value
+      "value" overrides everything else.  So having "value" together
+      with any other operator (except for "essential") does not make
+      sense.
 
-   the end result will be the claim:
+   Other restrictions are:
 
-     "contacts": ["support@org.example.com",
-                  "support@federation.example.com"]
+   o  if "subset_of" and "superset_of" both appears as operators then
+      the list of values in "subset_of" MUST be a superset of the values
+      in "superset_of".
 
-4.1.1.5.  value
+   o  if "add" appears in a policy entry together with "subset_of" then
+      the value/values of "add" MUST be a subset of "subset_of".
 
-   Disregarding what value the claim had, if any, the claims value will
-   be set to what is specified here.  As an example, if the claim
-   policy:
+   o  if "add" appears in a policy entry together with "superset_of"
+      then the values of "add" MUST be a superset of "superset_of".
 
-     "require_auth_time": {
-       "value": true}
+   o  if "default" appears in a policy entry together with "subset_of"
+      then the values of "default" MUST be a subset of "subset_of".
 
-   is applied to a metadata statement with the claim
+   o  if "default" appears in a policy entry together with "superset_of"
+      then the values of "default" MUST be a superset of "superset_of".
 
-     "require_auth_time": false
+   o  if "add" appears in a policy entry together with "one_of" then the
+      value of "add" MUST be a member of "one_of".
 
-   then the metadata statement will afterwards contain:
+   o  if "default" appears in a policy entry together with "one_of" then
+      the value "default" MUST be a member of "one_of".
 
-     "require_auth_time": true
+4.1.3.  Combining policies
 
-4.1.1.6.  default
+   If there is more than one metadata policy in a trust chain, then the
+   policies MUST be combined before they are applied to the metadata
+   statement.
 
-   If no value is assigned to this claim, then the claim's value will be
-   set to what is specified here.  As an example, if the claim policy:
-
-     "require_auth_time": {
-       "default": true }
-
-   is applied to a metadata statement with the claim
-
-     "require_auth_time": false
-
-   then the metadata statement will afterwards contain:
-
-     "require_auth_time": false
 
 
 
@@ -954,54 +954,54 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 17]
                         OpenID Connect Federation          December 2020
 
 
-   If on the other hand, the metadata statement did not contain a
-   "require_auth_time" claim then the following claim statement would be
-   added to the metadata statement:
+   Using the notation we have defined in Section 2.2 policies are
+   combined starting with ES[i] and then adding the policies from ES[j]
+   j=i-1,..,1 before applying the combined policy to the entity's
+   metadata.
 
-     "require_auth_time": true
+   After each combination, the policy for each parameter MUST adhere to
+   the rules defined in 'Restrictions on policy entries'.
 
-4.1.1.7.  essential
-
-   If 'true' then claim MUST have a value.  "essential" can be combined
-   with all the other types.
-
-     "tos_uri": {
-       "essential": true}
-
-   The upshot of applying this policy to a metadata statement is that
-   the metadata statement MUST contain such a claim otherwise the
-   metadata statement is incorrect.
-
-4.1.2.  Policy Type Combinations
-
-   An entity may use more then one policy type when expressing a policy
-   for a claim.  These are the policy types that can be combined in a
-   metadata_policy statement:
-
-   essential
-      Can be combined with all the others.  If "essential" is not
-      present that is the same as stating essential=true.
-
-   default
-      Can be combined with "one_of", "subset_of" and "superset_of".  If
-      a "default" policy is combined with "one_of", "subset_of" or
-      "superset_of" and it is not a subset of the "subset_of" policy or
-      the "one_of" policy or a superset of the "superset_of" policy then
-      an error MUST be raised.
-
-   superset_of
-      Can be combined with "subset_of".  If "subset_of" and
-      "superset_of" both appears in a metadata_policy statement
-      "subset_of" MUST be a superset of "superset_of".
+4.1.3.1.  Merging operators
 
    subset_of
-      Can be combined with "superset_of".  If "superset_of" and
-      "subset_of" both appears in a metadata_policy statement for a
-      claim "subset_of" MUST be a superset of "superset_of".
+      The result of merging the values of two "subset_of" operators is
+      the intersection of the operator values.
+
+   one_of
+      The result of merging the values of two "one_of" operators is the
+      intersection of the operator values.
+
+   superset_of
+      The result of merging the values of two "superset_of" operators is
+      the union of the operator values.
+
+   add
+      The result of merging the values of two "add" operators is the
+      union of the values.
 
    value
-      Can be combined with "one_of", "subset_of" and "superset_of".
-      Here the order matters.  If "value" appear in a superiors policy
+      Merging two "value" operators is NOT allowed unless the two
+      operator values are equal.
+
+   default
+      Merging two "default" operators is NOT allowed unless the two
+      operator values are equal.
+
+   essential
+      If a superior has specified essential=true then a subordinate can
+      not change that.  If a superior has specified essential=false then
+      a subordinate is allowed to change that to essential=true.  If a
+      superior has not specified "essential" then a subordinate can set
+      "essential" to true or false.
+
+4.1.4.  Applying policies
+
+   Once combining the Metadata policies has be accomplished the next
+   step is to apply the combined policy onto the metadata.
+
+   Doing that, one follows these steps for each parameter in the policy.
+
 
 
 
@@ -1010,54 +1010,54 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 18]
                         OpenID Connect Federation          December 2020
 
 
-      statement then the others MUST be ignored.  If "value" are defined
-      by the subordinate then it MUST be a subset of "subset_of",
-      superset of "superset_of" and one of "one_of".
+   1.  If there is a "value" operator in the policy, apply that and
+       you?re done.
 
-4.1.3.  Combining Policies
+   2.  Add whatever value is specified in an "add " operator.
 
-   If there is more than one metadata policy in a trust chain, then the
-   policies MUST be combined before they are applied to the metadata
-   statement.
+   3.  If the parameter still has no value apply the "default " if there
+       is one.
 
-   Using the notation we have defined in Section 2.2 policies are
-   combined starting with ES[i] and then adding the policies from ES[j]
-   j=i-1,..,1 before applying the combined policy to the entity's
-   metadata.
+   4.  Do the essential check.  If "essential" is missing as an operator
+       "essential" is to be treated as if set to true.  If "essential"
+       is defined to be True then the claim MUST have a value by now.
+       Otherwise applying the operator MUST fail.
 
-   After having combined the policies, the policy for each claim MUST
-   adhere to the rules defined in Section 4.1.2.
+   5.  Do the other checks.  Verified that the value is "one_of " or
+       that the values are "subset_of"/"superset_of".  If the parameter
+       values do not fall within the allowed boundaries applying the
+       operator MUST fail.
 
-   These are the policy types that can be merged when combining two
-   policies:
+4.1.5.  Policy Combination Example
 
-   subset_of
-      The result of merging two "subset_of" policies is the intersection
-      of the values.
 
-   one_of
-      The result of merging two "one_of" policies is the intersection of
-      the values.
 
-   superset_of
-      The result of merging two "superset_of" policies is the union of
-      the values.
 
-   add
-      The result of merging two "add" policies is the union of the
-      values.
 
-   value
-      The result of merging two "value" policies is NOT allowed unless
-      the two values are equal.
 
-   default
-      The result of merging two "default" policies is NOT allowed unless
-      the two values are equal.
 
-   essential
-      The result of merging two "essential" policies is True if any of
-      the values are True otherwise it is False.  Note that a missing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1065,14 +1065,6 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 19]
 
                         OpenID Connect Federation          December 2020
 
-
-      "essential" specification is to be treated as an essential=true
-      statement.
-
-   It should be noted that applying "subset_of", "superset_of" or
-   "one_of" to an empty value will result in an empty value.
-
-4.1.3.1.  Policy Combination Example
 
    A federations policy for RPs:
 
@@ -1105,6 +1097,14 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 19]
        "value": "web"
      }
    }
+
+
+
+
+
+
+
+
 
 
 
@@ -1212,13 +1212,13 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 21]
      }
    }
 
-4.1.4.  Enforcing Policy
+4.1.6.  Enforcing Policy
 
    If applying policies to a metadata statement results in incorrect
    metadata, then such a metadata statement MUST be regarded as broken
    and MUST NOT be used.
 
-4.1.5.  Extending the Policy Language
+4.1.7.  Extending the Policy Language
 
    There might be parties that want to extend the policy language
    defined here.  If that happens then the rule is that if software
@@ -1237,7 +1237,7 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 22]
    extension keyword is listed in the "policy_language_crit" list and
    not understood, then the metadata MUST be rejected.
 
-4.1.6.  Policy Example
+4.1.8.  Policy Example
 
    The following is a non-normative example of a set of policies being
    applied to an RP's metadata.
@@ -1358,8 +1358,8 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 24]
    naming_constraints
       OPTIONAL.  JSON object.  Restriction on the entity identifiers of
       the entities below this entity.  The behavior of this claim mimics
-      what is defined in Section 4.2.1.10 in [RFC5280].  Restrictions
-      are defined in terms of permitted or excluded name subtrees.
+      what is defined in Section 4.2.1.10 in[RFC5280].  Restrictions are
+      defined in terms of permitted or excluded name subtrees.
 
    The following is a non-normative example of such a specification:
 
@@ -1392,7 +1392,7 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 24]
 
    A "max_path_length" constraint of zero indicates that no entity
    statement may appear between this entity statement and the leaf
-   entity statement.  Where it appears, the "max_path_length" constraint
+   entity statement.  Where it appears, the "max_path_length "
 
 
 
@@ -1402,8 +1402,8 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 25]
                         OpenID Connect Federation          December 2020
 
 
-   MUST have a value that is greater than or equal to zero.  Where
-   "max_path_length" does not appear, no limit is imposed.
+   constraint MUST have a value that is greater than or equal to zero.
+   Where "max_path_length" does not appear, no limit is imposed.
 
    Assuming that we have a trust chain with four entity statements:
 
@@ -1424,8 +1424,8 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 25]
       "max_path_length" of 1, and I1 specifies no "max_path_length"
       constraint.
 
-   o  Neither TA nor I2 specifies any "max_path_length" constraint while
-      I1 specifies "max_path_length" of 0.
+   o  Neither TA nor I2 specifies any "max_path_length " constraint
+      while I1 specifies "max_path_length" of 0.
 
    The trust chain does not fulfill the constraints if:
 
@@ -1572,16 +1572,16 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 28]
 
    course, in real multi-tenant deployments, in which the entity
    identifier might be of the form "https://multi-tenant-
-   service.example.com/my-tenant-identifier" the tenant is very likely
+   service.example.com/my-tenant-identifier " the tenant is very likely
    to not have control over the path "https://multi-tenant-
    service.example.com/.well-known/openid-federation/my-tenant-
-   identifier" whereas it is very likely to have control over the path
+   identifier " whereas it is very likely to have control over the path
    "https://multi-tenant-service.example.com/my-tenant-identifier/.well-
-   known/openid-federation".  Therefore, if using the configuration
+   known/openid-federation " .  Therefore, if using the configuration
    endpoint at the URL with the tenant path after the well-known part
    fails, it is RECOMMENDED that callers retry at the URL with the
-   tenant path before the well-known part (even though this violates
-   [RFC8615]).
+   tenant path before the well-known part (even though this
+   violates[RFC8615]).
 
    Federation Entities SHOULD make an Entity Configuration Document
    available at the configuration endpoint.  There is only one exception
@@ -1750,7 +1750,7 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 31]
    A positive response is a signed entity statement where the content
    type MUST be set to "application/jose".  If it is negative response
    it will be a JSON object and the content type MUST be set to
-   "application/json".  See more about error responses in Section 6.4.
+   "application/json".  See more about error responses inSection 6.4.
 
 
 
@@ -2100,9 +2100,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 37]
    peer from each of the intermediates.  If the received entity
    statement contains an authority hint this process is repeated.  This
    time with the "iss" set to the intermediates entity identifier and
-   the "sub" to be the "iss" of the previous query.  The Consumer SHOULD
-   NOT attempt to fetch entity statements it already has fetched during
-   this process (loop prevention).
+   the "sub " to be the "iss" of the previous query.  The Consumer
+   SHOULD NOT attempt to fetch entity statements it already has fetched
+   during this process (loop prevention).
 
    A successful operation will return one or more lists of entity
    statements.  Each of the lists terminating in a self-signed entity
@@ -2259,7 +2259,7 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 40]
 
    Independent of whether the RP uses automatic or explicit
    registration, the way that the RP learns about the OP is the same.
-   It will use the procedure that is described in Section 7.
+   It will use the procedure that is described inSection 7.
 
 9.1.  Automatic Registration
 
@@ -2281,12 +2281,12 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 40]
       must prove that it has control of the RP's private keys.
 
    o  The client_id MUST be a URL from which the OP can fetch the RP's
-      self-signed entity statement using the process described in
-      Section 5.
+      self-signed entity statement using the process described
+      inSection 5.
 
-   o  The OP MUST publish that it supports a client authentication
-      method using the metadata claim
-      "client_registration_authn_methods_supported ".
+   o  The OP MUST publish that it supports a client verification method
+      using the metadata claim "client_verification_methods_supported ".
+
 
 
 
@@ -2411,7 +2411,7 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 43]
 
 
    client then the OP should try to resolve and fetch trust chains
-   starting with the RP's entity statement as described in Section 7.1.
+   starting with the RP's entity statement as described inSection 7.1.
 
    The OP MUST then validate the possible trust chains, as described in
    Section 7.2, and resolve the RP metadata with type
@@ -2432,10 +2432,10 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 43]
    payload of a request object directly to the AS in exchange for a
    request_uri.
 
-   When it comes to client authentication the applicable authentication
-   methods are three:
+   When it comes to client verification the applicable methods are
+   three:
 
-   o  Using a JWT for Client Authentication as described for
+   o  Using a JWT for Client authentication as described for
       "private_key_jwt" in section 9 of OpenID Connect Core 1.0
       [OpenID.Core]
 
@@ -2497,14 +2497,14 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 44]
 9.1.1.2.1.  Processing the Authentication Request
 
    There are three different paths the OP must follow when processing
-   the authentication request depending on which client authentication
+   the authentication request depending on which client verification
    method that was used.  It all starts the same though.  When the OP
    receives an incoming authentication request, the OP supports OpenID
    Connect Federation, the incoming client_id is a valid URL, the OP
    does not have the client_id registered as a known client and the OP
-   supports the client authentication method used then the OP should try
+   supports the client verification method used then the OP should try
    to resolve and fetch trust chains starting with the RP's entity
-   statement as described in Section 7.1.
+   statement as described inSection 7.1.
 
    The OP should validate the possible trust chains, as described in
    Section 7.2, and resolve the RP metadata with type
@@ -2522,9 +2522,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 45]
                         OpenID Connect Federation          December 2020
 
 
-   Once the OP has the RP's metadata, it can verify the client
-   authentication.  This is where it diverges depending on which client
-   auhentication method was used.
+   Once the OP has the RP's metadata, it can verify the client.  This is
+   where it diverges depending on which client auhentication method was
+   used.
 
    private_key_jwt  If this method is used then the OP will try to
       verify the signature of the signed JWT using the key material
@@ -2939,7 +2939,7 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 52]
 A.1.1.  Configuration Information for op.umu.se
 
    The LIGO WIKI RP fetches the self-signed entity statement from the OP
-   (op.umu.se) using the process defined in Section 5.
+   (op.umu.se) using the process defined inSection 5.
 
    The result is this entity statement.
 
@@ -3682,7 +3682,7 @@ A.2.1.1.  OP Fetches Entity Statements
 
    The OP starts to resolve metadata for the client identifier
    https://wiki.ligo.org by fetching the self-issued entity statement
-   using the process described in Section 5.
+   using the process described inSection 5.
 
    The process is the same as described in Appendix A.1 and will result
    in a trust chain with the following entity statements:
@@ -3847,7 +3847,7 @@ A.2.2.  Client Starts with Registration (Explicit Client Registration)
    sends is a self-signed entity statement.
 
    Once the OP has the entity statement, it proceeds with the same
-   sequence of steps as laid out in Appendix A.1.
+   sequence of steps as laid out inAppendix A.1.
 
    The OP will end up with the same RP metadata as was described in
    Appendix A.2.1.2, but what it now can do is return a metadata policy
@@ -4130,7 +4130,7 @@ Appendix E.  Document History
    o  Renamed entity type to client registration type.
 
    o  Added more text describing
-      client_registration_auth_methods_supported.
+      client_registraclient_registration_tion_auth_methods_supported.
 
    o  Made "Processing the Authentication Request" into two separate
       sections one for authentication request and one for pushed
