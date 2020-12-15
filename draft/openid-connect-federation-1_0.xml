@@ -378,6 +378,14 @@
               More about this in
               <xref target="trust_marks"/>
             </t>
+            <t hangText="trust_anchor_id">
+              <vspace/>
+              OPTIONAL.
+              An OP MUST use this claim to tell the RP which trust anchor it
+              chose to use when responding to an explicit client registration.
+              The value of trust_anchor_id is the entity identifier of a trust
+              anchor.
+            </t>
           </list>
         </t>
 
@@ -588,14 +596,6 @@
               <vspace/>
               OPTIONAL. A human readable
               name representing the organization owning the RP.
-            </t>
-            <t hangText="trust_anchor_id">
-              <vspace/>
-              OPTIONAL.
-              An OP MUST use this claim to tell the RP which trust anchor it
-              chose to use when responding to an explicit client registration.
-              The value of trust_anchor_id is the entity identifier of a trust
-              anchor.
             </t>
           </list>
         </t>
@@ -2833,8 +2833,7 @@ HTTP/1.1 302 Found
                     the same as the entity identifier of the RP.
                     To the entity statement it will add a
                     <spanx style="verb">trust_anchor_id</spanx>
-                    claim,
-                    containing the trust anchor chosen above.
+                    claim, containing the trust anchor chosen above.
                   </t>
                   <t>
                     It will sign and return the registration response (a signed
@@ -4020,11 +4019,7 @@ Host: op.umu.se
             <artwork><![CDATA[
 
 {
-  "metadata": {
-    "federation_entity": {
-      "trust_anchor_id": "https://edugain.geant.org"
-    }
-  },
+  "trust_anchor_id": "https://edugain.geant.org",
   "metadata_policy": {
     "openid_relying_party": {
       "application_type": {
