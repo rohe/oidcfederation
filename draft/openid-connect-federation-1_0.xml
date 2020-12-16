@@ -639,11 +639,11 @@
               registration as described in<xref target="explicit"/>,
               then this claim is REQUIRED.
             </t>
-            <t hangText="client_verification_methods_supported">
+            <t hangText="request_authentication_methods_supported">
               <vspace/>
               OPTIONAL.
-              In OIDC Core no authentication is performed at the authentication
-              endpoint. Instead you can say that a client verification is
+              In OIDC Core no client authentication is performed at the authentication
+              endpoint. Instead you can say that a request authentication is
               performed. What it amounts to, is that the OP maps
               the information in the request to the information it has
               on the client, through static or dynamic registration.
@@ -655,19 +655,20 @@
               metadata the OP can verify the information the RP provides in the
               request. We make this a bit more secure by demanding the use of
               the request parameter or pushed authorization.
+              <vspace/>
               The claim value is a JSON object with keys representing
               processes/endpoints and
-              as values lists of Client verification methods that are
+              as values lists of request authentication methods that are
               supported by the authorization endpoint.
-              In this specification we use the process/endpoints: authorization
-              request (ar) as described in Section 3 of
+              In this specification we use the processes/endpoints:
+              authorization request (ar) as described in Section 3 of
               <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>
               and
               pushed authorization request
               (par) as described in
               <xref target="PAR"/>
               .
-              The Client verification methods are:
+              The request authentication methods are:
               <list style="hanging">
                 <t hangText="request_object">
                   <vspace/>
@@ -678,7 +679,7 @@
                 </t>
                 <t hangText="private_key_jwt">
                   <vspace/>
-                  Described in section 9 of
+                  The authentication proceess is described in section 9 of
                   <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
                   Note that if private_key_jwt is
                   used the audience of the signed JWT MUST be either the URL of
@@ -696,11 +697,10 @@
                   <xref target="RFC8705"/>
                 </t>
               </list>
-              The only client verification method that can be used if
+              The only request authentication method that can be used if
               doing authentication as described in
               <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>
-              is
-              <spanx style="verb">request_object</spanx>.
+              is <spanx style="verb">request_object</spanx>.
               If pushed authorization is used then one of
               <spanx style="verb">private_key_jwt</spanx>,
               <spanx style="verb">tls_client_auth</spanx>
@@ -731,7 +731,7 @@
   "client_registration_types_supported": ["automatic", "explicit"],
   "federation_registration_endpoint":
     "https://server.example.com/fedreg",
-  "client_verification_methods_supported": {
+  "request_authentication_methods_supported": {
     "ar": ["request_object"],
     "par": ["private_key_jwt", "self_signed_tls_client_auth"]
   }
@@ -2427,9 +2427,9 @@ Content-Type: application/json
               described in<xref target="federation_configuration"/>.
             </t>
             <t>
-              The OP MUST publish that it supports a client verification method
-              using the metadata claim
-              <spanx style="verb">client_verification_methods_supported
+              The OP MUST publish that it supports a request authentication
+              method using the metadata claim
+              <spanx style="verb">request_authentication_methods_supported
               </spanx>.
             </t>
           </list>
@@ -2582,7 +2582,7 @@ https://server.example.com/authorize?
               directly to the AS in exchange for a request_uri.
             </t>
             <t>
-              When it comes to client verification the applicable
+              When it comes to request authentication the applicable
               methods are three:
               <list style="symbols">
                 <t>Using a JWT for Client authentication as described
@@ -2595,9 +2595,8 @@ https://server.example.com/authorize?
                   <xref target="RFC8705"/>
                   based on self-signed certificates.
                   In this case the self-signed certificate MUST be present as
-                  the
-                  value of a x5c claim for one key in the JWKS describing the
-                  RP's keys.
+                  the value of a x5c claim for one key in the JWKS describing
+                  the RP's keys.
                 </t>
                 <t>
                   mTLS as described in section 2.1 of
@@ -2640,16 +2639,15 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
             <section title="Processing the Authentication Request">
               <t>
                 There are three different paths the OP must follow when
-                processing
-                the authentication request depending on which client
-                verification
+                processing the authentication request depending on which
+                request authentication
                 method that was used. It all starts the same though.
                 When the OP receives an incoming authentication request,
                 the OP supports OpenID Connect Federation, the incoming
                 client_id
                 is a valid URL, the OP does not have the client_id
-                registered as a known client and the OP supports the client
-                verification method used then the OP should try to resolve and
+                registered as a known client and the OP supports the request
+                authentication method used then the OP should try to resolve and
                 fetch trust chains starting with the RP's entity
                 statement as described in<xref target="fetching-es"/>.
               </t>
@@ -2675,8 +2673,8 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
                   <t hangText="private_key_jwt">
                     If this method is used then the OP will try to verify the
                     signature of the signed JWT using the key material published
-                    by the RP in its metadata. If the verification is successful
-                    then the registration is regarded as correct.
+                    by the RP in its metadata. If the authentication is
+                    successful then the registration is regarded as correct.
                   </t>
                   <t hangText="tls_client_auth">
                     If mTLS is used and the certificate used was not

@@ -839,6 +839,9 @@
 <dt>trust_marks</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. JSON object that describes a set of trust marks.  More about this in <a href="#trust_marks" class="xref">Section 4.3</a> </dd>
+<dt>trust_anchor_id</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL.  An OP MUST use this claim to tell the RP which trust anchor it chose to use when responding to an explicit client registration.  The value of trust_anchor_id is the entity identifier of a trust anchor.  </dd>
 </dl>
 
 <p> </p>
@@ -951,9 +954,6 @@
 <dt>organization_name</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. A human readable name representing the organization owning the RP.  </dd>
-<dt>trust_anchor_id</dt>
-<dd style="margin-left: 8">
-<br> OPTIONAL.  An OP MUST use this claim to tell the RP which trust anchor it chose to use when responding to an explicit client registration.  The value of trust_anchor_id is the entity identifier of a trust anchor.  </dd>
 </dl>
 
 <p> </p>
@@ -975,15 +975,15 @@
 <dt>federation_registration_endpoint</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  URL of the OP's Federation specific Dynamic Client Registration Endpoint. If the OP supports explicit client registration as described in<a href="#explicit" class="xref">Section 9.2</a>, then this claim is REQUIRED.  </dd>
-<dt>client_verification_methods_supported</dt>
+<dt>request_authentication_methods_supported</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL.  In OIDC Core no authentication is performed at the authentication endpoint. Instead you can say that a client verification is performed. What it amounts to, is that the OP maps the information in the request to the information it has on the client, through static or dynamic registration.  If the map is successful then the request is permitted to proceed.  Something similar happens when automatic registration is used.  Since there has been no explicit registration the OP will gather information about the RP using the process outlined in <a href="#federation_configuration" class="xref">Section 5</a>. Once it has the RP metadata the OP can verify the information the RP provides in the request. We make this a bit more secure by demanding the use of the request parameter or pushed authorization.  The claim value is a JSON object with keys representing processes/endpoints and as values lists of Client verification methods that are supported by the authorization endpoint.  In this specification we use the process/endpoints: authorization request (ar) as described in Section 3 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> and pushed authorization request (par) as described in <a href="#PAR" class="xref">[PAR]</a> .  The Client verification methods are: <dl>
+<br> OPTIONAL.  In OIDC Core no client authentication is performed at the authentication endpoint. Instead you can say that a request authentication is performed. What it amounts to, is that the OP maps the information in the request to the information it has on the client, through static or dynamic registration.  If the map is successful then the request is permitted to proceed.  Something similar happens when automatic registration is used.  Since there has been no explicit registration the OP will gather information about the RP using the process outlined in <a href="#federation_configuration" class="xref">Section 5</a>. Once it has the RP metadata the OP can verify the information the RP provides in the request. We make this a bit more secure by demanding the use of the request parameter or pushed authorization.  <br> The claim value is a JSON object with keys representing processes/endpoints and as values lists of request authentication methods that are supported by the authorization endpoint.  In this specification we use the process/endpoints: authorization request (ar) as described in Section 3 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> and pushed authorization request (par) as described in <a href="#PAR" class="xref">[PAR]</a> .  The request authentication methods are: <dl>
 <dt>request_object</dt>
 <dd style="margin-left: 8">
 <br> This uses a request object as described in <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  More about this in <a href="#automatic" class="xref">Section 9.1</a> </dd>
 <dt>private_key_jwt</dt>
 <dd style="margin-left: 8">
-<br> Described in section 9 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  Note that if private_key_jwt is used the audience of the signed JWT MUST be either the URL of the Authorization Server's Authorization Endpoint or the Authorization Server's entity_id.  </dd>
+<br> The authentication proceess is described in section 9 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  Note that if private_key_jwt is used the audience of the signed JWT MUST be either the URL of the Authorization Server's Authorization Endpoint or the Authorization Server's entity_id.  </dd>
 <dt>tls_client_auth</dt>
 <dd style="margin-left: 8">
 <br> section 2.1 of <a href="#RFC8705" class="xref">[RFC8705]</a> </dd>
@@ -991,7 +991,7 @@
 <dd style="margin-left: 8">
 <br> section 2.2 of <a href="#RFC8705" class="xref">[RFC8705]</a> </dd>
 </dl>
-<p> The only client verification method that can be used if doing authentication as described in </p>
+<p> The only request authentication method that can be used if doing authentication as described in </p>
 <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> is <samp>request_object</samp>.  If pushed authorization is used then one of <samp>private_key_jwt</samp>, <samp>tls_client_auth</samp> and <samp>self_signed_tls_client_auth</samp> can be used.  </dd>
 </dl>
 
@@ -1013,7 +1013,7 @@
   "client_registration_types_supported": ["automatic", "explicit"],
   "federation_registration_endpoint":
     "https://server.example.com/fedreg",
-  "client_verification_methods_supported": {
+  "request_authentication_methods_supported": {
     "ar": ["request_object"],
     "par": ["private_key_jwt", "self_signed_tls_client_auth"]
   }
@@ -1922,7 +1922,7 @@ Content-Type: application/json
 <li>The <samp>client_id</samp> of the RP MUST be set to be identical to the RP entity identifier.  </li>
 <li>Without a registration process, the RP does not have a client_secret. Instead the automatic registration model requires the RP to make use of asymmetric cryptography. Bascially the RP must prove that it has control of the RP's private keys.  </li>
 <li>The client_id MUST be a URL from which the OP can fetch the RP's self-signed entity statement using the process described in<a href="#federation_configuration" class="xref">Section 5</a>.  </li>
-<li>The OP MUST publish that it supports a client verification method using the metadata claim <samp>client_verification_methods_supported </samp>.  </li>
+<li>The OP MUST publish that it supports a request authentication method using the metadata claim <samp>request_authentication_methods_supported </samp>.  </li>
 </ul>
 
 <p> </p>
@@ -2003,7 +2003,7 @@ https://server.example.com/authorize?
 <h1 id="rfc.section.9.1.1.2">
 <a href="#rfc.section.9.1.1.2">9.1.1.2.</a> Using Pushed Authorization</h1>
 <p><a href="#PAR" class="xref">Pushed Authorization</a> provides an interoperable way to push the payload of a request object directly to the AS in exchange for a request_uri.  </p>
-<p id="rfc.section.9.1.1.2.p.2">When it comes to client verification the applicable methods are three: </p>
+<p id="rfc.section.9.1.1.2.p.2">When it comes to request authentication the applicable methods are three: </p>
 
 <ul>
 <li>Using a JWT for Client authentication as described for <samp>private_key_jwt</samp> in section 9 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> </li>
@@ -2043,14 +2043,14 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
   DwA7B0ZqmuSmMFQ</pre>
 <h1 id="rfc.section.9.1.1.2.1">
 <a href="#rfc.section.9.1.1.2.1">9.1.1.2.1.</a> Processing the Authentication Request</h1>
-<p id="rfc.section.9.1.1.2.1.p.1">There are three different paths the OP must follow when processing the authentication request depending on which client verification method that was used. It all starts the same though.  When the OP receives an incoming authentication request, the OP supports OpenID Connect Federation, the incoming client_id is a valid URL, the OP does not have the client_id registered as a known client and the OP supports the client verification method used then the OP should try to resolve and fetch trust chains starting with the RP's entity statement as described in<a href="#fetching-es" class="xref">Section 7.1</a>.  </p>
+<p id="rfc.section.9.1.1.2.1.p.1">There are three different paths the OP must follow when processing the authentication request depending on which request authentication method that was used. It all starts the same though.  When the OP receives an incoming authentication request, the OP supports OpenID Connect Federation, the incoming client_id is a valid URL, the OP does not have the client_id registered as a known client and the OP supports the request authentication method used then the OP should try to resolve and fetch trust chains starting with the RP's entity statement as described in<a href="#fetching-es" class="xref">Section 7.1</a>.  </p>
 <p id="rfc.section.9.1.1.2.1.p.2">The OP should validate the possible trust chains, as described in <a href="#trust_chain_validation" class="xref">Section 7.2</a>, and resolve the RP metadata with type <samp>openid_relying_party</samp>.  </p>
 <p id="rfc.section.9.1.1.2.1.p.3">The OP should consider the resolved metadata of the RP, and verify that it complies with the client metadata specification in <a href="#OpenID.Registration" class="xref">OpenID Connect Dynamic Client Registration 1.0</a>.  </p>
 <p id="rfc.section.9.1.1.2.1.p.4">Once the OP has the RP's metadata, it can verify the client.  This is where it diverges depending on which client auhentication method was used.  </p>
 
 <dl>
 <dt>private_key_jwt</dt>
-<dd style="margin-left: 8">If this method is used then the OP will try to verify the signature of the signed JWT using the key material published by the RP in its metadata. If the verification is successful then the registration is regarded as correct.  </dd>
+<dd style="margin-left: 8">If this method is used then the OP will try to verify the signature of the signed JWT using the key material published by the RP in its metadata. If the authentication is successful then the registration is regarded as correct.  </dd>
 <dt>tls_client_auth</dt>
 <dd style="margin-left: 8">If mTLS is used and the certificate used was not self-signed then the Subject Alternative Name of the certificate MUST match the entity identifier of the RP.  </dd>
 <dt>self_signed_tls_client_auth</dt>
@@ -2895,11 +2895,7 @@ Host: op.umu.se
 <pre>
 
 {
-  "metadata": {
-    "federation_entity": {
-      "trust_anchor_id": "https://edugain.geant.org"
-    }
-  },
+  "trust_anchor_id": "https://edugain.geant.org",
   "metadata_policy": {
     "openid_relying_party": {
       "application_type": {
