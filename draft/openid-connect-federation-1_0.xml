@@ -943,7 +943,7 @@
             </list>
           </t>
         </section>
-        <section title="Restrictions on policy entries">
+        <section title="Restrictions on policy entries" anchor="policy_restr">
           <t>
             As stated a policy entry can contain one or more operators.
             Not all operators are allowed to appear together in a policy entry.
@@ -1054,12 +1054,11 @@
             combined
             starting with ES[i] and then adding the policies from ES[j]
             j=i-1,..,1
-            before
-            applying the combined policy to the entity's metadata.
+            before applying the combined policy to the entity's metadata.
           </t>
           <t>
             After each combination, the policy for each parameter MUST
-            adhere to the rules defined in 'Restrictions on policy entries'.
+            adhere to the rules defined in <xref target="policy_restr"/>.
           </t>
           <section title="Merging operators">
             <t>
@@ -4232,6 +4231,20 @@ Host: op.umu.se
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+      <t>
+        -14
+        <list style="symbols">
+          <t>
+            Rewrote the federation policy section.
+          </t>
+          <t>
+            What previously was referred to as
+            <spanx style="verb">client authentication</spanx> in connection
+            with automatic client registration is now changed to be
+            <spanx style="verb">request authentication</spanx> .
+          </t>
+        </list>
+      </t>
       <t>
         -13
         <list style="symbols">

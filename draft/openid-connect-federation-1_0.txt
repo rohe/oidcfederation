@@ -939,7 +939,7 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 16]
    metadata.
 
    After each combination, the policy for each parameter MUST adhere to
-   the rules defined in 'Restrictions on policy entries'.
+   the rules defined in Section 4.1.2.
 
 4.1.3.1.  Merging operators
 
@@ -4045,6 +4045,14 @@ Appendix E.  Document History
 
    [[ To be removed from the final specification ]]
 
+   -14
+
+   o  Rewrote the federation policy section.
+
+   o  What previously was referred to as "client authentication" in
+      connection with automatic client registration is now changed to be
+      "request authentication" .
+
    -13
 
    o  Added 'trust_marks' as a parameter in the entity statement.
@@ -4073,14 +4081,6 @@ Appendix E.  Document History
 
    o  Renamed entity type to client registration type.
 
-   o  Added more text describing
-      client_registraclient_registration_tion_auth_methods_supported.
-
-   o  Made "Processing the Authentication Request" into two separate
-      sections one for authentication request and one for pushed
-      authorization request.
-
-   o  Added example of URLs to some examples in the appendix.
 
 
 
@@ -4089,6 +4089,15 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 73]
 
                         OpenID Connect Federation          December 2020
 
+
+   o  Added more text describing
+      client_registraclient_registration_tion_auth_methods_supported.
+
+   o  Made "Processing the Authentication Request" into two separate
+      sections one for authentication request and one for pushed
+      authorization request.
+
+   o  Added example of URLs to some examples in the appendix.
 
    o  Changed the automatic client registation example in the appendix
       to use request object instead of a client_assertion.
@@ -4128,6 +4137,15 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 73]
 
    o  Deleted "sub_is_leaf" entity statement since it was redundant.
 
+
+
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 74]
+
+                        OpenID Connect Federation          December 2020
+
+
    o  Added "federation_type" RP registration metadata value and
       "federation_types_supported" OP metadata value.
 
@@ -4137,14 +4155,6 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 73]
    o  Entity identifier paths are now included when using the Federation
       API, enabling use in multi-tenant deployments sharing a common
       domain name.
-
-
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 74]
-
-                        OpenID Connect Federation          December 2020
-
 
    o  Renamed "sub_is_leaf" to "is_leaf" in the Entity Listings Request
       operation parameters.
@@ -4185,6 +4195,13 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 74]
 
    o  A major rewrite.
 
+
+
+Hedberg, et al.           Expires June 4, 2021                 [Page 75]
+
+                        OpenID Connect Federation          December 2020
+
+
    -04
 
    o  Changed client metadata names "scopes" to "rp_scopes" and "claims"
@@ -4193,14 +4210,6 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 74]
    o  Added Open Issues appendix.
 
    o  Added additional references.
-
-
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 75]
-
-                        OpenID Connect Federation          December 2020
-
 
    o  Editorial improvements.
 
@@ -4240,15 +4249,6 @@ Authors' Addresses
 
    Email: ve7jtb@ve7jtb.com
    URI:   http://www.thread-safe.com/
-
-
-
-
-
-
-
-
-
 
 
 

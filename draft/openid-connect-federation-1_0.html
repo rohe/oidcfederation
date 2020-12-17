@@ -977,7 +977,7 @@
 <br> OPTIONAL.  URL of the OP's Federation specific Dynamic Client Registration Endpoint. If the OP supports explicit client registration as described in<a href="#explicit" class="xref">Section 9.2</a>, then this claim is REQUIRED.  </dd>
 <dt>request_authentication_methods_supported</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL.  In OIDC Core no client authentication is performed at the authentication endpoint. Instead you can say that a request authentication is performed. What it amounts to, is that the OP maps the information in the request to the information it has on the client, through static or dynamic registration.  If the map is successful then the request is permitted to proceed.  Something similar happens when automatic registration is used.  Since there has been no explicit registration the OP will gather information about the RP using the process outlined in <a href="#federation_configuration" class="xref">Section 5</a>. Once it has the RP metadata the OP can verify the information the RP provides in the request. We make this a bit more secure by demanding the use of the request parameter or pushed authorization.  <br> The claim value is a JSON object with keys representing processes/endpoints and as values lists of request authentication methods that are supported by the authorization endpoint.  In this specification we use the process/endpoints: authorization request (ar) as described in Section 3 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> and pushed authorization request (par) as described in <a href="#PAR" class="xref">[PAR]</a> .  The request authentication methods are: <dl>
+<br> OPTIONAL.  In OIDC Core no client authentication is performed at the authentication endpoint. Instead you can say that a request authentication is performed. What it amounts to, is that the OP maps the information in the request to the information it has on the client, through static or dynamic registration.  If the map is successful then the request is permitted to proceed.  Something similar happens when automatic registration is used.  Since there has been no explicit registration the OP will gather information about the RP using the process outlined in <a href="#federation_configuration" class="xref">Section 5</a>. Once it has the RP metadata the OP can verify the information the RP provides in the request. We make this a bit more secure by demanding the use of the request parameter or pushed authorization.  <br> The claim value is a JSON object with keys representing processes/endpoints and as values lists of request authentication methods that are supported by the authorization endpoint.  In this specification we use the processes/endpoints: authorization request (ar) as described in Section 3 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> and pushed authorization request (par) as described in <a href="#PAR" class="xref">[PAR]</a> .  The request authentication methods are: <dl>
 <dt>request_object</dt>
 <dd style="margin-left: 8">
 <br> This uses a request object as described in <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  More about this in <a href="#automatic" class="xref">Section 9.1</a> </dd>
@@ -1142,7 +1142,8 @@
 
 <p> </p>
 <h1 id="rfc.section.4.1.2">
-<a href="#rfc.section.4.1.2">4.1.2.</a> Restrictions on policy entries</h1>
+<a href="#rfc.section.4.1.2">4.1.2.</a> <a href="#policy_restr" id="policy_restr">Restrictions on policy entries</a>
+</h1>
 <p id="rfc.section.4.1.2.p.1">As stated a policy entry can contain one or more operators.  Not all operators are allowed to appear together in a policy entry.  </p>
 <p></p>
 
@@ -1174,7 +1175,7 @@
 <a href="#rfc.section.4.1.3">4.1.3.</a> Combining policies</h1>
 <p id="rfc.section.4.1.3.p.1">If there is more than one metadata policy in a trust chain, then the policies MUST be combined before they are applied to the metadata statement.  </p>
 <p id="rfc.section.4.1.3.p.2">Using the notation we have defined in Section 2.2 policies are combined starting with ES[i] and then adding the policies from ES[j] j=i-1,..,1 before applying the combined policy to the entity's metadata.  </p>
-<p id="rfc.section.4.1.3.p.3">After each combination, the policy for each parameter MUST adhere to the rules defined in 'Restrictions on policy entries'.  </p>
+<p id="rfc.section.4.1.3.p.3">After each combination, the policy for each parameter MUST adhere to the rules defined in <a href="#policy_restr" class="xref">Section 4.1.2</a>.  </p>
 <h1 id="rfc.section.4.1.3.1">
 <a href="#rfc.section.4.1.3.1">4.1.3.1.</a> Merging operators</h1>
 <p></p>
@@ -3028,7 +3029,15 @@ Host: op.umu.se
 <a href="#rfc.appendix.E">Appendix E.</a> <a href="#History" id="History">Document History</a>
 </h1>
 <p id="rfc.section.E.p.1">[[ To be removed from the final specification ]]</p>
-<p id="rfc.section.E.p.2">-13 </p>
+<p id="rfc.section.E.p.2">-14 </p>
+
+<ul>
+<li>Rewrote the federation policy section.  </li>
+<li>What previously was referred to as <samp>client authentication</samp> in connection with automatic client registration is now changed to be <samp>request authentication</samp> .  </li>
+</ul>
+
+<p> </p>
+<p id="rfc.section.E.p.3">-13 </p>
 
 <ul>
 <li>Added 'trust_marks' as a parameter in the entity statement.  </li>
@@ -3052,7 +3061,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.3">-11 </p>
+<p id="rfc.section.E.p.4">-11 </p>
 
 <ul>
 <li>Added section on trust marks.  </li>
@@ -3062,12 +3071,12 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.4">-10 </p>
+<p id="rfc.section.E.p.5">-10 </p>
 
 <ul><li>Incorporated additional review feedback from Marcos Sanz.  The primary change was moving constraints to their own section of the entity statement.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.5">-09 </p>
+<p id="rfc.section.E.p.6">-09 </p>
 
 <ul>
 <li>Incorporated review feedback from Marcos Sanz.  Major changes were as follows.  </li>
@@ -3077,7 +3086,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.6">-08 </p>
+<p id="rfc.section.E.p.7">-08 </p>
 
 <ul>
 <li>Incorporated review feedback from Michael B. Jones.  Major changes were as follows.  </li>
@@ -3097,7 +3106,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.7">-07 </p>
+<p id="rfc.section.E.p.8">-07 </p>
 
 <ul>
 <li>Split metadata into metadata and metadata_policy </li>
@@ -3105,7 +3114,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.8">-06 </p>
+<p id="rfc.section.E.p.9">-06 </p>
 
 <ul>
 <li>Some rewrites </li>
@@ -3113,12 +3122,12 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.9">-05 </p>
+<p id="rfc.section.E.p.10">-05 </p>
 
 <ul><li>A major rewrite.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.10">-04 </p>
+<p id="rfc.section.E.p.11">-04 </p>
 
 <ul>
 <li>Changed client metadata names <samp>scopes</samp> to <samp>rp_scopes</samp> and <samp>claims</samp> to <samp>rp_claims</samp>.  </li>
