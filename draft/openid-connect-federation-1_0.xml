@@ -2603,6 +2603,9 @@ https://server.example.com/authorize?
                   based on public key infrastructure (PKI).
                 </t>
               </list>
+              Note that if mTLS is used TLS client authentication must be
+              configured and, in case of self signed certs, the server must
+              omit trust chain validation (optional_no_ca).
             </t>
             <t>Using the example above a request could look like this:</t>
             <figure>
@@ -4242,6 +4245,9 @@ Host: op.umu.se
             <spanx style="verb">client authentication</spanx> in connection
             with automatic client registration is now changed to be
             <spanx style="verb">request authentication</spanx> .
+          </t>
+          <t>
+            Made a distinction between parameters and claims.
           </t>
         </list>
       </t>
