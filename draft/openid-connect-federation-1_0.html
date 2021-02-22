@@ -478,7 +478,7 @@
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
-  <meta name="dct.issued" scheme="ISO8601" content="2020-12-01" />
+  <meta name="dct.issued" scheme="ISO8601" content="2021-02-22" />
   <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
   <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for re-use by other protocols and in other use cases.  " />
 
@@ -531,7 +531,7 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">December 01, 2020</td>
+<td class="right">February 22, 2021</td>
 </tr>
 
     	
@@ -2012,7 +2012,7 @@ https://server.example.com/authorize?
 <li>mTLS as described in section 2.1 of <a href="#RFC8705" class="xref">[RFC8705]</a> based on public key infrastructure (PKI).  </li>
 </ul>
 
-<p> </p>
+<p> Note that if mTLS is used TLS client authentication must be configured and, in case of self signed certs, the server must omit trust chain validation (optional_no_ca).  </p>
 <p id="rfc.section.9.1.1.2.p.3">Using the example above a request could look like this:</p>
 <pre>
 POST /par HTTP/1.1
@@ -3034,6 +3034,7 @@ Host: op.umu.se
 <ul>
 <li>Rewrote the federation policy section.  </li>
 <li>What previously was referred to as <samp>client authentication</samp> in connection with automatic client registration is now changed to be <samp>request authentication</samp> .  </li>
+<li>Made a distinction between parameters and claims.  </li>
 </ul>
 
 <p> </p>

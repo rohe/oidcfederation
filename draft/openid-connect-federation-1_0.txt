@@ -12,7 +12,7 @@
                                                                Schibsted
                                                               J. Bradley
                                                                   Yubico
-                                                       December 01, 2020
+                                                       February 22, 2021
 
 
                 OpenID Connect Federation 1.0 - draft 14
@@ -53,9 +53,9 @@ Table of Contents
 
 
 
-Hedberg, et al.           Expires June 4, 2021                  [Page 1]
+Hedberg, et al.          Expires August 26, 2021                [Page 1]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
      3.5.  OAuth Protected Resource  . . . . . . . . . . . . . . . .  14
@@ -109,9 +109,9 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 1]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                  [Page 2]
+Hedberg, et al.          Expires August 26, 2021                [Page 2]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
          9.1.1.2.  Using Pushed Authorization  . . . . . . . . . . .  43
@@ -165,9 +165,9 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 2]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                  [Page 3]
+Hedberg, et al.          Expires August 26, 2021                [Page 3]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 1.  Introduction
@@ -221,9 +221,9 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 3]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                  [Page 4]
+Hedberg, et al.          Expires August 26, 2021                [Page 4]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    Entity statement
@@ -277,9 +277,9 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 4]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                  [Page 5]
+Hedberg, et al.          Expires August 26, 2021                [Page 5]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
       REQUIRED.  Expiration time on or after which the statement MUST
@@ -333,9 +333,9 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 5]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                  [Page 6]
+Hedberg, et al.          Expires August 26, 2021                [Page 6]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
       only one for each metadata type.  Only non-leaf entities MAY
@@ -389,9 +389,9 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 6]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                  [Page 7]
+Hedberg, et al.          Expires August 26, 2021                [Page 7]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
       registration.  The value of trust_anchor_id is the entity
@@ -445,9 +445,9 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 7]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                  [Page 8]
+Hedberg, et al.          Expires August 26, 2021                [Page 8]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    {
@@ -501,9 +501,9 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 8]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                  [Page 9]
+Hedberg, et al.          Expires August 26, 2021                [Page 9]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 2.2.  Trust Chain
@@ -557,9 +557,9 @@ Hedberg, et al.           Expires June 4, 2021                  [Page 9]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 10]
+Hedberg, et al.          Expires August 26, 2021               [Page 10]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    The signing key that MUST be used to verify ES[i] is distributed from
@@ -613,9 +613,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 10]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 11]
+Hedberg, et al.          Expires August 26, 2021               [Page 11]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    In addition, the following parameters are defined by this
@@ -669,9 +669,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 11]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 12]
+Hedberg, et al.          Expires August 26, 2021               [Page 12]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
          is used the audience of the signed JWT MUST be either the URL
@@ -725,9 +725,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 12]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 13]
+Hedberg, et al.          Expires August 26, 2021               [Page 13]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 3.4.  OAuth Client
@@ -781,9 +781,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 13]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 14]
+Hedberg, et al.          Expires August 26, 2021               [Page 14]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    Example
@@ -837,9 +837,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 14]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 15]
+Hedberg, et al.          Expires August 26, 2021               [Page 15]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 4.1.1.  Operators
@@ -893,9 +893,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 15]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 16]
+Hedberg, et al.          Expires August 26, 2021               [Page 16]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    value
@@ -949,9 +949,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 16]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 17]
+Hedberg, et al.          Expires August 26, 2021               [Page 17]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    one_of
@@ -1005,9 +1005,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 17]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 18]
+Hedberg, et al.          Expires August 26, 2021               [Page 18]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    5.  Do the other checks.  Verified that the value is "one_of " or
@@ -1061,9 +1061,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 18]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 19]
+Hedberg, et al.          Expires August 26, 2021               [Page 19]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    An organization's policy for RPs:
@@ -1117,9 +1117,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 19]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 20]
+Hedberg, et al.          Expires August 26, 2021               [Page 20]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    The combined metadata policy then becomes:
@@ -1173,9 +1173,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 20]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 21]
+Hedberg, et al.          Expires August 26, 2021               [Page 21]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    extension keyword is listed in the "policy_language_crit" list and
@@ -1229,9 +1229,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 21]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 22]
+Hedberg, et al.          Expires August 26, 2021               [Page 22]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    The organization's policy for RPs:
@@ -1285,9 +1285,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 22]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 23]
+Hedberg, et al.          Expires August 26, 2021               [Page 23]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 4.2.  Applying Constraints
@@ -1341,9 +1341,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 23]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 24]
+Hedberg, et al.          Expires August 26, 2021               [Page 24]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    constraint MUST have a value that is greater than or equal to zero.
@@ -1397,9 +1397,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 24]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 25]
+Hedberg, et al.          Expires August 26, 2021               [Page 25]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 4.3.  Trust Marks
@@ -1453,9 +1453,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 25]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 26]
+Hedberg, et al.          Expires August 26, 2021               [Page 26]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 4.3.2.  Validating a trust mark
@@ -1509,9 +1509,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 26]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 27]
+Hedberg, et al.          Expires August 26, 2021               [Page 27]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    course, in real multi-tenant deployments, in which the entity
@@ -1565,9 +1565,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 27]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 28]
+Hedberg, et al.          Expires August 26, 2021               [Page 28]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    200 OK
@@ -1621,9 +1621,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 28]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 29]
+Hedberg, et al.          Expires August 26, 2021               [Page 29]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    support.  All the other operations are OPTIONAL.  The list of defined
@@ -1677,9 +1677,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 29]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 30]
+Hedberg, et al.          Expires August 26, 2021               [Page 30]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    The following is a non-normative example of an API request for an
@@ -1733,9 +1733,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 30]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 31]
+Hedberg, et al.          Expires August 26, 2021               [Page 31]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    The following is a non-normative example of a response, before
@@ -1789,9 +1789,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 31]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 32]
+Hedberg, et al.          Expires August 26, 2021               [Page 32]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 6.2.  Trust Negotiation (OPTIONAL)
@@ -1845,9 +1845,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 32]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 33]
+Hedberg, et al.          Expires August 26, 2021               [Page 33]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 6.2.2.  Trust Negotiation Response
@@ -1901,9 +1901,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 33]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 34]
+Hedberg, et al.          Expires August 26, 2021               [Page 34]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 6.3.  Entity Listings (OPTIONAL)
@@ -1957,9 +1957,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 34]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 35]
+Hedberg, et al.          Expires August 26, 2021               [Page 35]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    The following is a non-normative example of a response:
@@ -2013,9 +2013,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 35]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 36]
+Hedberg, et al.          Expires August 26, 2021               [Page 36]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 7.  Resolving Trust Chain and Metadata
@@ -2069,9 +2069,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 36]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 37]
+Hedberg, et al.          Expires August 26, 2021               [Page 37]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    o  For each entity statement ES[j] j=i,..,0:
@@ -2125,9 +2125,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 37]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 38]
+Hedberg, et al.          Expires August 26, 2021               [Page 38]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 8.  Updating Metadata, Key Rollover, and Revocation
@@ -2181,9 +2181,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 38]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 39]
+Hedberg, et al.          Expires August 26, 2021               [Page 39]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    standard revocation process.  Specific federations may make a
@@ -2237,9 +2237,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 39]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 40]
+Hedberg, et al.          Expires August 26, 2021               [Page 40]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 9.1.1.  The Authentication Request
@@ -2293,9 +2293,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 40]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 41]
+Hedberg, et al.          Expires August 26, 2021               [Page 41]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    The following is a non-normative example of the Claims in a Request
@@ -2349,9 +2349,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 41]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 42]
+Hedberg, et al.          Expires August 26, 2021               [Page 42]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    client then the OP should try to resolve and fetch trust chains
@@ -2391,6 +2391,10 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 42]
    o  mTLS as described in section 2.1 of [RFC8705] based on public key
       infrastructure (PKI).
 
+   Note that if mTLS is used TLS client authentication must be
+   configured and, in case of self signed certs, the server must omit
+   trust chain validation (optional_no_ca).
+
    Using the example above a request could look like this:
 
 
@@ -2401,13 +2405,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 42]
 
 
 
-
-
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 43]
+Hedberg, et al.          Expires August 26, 2021               [Page 43]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    POST /par HTTP/1.1
@@ -2461,9 +2461,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 43]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 44]
+Hedberg, et al.          Expires August 26, 2021               [Page 44]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    Once the OP has the RP's metadata, it can verify the client.  This is
@@ -2517,9 +2517,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 44]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 45]
+Hedberg, et al.          Expires August 26, 2021               [Page 45]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    Registration 1.0 [OpenID.Registration] but where the client
@@ -2573,9 +2573,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 45]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 46]
+Hedberg, et al.          Expires August 26, 2021               [Page 46]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    2.  If it finds more than one acceptable trust chain, it MUST choose
@@ -2629,9 +2629,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 46]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 47]
+Hedberg, et al.          Expires August 26, 2021               [Page 47]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 9.2.2.  After Client Registration
@@ -2685,9 +2685,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 47]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 48]
+Hedberg, et al.          Expires August 26, 2021               [Page 48]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 10.  IANA Considerations
@@ -2741,9 +2741,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 48]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 49]
+Hedberg, et al.          Expires August 26, 2021               [Page 49]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
@@ -2797,9 +2797,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 49]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 50]
+Hedberg, et al.          Expires August 26, 2021               [Page 50]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 Appendix A.  Provider Information Discovery and Client Registration in a
@@ -2853,9 +2853,9 @@ A.1.  The LIGO Wiki Discovers the OP's Metadata
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 51]
+Hedberg, et al.          Expires August 26, 2021               [Page 51]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    1.  Pick out the immediate superior entities using the authority
@@ -2909,9 +2909,9 @@ A.1.1.  Configuration Information for op.umu.se
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 52]
+Hedberg, et al.          Expires August 26, 2021               [Page 52]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
          "issuer": "https://op.umu.se/openid",
@@ -2965,9 +2965,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 52]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 53]
+Hedberg, et al.          Expires August 26, 2021               [Page 53]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 A.1.2.  Configuration Information for 'https://umu.se'
@@ -3021,9 +3021,9 @@ A.1.2.  Configuration Information for 'https://umu.se'
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 54]
+Hedberg, et al.          Expires August 26, 2021               [Page 54]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 A.1.3.  Entity Statement Published by 'https://umu.se' about
@@ -3077,9 +3077,9 @@ A.1.3.  Entity Statement Published by 'https://umu.se' about
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 55]
+Hedberg, et al.          Expires August 26, 2021               [Page 55]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    {
@@ -3133,9 +3133,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 55]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 56]
+Hedberg, et al.          Expires August 26, 2021               [Page 56]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    This is the second link in the trust chain.
@@ -3189,9 +3189,9 @@ A.1.4.  Configuration Information for 'https://swamid.se'
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 57]
+Hedberg, et al.          Expires August 26, 2021               [Page 57]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 A.1.5.  Entity Statement Published by 'https://swamid.se' about
@@ -3245,9 +3245,9 @@ A.1.5.  Entity Statement Published by 'https://swamid.se' about
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 58]
+Hedberg, et al.          Expires August 26, 2021               [Page 58]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    {
@@ -3301,9 +3301,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 58]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 59]
+Hedberg, et al.          Expires August 26, 2021               [Page 59]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    If we assume that the issuer of this entity statement is not in the
@@ -3357,9 +3357,9 @@ A.1.6.  Configuration Information for 'https://edugain.geant.org'
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 60]
+Hedberg, et al.          Expires August 26, 2021               [Page 60]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
 A.1.7.  Entity Statement Published by 'https://edugain.geant.org' about
@@ -3413,9 +3413,9 @@ A.1.7.  Entity Statement Published by 'https://edugain.geant.org' about
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 61]
+Hedberg, et al.          Expires August 26, 2021               [Page 61]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    We now have the whole chain from the self-signed entity statement of
@@ -3469,9 +3469,9 @@ A.1.8.  Verified Metadata for op.umu.se
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 62]
+Hedberg, et al.          Expires August 26, 2021               [Page 62]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    {
@@ -3525,9 +3525,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 62]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 63]
+Hedberg, et al.          Expires August 26, 2021               [Page 63]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    We have now reached the end of the Provider Discovery process.
@@ -3581,9 +3581,9 @@ A.2.1.  RP Sends Authentication Request (Automatic Registration)
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 64]
+Hedberg, et al.          Expires August 26, 2021               [Page 64]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    GET /authorize?
@@ -3637,9 +3637,9 @@ A.2.1.1.  OP Fetches Entity Statements
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 65]
+Hedberg, et al.          Expires August 26, 2021               [Page 65]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    2.  Statement issued by https://incommon.org about
@@ -3693,9 +3693,9 @@ A.2.1.2.  OP Evaluates the RP Metadata
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 66]
+Hedberg, et al.          Expires August 26, 2021               [Page 66]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    "metadata_policy": {
@@ -3749,9 +3749,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 66]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 67]
+Hedberg, et al.          Expires August 26, 2021               [Page 67]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    {
@@ -3805,9 +3805,9 @@ A.2.2.  Client Starts with Registration (Explicit Client Registration)
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 68]
+Hedberg, et al.          Expires August 26, 2021               [Page 68]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    "metadata_policy": {
@@ -3861,9 +3861,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 68]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 69]
+Hedberg, et al.          Expires August 26, 2021               [Page 69]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
       },
@@ -3917,9 +3917,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 69]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 70]
+Hedberg, et al.          Expires August 26, 2021               [Page 70]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    {
@@ -3973,9 +3973,9 @@ Appendix B.  Notices
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 71]
+Hedberg, et al.          Expires August 26, 2021               [Page 71]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    that it has made any independent effort to identify any such rights.
@@ -4029,9 +4029,9 @@ Appendix D.  Open Issues
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 72]
+Hedberg, et al.          Expires August 26, 2021               [Page 72]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    o  Define the relationship between trust anchors and Federation
@@ -4052,6 +4052,8 @@ Appendix E.  Document History
    o  What previously was referred to as "client authentication" in
       connection with automatic client registration is now changed to be
       "request authentication" .
+
+   o  Made a distinction between parameters and claims.
 
    -13
 
@@ -4083,11 +4085,9 @@ Appendix E.  Document History
 
 
 
-
-
-Hedberg, et al.           Expires June 4, 2021                 [Page 73]
+Hedberg, et al.          Expires August 26, 2021               [Page 73]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    o  Added more text describing
@@ -4141,9 +4141,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 73]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 74]
+Hedberg, et al.          Expires August 26, 2021               [Page 74]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    o  Added "federation_type" RP registration metadata value and
@@ -4197,9 +4197,9 @@ Hedberg, et al.           Expires June 4, 2021                 [Page 74]
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 75]
+Hedberg, et al.          Expires August 26, 2021               [Page 75]
 
-                        OpenID Connect Federation          December 2020
+                        OpenID Connect Federation          February 2021
 
 
    -04
@@ -4253,4 +4253,4 @@ Authors' Addresses
 
 
 
-Hedberg, et al.           Expires June 4, 2021                 [Page 76]
+Hedberg, et al.          Expires August 26, 2021               [Page 76]
