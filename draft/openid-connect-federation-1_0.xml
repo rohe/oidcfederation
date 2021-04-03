@@ -445,7 +445,6 @@
       {
         "alg": "RS256",
         "e": "AQAB",
-        "ext": true,
         "key_ops": ["verify"],
         "kid": "key1",
         "kty": "RSA",
@@ -1140,7 +1139,7 @@
                 Do the essential check. If <spanx style="verb">essential</spanx> is
                 missing as an operator
                 <spanx style="verb">essential</spanx>
-                is to be treated as if set to <spanx style="verb">true</spanx>.
+                is to be treated as if set to <spanx style="verb">false</spanx>.
                 If <spanx style="verb">essential</spanx> is defined to be
 		<spanx style="verb">true</spanx>,
                 then the claim
@@ -1736,7 +1735,6 @@ Content-Type: application/jose
       {
         "alg": "RS256",
         "e": "AQAB",
-        "ext": true,
         "key_ops": [
           "verify"
         ],
@@ -1893,7 +1891,6 @@ Content-Type: application/jose
       {
         "alg": "RS256",
         "e": "AQAB",
-        "ext": true,
         "key_ops": [
           "verify"
         ],
