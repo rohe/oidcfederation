@@ -855,6 +855,10 @@
           </list>
         </t>
         <t>
+          It should be noted that claim names without language tags are different
+          from the same claim but with language tags.
+        </t>
+        <t>
           <figure>
             <preamble>
               An example of a policy entry:
