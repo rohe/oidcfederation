@@ -2217,7 +2217,7 @@ Content-Type: application/json
         </t>
       </section>
 
-      <section title="Validating the Trust Chains"
+      <section title="Validating a Trust Chain"
                anchor="trust_chain_validation">
         <t>
           As described in <xref target="trust_chain"/>,
@@ -2255,11 +2255,11 @@ Content-Type: application/json
               For j=0,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub']
             </t>
             <t>
-              For j=0,...,i-1: Verify the signature of ES[j] using the public
+              For j=0,...,i-1: Verify the signature of ES[j] using a public
               key carried in ES[j+1]['jwks'].
             </t>
             <t>
-              For j == 0 verify the signature of ES[0] using the public
+              For j == 0 verify the signature of ES[0] using a public
               key carried in ES[0]['jwks'].
             </t>
             <t>
@@ -2278,6 +2278,11 @@ Content-Type: application/json
         <t>Consumers MAY cache Entity Statements or signature verification
           results for a given time until they expire
           <xref target="trust_lifetime"/>.
+        </t>
+        <t>
+          Note that the second bullet point means that at each step in the
+          trust chain resolution it must be verified that the signing JWK is
+          also present in the jwks statement claim issued by the superior.
         </t>
       </section>
       <section title="Choosing One of the Valid Trust Chains">
