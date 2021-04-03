@@ -421,7 +421,7 @@
 <link href="#rfc.section.6.4" rel="Chapter" title="6.4 Generic Error Response">
 <link href="#rfc.section.7" rel="Chapter" title="7 Resolving Trust Chain and Metadata">
 <link href="#rfc.section.7.1" rel="Chapter" title="7.1 Fetching Entity Statements to Establish a Trust Chain">
-<link href="#rfc.section.7.2" rel="Chapter" title="7.2 Validating the Trust Chains">
+<link href="#rfc.section.7.2" rel="Chapter" title="7.2 Validating a Trust Chain">
 <link href="#rfc.section.7.3" rel="Chapter" title="7.3 Choosing One of the Valid Trust Chains">
 <link href="#rfc.section.7.4" rel="Chapter" title="7.4 Calculating the Expiration Time of a Trust Chain">
 <link href="#rfc.section.8" rel="Chapter" title="8 Updating Metadata, Key Rollover, and Revocation">
@@ -473,14 +473,14 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 3.6.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
   <meta name="dct.issued" scheme="ISO8601" content="2021-04-02" />
-  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.   " />
-  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.   " />
+  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.  " />
+  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.  " />
 
 </head>
 
@@ -645,7 +645,7 @@
 </li>
 <ul><li>7.1.   <a href="#rfc.section.7.1">Fetching Entity Statements to Establish a Trust Chain</a>
 </li>
-<li>7.2.   <a href="#rfc.section.7.2">Validating the Trust Chains</a>
+<li>7.2.   <a href="#rfc.section.7.2">Validating a Trust Chain</a>
 </li>
 <li>7.3.   <a href="#rfc.section.7.3">Choosing One of the Valid Trust Chains</a>
 </li>
@@ -882,7 +882,6 @@
       {
         "alg": "RS256",
         "e": "AQAB",
-        "ext": true,
         "key_ops": ["verify"],
         "kid": "key1",
         "kty": "RSA",
@@ -1084,6 +1083,7 @@
 </ul>
 
 <p> </p>
+<p id="rfc.section.4.1.p.3">It should be noted that claim names without language tags are different from the same claim but with language tags.  </p>
 <p></p>
 
 <p>An example of a policy entry: </p>
@@ -1215,7 +1215,7 @@
 <li>If there is a <samp>value</samp> operator in the policy, apply that and you are done.  </li>
 <li>Add whatever value is specified in an <samp>add</samp> operator.  </li>
 <li>If the parameter still has no value apply the <samp>default</samp> if there is one.  </li>
-<li>Do the essential check. If <samp>essential</samp> is missing as an operator <samp>essential</samp> is to be treated as if set to <samp>true</samp>.  If <samp>essential</samp> is defined to be <samp>true</samp>, then the claim MUST have a value by now. Otherwise applying the operator MUST fail.  </li>
+<li>Do the essential check. If <samp>essential</samp> is missing as an operator <samp>essential</samp> is to be treated as if set to <samp>false</samp>.  If <samp>essential</samp> is defined to be <samp>true</samp>, then the claim MUST have a value by now. Otherwise applying the operator MUST fail.  </li>
 <li>Do the other checks. Verified that the value is <samp>one_of</samp> or that the values are <samp>subset_of</samp>/<samp>superset_of</samp>. If the parameter values do not fall within the allowed boundaries, applying the operator MUST fail.  </li>
 </ol>
 
@@ -1583,7 +1583,6 @@ Content-Type: application/jose
       {
         "alg": "RS256",
         "e": "AQAB",
-        "ext": true,
         "key_ops": [
           "verify"
         ],
@@ -1670,7 +1669,6 @@ Content-Type: application/jose
       {
         "alg": "RS256",
         "e": "AQAB",
-        "ext": true,
         "key_ops": [
           "verify"
         ],
@@ -1853,7 +1851,7 @@ Content-Type: application/json
 <p id="rfc.section.7.1.p.3">A successful operation will return one or more lists of entity statements. Each of the lists terminating in a self-signed entity statement is issued by a trust anchor.  </p>
 <p id="rfc.section.7.1.p.4">If there is no path from the remote peer to at least one of the trusted trust anchors, then the list will be empty and there is no way of establishing trust in the remote peer's information. How the Consumer deals with this is out of scope for this specification.  </p>
 <h1 id="rfc.section.7.2">
-<a href="#rfc.section.7.2">7.2.</a> <a href="#trust_chain_validation" id="trust_chain_validation">Validating the Trust Chains</a>
+<a href="#rfc.section.7.2">7.2.</a> <a href="#trust_chain_validation" id="trust_chain_validation">Validating a Trust Chain</a>
 </h1>
 <p id="rfc.section.7.2.p.1">As described in <a href="#trust_chain" class="xref">Section 2.2</a>, a trust chain consists of an ordered list of entity statements. So whichever way the Consumer has acquired the set of entity statements, it must now verify that it is a proper trust chain using the rules laid out in that section.  </p>
 <p id="rfc.section.7.2.p.2">To validate the chain, the following must be done: </p>
@@ -1869,14 +1867,15 @@ Content-Type: application/json
 </li>
 <li>For j=0 verify that <samp>iss</samp> == <samp>sub</samp>.  </li>
 <li>For j=0,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub'] </li>
-<li>For j=0,...,i-1: Verify the signature of ES[j] using the public key carried in ES[j+1]['jwks'].  </li>
-<li>For j == 0 verify the signature of ES[0] using the public key carried in ES[0]['jwks'].  </li>
+<li>For j=0,...,i-1: Verify the signature of ES[j] using a public key carried in ES[j+1]['jwks'].  </li>
+<li>For j == 0 verify the signature of ES[0] using a public key carried in ES[0]['jwks'].  </li>
 <li>For j == i: verify that a) the issuer matches the configured identifier of a trust anchor and b) its signature is valid with the likewise configured public key of said trust anchor.  </li>
 </ul>
 
 <p> </p>
 <p id="rfc.section.7.2.p.4">Verifying the signature is a much more expensive operation then verifying the correctness of the statement and the timestamps. An implementer MAY therefor chose to not verify the signature until all the other checks have been done.  </p>
 <p id="rfc.section.7.2.p.5">Consumers MAY cache Entity Statements or signature verification results for a given time until they expire <a href="#trust_lifetime" class="xref">Section 7.4</a>.  </p>
+<p id="rfc.section.7.2.p.6">Note that the second bullet point means that at each step in the trust chain resolution it must be verified that the signing JWK is also present in the jwks statement claim issued by the superior.  </p>
 <h1 id="rfc.section.7.3">
 <a href="#rfc.section.7.3">7.3.</a> Choosing One of the Valid Trust Chains</h1>
 <p id="rfc.section.7.3.p.1">If multiple valid trust chains are found, the Consumer will need to decide on which one to use.  </p>
