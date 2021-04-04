@@ -473,14 +473,14 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 3.6.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
-  <meta name="dct.issued" scheme="ISO8601" content="2021-04-02" />
-  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.  " />
-  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.  " />
+  <meta name="dct.issued" scheme="ISO8601" content="2021-04-03" />
+  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.   " />
+  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.   " />
 
 </head>
 
@@ -531,7 +531,7 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">April 2, 2021</td>
+<td class="right">April 3, 2021</td>
 </tr>
 
     	
@@ -826,7 +826,7 @@
 <br> OPTIONAL. JSON object including protocol specific metadata claims that represent the entity's metadata.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata according to the metadata schema of that metadata type. An entity statement may contain multiple metadata statements, but only one for each metadata type.  If the <samp>iss</samp> of an entity statement points to the same entity as the <samp>sub</samp>, then the entity statement MUST contain a <samp>metadata</samp> claim.  If <samp>iss</samp> and <samp>sub</samp> are not the same, then the entity statement MUST NOT contain a <samp>metadata</samp> claim.  </dd>
 <dt>metadata_policy</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. JSON object that describes a metadata policy.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata policy according to the metadata schema of that metadata type. An entity statement may contain multiple metadata policy statements, but only one for each metadata type.  Only non-leaf entities MAY contain a <samp>metadata_policy</samp> claim. Leaf entities MUST NOT contain a metadata_policy claim.  </dd>
+<br> OPTIONAL. JSON object that describes a metadata policy.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata policy according to the metadata schema of that metadata type. An entity statement may contain multiple metadata policy statements, but only one for each metadata type.  Only non-leaf entities MAY contain a <samp>metadata_policy</samp> claim. Leaf entities MUST NOT contain a <samp>metadata_policy</samp> claim.  </dd>
 <dt>constraints</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. JSON object that describes a set of trust chain constraints. More about this in <a href="#chain_constraints" class="xref">Section 4.2</a> </dd>
@@ -1875,7 +1875,7 @@ Content-Type: application/json
 <p> </p>
 <p id="rfc.section.7.2.p.4">Verifying the signature is a much more expensive operation then verifying the correctness of the statement and the timestamps. An implementer MAY therefor chose to not verify the signature until all the other checks have been done.  </p>
 <p id="rfc.section.7.2.p.5">Consumers MAY cache Entity Statements or signature verification results for a given time until they expire <a href="#trust_lifetime" class="xref">Section 7.4</a>.  </p>
-<p id="rfc.section.7.2.p.6">Note that the second bullet point means that at each step in the trust chain resolution it must be verified that the signing JWK is also present in the jwks statement claim issued by the superior.  </p>
+<p id="rfc.section.7.2.p.6">Note that the second bullet point means that, at each step in the trust chain resolution, it must be verified that the signing JWK is also present in the <samp>jwks</samp> statement claim issued by the superior.  </p>
 <h1 id="rfc.section.7.3">
 <a href="#rfc.section.7.3">7.3.</a> Choosing One of the Valid Trust Chains</h1>
 <p id="rfc.section.7.3.p.1">If multiple valid trust chains are found, the Consumer will need to decide on which one to use.  </p>
@@ -2886,7 +2886,7 @@ Host: op.umu.se
 <p id="rfc.section.A.2.1.2.p.6">Having that, the registration is done, and the OP must now use the keys found at the URL specified in <samp>jwks_uri</samp> to verify the signature on the Request Object in the Authentication Request.  </p>
 <h1 id="rfc.appendix.A.2.2">
 <a href="#rfc.appendix.A.2.2">A.2.2.</a> Client Starts with Registration (Explicit Client Registration)</h1>
-<p id="rfc.section.A.2.2.p.1">Here the LIGO Wiki RP sends a client registration request to the federation_registration_endpoint of the OP (op.umu.se).  What it sends is a self-signed entity statement.  </p>
+<p id="rfc.section.A.2.2.p.1">Here the LIGO Wiki RP sends a client registration request to the <samp>federation_registration_endpoint</samp> of the OP (op.umu.se).  What it sends is a self-signed entity statement.  </p>
 <p id="rfc.section.A.2.2.p.2">Once the OP has the entity statement, it proceeds with the same sequence of steps as laid out in <a href="#op_discovery" class="xref">Appendix A.1</a>.  </p>
 <p id="rfc.section.A.2.2.p.3">The OP will end up with the same RP metadata as was described in <a href="#rp_metadata_eval" class="xref">Appendix A.2.1.2</a>, but what it now can do is return a metadata policy that it wants to be applied to the RP's metadata. This metadata policy will be combined with the trust chain's combined metadata policy before being applied to the RP's metadata.  </p>
 <p id="rfc.section.A.2.2.p.4">If we assume that the OP does not support refresh tokens, it may want to add a metadata policy that says: </p>
@@ -3044,6 +3044,7 @@ Host: op.umu.se
 <li>Rewrote the federation policy section.  </li>
 <li>What previously was referred to as <samp>client authentication</samp> in connection with automatic client registration is now changed to be <samp>request authentication</samp>.  </li>
 <li>Made a distinction between parameters and claims.  </li>
+<li>Corrected the description of the intended behavior when <samp>essential</samp> is absent.  </li>
 </ul>
 
 <p> </p>
