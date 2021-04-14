@@ -601,12 +601,45 @@
             <t hangText="signed_jwks_uri">
               <vspace/>
               OPTIONAL. A URI pointing to a signed JWT having the entity's
-              JWKS as payload. The JWT is signed with a key that is part of
-              the JWK that the entity publishes in it's self-signed entity
+              JWKS as payload. The JWT is signed with a key that was included
+              in the JWK that the entity published in its self-signed entity
               statement.
             </t>
           </list>
         </t>
+                      <figure>
+          <preamble>
+            The following is a non-normative example of a signed JWKS
+            before serialization and adding a signature.
+          </preamble>
+          <artwork><![CDATA[
+{
+  'keys': [
+    {
+      'kty': 'RSA',
+      'kid': 'SUdtUndEWVY2cUFDeDV5NVlBWDhvOXJodVl2am1mNGNtR0pmd',
+      'n': 'y_Zc8rByfeRIC9fFZrDZ2MGH2ZnxLrc0ZNNwkNet5rwCPYeRF3Sv
+            5nihZA9NHkDTEX97dN8hG6ACfeSo6JB2P7heJtmzM8oOBZbmQ90n
+            EA_JCHszkejHaOtDDfxPH6bQLrMlItF4JSUKua301uLB7C8nzTxm
+            tF3eAhGCKn8LotEseccxsmzApKRNWhfKDLpKPe9i9PZQhhJaurwD
+            kMwbWTAeZbqCScU1o09piuK1JDf2PaDFevioHncZcQO74Obe4nN3
+            oNPNAxrMClkZ9s9GMEd5vMqOD4huXlRpHwm9V3oJ3LRutOTxqQLV
+            yPucu7eHA7her4FOFAiUk-5SieXL9Q',
+      'e': 'AQAB'
+    },
+    {
+      'kty': 'EC',
+      'kid': 'MFYycG1raTI4SkZvVDBIMF9CNGw3VEZYUmxQLVN2T21nSWlkd3',
+      'crv': 'P-256',
+      'x': 'qAOdPQROkHfZY1daGofOmSNQWpYK8c9G2m2Rbkpbd4c',
+      'y': 'G_7fF-T8n2vONKM15Mzj4KR_shvHBxKGjMosF6FdoPY'
+    }
+  ],
+  'iss': 'https://example.org/op',
+  'iat': 1618410883
+}
+]]></artwork>
+        </figure>
       </section>
 
       <section title="OP Metadata" anchor="OP_metadata">
@@ -718,8 +751,8 @@
             <t hangText="signed_jwks_uri">
               <vspace/>
               OPTIONAL. A URI pointing to a signed JWT having the entity's
-              JWKS as payload. The JWT is signed with a key that is part of
-              the JWK that the entity publishes in it's self-signed entity
+              JWKS as payload. The JWT is signed with a key that was included
+              in the JWK that the entity published in its self-signed entity
               statement.
             </t>
           </list>

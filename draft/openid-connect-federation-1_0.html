@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>OpenID Connect Federation 1.0 - draft 14 </title>
+  <title>OpenID Connect Federation 1.0 - draft 15 </title>
 
   <style type="text/css" title="Xml2Rfc (sans serif)">
   /*<![CDATA[*/
@@ -473,14 +473,14 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 3.6.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
-  <meta name="dct.issued" scheme="ISO8601" content="2021-04-03" />
-  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.   " />
-  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.   " />
+  <meta name="dct.issued" scheme="ISO8601" content="2021-04-05" />
+  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.  " />
+  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation must be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.  " />
 
 </head>
 
@@ -531,14 +531,14 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">April 3, 2021</td>
+<td class="right">April 5, 2021</td>
 </tr>
 
     	
     </tbody>
   </table>
 
-  <p class="title">OpenID Connect Federation 1.0 - draft 14 <br />
+  <p class="title">OpenID Connect Federation 1.0 - draft 15 <br />
   <span class="filename">openid-connect-federation-1_0</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
@@ -953,9 +953,40 @@
 <dt>organization_name</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL. A human-readable name representing the organization owning the RP.  </dd>
+<dt>signed_jwks_uri</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. A URI pointing to a signed JWT having the entity's JWKS as payload. The JWT is signed with a key that was included in the JWK that the entity published in its self-signed entity statement.  </dd>
 </dl>
 
 <p> </p>
+<p>The following is a non-normative example of a signed JWKS before serialization and adding a signature.  </p>
+<pre>
+{
+  'keys': [
+    {
+      'kty': 'RSA',
+      'kid': 'SUdtUndEWVY2cUFDeDV5NVlBWDhvOXJodVl2am1mNGNtR0pmd',
+      'n': 'y_Zc8rByfeRIC9fFZrDZ2MGH2ZnxLrc0ZNNwkNet5rwCPYeRF3Sv
+            5nihZA9NHkDTEX97dN8hG6ACfeSo6JB2P7heJtmzM8oOBZbmQ90n
+            EA_JCHszkejHaOtDDfxPH6bQLrMlItF4JSUKua301uLB7C8nzTxm
+            tF3eAhGCKn8LotEseccxsmzApKRNWhfKDLpKPe9i9PZQhhJaurwD
+            kMwbWTAeZbqCScU1o09piuK1JDf2PaDFevioHncZcQO74Obe4nN3
+            oNPNAxrMClkZ9s9GMEd5vMqOD4huXlRpHwm9V3oJ3LRutOTxqQLV
+            yPucu7eHA7her4FOFAiUk-5SieXL9Q',
+      'e': 'AQAB'
+    },
+    {
+      'kty': 'EC',
+      'kid': 'MFYycG1raTI4SkZvVDBIMF9CNGw3VEZYUmxQLVN2T21nSWlkd3',
+      'crv': 'P-256',
+      'x': 'qAOdPQROkHfZY1daGofOmSNQWpYK8c9G2m2Rbkpbd4c',
+      'y': 'G_7fF-T8n2vONKM15Mzj4KR_shvHBxKGjMosF6FdoPY'
+    }
+  ],
+  'iss': 'https://example.org/op',
+  'iat': 1618410883
+}
+</pre>
 <h1 id="rfc.section.3.2">
 <a href="#rfc.section.3.2">3.2.</a> <a href="#OP_metadata" id="OP_metadata">OP Metadata</a>
 </h1>
@@ -992,6 +1023,9 @@
 </dl>
 <p> The only request authentication method that can be used if doing authentication as described in </p>
 <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> is <samp>request_object</samp>.  If pushed authorization is used then one of <samp>private_key_jwt</samp>, <samp>tls_client_auth</samp> and <samp>self_signed_tls_client_auth</samp> can be used.  </dd>
+<dt>signed_jwks_uri</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. A URI pointing to a signed JWT having the entity's JWKS as payload. The JWT is signed with a key that was included in the JWK that the entity published in its self-signed entity statement.  </dd>
 </dl>
 
 <p> </p>
@@ -1002,7 +1036,7 @@
   "authorization_endpoint":
     "https://server.example.com/authorization",
   "token_endpoint": "https://server.example.com/token",
-  "jwks_uri": "https://server.example.com/jwks.json",
+  "signed_jwks_uri": "https://server.example.com/jws.json",
   "response_types_supported": ["code", "id_token", "id_token token"],
   "subject_types_supported": ["public"],
   "id_token_signing_alg_values_supported": ["RS256", "ES256"],
@@ -3038,7 +3072,12 @@ Host: op.umu.se
 <a href="#rfc.appendix.E">Appendix E.</a> <a href="#History" id="History">Document History</a>
 </h1>
 <p id="rfc.section.E.p.1">[[ To be removed from the final specification ]]</p>
-<p id="rfc.section.E.p.2">-14 </p>
+<p id="rfc.section.E.p.2">-15 </p>
+
+<ul><li>Added signed_jwks_uri. Which had be lost somewhere down the road.  </li></ul>
+
+<p> </p>
+<p id="rfc.section.E.p.3">-14 </p>
 
 <ul>
 <li>Rewrote the federation policy section.  </li>
@@ -3048,7 +3087,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.3">-13 </p>
+<p id="rfc.section.E.p.4">-13 </p>
 
 <ul>
 <li>Added 'trust_marks' as a parameter in the entity statement.  </li>
@@ -3072,7 +3111,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.4">-11 </p>
+<p id="rfc.section.E.p.5">-11 </p>
 
 <ul>
 <li>Added section on trust marks.  </li>
@@ -3082,12 +3121,12 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.5">-10 </p>
+<p id="rfc.section.E.p.6">-10 </p>
 
 <ul><li>Incorporated additional review feedback from Marcos Sanz.  The primary change was moving constraints to their own section of the entity statement.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.6">-09 </p>
+<p id="rfc.section.E.p.7">-09 </p>
 
 <ul>
 <li>Incorporated review feedback from Marcos Sanz.  Major changes were as follows.  </li>
@@ -3097,7 +3136,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.7">-08 </p>
+<p id="rfc.section.E.p.8">-08 </p>
 
 <ul>
 <li>Incorporated review feedback from Michael B. Jones.  Major changes were as follows.  </li>
@@ -3117,7 +3156,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.8">-07 </p>
+<p id="rfc.section.E.p.9">-07 </p>
 
 <ul>
 <li>Split metadata into metadata and metadata_policy </li>
@@ -3125,7 +3164,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.9">-06 </p>
+<p id="rfc.section.E.p.10">-06 </p>
 
 <ul>
 <li>Some rewrites </li>
@@ -3133,12 +3172,12 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.10">-05 </p>
+<p id="rfc.section.E.p.11">-05 </p>
 
 <ul><li>A major rewrite.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.11">-04 </p>
+<p id="rfc.section.E.p.12">-04 </p>
 
 <ul>
 <li>Changed client metadata names <samp>scopes</samp> to <samp>rp_scopes</samp> and <samp>claims</samp> to <samp>rp_claims</samp>.  </li>
