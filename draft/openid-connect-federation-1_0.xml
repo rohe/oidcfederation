@@ -2470,7 +2470,7 @@ Content-Type: application/json
               Without a registration process, the RP does not have a
               client secret. Instead, the automatic registration model requires
               the
-              RP to make use of asymmetric cryptography. Bascially, the RP must
+              RP to make use of asymmetric cryptography. Basically, the RP must
               prove that it has control of the RP's private keys.
             </t>
             <t>
