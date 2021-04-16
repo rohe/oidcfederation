@@ -604,6 +604,41 @@
               JWKS as payload. The JWT is signed with a key that was included
               in the JWK that the entity published in its self-signed entity
               statement.
+              A signed JWT can contain the following claims all, except
+              <spanx style="verb">keys</spanx>, defined in
+              <xref target="RFC7519"/>:
+              <list style="hanging">
+                <t hangText="keys">
+                  <vspace/>
+                  REQUIRED. List of JWKs
+                </t>
+                <t hangText="iss">
+                  <vspace/>
+                  REQUIRED. The "iss" (issuer) claim identifies the principal
+                  that issued the JWT.
+                </t>
+                <t hangText="sub">
+                  <vspace/>
+                  REQUIRED. This claim identifies the owner of the keys.
+                  Should be the same as the issuer.
+                </t>
+                <t hangText="iat">
+                  <vspace/>
+                  OPTIONAL. This claim identifies the time at which the JWT was
+                  issued.
+                </t>
+                <t hangText="exp">
+                  <vspace/>
+                  OPTIONAL. This claim identifies the time at which the JWT is
+                  not valid anymore.
+                </t>
+              </list>
+              There are more claims defined in <xref target="RFC7519"/> of
+              these <spanx style="verb">aud</spanx> is out of the question since
+              the issuer can not know who the audience is.
+              <spanx style="verb">nbf</spanx> and <spanx style="verb">jti</spanx>
+              are deemed to not be very useful in this context and are there for
+              left out.
             </t>
           </list>
         </t>

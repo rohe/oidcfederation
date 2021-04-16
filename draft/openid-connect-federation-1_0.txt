@@ -47,9 +47,9 @@ Table of Contents
      2.2.  Trust Chain . . . . . . . . . . . . . . . . . . . . . . .  10
    3.  Metadata  . . . . . . . . . . . . . . . . . . . . . . . . . .  11
      3.1.  RP Metadata . . . . . . . . . . . . . . . . . . . . . . .  11
-     3.2.  OP Metadata . . . . . . . . . . . . . . . . . . . . . . .  12
-     3.3.  OAuth Authorization Server  . . . . . . . . . . . . . . .  14
-     3.4.  OAuth Client  . . . . . . . . . . . . . . . . . . . . . .  14
+     3.2.  OP Metadata . . . . . . . . . . . . . . . . . . . . . . .  13
+     3.3.  OAuth Authorization Server  . . . . . . . . . . . . . . .  15
+     3.4.  OAuth Client  . . . . . . . . . . . . . . . . . . . . . .  15
 
 
 
@@ -58,54 +58,54 @@ Hedberg, et al.          Expires October 7, 2021                [Page 1]
                         OpenID Connect Federation             April 2021
 
 
-     3.5.  OAuth Protected Resource  . . . . . . . . . . . . . . . .  15
-     3.6.  Federation Entity . . . . . . . . . . . . . . . . . . . .  15
-   4.  Federation Policy . . . . . . . . . . . . . . . . . . . . . .  16
-     4.1.  Metadata Policy . . . . . . . . . . . . . . . . . . . . .  16
-       4.1.1.  Operators . . . . . . . . . . . . . . . . . . . . . .  17
-       4.1.2.  Restrictions on Policy Entries  . . . . . . . . . . .  17
-       4.1.3.  Combining Policies  . . . . . . . . . . . . . . . . .  18
-         4.1.3.1.  Merging Operators . . . . . . . . . . . . . . . .  18
-       4.1.4.  Applying Policies . . . . . . . . . . . . . . . . . .  19
-       4.1.5.  Policy Combination Example  . . . . . . . . . . . . .  20
-       4.1.6.  Enforcing Policy  . . . . . . . . . . . . . . . . . .  22
-       4.1.7.  Extending the Policy Language . . . . . . . . . . . .  22
-       4.1.8.  Policy Example  . . . . . . . . . . . . . . . . . . .  23
-     4.2.  Applying Constraints  . . . . . . . . . . . . . . . . . .  25
-       4.2.1.  Max Path Length . . . . . . . . . . . . . . . . . . .  25
-       4.2.2.  Naming Constraints  . . . . . . . . . . . . . . . . .  26
-     4.3.  Trust Marks . . . . . . . . . . . . . . . . . . . . . . .  27
-       4.3.1.  Trust Mark Properties . . . . . . . . . . . . . . . .  27
-       4.3.2.  Validating a Trust Mark . . . . . . . . . . . . . . .  28
-       4.3.3.  Trust Mark Example  . . . . . . . . . . . . . . . . .  28
-   5.  Obtaining Federation Entity Configuration Information . . . .  28
-     5.1.  Federation Entity Configuration Request . . . . . . . . .  29
-     5.2.  Federation Entity Configuration Response  . . . . . . . .  29
-   6.  Federation API  . . . . . . . . . . . . . . . . . . . . . . .  30
-     6.1.  Fetching Entity Statements (REQUIRED) . . . . . . . . . .  31
-       6.1.1.  Fetch Entity Statements Request . . . . . . . . . . .  31
-       6.1.2.  Fetch Entity Statements Response  . . . . . . . . . .  32
-     6.2.  Trust Negotiation (OPTIONAL)  . . . . . . . . . . . . . .  34
-       6.2.1.  Trust Negotiation Request . . . . . . . . . . . . . .  34
-       6.2.2.  Trust Negotiation Response  . . . . . . . . . . . . .  35
-     6.3.  Entity Listings (OPTIONAL)  . . . . . . . . . . . . . . .  36
-       6.3.1.  Entity Listings Request . . . . . . . . . . . . . . .  36
-       6.3.2.  Entity Listing Response . . . . . . . . . . . . . . .  36
-     6.4.  Generic Error Response  . . . . . . . . . . . . . . . . .  37
-   7.  Resolving Trust Chain and Metadata  . . . . . . . . . . . . .  38
-     7.1.  Fetching Entity Statements to Establish a Trust Chain . .  38
-     7.2.  Validating a Trust Chain  . . . . . . . . . . . . . . . .  38
-     7.3.  Choosing One of the Valid Trust Chains  . . . . . . . . .  39
-     7.4.  Calculating the Expiration Time of a Trust Chain  . . . .  39
-   8.  Updating Metadata, Key Rollover, and Revocation . . . . . . .  40
-     8.1.  Protocol Key Rollover . . . . . . . . . . . . . . . . . .  40
-     8.2.  Key Rollover for a Trust Anchor . . . . . . . . . . . . .  40
-     8.3.  Revocation  . . . . . . . . . . . . . . . . . . . . . . .  40
-   9.  OpenID Connect Communication  . . . . . . . . . . . . . . . .  41
-     9.1.  Automatic Registration  . . . . . . . . . . . . . . . . .  41
-       9.1.1.  Authentication Request  . . . . . . . . . . . . . . .  42
-         9.1.1.1.  Using a Request Object  . . . . . . . . . . . . .  42
-           9.1.1.1.1.  Processing the Authentication Request . . . .  43
+     3.5.  OAuth Protected Resource  . . . . . . . . . . . . . . . .  16
+     3.6.  Federation Entity . . . . . . . . . . . . . . . . . . . .  16
+   4.  Federation Policy . . . . . . . . . . . . . . . . . . . . . .  17
+     4.1.  Metadata Policy . . . . . . . . . . . . . . . . . . . . .  17
+       4.1.1.  Operators . . . . . . . . . . . . . . . . . . . . . .  18
+       4.1.2.  Restrictions on Policy Entries  . . . . . . . . . . .  18
+       4.1.3.  Combining Policies  . . . . . . . . . . . . . . . . .  19
+         4.1.3.1.  Merging Operators . . . . . . . . . . . . . . . .  19
+       4.1.4.  Applying Policies . . . . . . . . . . . . . . . . . .  20
+       4.1.5.  Policy Combination Example  . . . . . . . . . . . . .  21
+       4.1.6.  Enforcing Policy  . . . . . . . . . . . . . . . . . .  23
+       4.1.7.  Extending the Policy Language . . . . . . . . . . . .  23
+       4.1.8.  Policy Example  . . . . . . . . . . . . . . . . . . .  24
+     4.2.  Applying Constraints  . . . . . . . . . . . . . . . . . .  26
+       4.2.1.  Max Path Length . . . . . . . . . . . . . . . . . . .  26
+       4.2.2.  Naming Constraints  . . . . . . . . . . . . . . . . .  27
+     4.3.  Trust Marks . . . . . . . . . . . . . . . . . . . . . . .  28
+       4.3.1.  Trust Mark Properties . . . . . . . . . . . . . . . .  28
+       4.3.2.  Validating a Trust Mark . . . . . . . . . . . . . . .  29
+       4.3.3.  Trust Mark Example  . . . . . . . . . . . . . . . . .  29
+   5.  Obtaining Federation Entity Configuration Information . . . .  29
+     5.1.  Federation Entity Configuration Request . . . . . . . . .  30
+     5.2.  Federation Entity Configuration Response  . . . . . . . .  30
+   6.  Federation API  . . . . . . . . . . . . . . . . . . . . . . .  31
+     6.1.  Fetching Entity Statements (REQUIRED) . . . . . . . . . .  32
+       6.1.1.  Fetch Entity Statements Request . . . . . . . . . . .  32
+       6.1.2.  Fetch Entity Statements Response  . . . . . . . . . .  33
+     6.2.  Trust Negotiation (OPTIONAL)  . . . . . . . . . . . . . .  35
+       6.2.1.  Trust Negotiation Request . . . . . . . . . . . . . .  35
+       6.2.2.  Trust Negotiation Response  . . . . . . . . . . . . .  36
+     6.3.  Entity Listings (OPTIONAL)  . . . . . . . . . . . . . . .  37
+       6.3.1.  Entity Listings Request . . . . . . . . . . . . . . .  37
+       6.3.2.  Entity Listing Response . . . . . . . . . . . . . . .  37
+     6.4.  Generic Error Response  . . . . . . . . . . . . . . . . .  38
+   7.  Resolving Trust Chain and Metadata  . . . . . . . . . . . . .  39
+     7.1.  Fetching Entity Statements to Establish a Trust Chain . .  39
+     7.2.  Validating a Trust Chain  . . . . . . . . . . . . . . . .  39
+     7.3.  Choosing One of the Valid Trust Chains  . . . . . . . . .  40
+     7.4.  Calculating the Expiration Time of a Trust Chain  . . . .  40
+   8.  Updating Metadata, Key Rollover, and Revocation . . . . . . .  41
+     8.1.  Protocol Key Rollover . . . . . . . . . . . . . . . . . .  41
+     8.2.  Key Rollover for a Trust Anchor . . . . . . . . . . . . .  41
+     8.3.  Revocation  . . . . . . . . . . . . . . . . . . . . . . .  41
+   9.  OpenID Connect Communication  . . . . . . . . . . . . . . . .  42
+     9.1.  Automatic Registration  . . . . . . . . . . . . . . . . .  42
+       9.1.1.  Authentication Request  . . . . . . . . . . . . . . .  43
+         9.1.1.1.  Using a Request Object  . . . . . . . . . . . . .  43
+           9.1.1.1.1.  Processing the Authentication Request . . . .  44
 
 
 
@@ -114,51 +114,51 @@ Hedberg, et al.          Expires October 7, 2021                [Page 2]
                         OpenID Connect Federation             April 2021
 
 
-         9.1.1.2.  Using Pushed Authorization  . . . . . . . . . . .  44
-           9.1.1.2.1.  Processing the Authentication Request . . . .  45
-       9.1.2.  Authentication Error Response . . . . . . . . . . . .  46
-     9.2.  Explicit Registration . . . . . . . . . . . . . . . . . .  47
-       9.2.1.  Client Registration . . . . . . . . . . . . . . . . .  47
-         9.2.1.1.  Client Registration Request . . . . . . . . . . .  47
-         9.2.1.2.  Client Registration Response  . . . . . . . . . .  47
-           9.2.1.2.1.  OP Constructing the Response  . . . . . . . .  47
-           9.2.1.2.2.  RP Parsing the Response . . . . . . . . . . .  48
-       9.2.2.  After Client Registration . . . . . . . . . . . . . .  49
-         9.2.2.1.  What the RP MUST Do . . . . . . . . . . . . . . .  49
-         9.2.2.2.  What the OP MUST Do . . . . . . . . . . . . . . .  49
-       9.2.3.  Expiration Times  . . . . . . . . . . . . . . . . . .  50
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  50
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .  50
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  50
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  50
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  52
+         9.1.1.2.  Using Pushed Authorization  . . . . . . . . . . .  45
+           9.1.1.2.1.  Processing the Authentication Request . . . .  46
+       9.1.2.  Authentication Error Response . . . . . . . . . . . .  47
+     9.2.  Explicit Registration . . . . . . . . . . . . . . . . . .  48
+       9.2.1.  Client Registration . . . . . . . . . . . . . . . . .  48
+         9.2.1.1.  Client Registration Request . . . . . . . . . . .  48
+         9.2.1.2.  Client Registration Response  . . . . . . . . . .  48
+           9.2.1.2.1.  OP Constructing the Response  . . . . . . . .  48
+           9.2.1.2.2.  RP Parsing the Response . . . . . . . . . . .  49
+       9.2.2.  After Client Registration . . . . . . . . . . . . . .  50
+         9.2.2.1.  What the RP MUST Do . . . . . . . . . . . . . . .  50
+         9.2.2.2.  What the OP MUST Do . . . . . . . . . . . . . . .  50
+       9.2.3.  Expiration Times  . . . . . . . . . . . . . . . . . .  51
+   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  51
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  51
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  51
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  51
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  53
    Appendix A.  Provider Information Discovery and Client
-                Registration in a Federation . . . . . . . . . . . .  52
-     A.1.  The LIGO Wiki Discovers the OP's Metadata . . . . . . . .  53
-       A.1.1.  Configuration Information for op.umu.se . . . . . . .  53
-       A.1.2.  Configuration Information for 'https://umu.se'  . . .  55
+                Registration in a Federation . . . . . . . . . . . .  53
+     A.1.  The LIGO Wiki Discovers the OP's Metadata . . . . . . . .  54
+       A.1.1.  Configuration Information for op.umu.se . . . . . . .  54
+       A.1.2.  Configuration Information for 'https://umu.se'  . . .  56
        A.1.3.  Entity Statement Published by 'https://umu.se' about
-               'https://op.umu.se' . . . . . . . . . . . . . . . . .  56
-       A.1.4.  Configuration Information for 'https://swamid.se' . .  58
+               'https://op.umu.se' . . . . . . . . . . . . . . . . .  57
+       A.1.4.  Configuration Information for 'https://swamid.se' . .  59
        A.1.5.  Entity Statement Published by 'https://swamid.se'
-               about 'https://umu.se'  . . . . . . . . . . . . . . .  59
+               about 'https://umu.se'  . . . . . . . . . . . . . . .  60
        A.1.6.  Configuration Information for
-               'https://edugain.geant.org' . . . . . . . . . . . . .  61
+               'https://edugain.geant.org' . . . . . . . . . . . . .  62
        A.1.7.  Entity Statement Published by
-               'https://edugain.geant.org' about 'https://swamid.se'  62
-       A.1.8.  Verified Metadata for op.umu.se . . . . . . . . . . .  63
-     A.2.  The Two Ways of Doing Client Registration . . . . . . . .  65
+               'https://edugain.geant.org' about 'https://swamid.se'  63
+       A.1.8.  Verified Metadata for op.umu.se . . . . . . . . . . .  64
+     A.2.  The Two Ways of Doing Client Registration . . . . . . . .  66
        A.2.1.  RP Sends Authentication Request (Automatic
-               Registration) . . . . . . . . . . . . . . . . . . . .  65
-         A.2.1.1.  OP Fetches Entity Statements  . . . . . . . . . .  66
-         A.2.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  67
+               Registration) . . . . . . . . . . . . . . . . . . . .  66
+         A.2.1.1.  OP Fetches Entity Statements  . . . . . . . . . .  67
+         A.2.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  68
        A.2.2.  Client Starts with Registration (Explicit Client
-               Registration) . . . . . . . . . . . . . . . . . . . .  69
-   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  72
-   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  73
-   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  73
-   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  74
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  77
+               Registration) . . . . . . . . . . . . . . . . . . . .  70
+   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  73
+   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  74
+   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  74
+   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  75
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  78
 
 
 
@@ -607,13 +607,69 @@ Hedberg, et al.          Expires October 7, 2021               [Page 10]
       OPTIONAL.  A URI pointing to a signed JWT having the entity's JWKS
       as payload.  The JWT is signed with a key that was included in the
       JWK that the entity published in its self-signed entity statement.
-
-
+      A signed JWT can contain the following claims all, except "keys",
+      defined in [RFC7519]:
 
 
 
 
 Hedberg, et al.          Expires October 7, 2021               [Page 11]
+
+                        OpenID Connect Federation             April 2021
+
+
+      keys
+         REQUIRED.  List of JWKs
+
+      iss
+         REQUIRED.  The "iss" (issuer) claim identifies the principal
+         that issued the JWT.
+
+      sub
+         REQUIRED.  This claim identifies the owner of the keys.  Should
+         be the same as the issuer.
+
+      iat
+         OPTIONAL.  This claim identifies the time at which the JWT was
+         issued.
+
+      exp
+         OPTIONAL.  This claim identifies the time at which the JWT is
+         not valid anymore.
+
+      There are more claims defined in [RFC7519] of these "aud" is out
+      of the question since the issuer can not know who the audience is.
+      "nbf" and "jti" are deemed to not be very useful in this context
+      and are there for left out.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires October 7, 2021               [Page 12]
 
                         OpenID Connect Federation             April 2021
 
@@ -669,7 +725,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 11]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 12]
+Hedberg, et al.          Expires October 7, 2021               [Page 13]
 
                         OpenID Connect Federation             April 2021
 
@@ -725,7 +781,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 12]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 13]
+Hedberg, et al.          Expires October 7, 2021               [Page 14]
 
                         OpenID Connect Federation             April 2021
 
@@ -781,7 +837,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 13]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 14]
+Hedberg, et al.          Expires October 7, 2021               [Page 15]
 
                         OpenID Connect Federation             April 2021
 
@@ -837,7 +893,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 14]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 15]
+Hedberg, et al.          Expires October 7, 2021               [Page 16]
 
                         OpenID Connect Federation             April 2021
 
@@ -893,7 +949,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 15]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 16]
+Hedberg, et al.          Expires October 7, 2021               [Page 17]
 
                         OpenID Connect Federation             April 2021
 
@@ -949,7 +1005,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 16]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 17]
+Hedberg, et al.          Expires October 7, 2021               [Page 18]
 
                         OpenID Connect Federation             April 2021
 
@@ -1005,7 +1061,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 17]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 18]
+Hedberg, et al.          Expires October 7, 2021               [Page 19]
 
                         OpenID Connect Federation             April 2021
 
@@ -1061,7 +1117,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 18]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 19]
+Hedberg, et al.          Expires October 7, 2021               [Page 20]
 
                         OpenID Connect Federation             April 2021
 
@@ -1117,7 +1173,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 19]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 20]
+Hedberg, et al.          Expires October 7, 2021               [Page 21]
 
                         OpenID Connect Federation             April 2021
 
@@ -1173,7 +1229,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 20]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 21]
+Hedberg, et al.          Expires October 7, 2021               [Page 22]
 
                         OpenID Connect Federation             April 2021
 
@@ -1229,7 +1285,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 21]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 22]
+Hedberg, et al.          Expires October 7, 2021               [Page 23]
 
                         OpenID Connect Federation             April 2021
 
@@ -1285,7 +1341,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 22]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 23]
+Hedberg, et al.          Expires October 7, 2021               [Page 24]
 
                         OpenID Connect Federation             April 2021
 
@@ -1341,7 +1397,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 23]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 24]
+Hedberg, et al.          Expires October 7, 2021               [Page 25]
 
                         OpenID Connect Federation             April 2021
 
@@ -1397,7 +1453,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 24]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 25]
+Hedberg, et al.          Expires October 7, 2021               [Page 26]
 
                         OpenID Connect Federation             April 2021
 
@@ -1453,7 +1509,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 25]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 26]
+Hedberg, et al.          Expires October 7, 2021               [Page 27]
 
                         OpenID Connect Federation             April 2021
 
@@ -1509,7 +1565,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 26]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 27]
+Hedberg, et al.          Expires October 7, 2021               [Page 28]
 
                         OpenID Connect Federation             April 2021
 
@@ -1565,7 +1621,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 27]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 28]
+Hedberg, et al.          Expires October 7, 2021               [Page 29]
 
                         OpenID Connect Federation             April 2021
 
@@ -1621,7 +1677,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 28]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 29]
+Hedberg, et al.          Expires October 7, 2021               [Page 30]
 
                         OpenID Connect Federation             April 2021
 
@@ -1677,7 +1733,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 29]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 30]
+Hedberg, et al.          Expires October 7, 2021               [Page 31]
 
                         OpenID Connect Federation             April 2021
 
@@ -1733,7 +1789,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 30]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 31]
+Hedberg, et al.          Expires October 7, 2021               [Page 32]
 
                         OpenID Connect Federation             April 2021
 
@@ -1789,7 +1845,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 31]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 32]
+Hedberg, et al.          Expires October 7, 2021               [Page 33]
 
                         OpenID Connect Federation             April 2021
 
@@ -1845,7 +1901,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 32]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 33]
+Hedberg, et al.          Expires October 7, 2021               [Page 34]
 
                         OpenID Connect Federation             April 2021
 
@@ -1901,7 +1957,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 33]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 34]
+Hedberg, et al.          Expires October 7, 2021               [Page 35]
 
                         OpenID Connect Federation             April 2021
 
@@ -1957,7 +2013,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 34]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 35]
+Hedberg, et al.          Expires October 7, 2021               [Page 36]
 
                         OpenID Connect Federation             April 2021
 
@@ -2013,7 +2069,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 35]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 36]
+Hedberg, et al.          Expires October 7, 2021               [Page 37]
 
                         OpenID Connect Federation             April 2021
 
@@ -2069,7 +2125,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 36]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 37]
+Hedberg, et al.          Expires October 7, 2021               [Page 38]
 
                         OpenID Connect Federation             April 2021
 
@@ -2125,7 +2181,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 37]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 38]
+Hedberg, et al.          Expires October 7, 2021               [Page 39]
 
                         OpenID Connect Federation             April 2021
 
@@ -2181,7 +2237,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 38]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 39]
+Hedberg, et al.          Expires October 7, 2021               [Page 40]
 
                         OpenID Connect Federation             April 2021
 
@@ -2237,7 +2293,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 39]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 40]
+Hedberg, et al.          Expires October 7, 2021               [Page 41]
 
                         OpenID Connect Federation             April 2021
 
@@ -2277,7 +2333,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 40]
 
    o  Without a registration process, the RP does not have a client
       secret.  Instead, the automatic registration model requires the RP
-      to make use of asymmetric cryptography.  Bascially, the RP must
+      to make use of asymmetric cryptography.  Basically, the RP must
       prove that it has control of the RP's private keys.
 
    o  The Client ID MUST be a URL from which the OP can fetch the RP's
@@ -2293,7 +2349,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 40]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 41]
+Hedberg, et al.          Expires October 7, 2021               [Page 42]
 
                         OpenID Connect Federation             April 2021
 
@@ -2349,7 +2405,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 41]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 42]
+Hedberg, et al.          Expires October 7, 2021               [Page 43]
 
                         OpenID Connect Federation             April 2021
 
@@ -2405,7 +2461,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 42]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 43]
+Hedberg, et al.          Expires October 7, 2021               [Page 44]
 
                         OpenID Connect Federation             April 2021
 
@@ -2461,7 +2517,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 43]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 44]
+Hedberg, et al.          Expires October 7, 2021               [Page 45]
 
                         OpenID Connect Federation             April 2021
 
@@ -2517,7 +2573,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 44]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 45]
+Hedberg, et al.          Expires October 7, 2021               [Page 46]
 
                         OpenID Connect Federation             April 2021
 
@@ -2573,7 +2629,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 45]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 46]
+Hedberg, et al.          Expires October 7, 2021               [Page 47]
 
                         OpenID Connect Federation             April 2021
 
@@ -2629,7 +2685,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 46]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 47]
+Hedberg, et al.          Expires October 7, 2021               [Page 48]
 
                         OpenID Connect Federation             April 2021
 
@@ -2685,7 +2741,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 47]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 48]
+Hedberg, et al.          Expires October 7, 2021               [Page 49]
 
                         OpenID Connect Federation             April 2021
 
@@ -2741,7 +2797,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 48]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 49]
+Hedberg, et al.          Expires October 7, 2021               [Page 50]
 
                         OpenID Connect Federation             April 2021
 
@@ -2797,7 +2853,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 49]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 50]
+Hedberg, et al.          Expires October 7, 2021               [Page 51]
 
                         OpenID Connect Federation             April 2021
 
@@ -2853,7 +2909,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 50]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 51]
+Hedberg, et al.          Expires October 7, 2021               [Page 52]
 
                         OpenID Connect Federation             April 2021
 
@@ -2909,7 +2965,7 @@ Appendix A.  Provider Information Discovery and Client Registration in a
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 52]
+Hedberg, et al.          Expires October 7, 2021               [Page 53]
 
                         OpenID Connect Federation             April 2021
 
@@ -2965,7 +3021,7 @@ A.1.1.  Configuration Information for op.umu.se
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 53]
+Hedberg, et al.          Expires October 7, 2021               [Page 54]
 
                         OpenID Connect Federation             April 2021
 
@@ -3021,7 +3077,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 53]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 54]
+Hedberg, et al.          Expires October 7, 2021               [Page 55]
 
                         OpenID Connect Federation             April 2021
 
@@ -3077,7 +3133,7 @@ A.1.2.  Configuration Information for 'https://umu.se'
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 55]
+Hedberg, et al.          Expires October 7, 2021               [Page 56]
 
                         OpenID Connect Federation             April 2021
 
@@ -3133,7 +3189,7 @@ A.1.3.  Entity Statement Published by 'https://umu.se' about
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 56]
+Hedberg, et al.          Expires October 7, 2021               [Page 57]
 
                         OpenID Connect Federation             April 2021
 
@@ -3189,7 +3245,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 56]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 57]
+Hedberg, et al.          Expires October 7, 2021               [Page 58]
 
                         OpenID Connect Federation             April 2021
 
@@ -3245,7 +3301,7 @@ A.1.4.  Configuration Information for 'https://swamid.se'
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 58]
+Hedberg, et al.          Expires October 7, 2021               [Page 59]
 
                         OpenID Connect Federation             April 2021
 
@@ -3301,7 +3357,7 @@ A.1.5.  Entity Statement Published by 'https://swamid.se' about
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 59]
+Hedberg, et al.          Expires October 7, 2021               [Page 60]
 
                         OpenID Connect Federation             April 2021
 
@@ -3357,7 +3413,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 59]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 60]
+Hedberg, et al.          Expires October 7, 2021               [Page 61]
 
                         OpenID Connect Federation             April 2021
 
@@ -3413,7 +3469,7 @@ A.1.6.  Configuration Information for 'https://edugain.geant.org'
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 61]
+Hedberg, et al.          Expires October 7, 2021               [Page 62]
 
                         OpenID Connect Federation             April 2021
 
@@ -3469,7 +3525,7 @@ A.1.7.  Entity Statement Published by 'https://edugain.geant.org' about
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 62]
+Hedberg, et al.          Expires October 7, 2021               [Page 63]
 
                         OpenID Connect Federation             April 2021
 
@@ -3525,7 +3581,7 @@ A.1.8.  Verified Metadata for op.umu.se
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 63]
+Hedberg, et al.          Expires October 7, 2021               [Page 64]
 
                         OpenID Connect Federation             April 2021
 
@@ -3581,7 +3637,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 63]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 64]
+Hedberg, et al.          Expires October 7, 2021               [Page 65]
 
                         OpenID Connect Federation             April 2021
 
@@ -3637,7 +3693,7 @@ A.2.1.  RP Sends Authentication Request (Automatic Registration)
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 65]
+Hedberg, et al.          Expires October 7, 2021               [Page 66]
 
                         OpenID Connect Federation             April 2021
 
@@ -3693,7 +3749,7 @@ A.2.1.1.  OP Fetches Entity Statements
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 66]
+Hedberg, et al.          Expires October 7, 2021               [Page 67]
 
                         OpenID Connect Federation             April 2021
 
@@ -3749,7 +3805,7 @@ A.2.1.2.  OP Evaluates the RP Metadata
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 67]
+Hedberg, et al.          Expires October 7, 2021               [Page 68]
 
                         OpenID Connect Federation             April 2021
 
@@ -3805,7 +3861,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 67]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 68]
+Hedberg, et al.          Expires October 7, 2021               [Page 69]
 
                         OpenID Connect Federation             April 2021
 
@@ -3861,7 +3917,7 @@ A.2.2.  Client Starts with Registration (Explicit Client Registration)
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 69]
+Hedberg, et al.          Expires October 7, 2021               [Page 70]
 
                         OpenID Connect Federation             April 2021
 
@@ -3917,7 +3973,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 69]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 70]
+Hedberg, et al.          Expires October 7, 2021               [Page 71]
 
                         OpenID Connect Federation             April 2021
 
@@ -3973,7 +4029,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 70]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 71]
+Hedberg, et al.          Expires October 7, 2021               [Page 72]
 
                         OpenID Connect Federation             April 2021
 
@@ -4029,7 +4085,7 @@ Appendix B.  Notices
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 72]
+Hedberg, et al.          Expires October 7, 2021               [Page 73]
 
                         OpenID Connect Federation             April 2021
 
@@ -4085,7 +4141,7 @@ Appendix D.  Open Issues
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 73]
+Hedberg, et al.          Expires October 7, 2021               [Page 74]
 
                         OpenID Connect Federation             April 2021
 
@@ -4141,7 +4197,7 @@ Appendix E.  Document History
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 74]
+Hedberg, et al.          Expires October 7, 2021               [Page 75]
 
                         OpenID Connect Federation             April 2021
 
@@ -4197,7 +4253,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 74]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 75]
+Hedberg, et al.          Expires October 7, 2021               [Page 76]
 
                         OpenID Connect Federation             April 2021
 
@@ -4253,7 +4309,7 @@ Hedberg, et al.          Expires October 7, 2021               [Page 75]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 76]
+Hedberg, et al.          Expires October 7, 2021               [Page 77]
 
                         OpenID Connect Federation             April 2021
 
@@ -4309,7 +4365,7 @@ Authors' Addresses
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 77]
+Hedberg, et al.          Expires October 7, 2021               [Page 78]
 
                         OpenID Connect Federation             April 2021
 
@@ -4365,4 +4421,4 @@ Hedberg, et al.          Expires October 7, 2021               [Page 77]
 
 
 
-Hedberg, et al.          Expires October 7, 2021               [Page 78]
+Hedberg, et al.          Expires October 7, 2021               [Page 79]

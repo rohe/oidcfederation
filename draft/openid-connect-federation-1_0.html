@@ -955,7 +955,25 @@
 <br> OPTIONAL. A human-readable name representing the organization owning the RP.  </dd>
 <dt>signed_jwks_uri</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. A URI pointing to a signed JWT having the entity's JWKS as payload. The JWT is signed with a key that was included in the JWK that the entity published in its self-signed entity statement.  </dd>
+<br> OPTIONAL. A URI pointing to a signed JWT having the entity's JWKS as payload. The JWT is signed with a key that was included in the JWK that the entity published in its self-signed entity statement.  A signed JWT can contain the following claims all, except <samp>keys</samp>, defined in <a href="#RFC7519" class="xref">[RFC7519]</a>: <dl>
+<dt>keys</dt>
+<dd style="margin-left: 8">
+<br> REQUIRED. List of JWKs </dd>
+<dt>iss</dt>
+<dd style="margin-left: 8">
+<br> REQUIRED. The "iss" (issuer) claim identifies the principal that issued the JWT.  </dd>
+<dt>sub</dt>
+<dd style="margin-left: 8">
+<br> REQUIRED. This claim identifies the owner of the keys.  Should be the same as the issuer.  </dd>
+<dt>iat</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. This claim identifies the time at which the JWT was issued.  </dd>
+<dt>exp</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. This claim identifies the time at which the JWT is not valid anymore.  </dd>
+</dl>
+<p> There are more claims defined in </p>
+<a href="#RFC7519" class="xref">[RFC7519]</a> of these <samp>aud</samp> is out of the question since the issuer can not know who the audience is.  <samp>nbf</samp> and <samp>jti</samp> are deemed to not be very useful in this context and are there for left out.  </dd>
 </dl>
 
 <p> </p>
@@ -1958,7 +1976,7 @@ Content-Type: application/json
 
 <ul>
 <li>The Client ID of the RP MUST be set to be identical to the RP entity identifier.  </li>
-<li>Without a registration process, the RP does not have a client secret. Instead, the automatic registration model requires the RP to make use of asymmetric cryptography. Bascially, the RP must prove that it has control of the RP's private keys.  </li>
+<li>Without a registration process, the RP does not have a client secret. Instead, the automatic registration model requires the RP to make use of asymmetric cryptography. Basically, the RP must prove that it has control of the RP's private keys.  </li>
 <li>The Client ID MUST be a URL from which the OP can fetch the RP's self-signed entity statement using the process described in <a href="#federation_configuration" class="xref">Section 5</a>.  </li>
 <li>The OP MUST publish that it supports a request authentication method using the metadata claim <samp>request_authentication_methods_supported</samp>.  </li>
 </ul>
