@@ -1,8 +1,16 @@
 sudo: required
+dist: focal
 language: node_js
 
 python:
-- 3.6
+- 3.8
+
+addons:
+  apt:
+    update: true
+    packages:
+      - python3-pip
+install: true
 
 cache: pip
 
@@ -12,14 +20,14 @@ node_js:
 script:
   - node -v
   - mkdir public
-  - xml2rfc draft/openid-connect-federation-1_0.xml -v 3 --text -o public/openid-connect-federation-1.0.txt
-  - xml2rfc draft/openid-connect-federation-1_0.xml -v 3 --html -o public/openid-connect-federation-1.0.html
+  - xml2rfc draft/openid-connect-federation-1_0.xml --v3 --text -o public/openid-connect-federation-1.0.txt
+  - xml2rfc draft/openid-connect-federation-1_0.xml --v3 --html -o public/openid-connect-federation-1.0.html
 
 services:
 - docker
 install:
-- pip install --user --upgrade pip
-- pip install --user xml2rfc
+- pip3 install --user --upgrade pip
+- pip3 install --user xml2rfc
 
 deploy:
   provider: gcs
