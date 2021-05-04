@@ -3973,7 +3973,7 @@ Host: op.umu.se
 	      </list>
 	    </t>
 	    <t>
-	      <list>
+	      <list style="hanging">
                 <t hangText="incommon.org">
                   <figure>
                     <artwork><![CDATA[
