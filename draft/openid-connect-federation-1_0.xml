@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="5" month="April" year="2021"/>
+    <date day="19" month="May" year="2021"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -258,7 +258,7 @@
               This claim is only OPTIONAL for the entity statement returned
               from an OP when the client is doing explicit registration.
               In all other cases it is REQUIRED.
-              Every JWK in the JWKS MUST have a key id (kid).
+              Every JWK in the JWK Set MUST have a Key ID (kid).
             </t>
             <t hangText="aud">
               <vspace/>
@@ -601,16 +601,16 @@
             <t hangText="signed_jwks_uri">
               <vspace/>
               OPTIONAL. A URI pointing to a signed JWT having the entity's
-              JWKS as payload. The JWT is signed with a key that was included
+              JWK Set as payload. The JWT is signed with a key that was included
               in the JWK that the entity published in its self-signed entity
               statement.
-              A signed JWT can contain the following claims all, except
-              <spanx style="verb">keys</spanx>, defined in
+              A signed JWT can contain the following claims, all except
+              <spanx style="verb">keys</spanx> defined in
               <xref target="RFC7519"/>:
               <list style="hanging">
                 <t hangText="keys">
                   <vspace/>
-                  REQUIRED. List of JWKs
+                  REQUIRED. List of JWKs.
                 </t>
                 <t hangText="iss">
                   <vspace/>
@@ -620,7 +620,7 @@
                 <t hangText="sub">
                   <vspace/>
                   REQUIRED. This claim identifies the owner of the keys.
-                  Should be the same as the issuer.
+                  It SHOULD be the same as the issuer.
                 </t>
                 <t hangText="iat">
                   <vspace/>
@@ -630,48 +630,48 @@
                 <t hangText="exp">
                   <vspace/>
                   OPTIONAL. This claim identifies the time at which the JWT is
-                  not valid anymore.
+                  no longer valid.
                 </t>
               </list>
-              There are more claims defined in <xref target="RFC7519"/> of
-              these <spanx style="verb">aud</spanx> is out of the question since
+              There are more claims defined in <xref target="RFC7519"/>; of
+              these, <spanx style="verb">aud</spanx> SHOULD NOT be used, since
               the issuer can not know who the audience is.
               <spanx style="verb">nbf</spanx> and <spanx style="verb">jti</spanx>
-              are deemed to not be very useful in this context and are there for
-              left out.
+              are deemed to not be very useful in this context and are therefore
+              to be omitted.
             </t>
           </list>
         </t>
-                      <figure>
+	<figure>
           <preamble>
             The following is a non-normative example of a signed JWKS
             before serialization and adding a signature.
           </preamble>
           <artwork><![CDATA[
 {
-  'keys': [
+  "keys": [
     {
-      'kty': 'RSA',
-      'kid': 'SUdtUndEWVY2cUFDeDV5NVlBWDhvOXJodVl2am1mNGNtR0pmd',
-      'n': 'y_Zc8rByfeRIC9fFZrDZ2MGH2ZnxLrc0ZNNwkNet5rwCPYeRF3Sv
+      "kty": "RSA",
+      "kid": "SUdtUndEWVY2cUFDeDV5NVlBWDhvOXJodVl2am1mNGNtR0pmd",
+      "n": "y_Zc8rByfeRIC9fFZrDZ2MGH2ZnxLrc0ZNNwkNet5rwCPYeRF3Sv
             5nihZA9NHkDTEX97dN8hG6ACfeSo6JB2P7heJtmzM8oOBZbmQ90n
             EA_JCHszkejHaOtDDfxPH6bQLrMlItF4JSUKua301uLB7C8nzTxm
             tF3eAhGCKn8LotEseccxsmzApKRNWhfKDLpKPe9i9PZQhhJaurwD
             kMwbWTAeZbqCScU1o09piuK1JDf2PaDFevioHncZcQO74Obe4nN3
             oNPNAxrMClkZ9s9GMEd5vMqOD4huXlRpHwm9V3oJ3LRutOTxqQLV
-            yPucu7eHA7her4FOFAiUk-5SieXL9Q',
-      'e': 'AQAB'
+            yPucu7eHA7her4FOFAiUk-5SieXL9Q",
+      "e": "AQAB"
     },
     {
-      'kty': 'EC',
-      'kid': 'MFYycG1raTI4SkZvVDBIMF9CNGw3VEZYUmxQLVN2T21nSWlkd3',
-      'crv': 'P-256',
-      'x': 'qAOdPQROkHfZY1daGofOmSNQWpYK8c9G2m2Rbkpbd4c',
-      'y': 'G_7fF-T8n2vONKM15Mzj4KR_shvHBxKGjMosF6FdoPY'
+      "kty": "EC",
+      "kid": "MFYycG1raTI4SkZvVDBIMF9CNGw3VEZYUmxQLVN2T21nSWlkd3",
+      "crv": "P-256",
+      "x": "qAOdPQROkHfZY1daGofOmSNQWpYK8c9G2m2Rbkpbd4c",
+      "y": "G_7fF-T8n2vONKM15Mzj4KR_shvHBxKGjMosF6FdoPY"
     }
   ],
-  'iss': 'https://example.org/op',
-  'iat': 1618410883
+  "iss": "https://example.org/op",
+  "iat": 1618410883
 }
 ]]></artwork>
         </figure>
@@ -786,7 +786,7 @@
             <t hangText="signed_jwks_uri">
               <vspace/>
               OPTIONAL. A URI pointing to a signed JWT having the entity's
-              JWKS as payload. The JWT is signed with a key that was included
+              JWK Set as payload. The JWT is signed with a key that was included
               in the JWK that the entity published in its self-signed entity
               statement.
             </t>
@@ -1850,7 +1850,7 @@ Content-Type: application/jose
         or by other means.
       </t>
       <t>
-        The Federation API is a HTTPS API that MAY support multiple
+        The Federation API is an HTTPS API that MAY support multiple
         operations. Fetching entity statements is one of the operations, and the
         only one that all Federation API endpoints are REQUIRED to support.
         All the other operations are OPTIONAL. The list of defined
@@ -1882,7 +1882,7 @@ Content-Type: application/jose
         <section title="Fetch Entity Statements Request"
                  anchor="fetch_statement">
           <t>
-            The request MUST be a HTTP request using the GET method and
+            The request MUST be an HTTP request using the GET method and
             the https scheme to a resolved federation API endpoint with the
             following query string parameters:
           </t>
@@ -2008,7 +2008,7 @@ Content-Type: application/jose
 
         <section title="Trust Negotiation Request">
           <t>
-            The request MUST be a HTTP request using the GET method and
+            The request MUST be an HTTP request using the GET method and
             the https scheme to a resolved federation API endpoint with the
             following query string parameters:
           </t>
@@ -2125,7 +2125,7 @@ Content-Type: application/json
 
         <section title="Entity Listings Request">
           <t>
-            The request MUST be a HTTP request using the GET method and
+            The request MUST be an HTTP request using the GET method and
             the https scheme to a resolved federation API endpoint with the
             following query string parameters:
           </t>
@@ -2685,7 +2685,7 @@ https://server.example.com/authorize?
                   based on self-signed certificates.
                   In this case the self-signed certificate MUST be present as
                   the value of an <spanx style="verb">x5c</spanx>
-		  claim for one key in the JWKS describing
+		  claim for one key in the JWK Set describing
                   the RP's keys.
                 </t>
                 <t>
@@ -2783,7 +2783,7 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
                     certificate, then the certificate MUST be present as the
                     value
                     of an <spanx style="verb">x5c</spanx>
-		    claim for one key in the JWKS describing the RP's
+		    claim for one key in the JWK Set describing the RP's
                     keys.
                   </t>
                 </list>
@@ -4305,7 +4305,7 @@ Host: op.umu.se
             A mechanism MAY be needed for bounding key lifetimes.
           </t>
           <t>
-            Discuss that key IDs MAY be chosen as the JWK Thumbprint [RFC 7638]
+            Discuss that Key IDs MAY be chosen as the JWK Thumbprint [RFC 7638]
             of the key.
           </t>
           <t>
@@ -4337,7 +4337,7 @@ Host: op.umu.se
         -15
         <list style="symbols">
           <t>
-            Added signed_jwks_uri. Which had be lost somewhere down the road.
+            Added signed_jwks_uri, which had be lost somewhere along the road.
           </t>
         </list>
       </t>
@@ -4391,13 +4391,13 @@ Host: op.umu.se
             publish and support a .well-known/openid-federation endpoint.
           </t>
           <t>
-            Every key in a JWKS in an entity statement MUST have a kid.
+            Every key in a JWK Set in an entity statement MUST have a kid.
           </t>
         </list>
         -12
         <list style="symbols">
           <t>
-            Made JWKS OPTIONAL in an entity statement returned by OP as response
+            Made JWK Set OPTIONAL in an entity statement returned by OP as response
             of an explicit client registration
           </t>
           <t>
