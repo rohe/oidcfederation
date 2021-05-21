@@ -12,10 +12,10 @@
                                                                Schibsted
                                                               J. Bradley
                                                                   Yubico
-                                                            May 19, 2021
+                                                            May 21, 2021
 
 
-                OpenID Connect Federation 1.0 - draft 15
+                OpenID Connect Federation 1.0 - draft 16
                      openid-connect-federation-1_0
 
 Abstract
@@ -53,7 +53,7 @@ Table of Contents
 
 
 
-Hedberg, et al.         Expires November 20, 2021               [Page 1]
+Hedberg, et al.         Expires November 22, 2021               [Page 1]
 
                         OpenID Connect Federation               May 2021
 
@@ -109,7 +109,7 @@ Hedberg, et al.         Expires November 20, 2021               [Page 1]
 
 
 
-Hedberg, et al.         Expires November 20, 2021               [Page 2]
+Hedberg, et al.         Expires November 22, 2021               [Page 2]
 
                         OpenID Connect Federation               May 2021
 
@@ -165,7 +165,7 @@ Hedberg, et al.         Expires November 20, 2021               [Page 2]
 
 
 
-Hedberg, et al.         Expires November 20, 2021               [Page 3]
+Hedberg, et al.         Expires November 22, 2021               [Page 3]
 
                         OpenID Connect Federation               May 2021
 
@@ -221,7 +221,7 @@ Hedberg, et al.         Expires November 20, 2021               [Page 3]
 
 
 
-Hedberg, et al.         Expires November 20, 2021               [Page 4]
+Hedberg, et al.         Expires November 22, 2021               [Page 4]
 
                         OpenID Connect Federation               May 2021
 
@@ -277,7 +277,7 @@ Hedberg, et al.         Expires November 20, 2021               [Page 4]
 
 
 
-Hedberg, et al.         Expires November 20, 2021               [Page 5]
+Hedberg, et al.         Expires November 22, 2021               [Page 5]
 
                         OpenID Connect Federation               May 2021
 
@@ -333,7 +333,7 @@ Hedberg, et al.         Expires November 20, 2021               [Page 5]
 
 
 
-Hedberg, et al.         Expires November 20, 2021               [Page 6]
+Hedberg, et al.         Expires November 22, 2021               [Page 6]
 
                         OpenID Connect Federation               May 2021
 
@@ -389,7 +389,7 @@ Hedberg, et al.         Expires November 20, 2021               [Page 6]
 
 
 
-Hedberg, et al.         Expires November 20, 2021               [Page 7]
+Hedberg, et al.         Expires November 22, 2021               [Page 7]
 
                         OpenID Connect Federation               May 2021
 
@@ -445,7 +445,7 @@ Hedberg, et al.         Expires November 20, 2021               [Page 7]
 
 
 
-Hedberg, et al.         Expires November 20, 2021               [Page 8]
+Hedberg, et al.         Expires November 22, 2021               [Page 8]
 
                         OpenID Connect Federation               May 2021
 
@@ -501,7 +501,7 @@ Hedberg, et al.         Expires November 20, 2021               [Page 8]
 
 
 
-Hedberg, et al.         Expires November 20, 2021               [Page 9]
+Hedberg, et al.         Expires November 22, 2021               [Page 9]
 
                         OpenID Connect Federation               May 2021
 
@@ -557,7 +557,7 @@ Hedberg, et al.         Expires November 20, 2021               [Page 9]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 10]
+Hedberg, et al.         Expires November 22, 2021              [Page 10]
 
                         OpenID Connect Federation               May 2021
 
@@ -613,7 +613,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 10]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 11]
+Hedberg, et al.         Expires November 22, 2021              [Page 11]
 
                         OpenID Connect Federation               May 2021
 
@@ -669,7 +669,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 11]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 12]
+Hedberg, et al.         Expires November 22, 2021              [Page 12]
 
                         OpenID Connect Federation               May 2021
 
@@ -725,7 +725,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 12]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 13]
+Hedberg, et al.         Expires November 22, 2021              [Page 13]
 
                         OpenID Connect Federation               May 2021
 
@@ -781,7 +781,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 13]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 14]
+Hedberg, et al.         Expires November 22, 2021              [Page 14]
 
                         OpenID Connect Federation               May 2021
 
@@ -837,7 +837,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 14]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 15]
+Hedberg, et al.         Expires November 22, 2021              [Page 15]
 
                         OpenID Connect Federation               May 2021
 
@@ -893,7 +893,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 15]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 16]
+Hedberg, et al.         Expires November 22, 2021              [Page 16]
 
                         OpenID Connect Federation               May 2021
 
@@ -949,7 +949,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 16]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 17]
+Hedberg, et al.         Expires November 22, 2021              [Page 17]
 
                         OpenID Connect Federation               May 2021
 
@@ -1005,7 +1005,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 17]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 18]
+Hedberg, et al.         Expires November 22, 2021              [Page 18]
 
                         OpenID Connect Federation               May 2021
 
@@ -1061,7 +1061,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 18]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 19]
+Hedberg, et al.         Expires November 22, 2021              [Page 19]
 
                         OpenID Connect Federation               May 2021
 
@@ -1117,7 +1117,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 19]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 20]
+Hedberg, et al.         Expires November 22, 2021              [Page 20]
 
                         OpenID Connect Federation               May 2021
 
@@ -1173,7 +1173,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 20]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 21]
+Hedberg, et al.         Expires November 22, 2021              [Page 21]
 
                         OpenID Connect Federation               May 2021
 
@@ -1229,7 +1229,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 21]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 22]
+Hedberg, et al.         Expires November 22, 2021              [Page 22]
 
                         OpenID Connect Federation               May 2021
 
@@ -1285,7 +1285,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 22]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 23]
+Hedberg, et al.         Expires November 22, 2021              [Page 23]
 
                         OpenID Connect Federation               May 2021
 
@@ -1341,7 +1341,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 23]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 24]
+Hedberg, et al.         Expires November 22, 2021              [Page 24]
 
                         OpenID Connect Federation               May 2021
 
@@ -1397,7 +1397,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 24]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 25]
+Hedberg, et al.         Expires November 22, 2021              [Page 25]
 
                         OpenID Connect Federation               May 2021
 
@@ -1453,7 +1453,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 25]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 26]
+Hedberg, et al.         Expires November 22, 2021              [Page 26]
 
                         OpenID Connect Federation               May 2021
 
@@ -1509,7 +1509,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 26]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 27]
+Hedberg, et al.         Expires November 22, 2021              [Page 27]
 
                         OpenID Connect Federation               May 2021
 
@@ -1565,7 +1565,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 27]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 28]
+Hedberg, et al.         Expires November 22, 2021              [Page 28]
 
                         OpenID Connect Federation               May 2021
 
@@ -1621,7 +1621,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 28]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 29]
+Hedberg, et al.         Expires November 22, 2021              [Page 29]
 
                         OpenID Connect Federation               May 2021
 
@@ -1677,7 +1677,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 29]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 30]
+Hedberg, et al.         Expires November 22, 2021              [Page 30]
 
                         OpenID Connect Federation               May 2021
 
@@ -1733,7 +1733,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 30]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 31]
+Hedberg, et al.         Expires November 22, 2021              [Page 31]
 
                         OpenID Connect Federation               May 2021
 
@@ -1789,7 +1789,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 31]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 32]
+Hedberg, et al.         Expires November 22, 2021              [Page 32]
 
                         OpenID Connect Federation               May 2021
 
@@ -1845,7 +1845,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 32]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 33]
+Hedberg, et al.         Expires November 22, 2021              [Page 33]
 
                         OpenID Connect Federation               May 2021
 
@@ -1901,7 +1901,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 33]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 34]
+Hedberg, et al.         Expires November 22, 2021              [Page 34]
 
                         OpenID Connect Federation               May 2021
 
@@ -1957,7 +1957,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 34]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 35]
+Hedberg, et al.         Expires November 22, 2021              [Page 35]
 
                         OpenID Connect Federation               May 2021
 
@@ -2013,7 +2013,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 35]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 36]
+Hedberg, et al.         Expires November 22, 2021              [Page 36]
 
                         OpenID Connect Federation               May 2021
 
@@ -2069,7 +2069,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 36]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 37]
+Hedberg, et al.         Expires November 22, 2021              [Page 37]
 
                         OpenID Connect Federation               May 2021
 
@@ -2125,7 +2125,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 37]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 38]
+Hedberg, et al.         Expires November 22, 2021              [Page 38]
 
                         OpenID Connect Federation               May 2021
 
@@ -2181,7 +2181,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 38]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 39]
+Hedberg, et al.         Expires November 22, 2021              [Page 39]
 
                         OpenID Connect Federation               May 2021
 
@@ -2237,7 +2237,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 39]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 40]
+Hedberg, et al.         Expires November 22, 2021              [Page 40]
 
                         OpenID Connect Federation               May 2021
 
@@ -2293,7 +2293,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 40]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 41]
+Hedberg, et al.         Expires November 22, 2021              [Page 41]
 
                         OpenID Connect Federation               May 2021
 
@@ -2349,7 +2349,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 41]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 42]
+Hedberg, et al.         Expires November 22, 2021              [Page 42]
 
                         OpenID Connect Federation               May 2021
 
@@ -2405,7 +2405,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 42]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 43]
+Hedberg, et al.         Expires November 22, 2021              [Page 43]
 
                         OpenID Connect Federation               May 2021
 
@@ -2461,7 +2461,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 43]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 44]
+Hedberg, et al.         Expires November 22, 2021              [Page 44]
 
                         OpenID Connect Federation               May 2021
 
@@ -2517,7 +2517,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 44]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 45]
+Hedberg, et al.         Expires November 22, 2021              [Page 45]
 
                         OpenID Connect Federation               May 2021
 
@@ -2573,7 +2573,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 45]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 46]
+Hedberg, et al.         Expires November 22, 2021              [Page 46]
 
                         OpenID Connect Federation               May 2021
 
@@ -2629,7 +2629,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 46]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 47]
+Hedberg, et al.         Expires November 22, 2021              [Page 47]
 
                         OpenID Connect Federation               May 2021
 
@@ -2685,7 +2685,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 47]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 48]
+Hedberg, et al.         Expires November 22, 2021              [Page 48]
 
                         OpenID Connect Federation               May 2021
 
@@ -2741,7 +2741,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 48]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 49]
+Hedberg, et al.         Expires November 22, 2021              [Page 49]
 
                         OpenID Connect Federation               May 2021
 
@@ -2797,7 +2797,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 49]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 50]
+Hedberg, et al.         Expires November 22, 2021              [Page 50]
 
                         OpenID Connect Federation               May 2021
 
@@ -2818,7 +2818,11 @@ Hedberg, et al.         Expires November 20, 2021              [Page 50]
 
 11.  Security Considerations
 
-   TBD
+   Some of the interfaces defined in this specification can be used for
+   Denial of Service attacks (DOS).  Most notably Entity Listings
+   (Section 6.3) and automatic client registration (Section 9.1).  If
+   you plan to provide these interfaces as a service you should consider
+   applying normal defence methods like those described in [RFC4732]
 
 12.  References
 
@@ -2845,22 +2849,28 @@ Hedberg, et al.         Expires November 20, 2021              [Page 50]
               and F. Skokan, "OAuth 2.0 Pushed Authorization Requests",
               <https://tools.ietf.org/id/draft-ietf-oauth-par-04.html>.
 
+
+
+
+
+Hedberg, et al.         Expires November 22, 2021              [Page 51]
+
+                        OpenID Connect Federation               May 2021
+
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 51]
-
-                        OpenID Connect Federation               May 2021
-
-
    [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
               <https://www.rfc-editor.org/info/rfc3339>.
+
+   [RFC4732]  Handley, M., Ed., Rescorla, E., Ed., and IAB, "Internet
+              Denial-of-Service Considerations", RFC 4732,
+              DOI 10.17487/RFC4732, December 2006,
+              <https://www.rfc-editor.org/info/rfc4732>.
 
    [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
               Housley, R., and W. Polk, "Internet X.509 Public Key
@@ -2880,11 +2890,6 @@ Hedberg, et al.         Expires November 20, 2021              [Page 51]
               (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
               <https://www.rfc-editor.org/info/rfc7519>.
 
-   [RFC7523]  Jones, M., Campbell, B., and C. Mortimore, "JSON Web Token
-              (JWT) Profile for OAuth 2.0 Client Authentication and
-              Authorization Grants", RFC 7523, DOI 10.17487/RFC7523, May
-              2015, <https://www.rfc-editor.org/info/rfc7523>.
-
    [RFC7591]  Richer, J., Ed., Jones, M., Bradley, J., Machulak, M., and
               P. Hunt, "OAuth 2.0 Dynamic Client Registration Protocol",
               RFC 7591, DOI 10.17487/RFC7591, July 2015,
@@ -2899,20 +2904,21 @@ Hedberg, et al.         Expires November 20, 2021              [Page 51]
               (URIs)", RFC 8615, DOI 10.17487/RFC8615, May 2019,
               <https://www.rfc-editor.org/info/rfc8615>.
 
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2021              [Page 52]
+
+                        OpenID Connect Federation               May 2021
+
+
    [RFC8705]  Campbell, B., Bradley, J., Sakimura, N., and T.
               Lodderstedt, "OAuth 2.0 Mutual-TLS Client Authentication
               and Certificate-Bound Access Tokens", RFC 8705,
               DOI 10.17487/RFC8705, February 2020,
               <https://www.rfc-editor.org/info/rfc8705>.
-
-
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 52]
-
-                        OpenID Connect Federation               May 2021
-
 
 12.2.  Informative References
 
@@ -2955,20 +2961,19 @@ Appendix A.  Provider Information Discovery and Client Registration in a
 
    Once the RP-part of the Wiki knows which OP it SHOULD talk to it has
    to find out a couple of things about the OP.  All if those things can
+
+
+
+
+Hedberg, et al.         Expires November 22, 2021              [Page 53]
+
+                        OpenID Connect Federation               May 2021
+
+
    be found in the metadata.  But finding the metadata is not enough;
    the RP also has to trust the metadata.
 
    Let us start with discovering Provider information.
-
-
-
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 53]
-
-                        OpenID Connect Federation               May 2021
-
 
 A.1.  The LIGO Wiki Discovers the OP's Metadata
 
@@ -3013,19 +3018,19 @@ A.1.1.  Configuration Information for op.umu.se
      "exp": 1568397247,
      "iat": 1568310847,
      "iss": "https://op.umu.se",
+
+
+
+Hedberg, et al.         Expires November 22, 2021              [Page 54]
+
+                        OpenID Connect Federation               May 2021
+
+
      "jwks": {
        "keys": [
          {
            "e": "AQAB",
            "kid": "dEEtRjlzY3djcENuT01wOGxrZlkxb3RIQVJlMTY0...",
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 54]
-
-                        OpenID Connect Federation               May 2021
-
-
            "kty": "RSA",
            "n": "x97YKqc9Cs-DNtFrQ7_vhXoH9bwkDWW6En2jJ044yH..."
          }
@@ -3069,19 +3074,19 @@ Hedberg, et al.         Expires November 20, 2021              [Page 54]
            "client_secret_post",
            "client_secret_basic",
            "client_secret_jwt",
+
+
+
+Hedberg, et al.         Expires November 22, 2021              [Page 55]
+
+                        OpenID Connect Federation               May 2021
+
+
            "private_key_jwt"
          ]
        }
      },
      "sub": "https://op.umu.se"
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 55]
-
-                        OpenID Connect Federation               May 2021
-
-
    }
 
    The "authority_hints" points to the intermediate https://umu.se.  So
@@ -3100,6 +3105,38 @@ A.1.2.  Configuration Information for 'https://umu.se'
    Host: umu.se
 
    And the GET will return:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.         Expires November 22, 2021              [Page 56]
+
+                        OpenID Connect Federation               May 2021
+
 
    {
      "authority_hints": [
@@ -3129,15 +3166,6 @@ A.1.2.  Configuration Information for 'https://umu.se'
      "sub": "https://umu.se"
    }
 
-
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 56]
-
-                        OpenID Connect Federation               May 2021
-
-
    The only piece of information that is used from this entity statement
    is the "federation_api_endpoint", which is used in the next step.
 
@@ -3161,35 +3189,7 @@ A.1.3.  Entity Statement Published by 'https://umu.se' about
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 57]
+Hedberg, et al.         Expires November 22, 2021              [Page 57]
 
                         OpenID Connect Federation               May 2021
 
@@ -3245,7 +3245,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 57]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 58]
+Hedberg, et al.         Expires November 22, 2021              [Page 58]
 
                         OpenID Connect Federation               May 2021
 
@@ -3301,7 +3301,7 @@ A.1.4.  Configuration Information for 'https://swamid.se'
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 59]
+Hedberg, et al.         Expires November 22, 2021              [Page 59]
 
                         OpenID Connect Federation               May 2021
 
@@ -3357,7 +3357,7 @@ A.1.5.  Entity Statement Published by 'https://swamid.se' about
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 60]
+Hedberg, et al.         Expires November 22, 2021              [Page 60]
 
                         OpenID Connect Federation               May 2021
 
@@ -3413,7 +3413,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 60]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 61]
+Hedberg, et al.         Expires November 22, 2021              [Page 61]
 
                         OpenID Connect Federation               May 2021
 
@@ -3469,7 +3469,7 @@ A.1.6.  Configuration Information for 'https://edugain.geant.org'
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 62]
+Hedberg, et al.         Expires November 22, 2021              [Page 62]
 
                         OpenID Connect Federation               May 2021
 
@@ -3525,7 +3525,7 @@ A.1.7.  Entity Statement Published by 'https://edugain.geant.org' about
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 63]
+Hedberg, et al.         Expires November 22, 2021              [Page 63]
 
                         OpenID Connect Federation               May 2021
 
@@ -3581,7 +3581,7 @@ A.1.8.  Verified Metadata for op.umu.se
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 64]
+Hedberg, et al.         Expires November 22, 2021              [Page 64]
 
                         OpenID Connect Federation               May 2021
 
@@ -3637,7 +3637,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 64]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 65]
+Hedberg, et al.         Expires November 22, 2021              [Page 65]
 
                         OpenID Connect Federation               May 2021
 
@@ -3693,7 +3693,7 @@ A.2.1.  RP Sends Authentication Request (Automatic Registration)
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 66]
+Hedberg, et al.         Expires November 22, 2021              [Page 66]
 
                         OpenID Connect Federation               May 2021
 
@@ -3749,7 +3749,7 @@ A.2.1.1.  OP Fetches Entity Statements
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 67]
+Hedberg, et al.         Expires November 22, 2021              [Page 67]
 
                         OpenID Connect Federation               May 2021
 
@@ -3805,7 +3805,7 @@ A.2.1.2.  OP Evaluates the RP Metadata
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 68]
+Hedberg, et al.         Expires November 22, 2021              [Page 68]
 
                         OpenID Connect Federation               May 2021
 
@@ -3861,7 +3861,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 68]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 69]
+Hedberg, et al.         Expires November 22, 2021              [Page 69]
 
                         OpenID Connect Federation               May 2021
 
@@ -3917,7 +3917,7 @@ A.2.2.  Client Starts with Registration (Explicit Client Registration)
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 70]
+Hedberg, et al.         Expires November 22, 2021              [Page 70]
 
                         OpenID Connect Federation               May 2021
 
@@ -3936,87 +3936,87 @@ Hedberg, et al.         Expires November 20, 2021              [Page 70]
    this:
 
 
-{
-  "trust_anchor_id": "https://edugain.geant.org",
-  "metadata_policy": {
-    "openid_relying_party": {
-      "application_type": {
-        "one_of": [
-          "web",
-          "native"
-        ]
-      },
-      "contacts": {
-        "add": [
-          "ops@incommon.org",
-          "ops@edugain.geant.org"
-        ]
-      },
-      "grant_types": {
-        "subset_of": [
-          "authorization_code",
-          "refresh_token"
-        ]
-      }
-      "registration_access_token": {
-        "value": "nLe19cJ5e9SXXiPqnRRuxpjyWI73bDhD"
-      },
-      "client_id": {
-        "value": "m3GyHwVlyld3"
-      },
-      "client_secret_expires_at": {
-        "value": 1604049619
-      },
-      "registration_client_uri": {
-        "value":
-          "https://op.umu.se/openid/registration_api?client_id=m3GyHwVl"
+   {
+     "trust_anchor_id": "https://edugain.geant.org",
+     "metadata_policy": {
+       "openid_relying_party": {
+         "application_type": {
+           "one_of": [
+             "web",
+             "native"
+           ]
+         },
+         "contacts": {
+           "add": [
+             "ops@incommon.org",
+             "ops@edugain.geant.org"
+           ]
+         },
+         "grant_types": {
+           "subset_of": [
+             "authorization_code",
+             "refresh_token"
+           ]
+         }
+         "registration_access_token": {
+           "value": "nLe19cJ5e9SXXiPqnRRuxpjyWI73bDhD"
+         },
+         "client_id": {
+           "value": "m3GyHw"
+         },
+         "client_secret_expires_at": {
+           "value": 1604049619
+         },
+         "registration_client_uri": {
+           "value":
+             "https://op.umu.se/openid/registration?client_id=m3GyHw"
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 71]
+Hedberg, et al.         Expires November 22, 2021              [Page 71]
 
                         OpenID Connect Federation               May 2021
 
 
-      },
-      "client_secret": {
-        "value": "cb44eed577f3b5edf3e08362d47a0dc44630b3dc6ea99f7a79205"
-      },
-      "client_id_issued_at": {
-        "value": 1601457619
-      }
-    }
-  },
-  "authority_hints": [
-    "https://incommon.org"
-  ],
-  "aud": "https://wiki.ligo.org",
-  "jwks": {
-    "keys": [
-      {
-        "kty": "RSA",
-        "use": "sig",
-        "kid":
-          "U2JTWHY0VFg0a2FEVVdTaHptVDJsNDNiSDk5MXRBVEtNSFVkeXZwbTZ2QQ",
-        "e": "AQAB",
-        "n":
-          "4AZjgqFwMhTVSLrpzzNcwaCyVD88C_Hb3Bmor97vH-2AzldhuVb8Ka..."
-      },
-      {
-        "kty": "EC",
-        "use": "sig",
-        "kid":
-          "LWtFcklLOGdrWXdvN1hjS2tjSUEzbG5VYTRrd0djdHgyQjVGUVB1MXBCdw",
-        "crv": "P-256",
-        "x": "X2S1dFE7zokQDST0bfHdlOWxOc8FC1l4_sG1Kwa4l4s",
-        "y": "812nU6OCKxgc2ZgSPt_dkXbYldG_smHJi4wXByDHc6g"
-      }
-    ]
-  },
-  "iss": "https://op.umu.se",
-  "iat": 1601457619,
-  "exp": 1601544019
-}
+         },
+         "client_secret": {
+           "value":
+             "cb44eed577f3b5edf3e08362d47a0dc44630b3dc6ea99f7a79205"
+         },
+         "client_id_issued_at": {
+           "value": 1601457619
+         }
+       }
+     },
+     "authority_hints": [
+       "https://incommon.org"
+     ],
+     "aud": "https://wiki.ligo.org",
+     "jwks": {
+       "keys": [
+         {
+           "kty": "RSA",
+           "use": "sig",
+           "kid":
+             "U2JTWHY0VFg0a2FEVVdTaHptVDJsNDNiSDk5MXRBVEtNSFVkeXZwb",
+           "e": "AQAB",
+           "n":
+             "4AZjgqFwMhTVSLrpzzNcwaCyVD88C_Hb3Bmor97vH-2AzldhuVb8K..."
+         },
+         {
+           "kty": "EC",
+           "use": "sig",
+           "kid": "LWtFcklLOGdrW",
+           "crv": "P-256",
+           "x": "X2S1dFE7zokQDST0bfHdlOWxOc8FC1l4_sG1Kwa4l4s",
+           "y": "812nU6OCKxgc2ZgSPt_dkXbYldG_smHJi4wXByDHc6g"
+         }
+       ]
+     },
+     "iss": "https://op.umu.se",
+     "iat": 1601457619,
+     "exp": 1601544019
+   }
 
    And the resulting metadata used by the RP could look like:
 
@@ -4029,7 +4029,7 @@ Hedberg, et al.         Expires November 20, 2021              [Page 71]
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 72]
+Hedberg, et al.         Expires November 22, 2021              [Page 72]
 
                         OpenID Connect Federation               May 2021
 
@@ -4085,7 +4085,7 @@ Appendix B.  Notices
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 73]
+Hedberg, et al.         Expires November 22, 2021              [Page 73]
 
                         OpenID Connect Federation               May 2021
 
@@ -4141,7 +4141,7 @@ Appendix D.  Open Issues
 
 
 
-Hedberg, et al.         Expires November 20, 2021              [Page 74]
+Hedberg, et al.         Expires November 22, 2021              [Page 74]
 
                         OpenID Connect Federation               May 2021
 
@@ -4156,6 +4156,10 @@ Hedberg, et al.         Expires November 20, 2021              [Page 74]
 Appendix E.  Document History
 
    [[ To be removed from the final specification ]]
+
+   -16
+
+   o  Added security consideration section on Denial of Service attacks.
 
    -15
 
@@ -4190,17 +4194,18 @@ Appendix E.  Document History
    o  Separating the usage of merge and combine as proposed by Vladimir
       Dzhuvinov in Bitbucket issue #1157.
 
+
+
+
+Hedberg, et al.         Expires November 22, 2021              [Page 75]
+
+                        OpenID Connect Federation               May 2021
+
+
    o  An RP doing only explicit client registration are not required to
       publish and support a .well-known/openid-federation endpoint.
 
    o  Every key in a JWK Set in an entity statement MUST have a kid.
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 75]
-
-                        OpenID Connect Federation               May 2021
-
 
    -12
 
@@ -4245,18 +4250,19 @@ Hedberg, et al.         Expires November 20, 2021              [Page 75]
    o  Separated entity configuration discovery from operations provided
       by the federation API.
 
+
+
+
+Hedberg, et al.         Expires November 22, 2021              [Page 76]
+
+                        OpenID Connect Federation               May 2021
+
+
    o  Defined new authentication error codes.
 
    o  Also incorporated review feedback from Michael B.  Jones.
 
    -08
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 76]
-
-                        OpenID Connect Federation               May 2021
-
 
    o  Incorporated review feedback from Michael B.  Jones.  Major
       changes were as follows.
@@ -4300,19 +4306,19 @@ Hedberg, et al.         Expires November 20, 2021              [Page 76]
 
    o  Split metadata into metadata and metadata_policy
 
+
+
+
+Hedberg, et al.         Expires November 22, 2021              [Page 77]
+
+                        OpenID Connect Federation               May 2021
+
+
    o  Updated example
 
    -06
 
    o  Some rewrites
-
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 77]
-
-                        OpenID Connect Federation               May 2021
-
 
    o  Added example of explicit client registration
 
@@ -4356,18 +4362,18 @@ Authors' Addresses
    URI:   https://www.linkedin.com/in/andreassolberg/
 
 
+
+
+
+Hedberg, et al.         Expires November 22, 2021              [Page 78]
+
+                        OpenID Connect Federation               May 2021
+
+
    Samuel Gulliksson
    Schibsted Media Group
 
    Email: samuel.gulliksson@gmail.com
-
-
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 78]
-
-                        OpenID Connect Federation               May 2021
 
 
    John Bradley
@@ -4415,10 +4421,4 @@ Hedberg, et al.         Expires November 20, 2021              [Page 78]
 
 
 
-
-
-
-
-
-
-Hedberg, et al.         Expires November 20, 2021              [Page 79]
+Hedberg, et al.         Expires November 22, 2021              [Page 79]
