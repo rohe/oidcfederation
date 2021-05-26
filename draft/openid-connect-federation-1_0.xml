@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="21" month="May" year="2021"/>
+    <date day="25" month="May" year="2021"/>
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -3070,13 +3070,13 @@ HTTP/1.1 302 Found
 
     <section anchor="Security" title="Security Considerations">
       <t>
-        Some of the interfaces defined in this specification can be used for
-        Denial of Service attacks (DOS). Most notably Entity Listings
+        Some of the interfaces defined in this specification could be used for
+        Denial of Service attacks (DOS), most notably, Entity Listings
         (<xref target="entity_listings"/>) and
         automatic client registration (<xref target="automatic"/>).
-        If you plan to provide these interfaces as a service you should consider
-        applying normal defence methods like those described in
-        <xref target="RFC4732"></xref>
+        If you plan to provide these interfaces as a service, you should consider
+        applying normal defense methods, such as those described in
+        <xref target="RFC4732"/>.
       </t>
     </section>
   </middle>
@@ -4343,7 +4343,7 @@ Host: op.umu.se
         -16
         <list style="symbols">
           <t>
-            Added security consideration section on Denial of Service attacks.
+            Added Security Considerations section on Denial of Service attacks.
           </t>
         </list>
       </t>
