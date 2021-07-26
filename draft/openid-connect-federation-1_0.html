@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>OpenID Connect Federation 1.0 - draft 15 </title>
+  <title>OpenID Connect Federation 1.0 - draft 16 </title>
 
   <style type="text/css" title="Xml2Rfc (sans serif)">
   /*<![CDATA[*/
@@ -473,14 +473,14 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 3.7.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
-  <meta name="dct.issued" scheme="ISO8601" content="2021-05-19" />
-  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation MUST be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.   " />
-  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.   In an identity federation context, this is not sufficient. The participants of the federation MUST be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.   While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.   " />
+  <meta name="dct.issued" scheme="ISO8601" content="2021-05-21" />
+  <meta name="dct.abstract" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation MUST be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.  " />
+  <meta name="description" content="The OpenID Connect standard specifies how a Relying Party (RP) can discover metadata about an OpenID Provider (OP), and then register to obtain RP credentials. The discovery and registration process does not involve any mechanisms of dynamically establishing trust in the exchanged information, but instead rely on out-of-band trust establishment.  In an identity federation context, this is not sufficient. The participants of the federation MUST be able to trust information provided about other participants in the federation. OpenID Connect Federations specifies how trust can be dynamically obtained by resolving trust from a common trusted third party.  While this specification is primarily targeting OpenID Connect, it is designed to allow for reuse by other protocols and in other use cases.  " />
 
 </head>
 
@@ -531,14 +531,14 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">May 19, 2021</td>
+<td class="right">May 21, 2021</td>
 </tr>
 
     	
     </tbody>
   </table>
 
-  <p class="title">OpenID Connect Federation 1.0 - draft 15 <br />
+  <p class="title">OpenID Connect Federation 1.0 - draft 16 <br />
   <span class="filename">openid-connect-federation-1_0</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
@@ -1816,7 +1816,8 @@ Content-Type: application/json
 }
 </pre>
 <h1 id="rfc.section.6.3">
-<a href="#rfc.section.6.3">6.3.</a> Entity Listings (OPTIONAL)</h1>
+<a href="#rfc.section.6.3">6.3.</a> <a href="#entity_listings" id="entity_listings">Entity Listings (OPTIONAL)</a>
+</h1>
 <p id="rfc.section.6.3.p.1">An entity MAY query another entity for a list of all the entities immediately subordinate to that entity and about which that entity is prepared to issue statements about.  (In some cases, this MAY be a very large list.) </p>
 <h1 id="rfc.section.6.3.1">
 <a href="#rfc.section.6.3.1">6.3.1.</a> Entity Listings Request</h1>
@@ -2231,7 +2232,7 @@ HTTP/1.1 302 Found
 <h1 id="rfc.section.11">
 <a href="#rfc.section.11">11.</a> <a href="#Security" id="Security">Security Considerations</a>
 </h1>
-<p id="rfc.section.11.p.1">TBD </p>
+<p id="rfc.section.11.p.1">Some of the interfaces defined in this specification can be used for Denial of Service attacks (DOS). Most notably Entity Listings (<a href="#entity_listings" class="xref">Section 6.3</a>) and automatic client registration (<a href="#automatic" class="xref">Section 9.1</a>).  If you plan to provide these interfaces as a service you should consider applying normal defence methods like those described in <a href="#RFC4732" class="xref">[RFC4732]</a> </p>
 <h1 id="rfc.references">
 <a href="#rfc.references">12.</a> References</h1>
 <h1 id="rfc.references.1">
@@ -2268,6 +2269,11 @@ HTTP/1.1 302 Found
 <a>Klyne, G.</a> and <a>C. Newman</a>, "<a href="https://tools.ietf.org/html/rfc3339">Date and Time on the Internet: Timestamps</a>", RFC 3339, DOI 10.17487/RFC3339, July 2002.</td>
 </tr>
 <tr>
+<td class="reference"><b id="RFC4732">[RFC4732]</b></td>
+<td class="top">
+<a>Handley, M.</a>, <a>Rescorla, E.</a> and <a>IAB</a>, "<a href="https://tools.ietf.org/html/rfc4732">Internet Denial-of-Service Considerations</a>", RFC 4732, DOI 10.17487/RFC4732, December 2006.</td>
+</tr>
+<tr>
 <td class="reference"><b id="RFC5280">[RFC5280]</b></td>
 <td class="top">
 <a>Cooper, D.</a>, <a>Santesson, S.</a>, <a>Farrell, S.</a>, <a>Boeyen, S.</a>, <a>Housley, R.</a> and <a>W. Polk</a>, "<a href="https://tools.ietf.org/html/rfc5280">Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile</a>", RFC 5280, DOI 10.17487/RFC5280, May 2008.</td>
@@ -2286,11 +2292,6 @@ HTTP/1.1 302 Found
 <td class="reference"><b id="RFC7519">[RFC7519]</b></td>
 <td class="top">
 <a>Jones, M.</a>, <a>Bradley, J.</a> and <a>N. Sakimura</a>, "<a href="https://tools.ietf.org/html/rfc7519">JSON Web Token (JWT)</a>", RFC 7519, DOI 10.17487/RFC7519, May 2015.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC7523">[RFC7523]</b></td>
-<td class="top">
-<a>Jones, M.</a>, <a>Campbell, B.</a> and <a>C. Mortimore</a>, "<a href="https://tools.ietf.org/html/rfc7523">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</a>", RFC 7523, DOI 10.17487/RFC7523, May 2015.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC7591">[RFC7591]</b></td>
@@ -2985,17 +2986,18 @@ Host: op.umu.se
         "value": "nLe19cJ5e9SXXiPqnRRuxpjyWI73bDhD"
       },
       "client_id": {
-        "value": "m3GyHwVlyld3"
+        "value": "m3GyHw"
       },
       "client_secret_expires_at": {
         "value": 1604049619
       },
       "registration_client_uri": {
         "value":
-          "https://op.umu.se/openid/registration_api?client_id=m3GyHwVl"
+          "https://op.umu.se/openid/registration?client_id=m3GyHw"
       },
       "client_secret": {
-        "value": "cb44eed577f3b5edf3e08362d47a0dc44630b3dc6ea99f7a79205"
+        "value":
+          "cb44eed577f3b5edf3e08362d47a0dc44630b3dc6ea99f7a79205"
       },
       "client_id_issued_at": {
         "value": 1601457619
@@ -3012,16 +3014,15 @@ Host: op.umu.se
         "kty": "RSA",
         "use": "sig",
         "kid":
-          "U2JTWHY0VFg0a2FEVVdTaHptVDJsNDNiSDk5MXRBVEtNSFVkeXZwbTZ2QQ",
+          "U2JTWHY0VFg0a2FEVVdTaHptVDJsNDNiSDk5MXRBVEtNSFVkeXZwb",
         "e": "AQAB",
         "n":
-          "4AZjgqFwMhTVSLrpzzNcwaCyVD88C_Hb3Bmor97vH-2AzldhuVb8Ka..."
+          "4AZjgqFwMhTVSLrpzzNcwaCyVD88C_Hb3Bmor97vH-2AzldhuVb8K..."
       },
       {
         "kty": "EC",
         "use": "sig",
-        "kid":
-          "LWtFcklLOGdrWXdvN1hjS2tjSUEzbG5VYTRrd0djdHgyQjVGUVB1MXBCdw",
+        "kid": "LWtFcklLOGdrW",
         "crv": "P-256",
         "x": "X2S1dFE7zokQDST0bfHdlOWxOc8FC1l4_sG1Kwa4l4s",
         "y": "812nU6OCKxgc2ZgSPt_dkXbYldG_smHJi4wXByDHc6g"
@@ -3093,12 +3094,17 @@ Host: op.umu.se
 <a href="#rfc.appendix.E">Appendix E.</a> <a href="#History" id="History">Document History</a>
 </h1>
 <p id="rfc.section.E.p.1">[[ To be removed from the final specification ]]</p>
-<p id="rfc.section.E.p.2">-15 </p>
+<p id="rfc.section.E.p.2">-16 </p>
+
+<ul><li>Added security consideration section on Denial of Service attacks.  </li></ul>
+
+<p> </p>
+<p id="rfc.section.E.p.3">-15 </p>
 
 <ul><li>Added signed_jwks_uri, which had be lost somewhere along the road.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.3">-14 </p>
+<p id="rfc.section.E.p.4">-14 </p>
 
 <ul>
 <li>Rewrote the federation policy section.  </li>
@@ -3108,7 +3114,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.4">-13 </p>
+<p id="rfc.section.E.p.5">-13 </p>
 
 <ul>
 <li>Added 'trust_marks' as a parameter in the entity statement.  </li>
@@ -3132,7 +3138,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.5">-11 </p>
+<p id="rfc.section.E.p.6">-11 </p>
 
 <ul>
 <li>Added section on trust marks.  </li>
@@ -3142,12 +3148,12 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.6">-10 </p>
+<p id="rfc.section.E.p.7">-10 </p>
 
 <ul><li>Incorporated additional review feedback from Marcos Sanz.  The primary change was moving constraints to their own section of the entity statement.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.7">-09 </p>
+<p id="rfc.section.E.p.8">-09 </p>
 
 <ul>
 <li>Incorporated review feedback from Marcos Sanz.  Major changes were as follows.  </li>
@@ -3157,7 +3163,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.8">-08 </p>
+<p id="rfc.section.E.p.9">-08 </p>
 
 <ul>
 <li>Incorporated review feedback from Michael B. Jones.  Major changes were as follows.  </li>
@@ -3177,7 +3183,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.9">-07 </p>
+<p id="rfc.section.E.p.10">-07 </p>
 
 <ul>
 <li>Split metadata into metadata and metadata_policy </li>
@@ -3185,7 +3191,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.10">-06 </p>
+<p id="rfc.section.E.p.11">-06 </p>
 
 <ul>
 <li>Some rewrites </li>
@@ -3193,12 +3199,12 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.11">-05 </p>
+<p id="rfc.section.E.p.12">-05 </p>
 
 <ul><li>A major rewrite.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.12">-04 </p>
+<p id="rfc.section.E.p.13">-04 </p>
 
 <ul>
 <li>Changed client metadata names <samp>scopes</samp> to <samp>rp_scopes</samp> and <samp>claims</samp> to <samp>rp_claims</samp>.  </li>

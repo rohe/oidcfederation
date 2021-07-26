@@ -85,24 +85,23 @@
 
     <abstract>
       <t>
-        The OpenID Connect standard specifies how a Relying Party (RP)
-        can discover metadata about an OpenID Provider (OP), and then
-        register to obtain RP credentials. The discovery and
-        registration process does not involve any mechanisms of
-        dynamically establishing trust in the exchanged information, but
-        instead rely on out-of-band trust establishment.
+        A federation can be expressed as an agreement between parties that trust each other.
+        In bilateral federations you can have a direct trust between the parties.
+        In a multilateral federation that might now be practical, in which case
+        the trust can be mediated by a 3rd party.
+        That is the model that we are using in this document.
       </t>
       <t>
-        In an identity federation context, this is not sufficient. The
-        participants of the federation MUST be able to trust information
-        provided about other participants in the federation. OpenID
-        Connect Federations specifies how trust can be dynamically
-        obtained by resolving trust from a common trusted third party.
+        An entity in the federation must be able to have trust in that another
+        entity belongs to the same federation. It must also be able to trust
+        that the information the other entity publishes about itself has not
+        been tampered with during transport and that it
+        adheres to the federation policies.
       </t>
       <t>
-        While this specification is primarily targeting OpenID Connect,
-        it is designed to allow for reuse by other
-        protocols and in other use cases.
+        This specification describes the basic components you will need to build
+        a multilateral federation and it provides a guide on how to apply them when
+        the underlying protocol used is OpenID Connect.
       </t>
     </abstract>
   </front>
@@ -125,19 +124,20 @@
       </t>
       <t>
         Note that this specification only concerns itself with how two entities
-        in a federation get to know about each other it does not change
-        any other functionality in OpenID Connect.
+        in a federation get to know about each other.
       </t>
       <t>
         Note that a company, as with any real-world organization, MAY be
         represented by more than one entity in a federation.
       </t>
       <t>
+        It is also true that an entity can be part of more then one federation.
+      </t>
+      <t>
         OpenID Connect Federation trust chains rely on
         cryptographically signed
         <xref target="RFC7519">JSON Web Token (JWT)</xref>
-        documents,
-        and the trust chain does not at
+        documents, and the trust chain does not at
         all rely on TLS
         <xref target="RFC8446"/>
         to establish trust.
@@ -202,6 +202,31 @@
           </list>
         </t>
       </section>
+    </section>
+    <section title="Overall architecture" anchor="architectur">
+      <t>
+        The basic component is the entity statement which is a cryptographically
+        signed <xref target="RFC7519">JSON Web Token (JWT)</xref>.
+        A set of entity statements can form a path from a leaf entity to
+        a trust anchor. This is done by having authority hints in an entity
+        statement pointing to its nearest superiors. Starting with an entity
+        statement you can then find the next level of statements by following
+        the authority hints. And then repeat this until you hit a trust anchor.
+      </t>
+      <t>
+        Once you have followed a path you have collected a set of entity statements
+        that forms a chain. You can verify that this chain has not been tampered
+        with by verifying the signature of each statement. Exactly how this is
+        done is described in <xref target="trust_chain"/>
+      </t>
+      <t>
+        With a verified trust chain in hand you can now apply federation
+        policy to the published metadata. How this is done is described in
+        <xref target="federation_policy"/>
+      </t>
+      <t>
+        This is a far as this specification will get you.
+      </t>
     </section>
     <section title="Components" anchor="components">
       <section anchor="entity-statement" title="Entity Statement ">
