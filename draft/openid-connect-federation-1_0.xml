@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="US-ASCII"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type='text/xsl' href='http://xml2rfc.tools.ietf.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
         "http://xml2rfc.tools.ietf.org/authoring/rfc2629.dtd">
@@ -4306,7 +4306,7 @@ Host: op.umu.se
         Vladimir Dzhuvinov,
         Heather Flanagan,
         Jouke Roorda,
-        Mischa Sallé,
+        Mischa Sall��,
         Marcos Sanz,
         Peter Schober,
         Michael Schwartz,
