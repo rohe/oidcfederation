@@ -87,8 +87,8 @@
       <t>
         A federation can be expressed as an agreement between parties that trust each other.
         In bilateral federations you can have a direct trust between the parties.
-        In a multilateral federation that might now be practical, in which case
-        the trust can be mediated by a 3rd party.
+        In a multilateral federation bilateral agreements might now be practical,
+        in which case the trust can be mediated by a 3rd party.
         That is the model that we are using in this document.
       </t>
       <t>
@@ -129,8 +129,6 @@
       <t>
         Note that a company, as with any real-world organization, MAY be
         represented by more than one entity in a federation.
-      </t>
-      <t>
         It is also true that an entity can be part of more then one federation.
       </t>
       <t>
@@ -225,7 +223,12 @@
         <xref target="federation_policy"/>
       </t>
       <t>
-        This is a far as this specification will get you.
+        Note that this specification is only dealing with trust in that the
+        other party is part of the same federation as you and that you can
+        trust that the metadata you get that describes the other party is
+        what was sent. The specification does not touch protocol operations
+        outside those of metadata exchange. In OpenID Connect terms protocol
+        operations other then discovery and registration.
       </t>
     </section>
     <section title="Components" anchor="components">
