@@ -403,7 +403,7 @@
 <link href="#rfc.section.5.2.1" rel="Chapter" title="5.2.1 Max Path Length">
 <link href="#rfc.section.5.2.2" rel="Chapter" title="5.2.2 Naming Constraints">
 <link href="#rfc.section.5.3" rel="Chapter" title="5.3 Trust Marks">
-<link href="#rfc.section.5.3.1" rel="Chapter" title="5.3.1 Trust Mark Properties">
+<link href="#rfc.section.5.3.1" rel="Chapter" title="5.3.1 Trust Mark Claims">
 <link href="#rfc.section.5.3.2" rel="Chapter" title="5.3.2 Validating a Trust Mark">
 <link href="#rfc.section.5.3.3" rel="Chapter" title="5.3.3 Trust Mark Example">
 <link href="#rfc.section.6" rel="Chapter" title="6 Obtaining Federation Entity Configuration Information">
@@ -611,7 +611,7 @@
 </li>
 </ul><li>5.3.   <a href="#rfc.section.5.3">Trust Marks</a>
 </li>
-<ul><li>5.3.1.   <a href="#rfc.section.5.3.1">Trust Mark Properties</a>
+<ul><li>5.3.1.   <a href="#rfc.section.5.3.1">Trust Mark Claims</a>
 </li>
 <li>5.3.2.   <a href="#rfc.section.5.3.2">Validating a Trust Mark</a>
 </li>
@@ -1551,7 +1551,7 @@
 <p id="rfc.section.5.3.p.3">The trust marks are signed by a federation accredited authority. The validation of such a signed statement is performed in the same way that a self-signed entity statement is validated.  </p>
 <p id="rfc.section.5.3.p.4">Note that a federation MAY allow an entity to self-sign some trust marks.  </p>
 <h1 id="rfc.section.5.3.1">
-<a href="#rfc.section.5.3.1">5.3.1.</a> <a href="#trust_prop" id="trust_prop">Trust Mark Properties</a>
+<a href="#rfc.section.5.3.1">5.3.1.</a> <a href="#trust_mark_claims" id="trust_mark_claims">Trust Mark Claims</a>
 </h1>
 <p id="rfc.section.5.3.1.p.1">These are the properties that can occur in a trust mark:</p>
 <p></p>
@@ -1581,12 +1581,14 @@
 </dl>
 
 <p> </p>
+<p id="rfc.section.5.3.1.p.3">Other claims MAY be used in conjunction with the claims outlined above.  The same recommendations as outlined in Section 5.1.2 of OpenID Connect Core apply.  </p>
 <h1 id="rfc.section.5.3.2">
 <a href="#rfc.section.5.3.2">5.3.2.</a> <a href="#trust_valid" id="trust_valid">Validating a Trust Mark</a>
 </h1>
 <p id="rfc.section.5.3.2.p.1">An entity SHOULD NOT try to validate a trust mark until it knows which trust anchors it wants to use.  </p>
-<p id="rfc.section.5.3.2.p.2">validating a trust mark follows the procedure set out in <a href="#resolving_trust" class="xref">Section 8</a> </p>
-<p id="rfc.section.5.3.2.p.3">Note that the entity representing the accreditation authority MUST be immediately below the trust anchor. There cannot be any intermediate between it and the trust anchor.  </p>
+<p id="rfc.section.5.3.2.p.2">Validating a trust mark follows the procedure set out in <a href="#resolving_trust" class="xref">Section 8</a> </p>
+<p id="rfc.section.5.3.2.p.3">Note that the entity representing the accreditation authority SHOULD be well known and trusted for a given trust mark identifier.  Trust Anchor MAY publish a list of accreditation authorities of trust marks which SHOULD be trusted by other federation entities.  Trust Anchor SHOULD use <samp>trust_marks_issuers</samp> claim in its Entity Statement to publish this information.  </p>
+<p id="rfc.section.5.3.2.p.4">For other externally issued trust marks it is an out-of-band process to define and announce accreditation authorities to other entities and it is left to the discretion of the receiving party to assign an appropriate level of trust to such trust marks.  </p>
 <h1 id="rfc.section.5.3.3">
 <a href="#rfc.section.5.3.3">5.3.3.</a> <a href="#trust_example" id="trust_example">Trust Mark Example</a>
 </h1>
@@ -2385,6 +2387,7 @@ HTTP/1.1 302 Found
 
 <p> </p>
 <p id="rfc.section.A.1.p.3">Now before the federation operator start adding entities there have to be policies in place on who can be part of the federation and the layout of the federation. Is it supposed to be a one-layer federation like Internet2 above, a two-layer one like the SWAMID federation or a multi-layer federation ? The federation may also want to think about implementing other policies using the <a href="#federation_policy" class="xref">Section 5</a> framework.  </p>
+<p id="rfc.section.A.1.p.4">With the federation in place things can start happening.  </p>
 <h1 id="rfc.appendix.A.2">
 <a href="#rfc.appendix.A.2">A.2.</a> <a href="#op_discovery" id="op_discovery">The LIGO Wiki Discovers the OP's Metadata</a>
 </h1>

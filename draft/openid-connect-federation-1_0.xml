@@ -1739,7 +1739,7 @@
             Trust Anchor MAY publish a list of accreditation authorities
             of trust marks which SHOULD be trusted by other federation entities.
             Trust Anchor SHOULD use <spanx style="verb">trust_marks_issuers</spanx> claim
-            if its Entity Statement to publish this information.
+            in its Entity Statement to publish this information.
           </t>
           <t>
             For other externally issued trust marks it is an out-of-band process
