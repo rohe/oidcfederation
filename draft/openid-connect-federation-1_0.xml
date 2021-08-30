@@ -127,8 +127,8 @@
         in a federation get to know about each other.
       </t>
       <t>
-        Note that a company, as with any real-world organization, MAY be
-        represented by more than one entity in a federation.
+        Furthermore note that a company, as with any real-world organization,
+        MAY be represented by more than one entity in a federation.
         It is also true that an entity can be part of more then one federation.
       </t>
       <t>
@@ -229,6 +229,13 @@
         what was sent. The specification does not touch protocol operations
         outside those of metadata exchange. In OpenID Connect terms protocol
         operations other then discovery and registration.
+      </t>
+      <t>
+        The fact that we use OpenID Connect in all the examples in this
+        specification does not mean that the specification can only be used
+        together with OpenID Connect on the contrary it can equally well be
+        used to build an OAuth2 federation or for that matter other protocols
+        that depends on dynamic exchange of entity metadata.
       </t>
     </section>
     <section title="Components" anchor="components">
