@@ -1680,7 +1680,7 @@
 	  Note that a federation MAY allow an entity to self-sign
           some trust marks.
         </t>
-        <section title="Trust Mark Properties" anchor="trust_prop">
+        <section title="Trust Mark Claims" anchor="trust_mark_claims">
           <t>These are the properties that can occur in a trust mark:</t>
           <t>
             <list style="hanging">
@@ -1720,17 +1720,32 @@
               </t>
             </list>
           </t>
+          <t>
+            Other claims MAY be used in conjunction with the claims outlined above.
+            The same recommendations as outlined in Section 5.1.2 of OpenID
+            Connect Core apply.
+          </t>
         </section>
         <section title="Validating a Trust Mark" anchor="trust_valid">
           <t>An entity SHOULD NOT try to validate a trust mark until
             it knows which trust anchors it wants to use.
           </t>
-          <t>validating a trust mark follows the procedure set out in
+          <t>Validating a trust mark follows the procedure set out in
             <xref target="resolving_trust"/>
           </t>
-          <t>Note that the entity representing the accreditation authority
-            MUST be immediately below the trust anchor. There cannot be any
-            intermediate between it and the trust anchor.
+          <t>
+            Note that the entity representing the accreditation authority
+            SHOULD be well known and trusted for a given trust mark identifier.
+            Trust Anchor MAY publish a list of accreditation authorities
+            of trust marks which SHOULD be trusted by other federation entities.
+            Trust Anchor SHOULD use <spanx style="verb">trust_marks_issuers</spanx> claim
+            if its Entity Statement to publish this information.
+          </t>
+          <t>
+            For other externally issued trust marks it is an out-of-band process
+            to define and announce accreditation authorities to other entities
+            and it is left to the discretion of the receiving party to assign
+            an appropriate level of trust to such trust marks.
           </t>
         </section>
         <section title="Trust Mark Example" anchor="trust_example">
