@@ -403,9 +403,33 @@
             </t>
             <t hangText="trust_marks">
               <vspace/>
-              OPTIONAL. JSON object that describes a set of trust marks.
-              More about this in
-              <xref target="trust_marks"/>
+              OPTIONAL. A JSON array of signed JSON Web Token each representing
+              a certification mark. More about certification marks in
+              <xref target="trust_marks"/>.
+            </t>
+            <t hangText="trust_marks_issuers">
+              <vspace/>
+              OPTIONAL.
+              A Trust Anchor MAY use this claim to tell which trust mark identifiers
+              and their issuers are trusted by the federation.
+              This claim MUST be ignored if present in an Entity Statement of other entities
+              than Trust Anchor.
+              It is a JSON array with keys representing trust mark identifiers and values
+              being an array of trusted entities representing the accreditation authority.
+              A special value of <spanx style="verb">*</spanx> allows for self-signed trust marks.
+              More about certification marks in <xref target="trust_marks"/>.
+              <figure>
+              <preamble>
+                The following is a non-normative example of
+                <spanx style="verb">trust_marks_issuers</spanx> claim value.
+              </preamble>
+              <artwork><![CDATA[
+{
+  "https://openid.net/certification/op": ["*"],
+  "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf": ["https://swamid.sunet.se"]
+}
+              ]]></artwork>
+              </figure>
             </t>
             <t hangText="trust_anchor_id">
               <vspace/>
@@ -417,7 +441,6 @@
             </t>
           </list>
         </t>
-
         <t>
           The entity statement is signed using the private key of the issuer
           entity, in the form of a <xref target="RFC7515">JSON Web Signature
@@ -3284,9 +3307,59 @@ HTTP/1.1 302 Found
         the RP also has to trust the metadata.
       </t>
       <t>
-        Let us start with discovering Provider information.
+        Let us make a detour and start with what it takes to build a federation.
       </t>
 
+      <section title="Setting up a federation" anchor="federation_intro">
+        <t>
+          The steps you have to go through to set up your own federation.
+          What you minimally have to do.
+          <list style="symbols">
+            <t>
+              Generate a signing key. This must be a public/private key pair.
+            </t>
+            <t>
+              Set up a signing service that can sign JWTs/entity statements
+              using the federation operators signing key.
+            </t>
+            <t>
+              Set up web services that can publish signed entity statements.
+              You need at least two.
+              One for the URL corresponding to the federations entity ID returning
+              self signed entity statements and the other one providing the fetch
+              entity statement request API as described in
+              <xref target="fetch_statement"/>.
+            </t>
+          </list>
+        </t>
+        <t>
+          Once you have this you can start adding entities to your federation.
+          Adding an entity comes down to:
+          <list style="symbols">
+            <t>
+              Providing the entity with the
+              federations entity ID and the public part of the key pairs used
+              by the federation operator for signing entity statements.
+            </t>
+            <t>
+              Getting the entity's entity ID and the JWKS that the entity
+              plans to publish in its self signed entity statement.
+            </t>
+          </list>
+        </t>
+        <t>
+          Now before the federation operator start adding entities there have to
+          be policies in place on who can be part of the federation and the
+          layout of the federation. Is it supposed to be a one-layer federation
+          like Internet2 above, a two-layer one like the SWAMID federation
+          or a multi-layer federation ?
+          The federation may also want to think about implementing other
+          policies using the <xref target="federation_policy"/> framework.
+        </t>
+        <t>
+          With the federation in place things can start happening.
+        </t>
+      </section>
       <section title="The LIGO Wiki Discovers the OP's Metadata"
                anchor="op_discovery">
         <t>
