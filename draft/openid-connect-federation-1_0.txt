@@ -2,36 +2,36 @@
 
 
 
-OpenID Connect Working Group                             R. Hedberg, Ed.
+                                                         R. Hedberg, Ed.
                                                              independent
-                                                              M.B. Jones
+                                                                M. Jones
                                                                Microsoft
-                                                            A.Å. Solberg
+                                                              A. Solberg
                                                                  Uninett
                                                            S. Gulliksson
                                                                Schibsted
                                                               J. Bradley
                                                                   Yubico
-                                                          30 August 2021
+                                                       September 9, 2021
 
 
-                OpenID Connect Federation 1.0 - draft 16
+                OpenID Connect Federation 1.0 - draft 17
                      openid-connect-federation-1_0
 
 Abstract
 
    A federation can be expressed as an agreement between parties that
-   trust each other.  In bilateral federations you can have a direct
-   trust between the parties.  In a multilateral federation bilateral
-   agreements might now be practical, in which case the trust can be
-   mediated by a 3rd party.  That is the model that we are using in this
-   document.
+   trust each other.  In bilateral federations, you can have direct
+   trust between the parties.  In a multilateral federation, bilateral
+   agreements might not be practical, in which case, trust can be
+   mediated by a third party.  That is the model used in this
+   specification.
 
-   An entity in the federation must be able to have trust in that
-   another entity belongs to the same federation.  It must also be able
-   to trust that the information the other entity publishes about itself
-   has not been tampered with during transport and that it adheres to
-   the federation policies.
+   An entity in the federation must be able to trust that other entities
+   it is interacting with belong to the same federation.  It must also
+   be able to trust that the information the other entities publish
+   about themselves has not been tampered with during transport and that
+   it adheres to the federation's policies.
 
    This specification describes the basic components you will need to
    build a multilateral federation and it provides a guide on how to
@@ -42,7 +42,7 @@ Table of Contents
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   4
      1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   4
      1.2.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   4
-   2.  Overall architecture  . . . . . . . . . . . . . . . . . . . .   5
+   2.  Overall Architecture  . . . . . . . . . . . . . . . . . . . .   5
    3.  Components  . . . . . . . . . . . . . . . . . . . . . . . . .   6
      3.1.  Entity Statement  . . . . . . . . . . . . . . . . . . . .   6
      3.2.  Trust Chain . . . . . . . . . . . . . . . . . . . . . . .  11
@@ -53,9 +53,9 @@ Table of Contents
 
 
 
-Hedberg, et al.              Standards Track                    [Page 1]
+Hedberg, et al.          Expires March 13, 2022                 [Page 1]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
      4.4.  OAuth Client  . . . . . . . . . . . . . . . . . . . . . .  16
@@ -72,7 +72,7 @@ Hedberg, et al.              Standards Track                    [Page 1]
        5.1.6.  Enforcing Policy  . . . . . . . . . . . . . . . . . .  24
        5.1.7.  Extending the Policy Language . . . . . . . . . . . .  24
        5.1.8.  Policy Example  . . . . . . . . . . . . . . . . . . .  25
-     5.2.  Applying Constraints  . . . . . . . . . . . . . . . . . .  26
+     5.2.  Applying Constraints  . . . . . . . . . . . . . . . . . .  27
        5.2.1.  Max Path Length . . . . . . . . . . . . . . . . . . .  27
        5.2.2.  Naming Constraints  . . . . . . . . . . . . . . . . .  28
      5.3.  Trust Marks . . . . . . . . . . . . . . . . . . . . . . .  29
@@ -82,7 +82,7 @@ Hedberg, et al.              Standards Track                    [Page 1]
    6.  Obtaining Federation Entity Configuration Information . . . .  31
      6.1.  Federation Entity Configuration Request . . . . . . . . .  31
      6.2.  Federation Entity Configuration Response  . . . . . . . .  31
-   7.  Federation API  . . . . . . . . . . . . . . . . . . . . . . .  32
+   7.  Federation API  . . . . . . . . . . . . . . . . . . . . . . .  33
      7.1.  Fetching Entity Statements (REQUIRED) . . . . . . . . . .  33
        7.1.1.  Fetch Entity Statements Request . . . . . . . . . . .  33
        7.1.2.  Fetch Entity Statements Response  . . . . . . . . . .  34
@@ -101,7 +101,7 @@ Hedberg, et al.              Standards Track                    [Page 1]
    9.  Updating Metadata, Key Rollover, and Revocation . . . . . . .  42
      9.1.  Protocol Key Rollover . . . . . . . . . . . . . . . . . .  42
      9.2.  Key Rollover for a Trust Anchor . . . . . . . . . . . . .  42
-     9.3.  Revocation  . . . . . . . . . . . . . . . . . . . . . . .  43
+     9.3.  Revocation  . . . . . . . . . . . . . . . . . . . . . . .  42
    10. OpenID Connect Communication  . . . . . . . . . . . . . . . .  43
      10.1.  Automatic Registration . . . . . . . . . . . . . . . . .  43
        10.1.1.  Authentication Request . . . . . . . . . . . . . . .  44
@@ -109,9 +109,9 @@ Hedberg, et al.              Standards Track                    [Page 1]
 
 
 
-Hedberg, et al.              Standards Track                    [Page 2]
+Hedberg, et al.          Expires March 13, 2022                 [Page 2]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
            10.1.1.1.1.  Processing the Authentication Request  . . .  45
@@ -127,47 +127,47 @@ Hedberg, et al.              Standards Track                    [Page 2]
        10.2.2.  After Client Registration  . . . . . . . . . . . . .  51
          10.2.2.1.  What the RP MUST Do  . . . . . . . . . . . . . .  51
          10.2.2.2.  What the OP MUST Do  . . . . . . . . . . . . . .  51
-       10.2.3.  Expiration Times . . . . . . . . . . . . . . . . . .  51
+       10.2.3.  Expiration Times . . . . . . . . . . . . . . . . . .  52
    11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  52
    12. Security Considerations . . . . . . . . . . . . . . . . . . .  52
    13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  52
      13.1.  Normative References . . . . . . . . . . . . . . . . . .  52
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  53
-   Appendix A.  Provider Information Discovery and Client Registration
-           in a Federation . . . . . . . . . . . . . . . . . . . . .  54
-     A.1.  Setting up a federation . . . . . . . . . . . . . . . . .  55
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  54
+   Appendix A.  Provider Information Discovery and Client
+                Registration in a Federation . . . . . . . . . . . .  54
+     A.1.  Setting Up a Federation . . . . . . . . . . . . . . . . .  55
      A.2.  The LIGO Wiki Discovers the OP's Metadata . . . . . . . .  55
        A.2.1.  Configuration Information for op.umu.se . . . . . . .  56
-       A.2.2.  Configuration Information for 'https://umu.se'  . . .  57
+       A.2.2.  Configuration Information for 'https://umu.se'  . . .  58
        A.2.3.  Entity Statement Published by 'https://umu.se' about
-               'https://op.umu.se' . . . . . . . . . . . . . . . . .  58
-       A.2.4.  Configuration Information for 'https://swamid.se' . .  60
-       A.2.5.  Entity Statement Published by 'https://swamid.se' about
-               'https://umu.se'  . . . . . . . . . . . . . . . . . .  61
+               'https://op.umu.se' . . . . . . . . . . . . . . . . .  59
+       A.2.4.  Configuration Information for 'https://swamid.se' . .  61
+       A.2.5.  Entity Statement Published by 'https://swamid.se'
+               about 'https://umu.se'  . . . . . . . . . . . . . . .  62
        A.2.6.  Configuration Information for
-               'https://edugain.geant.org' . . . . . . . . . . . . .  63
+               'https://edugain.geant.org' . . . . . . . . . . . . .  64
        A.2.7.  Entity Statement Published by
-               'https://edugain.geant.org' about
-               'https://swamid.se' . . . . . . . . . . . . . . . . .  64
-       A.2.8.  Verified Metadata for op.umu.se . . . . . . . . . . .  65
-     A.3.  The Two Ways of Doing Client Registration . . . . . . . .  67
+               'https://edugain.geant.org' about 'https://swamid.se'  65
+       A.2.8.  Verified Metadata for op.umu.se . . . . . . . . . . .  66
+     A.3.  The Two Ways of Doing Client Registration . . . . . . . .  68
        A.3.1.  RP Sends Authentication Request (Automatic
-               Registration) . . . . . . . . . . . . . . . . . . . .  67
-         A.3.1.1.  OP Fetches Entity Statements  . . . . . . . . . .  68
-         A.3.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  69
+               Registration) . . . . . . . . . . . . . . . . . . . .  68
+         A.3.1.1.  OP Fetches Entity Statements  . . . . . . . . . .  69
+         A.3.1.2.  OP Evaluates the RP Metadata  . . . . . . . . . .  70
        A.3.2.  Client Starts with Registration (Explicit Client
-               Registration) . . . . . . . . . . . . . . . . . . . .  71
-   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  74
-   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  75
-   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  75
-   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  76
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  79
+               Registration) . . . . . . . . . . . . . . . . . . . .  72
+   Appendix B.  Notices  . . . . . . . . . . . . . . . . . . . . . .  75
+   Appendix C.  Acknowledgements . . . . . . . . . . . . . . . . . .  76
+   Appendix D.  Open Issues  . . . . . . . . . . . . . . . . . . . .  76
+   Appendix E.  Document History . . . . . . . . . . . . . . . . . .  77
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  80
 
 
 
-Hedberg, et al.              Standards Track                    [Page 3]
+
+Hedberg, et al.          Expires March 13, 2022                 [Page 3]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 1.  Introduction
@@ -185,12 +185,11 @@ Hedberg, et al.              Standards Track                    [Page 3]
    needed to build a dynamic and distributed trust network such as a
    federation.
 
-   Note that this specification only concerns itself with how two
-   entities in a federation get to know about each other.
-
-   Furthermore note that a company, as with any real-world organization,
-   MAY be represented by more than one entity in a federation.  It is
-   also true that an entity can be part of more then one federation.
+   Note that this specification only concerns itself with how entities
+   in a federation get to know about each other.  Furthermore, note that
+   a company, as with any real-world organization, MAY be represented by
+   more than one entity in a federation.  It is also true that an entity
+   can be part of more than one federation.
 
    OpenID Connect Federation trust chains rely on cryptographically
    signed JSON Web Token (JWT) [RFC7519] documents, and the trust chain
@@ -221,9 +220,10 @@ Hedberg, et al.              Standards Track                    [Page 3]
 
 
 
-Hedberg, et al.              Standards Track                    [Page 4]
+
+Hedberg, et al.          Expires March 13, 2022                 [Page 4]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    Entity statement
@@ -247,46 +247,46 @@ Hedberg, et al.              Standards Track                    [Page 4]
       A sequence of entity statements that represents a chain starting
       at a leaf entity and ending in a trust anchor.
 
-2.  Overall architecture
+2.  Overall Architecture
 
-   The basic component is the entity statement which is a
+   The basic component is the entity statement, which is a
    cryptographically signed JSON Web Token (JWT) [RFC7519].  A set of
    entity statements can form a path from a leaf entity to a trust
    anchor.  This is done by having authority hints in an entity
    statement pointing to its nearest superiors.  Starting with an entity
-   statement you can then find the next level of statements by following
-   the authority hints.  And then repeat this until you hit a trust
-   anchor.
+   statement, you can then find the next level of entity statements by
+   following the authority hints.  And then repeat this until you hit a
+   trust anchor.
 
-   Once you have followed a path you have collected a set of entity
+   Once you have followed a path, you have collected a set of entity
    statements that forms a chain.  You can verify that this chain has
    not been tampered with by verifying the signature of each statement.
-   Exactly how this is done is described in Section 3.2
+   How this is done is described in Section 3.2.
 
-   With a verified trust chain in hand you can now apply federation
+   With a verified trust chain in hand, you can now apply federation
    policy to the published metadata.  How this is done is described in
-   Section 5
+   Section 5.
 
    Note that this specification is only dealing with trust in that the
    other party is part of the same federation as you and that you can
    trust that the metadata you get that describes the other party is
    what was sent.  The specification does not touch protocol operations
-   outside those of metadata exchange.  In OpenID Connect terms protocol
-   operations other then discovery and registration.
+   outside those of metadata exchange.  In OpenID Connect terms, these
+   are protocol operations other than discovery and registration.
 
 
 
 
-Hedberg, et al.              Standards Track                    [Page 5]
+Hedberg, et al.          Expires March 13, 2022                 [Page 5]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    The fact that we use OpenID Connect in all the examples in this
    specification does not mean that the specification can only be used
-   together with OpenID Connect on the contrary it can equally well be
-   used to build an OAuth2 federation or for that matter other protocols
-   that depends on dynamic exchange of entity metadata.
+   together with OpenID Connect.  On the contrary, it can equally well
+   be used to build an OAuth 2.0 federations or for that matter, other
+   protocols that depend on dynamic exchange of entity metadata.
 
 3.  Components
 
@@ -320,24 +320,6 @@ Hedberg, et al.              Standards Track                    [Page 5]
       representing the number of seconds from 1970-01-01T0:0:0Z as
       measured in UTC until the date/time.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hedberg, et al.              Standards Track                    [Page 6]
-
-                        OpenID Connect Federation            August 2021
-
-
    jwks
       OPTIONAL.  A JSON Web Key Set (JWKS) [RFC7517] representing the
       public part of the subject entity's signing keys.  The
@@ -347,6 +329,15 @@ Hedberg, et al.              Standards Track                    [Page 6]
       are primarily intended to sign entity statements and SHOULD NOT be
       used in other protocols.  This claim is only OPTIONAL for the
       entity statement returned from an OP when the client is doing
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                 [Page 6]
+
+                        OpenID Connect Federation         September 2021
+
+
       explicit registration.  In all other cases it is REQUIRED.  Every
       JWK in the JWK Set MUST have a Key ID (kid).
 
@@ -385,18 +376,9 @@ Hedberg, et al.              Standards Track                    [Page 6]
       contain a "metadata_policy" claim.  Leaf entities MUST NOT contain
       a "metadata_policy" claim.
 
-
-
-
-
-Hedberg, et al.              Standards Track                    [Page 7]
-
-                        OpenID Connect Federation            August 2021
-
-
    constraints
       OPTIONAL.  JSON object that describes a set of trust chain
-      constraints.  More about this in Section 5.2
+      constraints.  There is more about this in Section 5.2.
 
    crit
       OPTIONAL.  The "crit" (critical) entity statement claim indicates
@@ -404,6 +386,14 @@ Hedberg, et al.              Standards Track                    [Page 7]
       specification are being used that MUST be understood and
       processed.  It is used in the same way that "crit" is used for
       extension JWS [RFC7515] header parameters that MUST be understood
+
+
+
+Hedberg, et al.          Expires March 13, 2022                 [Page 7]
+
+                        OpenID Connect Federation         September 2021
+
+
       and processed.  Its value is an array listing the entity statement
       claims present in the entity statement that use those extensions.
       If any of the listed extension entity statement claims are not
@@ -432,36 +422,42 @@ Hedberg, et al.              Standards Track                    [Page 7]
       "policy_language_crit" value.
 
    trust_marks
-      OPTIONAL.  A JSON array of signed JSON Web Token each representing
-      a certification mark.  More about certification marks in
-      Section 5.3.
+      OPTIONAL.  A JSON array of signed JSON Web Tokens, each
+      representing a certification mark.  There is more about
+      certification marks in Section 5.3.
 
    trust_marks_issuers
-      OPTIONAL.  A Trust Anchor MAY use this claim to tell which trust
+      OPTIONAL.  A trust anchor MAY use this claim to tell which trust
       mark identifiers and their issuers are trusted by the federation.
-      This claim MUST be ignored if present in an Entity Statement of
-      other entities than Trust Anchor.  It is a JSON array with keys
+      This claim MUST be ignored if present in an entity statement of
+      other entities than trust anchor.  It is a JSON array with keys
       representing trust mark identifiers and values being an array of
-
-
-
-Hedberg, et al.              Standards Track                    [Page 8]
-
-                        OpenID Connect Federation            August 2021
-
-
       trusted entities representing the accreditation authority.  A
-      special value of "*" allows for self-signed trust marks.  More
-      about certification marks in Section 5.3.
+      special value of "*" allows for self-signed trust marks.  There is
+      more about certification marks in Section 5.3.
 
-      The following is a non-normative example of "trust_marks_issuers"
-      claim value.
 
-      {
-        "https://openid.net/certification/op": ["*"],
-        "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf":
-          ["https://swamid.sunet.se"]
-      }
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                 [Page 8]
+
+                        OpenID Connect Federation         September 2021
+
+
+   The following is a non-normative example of a "trust_marks_issuers"
+   claim value:
+
+   {
+     "https://openid.net/certification/op": ["*"],
+     "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf":
+       ["https://swamid.sunet.se"]
+   }
 
    trust_anchor_id
       OPTIONAL.  An OP MUST use this claim to tell the RP which trust
@@ -501,9 +497,13 @@ Hedberg, et al.              Standards Track                    [Page 8]
 
 
 
-Hedberg, et al.              Standards Track                    [Page 9]
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                 [Page 9]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    {
@@ -557,9 +557,9 @@ Hedberg, et al.              Standards Track                    [Page 9]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 10]
+Hedberg, et al.          Expires March 13, 2022                [Page 10]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 3.2.  Trust Chain
@@ -598,14 +598,14 @@ Hedberg, et al.              Standards Track                   [Page 10]
    statement) to ES[i] (an entity statement issued by the trust anchor),
    i>0 then:
 
-   *  The "iss" entity in one entity statement is always the "sub"
+   o  The "iss" entity in one entity statement is always the "sub"
       entity in the next.  ES[j]['iss'] == ES[j+1]['sub'], j=0,...,i-1 .
 
-   *  There MUST always be a signing key carried in the "jwks" claim in
+   o  There MUST always be a signing key carried in the "jwks" claim in
       ES[j] that can be used to verify the signature of ES[j-1],
       j=i,...,1 .
 
-   *  It MUST be possible to verify the signature of ES[0] with one of
+   o  It MUST be possible to verify the signature of ES[0] with one of
       the keys in ES[0]['jwks'].
 
 
@@ -613,9 +613,9 @@ Hedberg, et al.              Standards Track                   [Page 10]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 11]
+Hedberg, et al.          Expires March 13, 2022                [Page 11]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    The signing key that MUST be used to verify ES[i] is distributed from
@@ -669,9 +669,9 @@ Hedberg, et al.              Standards Track                   [Page 11]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 12]
+Hedberg, et al.          Expires March 13, 2022                [Page 12]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
       keys
@@ -694,41 +694,44 @@ Hedberg, et al.              Standards Track                   [Page 12]
          no longer valid.
 
       There are more claims defined in [RFC7519]; of these, "aud" SHOULD
-      NOT be used, since the issuer can not know who the audience is.
+      NOT be used, since the issuer cannot know who the audience is.
       "nbf" and "jti" are deemed to not be very useful in this context
       and are therefore to be omitted.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 13]
+
+                        OpenID Connect Federation         September 2021
+
+
    The following is a non-normative example of a signed JWKS before
    serialization and adding a signature.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 13]
-
-                        OpenID Connect Federation            August 2021
-
 
    {
      "keys": [
@@ -774,17 +777,17 @@ Hedberg, et al.              Standards Track                   [Page 13]
    organization_name
       OPTIONAL.  A human-readable name representing the organization
       owning the OP.  It is intended to be used in the user interface,
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 14]
+
+                        OpenID Connect Federation         September 2021
+
+
       being recognized by the end users that would be using the OP to
       authenticate.
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 14]
-
-                        OpenID Connect Federation            August 2021
-
 
    federation_registration_endpoint
       OPTIONAL.  URL of the OP's Federation specific Dynamic Client
@@ -806,7 +809,6 @@ Hedberg, et al.              Standards Track                   [Page 14]
       RP provides in the request.  We make this a bit more secure by
       demanding the use of the request parameter or pushed
       authorization.
-
       The claim value is a JSON object with members representing
       processes/endpoints and as values lists of request authentication
       methods that are supported by the authorization endpoint.  In this
@@ -817,7 +819,7 @@ Hedberg, et al.              Standards Track                   [Page 14]
 
       request_object
          This uses a Request Object as described in OpenID Connect Core
-         1.0 [OpenID.Core].  More about this in Section 10.1.
+         1.0 [OpenID.Core].  There is more about this in Section 10.1.
 
       private_key_jwt
          The authentication process is described in Section 9 of OpenID
@@ -835,11 +837,9 @@ Hedberg, et al.              Standards Track                   [Page 14]
 
 
 
-
-
-Hedberg, et al.              Standards Track                   [Page 15]
+Hedberg, et al.          Expires March 13, 2022                [Page 15]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
       The only request authentication method that can be used if doing
@@ -893,9 +893,9 @@ Hedberg, et al.              Standards Track                   [Page 15]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 16]
+Hedberg, et al.          Expires March 13, 2022                [Page 16]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 4.5.  OAuth Protected Resource
@@ -936,8 +936,8 @@ Hedberg, et al.              Standards Track                   [Page 16]
 
    trust_marks
       OPTIONAL.  A JSON array of signed JSON Web Token each representing
-      a certification mark.  More about certification marks in
-      Section 5.3
+      a certification mark.  There is more about certification marks in
+      Section 5.3.
 
    Example
 
@@ -949,9 +949,9 @@ Hedberg, et al.              Standards Track                   [Page 16]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 17]
+Hedberg, et al.          Expires March 13, 2022                [Page 17]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    "federation_entity": {
@@ -971,15 +971,15 @@ Hedberg, et al.              Standards Track                   [Page 17]
 
    Each such metadata policy has the following structure:
 
-   *  It consists of one or more policy entries.
+   o  It consists of one or more policy entries.
 
-   *  Each policy entry applies to one metadata parameter, such as
+   o  Each policy entry applies to one metadata parameter, such as
       "id_token_signing_alg".
 
-   *  Each policy entry consists of one or more operators, which can be
+   o  Each policy entry consists of one or more operators, which can be
       value modifiers or value checks.
 
-   *  An operator can only appear once in a policy entry.
+   o  An operator can only appear once in a policy entry.
 
    It SHOULD be noted that claim names without language tags are
    different from the same claim but with language tags.
@@ -1005,9 +1005,9 @@ Hedberg, et al.              Standards Track                   [Page 17]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 18]
+Hedberg, et al.          Expires March 13, 2022                [Page 18]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 5.1.1.  Operators
@@ -1061,9 +1061,9 @@ Hedberg, et al.              Standards Track                   [Page 18]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 19]
+Hedberg, et al.          Expires March 13, 2022                [Page 19]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    value
@@ -1073,26 +1073,26 @@ Hedberg, et al.              Standards Track                   [Page 19]
 
    Other restrictions are:
 
-   *  If "subset_of" and "superset_of" both appears as operators then
+   o  If "subset_of" and "superset_of" both appear as operators, then
       the list of values in "subset_of" MUST be a superset of the values
       in "superset_of".
 
-   *  If "add" appears in a policy entry together with "subset_of" then
+   o  If "add" appears in a policy entry together with "subset_of" then
       the value/values of "add" MUST be a subset of "subset_of".
 
-   *  If "add" appears in a policy entry together with "superset_of"
+   o  If "add" appears in a policy entry together with "superset_of"
       then the values of "add" MUST be a superset of "superset_of".
 
-   *  If "default" appears in a policy entry together with "subset_of"
+   o  If "default" appears in a policy entry together with "subset_of"
       then the values of "default" MUST be a subset of "subset_of".
 
-   *  If "default" appears in a policy entry together with "superset_of"
+   o  If "default" appears in a policy entry together with "superset_of"
       then the values of "default" MUST be a superset of "superset_of".
 
-   *  If "add" appears in a policy entry together with "one_of" then the
+   o  If "add" appears in a policy entry together with "one_of" then the
       value of "add" MUST be a member of "one_of".
 
-   *  If "default" appears in a policy entry together with "one_of" then
+   o  If "default" appears in a policy entry together with "one_of" then
       the value "default" MUST be a member of "one_of".
 
 5.1.3.  Combining Policies
@@ -1117,9 +1117,9 @@ Hedberg, et al.              Standards Track                   [Page 19]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 20]
+Hedberg, et al.          Expires March 13, 2022                [Page 20]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    one_of
@@ -1173,9 +1173,9 @@ Hedberg, et al.              Standards Track                   [Page 20]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 21]
+Hedberg, et al.          Expires March 13, 2022                [Page 21]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    5.  Do the other checks.  Verified that the value is "one_of" or that
@@ -1217,7 +1217,6 @@ Hedberg, et al.              Standards Track                   [Page 21]
      }
    }
 
-   An organization's policy for RPs:
 
 
 
@@ -1229,10 +1228,13 @@ Hedberg, et al.              Standards Track                   [Page 21]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 22]
+
+Hedberg, et al.          Expires March 13, 2022                [Page 22]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
+
+   An organization's policy for RPs:
 
    {
      "scopes": {
@@ -1258,7 +1260,6 @@ Hedberg, et al.              Standards Track                   [Page 22]
      }
    }
 
-   The combined metadata policy then becomes:
 
 
 
@@ -1284,11 +1285,12 @@ Hedberg, et al.              Standards Track                   [Page 22]
 
 
 
-
-Hedberg, et al.              Standards Track                   [Page 23]
+Hedberg, et al.          Expires March 13, 2022                [Page 23]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
+
+   The combined metadata policy then becomes:
 
    {
      "scopes": {
@@ -1336,15 +1338,16 @@ Hedberg, et al.              Standards Track                   [Page 23]
    understand, it MUST ignore it unless it is listed in a
    "policy_language_crit" list, as is done for JWS [RFC7515] header
    parameters with the "crit" parameter.  If the policy language
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 24]
+
+                        OpenID Connect Federation         September 2021
+
+
    extension keyword is listed in the "policy_language_crit" list and
    not understood, then the metadata MUST be rejected.
-
-
-
-Hedberg, et al.              Standards Track                   [Page 24]
-
-                        OpenID Connect Federation            August 2021
-
 
 5.1.8.  Policy Example
 
@@ -1386,7 +1389,6 @@ Hedberg, et al.              Standards Track                   [Page 24]
      }
    }
 
-   The organization's policy for RPs:
 
 
 
@@ -1395,12 +1397,12 @@ Hedberg, et al.              Standards Track                   [Page 24]
 
 
 
-
-
-Hedberg, et al.              Standards Track                   [Page 25]
+Hedberg, et al.          Expires March 13, 2022                [Page 25]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
+
+   The organization's policy for RPs:
 
    {
      "contacts": {
@@ -1444,19 +1446,21 @@ Hedberg, et al.              Standards Track                   [Page 25]
      ]
    }
 
+
+
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 26]
+
+                        OpenID Connect Federation         September 2021
+
+
 5.2.  Applying Constraints
 
    A constraint specification can contain the following claims:
-
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 26]
-
-                        OpenID Connect Federation            August 2021
-
 
    max_path_length
       OPTIONAL.  Integer.  The maximum number of entity statements
@@ -1501,18 +1505,19 @@ Hedberg, et al.              Standards Track                   [Page 26]
    A "max_path_length" constraint of zero indicates that no entity
    statement MAY appear between this entity statement and the leaf
    entity statement.  Where it appears, the "max_path_length" constraint
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 27]
+
+                        OpenID Connect Federation         September 2021
+
+
    MUST have a value that is greater than or equal to zero.  Where
    "max_path_length" does not appear, no limit is imposed.
 
    Assuming that we have a trust chain with four entity statements:
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 27]
-
-                        OpenID Connect Federation            August 2021
-
 
    1.  Leaf entity (LE)
 
@@ -1524,19 +1529,19 @@ Hedberg, et al.              Standards Track                   [Page 27]
 
    Then the trust chain fulfills the constraints if:
 
-   *  The TA specifies a "max_path_length" that is equal to or bigger
+   o  The TA specifies a "max_path_length" that is equal to or bigger
       than 2.
 
-   *  TA specifies "max_path_length" of 2, I2 specifies
+   o  TA specifies "max_path_length" of 2, I2 specifies
       "max_path_length" of 1, and I1 specifies no "max_path_length"
       constraint.
 
-   *  Neither TA nor I2 specifies any "max_path_length" constraint while
+   o  Neither TA nor I2 specifies any "max_path_length" constraint while
       I1 specifies "max_path_length" of 0.
 
    The trust chain does not fulfill the constraints if:
 
-   *  TA has specified "max_path_length" of 1.
+   o  TA has specified "max_path_length" of 1.
 
 5.2.2.  Naming Constraints
 
@@ -1560,14 +1565,9 @@ Hedberg, et al.              Standards Track                   [Page 27]
 
 
 
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 28]
+Hedberg, et al.          Expires March 13, 2022                [Page 28]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 5.3.  Trust Marks
@@ -1621,30 +1621,30 @@ Hedberg, et al.              Standards Track                   [Page 28]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 29]
+Hedberg, et al.          Expires March 13, 2022                [Page 29]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    Other claims MAY be used in conjunction with the claims outlined
-   above.  The same recommendations as outlined in Section 5.1.2 of
-   OpenID Connect Core apply.
+   above.  The claim naming recommendations outlined in Section 5.1.2 of
+   OpenID Connect Core 1.0 [OpenID.Core] apply.
 
 5.3.2.  Validating a Trust Mark
 
    An entity SHOULD NOT try to validate a trust mark until it knows
    which trust anchors it wants to use.
 
-   Validating a trust mark follows the procedure set out in Section 8
+   Validating a trust mark follows the procedure set out in Section 8.
 
    Note that the entity representing the accreditation authority SHOULD
-   be well known and trusted for a given trust mark identifier.  Trust
-   Anchor MAY publish a list of accreditation authorities of trust marks
-   which SHOULD be trusted by other federation entities.  Trust Anchor
-   SHOULD use "trust_marks_issuers" claim in its Entity Statement to
+   be well known and trusted for a given trust mark identifier.  A trust
+   anchor MAY publish a list of accreditation authorities of trust marks
+   that SHOULD be trusted by other federation entities.  A trust anchor
+   uses the "trust_marks_issuers" claim in its entity statement to
    publish this information.
 
-   For other externally issued trust marks it is an out-of-band process
+   For other externally issued trust marks, it is an out-of-band process
    to define and announce accreditation authorities to other entities
    and it is left to the discretion of the receiving party to assign an
    appropriate level of trust to such trust marks.
@@ -1677,9 +1677,9 @@ Hedberg, et al.              Standards Track                   [Page 29]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 30]
+Hedberg, et al.          Expires March 13, 2022                [Page 30]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 6.  Obtaining Federation Entity Configuration Information
@@ -1720,6 +1720,7 @@ Hedberg, et al.              Standards Track                   [Page 30]
    party would make the following request to the Entity
    "https://example.com" to obtain its Configuration information:
 
+
      GET /.well-known/openid-federation HTTP/1.1
      Host: example.com
 
@@ -1732,16 +1733,15 @@ Hedberg, et al.              Standards Track                   [Page 30]
 
 
 
-
-Hedberg, et al.              Standards Track                   [Page 31]
+Hedberg, et al.          Expires March 13, 2022                [Page 31]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    A positive response is a signed entity statement, where the content
    type MUST be set to "application/jose".  In case of an error, the
    response will be a JSON object, the content type MUST be set to
-   "application/json" and the error response uses the applicable HTTP
+   "application/json", and the error response uses the applicable HTTP
    status code value.
 
    The following is a non-normative example response from an
@@ -1782,17 +1782,22 @@ Hedberg, et al.              Standards Track                   [Page 31]
      }
    }
 
+
+
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 32]
+
+                        OpenID Connect Federation         September 2021
+
+
 7.  Federation API
 
    All entities that are expected to publish entity statements about
    other entities MUST expose a Federation API endpoint.
-
-
-
-Hedberg, et al.              Standards Track                   [Page 32]
-
-                        OpenID Connect Federation            August 2021
-
 
    The federation API endpoint of an entity can be found in the
    configuration response as described in Section 6 or by other means.
@@ -1836,19 +1841,19 @@ Hedberg, et al.              Standards Track                   [Page 32]
       entity statements from.
 
    sub
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 33]
+
+                        OpenID Connect Federation         September 2021
+
+
       OPTIONAL.  The entity identifier of the subject for which you
       would like an entity statement issued.  If this parameter is left
       out, it is considered to be the same as the issuer and would
       indicate a request for a self-issued statement.
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 33]
-
-                        OpenID Connect Federation            August 2021
-
 
    aud
       OPTIONAL.  The entity identifier of the requester.  If the "aud"
@@ -1871,40 +1876,38 @@ Hedberg, et al.              Standards Track                   [Page 33]
    to "application/json".  See more about error responses in
    Section 7.4.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 34]
+
+                        OpenID Connect Federation         September 2021
+
+
    The following is a non-normative example of a response, before
    serialization and adding a signature:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 34]
-
-                        OpenID Connect Federation            August 2021
-
 
    200 OK
    Last-Modified: Mon, 17 Dec 2018 11:15:56 GMT
@@ -1954,12 +1957,9 @@ Hedberg, et al.              Standards Track                   [Page 34]
 
 
 
-
-
-
-Hedberg, et al.              Standards Track                   [Page 35]
+Hedberg, et al.          Expires March 13, 2022                [Page 35]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 7.2.  Trust Negotiation (OPTIONAL)
@@ -2013,9 +2013,9 @@ Hedberg, et al.              Standards Track                   [Page 35]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 36]
+Hedberg, et al.          Expires March 13, 2022                [Page 36]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 7.2.2.  Trust Negotiation Response
@@ -2069,9 +2069,9 @@ Hedberg, et al.              Standards Track                   [Page 36]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 37]
+Hedberg, et al.          Expires March 13, 2022                [Page 37]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 7.3.  Entity Listings (OPTIONAL)
@@ -2116,7 +2116,6 @@ Hedberg, et al.              Standards Track                   [Page 37]
    The response MUST contain an JSON list with the known entity
    identifiers.
 
-   The following is a non-normative example of a response:
 
 
 
@@ -2125,10 +2124,13 @@ Hedberg, et al.              Standards Track                   [Page 37]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 38]
+
+Hedberg, et al.          Expires March 13, 2022                [Page 38]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
+
+   The following is a non-normative example of a response:
 
    200 OK
    Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
@@ -2179,11 +2181,9 @@ Hedberg, et al.              Standards Track                   [Page 38]
 
 
 
-
-
-Hedberg, et al.              Standards Track                   [Page 39]
+Hedberg, et al.          Expires March 13, 2022                [Page 39]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 8.  Resolving Trust Chain and Metadata
@@ -2237,30 +2237,30 @@ Hedberg, et al.              Standards Track                   [Page 39]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 40]
+Hedberg, et al.          Expires March 13, 2022                [Page 40]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
-   *  For each entity statement ES[j] j=i,..,0:
+   o  For each entity statement ES[j] j=i,..,0:
 
-      -  Verify that the statement contains all the required claims.
+      *  Verify that the statement contains all the required claims.
 
-      -  Verify that "iat" has a value in the past.
+      *  Verify that "iat" has a value in the past.
 
-      -  Verify that "exp" has a value that is in the future.
+      *  Verify that "exp" has a value that is in the future.
 
-   *  For j=0 verify that "iss" == "sub".
+   o  For j=0 verify that "iss" == "sub".
 
-   *  For j=0,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub']
+   o  For j=0,...,i-1: Verify that ES[j]['iss'] == ES[j+1]['sub']
 
-   *  For j=0,...,i-1: Verify the signature of ES[j] using a public key
+   o  For j=0,...,i-1: Verify the signature of ES[j] using a public key
       carried in ES[j+1]['jwks'].
 
-   *  For j == 0 verify the signature of ES[0] using a public key
+   o  For j == 0 verify the signature of ES[0] using a public key
       carried in ES[0]['jwks'].
 
-   *  For j == i: verify that a) the issuer matches the configured
+   o  For j == i: verify that a) the issuer matches the configured
       identifier of a trust anchor and b) its signature is valid with
       the likewise configured public key of said trust anchor.
 
@@ -2293,9 +2293,9 @@ Hedberg, et al.              Standards Track                   [Page 40]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 41]
+Hedberg, et al.          Expires March 13, 2022                [Page 41]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 9.  Updating Metadata, Key Rollover, and Revocation
@@ -2341,23 +2341,19 @@ Hedberg, et al.              Standards Track                   [Page 41]
    It MUST be taken into consideration that clients MAY have manually
    configured public keys as part of their configuration.
 
-
-
-
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 42]
-
-                        OpenID Connect Federation            August 2021
-
-
 9.3.  Revocation
 
    Since the consumers are expected to check the trust chain at regular,
    reasonably frequent times, this specification does not specify a
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 42]
+
+                        OpenID Connect Federation         September 2021
+
+
    standard revocation process.  Specific federations MAY make a
    different choice and will then have to add such a process.
 
@@ -2388,31 +2384,31 @@ Hedberg, et al.              Standards Track                   [Page 42]
 
    For automatic registration to work a number of things MUST be valid:
 
-   *  The Client ID of the RP MUST be set to be identical to the RP
+   o  The Client ID of the RP MUST be set to be identical to the RP
       entity identifier.
 
-   *  Without a registration process, the RP does not have a client
+   o  Without a registration process, the RP does not have a client
       secret.  Instead, the automatic registration model requires the RP
       to make use of asymmetric cryptography.  Basically, the RP must
       prove that it has control of the RP's private keys.
 
-   *  The Client ID MUST be a URL from which the OP can fetch the RP's
+   o  The Client ID MUST be a URL from which the OP can fetch the RP's
       self-signed entity statement using the process described in
       Section 6.
 
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 43]
-
-                        OpenID Connect Federation            August 2021
-
-
-   *  The OP MUST publish that it supports a request authentication
+   o  The OP MUST publish that it supports a request authentication
       method using the metadata claim
       "request_authentication_methods_supported".
+
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 43]
+
+                        OpenID Connect Federation         September 2021
+
 
 10.1.1.  Authentication Request
 
@@ -2455,16 +2451,23 @@ Hedberg, et al.              Standards Track                   [Page 43]
    iat
       OPTIONAL.  Time at which the JWT was issued.
 
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 44]
+
+                        OpenID Connect Federation         September 2021
+
+
    The following is a non-normative example of the Claims in a Request
    Object before base64url encoding and signing:
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 44]
-
-                        OpenID Connect Federation            August 2021
-
 
    {
      "aud": "https://op.example.org/authorization",
@@ -2510,17 +2513,17 @@ Hedberg, et al.              Standards Track                   [Page 44]
    When the OP receives an incoming Authentication Request, the OP
    supports OpenID Connect Federation, the incoming Client ID is a valid
    URL, and the OP does not have the Client ID registered as a known
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 45]
+
+                        OpenID Connect Federation         September 2021
+
+
    client, then the OP SHOULD try to resolve and fetch trust chains
    starting with the RP's entity statement as described in Section 8.1.
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 45]
-
-                        OpenID Connect Federation            August 2021
-
 
    The OP MUST then validate the possible trust chains, as described in
    Section 8.2, and resolve the RP metadata with type
@@ -2544,16 +2547,16 @@ Hedberg, et al.              Standards Track                   [Page 45]
    When it comes to request authentication, the applicable methods are
    three:
 
-   *  Using a JWT for Client authentication as described for
+   o  Using a JWT for Client authentication as described for
       "private_key_jwt" in Section 9 of OpenID Connect Core 1.0
       [OpenID.Core].
 
-   *  mTLS as described in Section 2.2 of [RFC8705] based on self-signed
+   o  mTLS as described in Section 2.2 of [RFC8705] based on self-signed
       certificates.  In this case the self-signed certificate MUST be
       present as the value of an "x5c" claim for one key in the JWK Set
       describing the RP's keys.
 
-   *  mTLS as described in Section 2.1 of [RFC8705] based on public key
+   o  mTLS as described in Section 2.1 of [RFC8705] based on public key
       infrastructure (PKI).
 
    Note that if mTLS is used, TLS client authentication MUST be
@@ -2570,12 +2573,9 @@ Hedberg, et al.              Standards Track                   [Page 45]
 
 
 
-
-
-
-Hedberg, et al.              Standards Track                   [Page 46]
+Hedberg, et al.          Expires March 13, 2022                [Page 46]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    POST /par HTTP/1.1
@@ -2629,9 +2629,9 @@ Hedberg, et al.              Standards Track                   [Page 46]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 47]
+Hedberg, et al.          Expires March 13, 2022                [Page 47]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    Once the OP has the RP's metadata, it can verify the client.  This is
@@ -2685,9 +2685,9 @@ Hedberg, et al.              Standards Track                   [Page 47]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 48]
+Hedberg, et al.          Expires March 13, 2022                [Page 48]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 10.2.  Explicit Registration
@@ -2736,18 +2736,16 @@ Hedberg, et al.              Standards Track                   [Page 48]
    The trust chains MUST be constructed using the received entity
    statement.
 
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 49]
-
-                        OpenID Connect Federation            August 2021
-
-
    1.  After the OP receives the request, it collects and evaluates the
        trust chains starting with the "authority_hints" in the
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 49]
+
+                        OpenID Connect Federation         September 2021
+
+
        registration request.  After it has verified at least one trust
        chain it MUST verify that the signature on the received
        registration request is correct.
@@ -2758,13 +2756,13 @@ Hedberg, et al.              Standards Track                   [Page 49]
 
    3.  At this point, if there already exists a client registration
        under the same entity identifier then that registration MUST be
-       regarded as invalid.  "Note" that key material from the previous
-       registration SHOULD be kept to allow verifying a signature on, or
+       regarded as invalid.  Note that key material from the previous
+       registration SHOULD be kept to enable verifying signatures or
        decrypting archived data.
 
    4.  The OP will now construct a metadata policy that, if applied to
        the RP's metadata statement, will result in metadata that the OP
-       finds acceptable.  "Note" that the Client ID the OP chooses does
+       finds acceptable.  Note that the Client ID the OP chooses does
        not have to be the same as the entity identifier of the RP.  To
        the entity statement it will add a "trust_anchor_id" claim,
        containing the trust anchor chosen above.
@@ -2797,9 +2795,11 @@ Hedberg, et al.              Standards Track                   [Page 49]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 50]
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 50]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    4.  If the RP does not accept the received entity statement for some
@@ -2838,7 +2838,7 @@ Hedberg, et al.              Standards Track                   [Page 50]
 
    At regular intervals, the OP MUST:
 
-   1.  If the signature on the registration request has expired it MUST
+   1.  If the signature on the registration request has expired, it MUST
        mark the registration as invalid and demand that the RP MUST re-
        register.  Else
 
@@ -2846,17 +2846,22 @@ Hedberg, et al.              Standards Track                   [Page 50]
        verify that there still is a valid trust chain terminating in the
        trust anchor the OP chose during the registration process.
 
+
+
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 51]
+
+                        OpenID Connect Federation         September 2021
+
+
 10.2.3.  Expiration Times
 
    An OP MUST NOT assign an expiration time to an RP's registration that
    is later than the trust chain's expiration time.
-
-
-
-Hedberg, et al.              Standards Track                   [Page 51]
-
-                        OpenID Connect Federation            August 2021
-
 
 11.  IANA Considerations
 
@@ -2881,20 +2886,19 @@ Hedberg, et al.              Standards Track                   [Page 51]
 13.1.  Normative References
 
    [OpenID.Core]
-              Sakimura, N., Bradley, J., Jones, M.B., de Medeiros, B.,
-              and C. Mortimore, "OpenID Connect Discovery 1.0", 3 August
-              2015,
+              Sakimura, N., Bradley, J., Jones, M., de Medeiros, B., and
+              C. Mortimore, "OpenID Connect Discovery 1.0", August 2015,
               <http://openid.net/specs/openid-connect-core-1_0.html>.
 
    [OpenID.Discovery]
-              Sakimura, N., Bradley, J., Jones, M.B., and E. Jay,
-              "OpenID Connect Discovery 1.0", 3 August 2015,
+              Sakimura, N., Bradley, J., Jones, M., and E. Jay, "OpenID
+              Connect Discovery 1.0", August 2015,
               <http://openid.net/specs/openid-connect-discovery-
               1_0.html>.
 
    [OpenID.Registration]
-              Sakimura, N., Bradley, J., and M.B. Jones, "OpenID Connect
-              Dynamic Client Registration 1.0", 3 August 2015,
+              Sakimura, N., Bradley, J., and M. Jones, "OpenID Connect
+              Dynamic Client Registration 1.0", August 2015,
               <http://openid.net/specs/openid-connect-registration-
               1_0.html>.
 
@@ -2902,17 +2906,18 @@ Hedberg, et al.              Standards Track                   [Page 51]
               and F. Skokan, "OAuth 2.0 Pushed Authorization Requests",
               <https://tools.ietf.org/id/draft-ietf-oauth-par-04.html>.
 
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 52]
+
+                        OpenID Connect Federation         September 2021
+
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-
-
-Hedberg, et al.              Standards Track                   [Page 52]
-
-                        OpenID Connect Federation            August 2021
-
 
    [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
@@ -2955,6 +2960,16 @@ Hedberg, et al.              Standards Track                   [Page 52]
               (URIs)", RFC 8615, DOI 10.17487/RFC8615, May 2019,
               <https://www.rfc-editor.org/info/rfc8615>.
 
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 53]
+
+                        OpenID Connect Federation         September 2021
+
+
    [RFC8705]  Campbell, B., Bradley, J., Sakimura, N., and T.
               Lodderstedt, "OAuth 2.0 Mutual-TLS Client Authentication
               and Certificate-Bound Access Tokens", RFC 8705,
@@ -2962,13 +2977,6 @@ Hedberg, et al.              Standards Track                   [Page 52]
               <https://www.rfc-editor.org/info/rfc8705>.
 
 13.2.  Informative References
-
-
-
-Hedberg, et al.              Standards Track                   [Page 53]
-
-                        OpenID Connect Federation            August 2021
-
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
@@ -3009,58 +3017,56 @@ Appendix A.  Provider Information Discovery and Client Registration in a
 
    Once the RP-part of the Wiki knows which OP it SHOULD talk to it has
    to find out a couple of things about the OP.  All if those things can
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 54]
+
+                        OpenID Connect Federation         September 2021
+
+
    be found in the metadata.  But finding the metadata is not enough;
    the RP also has to trust the metadata.
 
    Let us make a detour and start with what it takes to build a
    federation.
 
+A.1.  Setting Up a Federation
 
+   These are the steps you have to go through to set up your own
+   federation.  What you minimally have to do is:
 
+   o  Generate a signing key.  This must be a public/private key pair.
 
+   o  Set up a signing service that can sign JWTs/entity statements
+      using the federation operator's signing key.
 
-
-
-Hedberg, et al.              Standards Track                   [Page 54]
-
-                        OpenID Connect Federation            August 2021
-
-
-A.1.  Setting up a federation
-
-   The steps you have to go through to set up your own federation.  What
-   you minimally have to do.
-
-   *  Generate a signing key.  This must be a public/private key pair.
-
-   *  Set up a signing service that can sign JWTs/entity statements
-      using the federation operators signing key.
-
-   *  Set up web services that can publish signed entity statements.
-      You need at least two.  One for the URL corresponding to the
-      federations entity ID returning self signed entity statements and
-      the other one providing the fetch entity statement request API as
+   o  Set up web services that can publish signed entity statements.
+      You need at least two: one for the URL corresponding to the
+      federation's entity ID returning self-signed entity statements and
+      the other one providing the fetch entity statement request API, as
       described in Section 7.1.1.
 
-   Once you have this you can start adding entities to your federation.
+   Once you have this, you can start adding entities to your federation.
    Adding an entity comes down to:
 
-   *  Providing the entity with the federations entity ID and the public
-      part of the key pairs used by the federation operator for signing
-      entity statements.
+   o  Providing the entity with the federation's entity ID and the
+      public part of the key pairs used by the federation operator for
+      signing entity statements.
 
-   *  Getting the entity's entity ID and the JWKS that the entity plans
-      to publish in its self signed entity statement.
+   o  Getting the entity's entity ID and the JWKS that the entity plans
+      to publish in its self-signed entity statement.
 
-   Now before the federation operator start adding entities there have
+   Now before the federation operator starts adding entities, there have
    to be policies in place on who can be part of the federation and the
    layout of the federation.  Is it supposed to be a one-layer
-   federation like Internet2 above, a two-layer one like the SWAMID
-   federation or a multi-layer federation ?  The federation may also
-   want to think about implementing other policies using the Section 5
-   framework.
+   federation like Internet2, a two-layer one like the SWAMID
+   federation, or a multi-layer federation?  The federation may also
+   want to think about implementing other policies using the federation
+   policy framework, as described in Section 5.
 
-   With the federation in place things can start happening.
+   With the federation in place, things can start happening.
 
 A.2.  The LIGO Wiki Discovers the OP's Metadata
 
@@ -3069,18 +3075,18 @@ A.2.  The LIGO Wiki Discovers the OP's Metadata
    https://op.umu.se) using the process defined in Section 6.  What
    follows thereafter is this sequence of steps:
 
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 55]
+
+                        OpenID Connect Federation         September 2021
+
+
    1.  Pick out the immediate superior entities using the authority
        hints
 
    2.  Fetch the configuration for each such entity.  This uses the
        process defined in Section 6
-
-
-
-Hedberg, et al.              Standards Track                   [Page 55]
-
-                        OpenID Connect Federation            August 2021
-
 
    3.  Using the federation API endpoint of the superiors do a fetch
        request Section 7.1.1 on the endpoint asking for information
@@ -3124,20 +3130,20 @@ A.2.1.  Configuration Information for op.umu.se
      },
      "metadata": {
        "openid_provider": {
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 56]
+
+                        OpenID Connect Federation         September 2021
+
+
          "issuer": "https://op.umu.se/openid",
          "jwks_uri": "https://op.umu.se/openid/jwks_uri.json",
          "authorization_endpoint":
            "https://op.umu.se/openid/authorization",
          "client_registration_type": [
            "automatic",
-
-
-
-Hedberg, et al.              Standards Track                   [Page 56]
-
-                        OpenID Connect Federation            August 2021
-
-
            "explicit"
          ],
          "grant_types_supported": [
@@ -3180,19 +3186,20 @@ Hedberg, et al.              Standards Track                   [Page 56]
 
    This entity statement is the first link in the trust chain.
 
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 57]
+
+                        OpenID Connect Federation         September 2021
+
+
 A.2.2.  Configuration Information for 'https://umu.se'
 
    The LIGO RP fetches the self-signed entity statement from
    "https://umu.se" using the process defined in Section 6.
 
    The request will look like this:
-
-
-
-Hedberg, et al.              Standards Track                   [Page 57]
-
-                        OpenID Connect Federation            August 2021
-
 
    GET /.well-known/openid-federation HTTP/1.1
    Host: umu.se
@@ -3230,6 +3237,19 @@ Hedberg, et al.              Standards Track                   [Page 57]
    The only piece of information that is used from this entity statement
    is the "federation_api_endpoint", which is used in the next step.
 
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 58]
+
+                        OpenID Connect Federation         September 2021
+
+
 A.2.3.  Entity Statement Published by 'https://umu.se' about
         'https://op.umu.se'
 
@@ -3243,14 +3263,48 @@ A.2.3.  Entity Statement Published by 'https://umu.se' about
    iss=https%3A%2F%2Fumu.se HTTP/1.1
    Host: umu.se
 
-
-
-Hedberg, et al.              Standards Track                   [Page 58]
-
-                        OpenID Connect Federation            August 2021
-
-
    and the result is this:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 59]
+
+                        OpenID Connect Federation         September 2021
+
 
    {
      "authority_hints": [
@@ -3298,16 +3352,15 @@ Hedberg, et al.              Standards Track                   [Page 58]
          }
        }
      },
-
-
-
-Hedberg, et al.              Standards Track                   [Page 59]
-
-                        OpenID Connect Federation            August 2021
-
-
      "sub": "https://op.umu.se"
    }
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 60]
+
+                        OpenID Connect Federation         September 2021
+
 
    This is the second link in the trust chain.
 
@@ -3355,15 +3408,15 @@ A.2.4.  Configuration Information for 'https://swamid.se'
      "sub": "https://swamid.se"
    }
 
-
-
-Hedberg, et al.              Standards Track                   [Page 60]
-
-                        OpenID Connect Federation            August 2021
-
-
    The only piece of information that is used from this entity statement
    is the "federation_api_endpoint", which is used in the next step.
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 61]
+
+                        OpenID Connect Federation         September 2021
+
 
 A.2.5.  Entity Statement Published by 'https://swamid.se' about
         'https://umu.se'
@@ -3413,9 +3466,12 @@ A.2.5.  Entity Statement Published by 'https://swamid.se' about
 
 
 
-Hedberg, et al.              Standards Track                   [Page 61]
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 62]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    {
@@ -3469,9 +3525,9 @@ Hedberg, et al.              Standards Track                   [Page 61]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 62]
+Hedberg, et al.          Expires March 13, 2022                [Page 63]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    If we assume that the issuer of this entity statement is not in the
@@ -3512,6 +3568,7 @@ A.2.6.  Configuration Information for 'https://edugain.geant.org'
      "sub": "https://edugain.geant.org"
    }
 
+
    Again, the only thing we need is the "federation_api_endpoint".  As
    described in Section 9.2, note SHOULD also be taken to "jwks" as the
    trust anchor MAY be performing a key rollover.
@@ -3524,10 +3581,9 @@ A.2.6.  Configuration Information for 'https://edugain.geant.org'
 
 
 
-
-Hedberg, et al.              Standards Track                   [Page 63]
+Hedberg, et al.          Expires March 13, 2022                [Page 64]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
 A.2.7.  Entity Statement Published by 'https://edugain.geant.org' about
@@ -3566,7 +3622,7 @@ A.2.7.  Entity Statement Published by 'https://edugain.geant.org' about
            "add": "ops@edugain.geant.org"
          }
        },
-       "openid_relying_part": {
+       "openid_relying_party": {
          "contacts": {
            "add": "ops@edugain.geant.org"
          }
@@ -3581,9 +3637,9 @@ A.2.7.  Entity Statement Published by 'https://edugain.geant.org' about
 
 
 
-Hedberg, et al.              Standards Track                   [Page 64]
+Hedberg, et al.          Expires March 13, 2022                [Page 65]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    We now have the whole chain from the self-signed entity statement of
@@ -3637,9 +3693,9 @@ A.2.8.  Verified Metadata for op.umu.se
 
 
 
-Hedberg, et al.              Standards Track                   [Page 65]
+Hedberg, et al.          Expires March 13, 2022                [Page 66]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    {
@@ -3693,9 +3749,9 @@ Hedberg, et al.              Standards Track                   [Page 65]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 66]
+Hedberg, et al.          Expires March 13, 2022                [Page 67]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    We have now reached the end of the Provider Discovery process.
@@ -3749,9 +3805,9 @@ A.3.1.  RP Sends Authentication Request (Automatic Registration)
 
 
 
-Hedberg, et al.              Standards Track                   [Page 67]
+Hedberg, et al.          Expires March 13, 2022                [Page 68]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    GET /authorize?
@@ -3788,9 +3844,9 @@ A.3.1.1.  OP Fetches Entity Statements
    The OP in this example is configured with public keys of two
    federations:
 
-   *  https://edugain.geant.org
+   o  https://edugain.geant.org
 
-   *  https://swamid.se
+   o  https://swamid.se
 
    The OP starts to resolve metadata for the client identifier
    https://wiki.ligo.org by fetching the self-issued entity statement
@@ -3805,9 +3861,9 @@ A.3.1.1.  OP Fetches Entity Statements
 
 
 
-Hedberg, et al.              Standards Track                   [Page 68]
+Hedberg, et al.          Expires March 13, 2022                [Page 69]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    2.  Statement issued by https://incommon.org about
@@ -3827,65 +3883,64 @@ A.3.1.2.  OP Evaluates the RP Metadata
    policies:
 
    edugain.geant.org
-      "metadata_policy": {
-        "openid_provider": {
-          "contacts": {
-            "add": "ops@edugain.geant.org"
-          }
-        },
-        "openid_relying_party": {
-          "contacts": {
-            "add": "ops@edugain.geant.org"
-          }
-        }
-      }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 69]
-
-                        OpenID Connect Federation            August 2021
-
+   "metadata_policy": {
+     "openid_provider": {
+       "contacts": {
+         "add": "ops@edugain.geant.org"
+       }
+     },
+     "openid_relying_party": {
+       "contacts": {
+         "add": "ops@edugain.geant.org"
+       }
+     }
+   }
 
    incommon.org
-      "metadata_policy": {
-        "openid_relying_party": {
-          "application_type": {
-            "one_of": [
-              "web",
-              "native"
-            ]
-          },
-          "contacts": {
-            "add": "ops@incommon.org"
-          },
-          "grant_types": {
-            "subset_of": [
-              "authorization_code",
-              "refresh_token"
-            ]
-          }
-        }
-      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 70]
+
+                        OpenID Connect Federation         September 2021
+
+
+   "metadata_policy": {
+     "openid_relying_party": {
+       "application_type": {
+         "one_of": [
+           "web",
+           "native"
+         ]
+       },
+       "contacts": {
+         "add": "ops@incommon.org"
+       },
+       "grant_types": {
+         "subset_of": [
+           "authorization_code",
+           "refresh_token"
+         ]
+       }
+     }
+   }
 
    If you combine these and apply them to the metadata for wiki.ligo.org
    :
@@ -3914,15 +3969,14 @@ Hedberg, et al.              Standards Track                   [Page 69]
      "subject_type": "public"
    }
 
-
-
-
-Hedberg, et al.              Standards Track                   [Page 70]
-
-                        OpenID Connect Federation            August 2021
-
-
    You will get
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 71]
+
+                        OpenID Connect Federation         September 2021
+
 
    {
      "application_type": "web",
@@ -3969,17 +4023,16 @@ A.3.2.  Client Starts with Registration (Explicit Client Registration)
    policy will be combined with the trust chain's combined metadata
    policy before being applied to the RP's metadata.
 
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 71]
-
-                        OpenID Connect Federation            August 2021
-
-
    If we assume that the OP does not support refresh tokens, it MAY want
    to add a metadata policy that says:
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 72]
+
+                        OpenID Connect Federation         September 2021
+
 
    "metadata_policy": {
      "openid_relying_party": {
@@ -3993,6 +4046,7 @@ Hedberg, et al.              Standards Track                   [Page 71]
 
    Thus, the entity statement returned by the OP to the RP MAY look like
    this:
+
 
    {
      "trust_anchor_id": "https://edugain.geant.org",
@@ -4026,16 +4080,16 @@ Hedberg, et al.              Standards Track                   [Page 71]
            "value": 1604049619
          },
          "registration_client_uri": {
-
-
-
-Hedberg, et al.              Standards Track                   [Page 72]
-
-                        OpenID Connect Federation            August 2021
-
-
            "value":
              "https://op.umu.se/openid/registration?client_id=m3GyHw"
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 73]
+
+                        OpenID Connect Federation         September 2021
+
+
          },
          "client_secret": {
            "value":
@@ -4085,9 +4139,11 @@ Hedberg, et al.              Standards Track                   [Page 72]
 
 
 
-Hedberg, et al.              Standards Track                   [Page 73]
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 74]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    {
@@ -4141,9 +4197,9 @@ Appendix B.  Notices
 
 
 
-Hedberg, et al.              Standards Track                   [Page 74]
+Hedberg, et al.          Expires March 13, 2022                [Page 75]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
    that it has made any independent effort to identify any such rights.
@@ -4164,31 +4220,31 @@ Appendix C.  Acknowledgements
 
    The authors wish to acknowledge the contributions of the following
    individuals and organizations to this specification: Vladimir
-   Dzhuvinov, Heather Flanagan, Jouke Roorda, Mischa
-   Sall&#65533;&#65533;, Marcos Sanz, Peter Schober, Michael Schwartz,
-   and the JRA3T3 task force of GEANT4-2.
+   Dzhuvinov, Heather Flanagan, Jouke Roorda, Mischa Salle, Marcos Sanz,
+   Peter Schober, Michael Schwartz, and the JRA3T3 task force of
+   GEANT4-2.
 
 Appendix D.  Open Issues
 
    The following open issues remain to be addressed in this
    specification.
 
-   *  The representation for RPs that are native applications needs to
+   o  The representation for RPs that are native applications needs to
       be defined.
 
-   *  How are federation operator keys retrieved?
+   o  How are federation operator keys retrieved?
 
-   *  A mechanism is needed for key rotation of federation operator keys
+   o  A mechanism is needed for key rotation of federation operator keys
       for long-term security and maintainability of federations.
 
-   *  A mechanism MAY be needed for bounding key lifetimes.
+   o  A mechanism MAY be needed for bounding key lifetimes.
 
-   *  Discuss that Key IDs MAY be chosen as the JWK Thumbprint [RFC
+   o  Discuss that Key IDs MAY be chosen as the JWK Thumbprint [RFC
       7638] of the key.
 
-   *  Discuss localization of human-readable strings.
+   o  Discuss localization of human-readable strings.
 
-   *  SAML2 as used in Research and Education federations uses
+   o  SAML2 as used in Research and Education federations uses
       post-/prefix matching on metadata in some cases.  We might need
       something similar or just use regular expressions.
 
@@ -4197,203 +4253,209 @@ Appendix D.  Open Issues
 
 
 
-Hedberg, et al.              Standards Track                   [Page 75]
+Hedberg, et al.          Expires March 13, 2022                [Page 76]
 
-                        OpenID Connect Federation            August 2021
+                        OpenID Connect Federation         September 2021
 
 
-   *  Define the relationship between trust anchors and Federation
+   o  Define the relationship between trust anchors and Federation
       Operators, as people will expect to find the Federation Operator
       term in the specification.
 
-   *  Add a diagram showing the relationships between FOs, orgs, sub-
+   o  Add a diagram showing the relationships between FOs, orgs, sub-
       orgs, and leaf entities.
 
 Appendix E.  Document History
 
    [[ To be removed from the final specification ]]
 
+   -17
+
+   o  Addressed many working group review comments.  Changes included
+      adding the Overall Architecture section, the "trust_marks_issuers"
+      claim, and the Setting Up a Federation section.
+
    -16
 
-   *  Added Security Considerations section on Denial of Service
+   o  Added Security Considerations section on Denial of Service
       attacks.
 
    -15
 
-   *  Added signed_jwks_uri, which had be lost somewhere along the road.
+   o  Added "signed_jwks_uri", which had been lost somewhere along the
+      road.
 
    -14
 
-   *  Rewrote the federation policy section.
+   o  Rewrote the federation policy section.
 
-   *  What previously was referred to as "client authentication" in
+   o  What previously was referred to as "client authentication" in
       connection with automatic client registration is now changed to be
       "request authentication".
 
-   *  Made a distinction between parameters and claims.
+   o  Made a distinction between parameters and claims.
 
-   *  Corrected the description of the intended behavior when
+   o  Corrected the description of the intended behavior when
       "essential" is absent.
 
    -13
 
-   *  Added 'trust_marks' as a parameter in the entity statement.
+   o  Added 'trust_marks' as a parameter in the entity statement.
 
-   *  An RP's self-signed entity statement MUST have the OP's issuer
+   o  An RP's self-signed entity statement MUST have the OP's issuer
       identifier as the value of 'aud'.
 
-   *  Added RS256 as default signing algorithm for entity statements.
+   o  Added RS256 as default signing algorithm for entity statements.
 
-   *  Specified that the value of 'aud' in the entity statement use in
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 77]
+
+                        OpenID Connect Federation         September 2021
+
+
+   o  Specified that the value of 'aud' in the entity statement use in
       automatic client registration MUST have the ASs authorization
       endpoint URL as value.  Also the 'sub' claim MUST NOT be present.
 
-   *  Separating the usage of merge and combine as proposed by Vladimir
+   o  Separating the usage of merge and combine as proposed by Vladimir
       Dzhuvinov in Bitbucket issue #1157.
 
-
-
-Hedberg, et al.              Standards Track                   [Page 76]
-
-                        OpenID Connect Federation            August 2021
-
-
-   *  An RP doing only explicit client registration are not required to
+   o  An RP doing only explicit client registration are not required to
       publish and support a .well-known/openid-federation endpoint.
 
-   *  Every key in a JWK Set in an entity statement MUST have a kid.
+   o  Every key in a JWK Set in an entity statement MUST have a kid.
 
    -12
 
-   *  Made JWK Set OPTIONAL in an entity statement returned by OP as
+   o  Made JWK Set OPTIONAL in an entity statement returned by OP as
       response of an explicit client registration
 
-   *  Renamed entity type to client registration type.
+   o  Renamed entity type to client registration type.
 
-   *  Added more text describing
+   o  Added more text describing
       client_registration_auth_methods_supported.
 
-   *  Made "Processing the Authentication Request" into two separate
+   o  Made "Processing the Authentication Request" into two separate
       sections: one for Authentication Request and one for Pushed
       Authorization Request.
 
-   *  Added example of URLs to some examples in the appendix.
+   o  Added example of URLs to some examples in the appendix.
 
-   *  Changed the automatic client registration example in the appendix
+   o  Changed the automatic client registration example in the appendix
       to use Request Object instead of a client_assertion.
 
    -11
 
-   *  Added section on trust marks.
+   o  Added section on trust marks.
 
-   *  Clarified private_key_jwt usage in the authentication request.
+   o  Clarified private_key_jwt usage in the authentication request.
 
-   *  Fixed Bitbucket issues #1150 and #1155 by Vladimir Dzhuvinov.
+   o  Fixed Bitbucket issues #1150 and #1155 by Vladimir Dzhuvinov.
 
-   *  Fixed some examples to make them syntactically correct.
+   o  Fixed some examples to make them syntactically correct.
 
    -10
 
-   *  Incorporated additional review feedback from Marcos Sanz.  The
+   o  Incorporated additional review feedback from Marcos Sanz.  The
       primary change was moving constraints to their own section of the
       entity statement.
 
    -09
 
-   *  Incorporated review feedback from Marcos Sanz.  Major changes were
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 78]
+
+                        OpenID Connect Federation         September 2021
+
+
+   o  Incorporated review feedback from Marcos Sanz.  Major changes were
       as follows.
 
-   *  Separated entity configuration discovery from operations provided
+   o  Separated entity configuration discovery from operations provided
       by the federation API.
 
+   o  Defined new authentication error codes.
 
-
-
-Hedberg, et al.              Standards Track                   [Page 77]
-
-                        OpenID Connect Federation            August 2021
-
-
-   *  Defined new authentication error codes.
-
-   *  Also incorporated review feedback from Michael B.  Jones.
+   o  Also incorporated review feedback from Michael B.  Jones.
 
    -08
 
-   *  Incorporated review feedback from Michael B.  Jones.  Major
+   o  Incorporated review feedback from Michael B.  Jones.  Major
       changes were as follows.
 
-   *  Deleted "sub_is_leaf" entity statement since it was redundant.
+   o  Deleted "sub_is_leaf" entity statement since it was redundant.
 
-   *  Added "federation_type" RP registration metadata value and
+   o  Added "federation_type" RP registration metadata value and
       "federation_types_supported" OP metadata value.
 
-   *  Deleted "openid_discovery" metadata type identifier since its
+   o  Deleted "openid_discovery" metadata type identifier since its
       purpose is already served by "openid_provider".
 
-   *  Entity identifier paths are now included when using the Federation
+   o  Entity identifier paths are now included when using the Federation
       API, enabling use in multi-tenant deployments sharing a common
       domain name.
 
-   *  Renamed "sub_is_leaf" to "is_leaf" in the Entity Listings Request
+   o  Renamed "sub_is_leaf" to "is_leaf" in the Entity Listings Request
       operation parameters.
 
-   *  Added "crit" and "policy_language_crit", enabling control over
+   o  Added "crit" and "policy_language_crit", enabling control over
       which entity statement and policy language extensions MUST be
       understood and processed.
 
-   *  Renamed "openid_client" to "openid_relying_party".
+   o  Renamed "openid_client" to "openid_relying_party".
 
-   *  Renamed "oauth_service" to "oauth_authorization_server".
+   o  Renamed "oauth_service" to "oauth_authorization_server".
 
-   *  Renamed "implicit" registration to "automatic" registration to
+   o  Renamed "implicit" registration to "automatic" registration to
       avoid naming confusion with the implicit grant type.
 
-   *  Renamed "op" to "operation" to avoid naming confusion with the use
+   o  Renamed "op" to "operation" to avoid naming confusion with the use
       of "OP" as an acronym for "OpenID Provider".
 
-   *  Renamed "url" to "uri" in several identifiers.
+   o  Renamed "url" to "uri" in several identifiers.
 
-   *  Restored Open Issues appendix.
+   o  Restored Open Issues appendix.
 
-   *  Corrected document formatting issues.
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 79]
+
+                        OpenID Connect Federation         September 2021
+
+
+   o  Corrected document formatting issues.
 
    -07
 
-   *  Split metadata into metadata and metadata_policy
+   o  Split metadata into metadata and metadata_policy
 
-
-
-
-Hedberg, et al.              Standards Track                   [Page 78]
-
-                        OpenID Connect Federation            August 2021
-
-
-   *  Updated example
+   o  Updated example
 
    -06
 
-   *  Some rewrites
+   o  Some rewrites
 
-   *  Added example of explicit client registration
+   o  Added example of explicit client registration
 
    -05
 
-   *  A major rewrite.
+   o  A major rewrite.
 
    -04
 
-   *  Changed client metadata names "scopes" to "rp_scopes" and "claims"
+   o  Changed client metadata names "scopes" to "rp_scopes" and "claims"
       to "rp_claims".
 
-   *  Added Open Issues appendix.
+   o  Added Open Issues appendix.
 
-   *  Added additional references.
+   o  Added additional references.
 
-   *  Editorial improvements.
+   o  Editorial improvements.
 
-   *  Added standard Notices section, which is present in all OpenID
+   o  Added standard Notices section, which is present in all OpenID
       specifications.
 
 Authors' Addresses
@@ -4411,19 +4473,20 @@ Authors' Addresses
    URI:   http://self-issued.info/
 
 
-   Andreas Åkre Solberg
+
+
+
+
+Hedberg, et al.          Expires March 13, 2022                [Page 80]
+
+                        OpenID Connect Federation         September 2021
+
+
+   Andreas Aekre Solberg
    Uninett AS
 
    Email: andreas.solberg@uninett.no
    URI:   https://www.linkedin.com/in/andreassolberg/
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 79]
-
-                        OpenID Connect Federation            August 2021
 
 
    Samuel Gulliksson
@@ -4470,11 +4533,4 @@ Hedberg, et al.              Standards Track                   [Page 79]
 
 
 
-
-
-
-
-
-
-
-Hedberg, et al.              Standards Track                   [Page 80]
+Hedberg, et al.          Expires March 13, 2022                [Page 81]
