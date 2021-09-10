@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>OpenID Connect Federation 1.0 - draft 16 </title>
+  <title>OpenID Connect Federation 1.0 - draft 17 </title>
 
   <style type="text/css" title="Xml2Rfc (sans serif)">
   /*<![CDATA[*/
@@ -377,7 +377,7 @@
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
 <link href="#rfc.section.1.1" rel="Chapter" title="1.1 Requirements Language">
 <link href="#rfc.section.1.2" rel="Chapter" title="1.2 Terminology">
-<link href="#rfc.section.2" rel="Chapter" title="2 Overall architecture">
+<link href="#rfc.section.2" rel="Chapter" title="2 Overall Architecture">
 <link href="#rfc.section.3" rel="Chapter" title="3 Components">
 <link href="#rfc.section.3.1" rel="Chapter" title="3.1 Entity Statement">
 <link href="#rfc.section.3.2" rel="Chapter" title="3.2 Trust Chain">
@@ -453,7 +453,7 @@
 <link href="#rfc.references.1" rel="Chapter" title="13.1 Normative References">
 <link href="#rfc.references.2" rel="Chapter" title="13.2 Informative References">
 <link href="#rfc.appendix.A" rel="Chapter" title="A Provider Information Discovery and Client Registration in a Federation">
-<link href="#rfc.appendix.A.1" rel="Chapter" title="A.1 Setting up a federation">
+<link href="#rfc.appendix.A.1" rel="Chapter" title="A.1 Setting Up a Federation">
 <link href="#rfc.appendix.A.2" rel="Chapter" title="A.2 The LIGO Wiki Discovers the OP's Metadata">
 <link href="#rfc.appendix.A.2.1" rel="Chapter" title="A.2.1 Configuration Information for op.umu.se">
 <link href="#rfc.appendix.A.2.2" rel="Chapter" title="A.2.2 Configuration Information for 'https://umu.se'">
@@ -475,14 +475,14 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 3.9.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Hedberg, R., Ed., Jones, M., Solberg, A., Gulliksson, S., and J. Bradley" />
   <meta name="dct.identifier" content="urn:ietf:id:openid-connect-federation-1_0" />
-  <meta name="dct.issued" scheme="ISO8601" content="2021-05-25" />
-  <meta name="dct.abstract" content="A federation can be expressed as an agreement between parties that trust each other.  In bilateral federations you can have a direct trust between the parties.  In a multilateral federation bilateral agreements might now be practical, in which case the trust can be mediated by a 3rd party.  That is the model that we are using in this document.  An entity in the federation must be able to have trust in that another entity belongs to the same federation. It must also be able to trust that the information the other entity publishes about itself has not been tampered with during transport and that it adheres to the federation policies.  This specification describes the basic components you will need to build a multilateral federation and it provides a guide on how to apply them when the underlying protocol used is OpenID Connect.  " />
-  <meta name="description" content="A federation can be expressed as an agreement between parties that trust each other.  In bilateral federations you can have a direct trust between the parties.  In a multilateral federation bilateral agreements might now be practical, in which case the trust can be mediated by a 3rd party.  That is the model that we are using in this document.  An entity in the federation must be able to have trust in that another entity belongs to the same federation. It must also be able to trust that the information the other entity publishes about itself has not been tampered with during transport and that it adheres to the federation policies.  This specification describes the basic components you will need to build a multilateral federation and it provides a guide on how to apply them when the underlying protocol used is OpenID Connect.  " />
+  <meta name="dct.issued" scheme="ISO8601" content="2021-09-09" />
+  <meta name="dct.abstract" content="A federation can be expressed as an agreement between parties that trust each other.  In bilateral federations, you can have direct trust between the parties.  In a multilateral federation, bilateral agreements might not be practical, in which case, trust can be mediated by a third party.  That is the model used in this specification.   An entity in the federation must be able to trust that other entities it is interacting with belong to the same federation.  It must also be able to trust that the information the other entities publish about themselves has not been tampered with during transport and that it adheres to the federation&#x27;s policies.   This specification describes the basic components you will need to build a multilateral federation and it provides a guide on how to apply them when the underlying protocol used is OpenID Connect.   " />
+  <meta name="description" content="A federation can be expressed as an agreement between parties that trust each other.  In bilateral federations, you can have direct trust between the parties.  In a multilateral federation, bilateral agreements might not be practical, in which case, trust can be mediated by a third party.  That is the model used in this specification.   An entity in the federation must be able to trust that other entities it is interacting with belong to the same federation.  It must also be able to trust that the information the other entities publish about themselves has not been tampered with during transport and that it adheres to the federation&#x27;s policies.   This specification describes the basic components you will need to build a multilateral federation and it provides a guide on how to apply them when the underlying protocol used is OpenID Connect.   " />
 
 </head>
 
@@ -533,19 +533,19 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">May 25, 2021</td>
+<td class="right">September 9, 2021</td>
 </tr>
 
     	
     </tbody>
   </table>
 
-  <p class="title">OpenID Connect Federation 1.0 - draft 16 <br />
+  <p class="title">OpenID Connect Federation 1.0 - draft 17 <br />
   <span class="filename">openid-connect-federation-1_0</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
-<p>A federation can be expressed as an agreement between parties that trust each other.  In bilateral federations you can have a direct trust between the parties.  In a multilateral federation bilateral agreements might now be practical, in which case the trust can be mediated by a 3rd party.  That is the model that we are using in this document.  </p>
-<p>An entity in the federation must be able to have trust in that another entity belongs to the same federation. It must also be able to trust that the information the other entity publishes about itself has not been tampered with during transport and that it adheres to the federation policies.  </p>
+<p>A federation can be expressed as an agreement between parties that trust each other.  In bilateral federations, you can have direct trust between the parties.  In a multilateral federation, bilateral agreements might not be practical, in which case, trust can be mediated by a third party.  That is the model used in this specification.  </p>
+<p>An entity in the federation must be able to trust that other entities it is interacting with belong to the same federation.  It must also be able to trust that the information the other entities publish about themselves has not been tampered with during transport and that it adheres to the federation's policies.  </p>
 <p>This specification describes the basic components you will need to build a multilateral federation and it provides a guide on how to apply them when the underlying protocol used is OpenID Connect.  </p>
 
   
@@ -559,7 +559,7 @@
 </li>
 <li>1.2.   <a href="#rfc.section.1.2">Terminology</a>
 </li>
-</ul><li>2.   <a href="#rfc.section.2">Overall architecture</a>
+</ul><li>2.   <a href="#rfc.section.2">Overall Architecture</a>
 </li>
 <li>3.   <a href="#rfc.section.3">Components</a>
 </li>
@@ -711,7 +711,7 @@
 </li>
 </ul><li>Appendix A.   <a href="#rfc.appendix.A">Provider Information Discovery and Client Registration in a Federation</a>
 </li>
-<ul><li>A.1.   <a href="#rfc.appendix.A.1">Setting up a federation</a>
+<ul><li>A.1.   <a href="#rfc.appendix.A.1">Setting Up a Federation</a>
 </li>
 <li>A.2.   <a href="#rfc.appendix.A.2">The LIGO Wiki Discovers the OP's Metadata</a>
 </li>
@@ -759,9 +759,8 @@
 <a href="#rfc.section.1">1.</a> <a href="#Introduction" id="Introduction">Introduction</a>
 </h1>
 <p id="rfc.section.1.p.1">This specification describes how two entities that would like to interact can dynamically fetch and resolve trust and metadata for a given protocol through the use of third-party trust anchor. A trust anchor is an entity whose main purpose is to issue statements about entities, such as OpenID Connect Relying Parties, OpenID Providers, and participating organizations.  An identity federation can be realized using this specification using one or more levels of trust issuers. This specification does not mandate a specific way or restrict how a federation may be built. Instead, the specification provides the basic technical trust infrastructure building blocks needed to build a dynamic and distributed trust network such as a federation.  </p>
-<p id="rfc.section.1.p.2">Note that this specification only concerns itself with how two entities in a federation get to know about each other.  </p>
-<p id="rfc.section.1.p.3">Note that a company, as with any real-world organization, MAY be represented by more than one entity in a federation.  It is also true that an entity can be part of more then one federation.  </p>
-<p id="rfc.section.1.p.4">OpenID Connect Federation trust chains rely on cryptographically signed <a href="#RFC7519" class="xref">JSON Web Token (JWT)</a> documents, and the trust chain does not at all rely on TLS <a href="#RFC8446" class="xref">[RFC8446]</a> to establish trust.  </p>
+<p id="rfc.section.1.p.2">Note that this specification only concerns itself with how entities in a federation get to know about each other.  Furthermore, note that a company, as with any real-world organization, MAY be represented by more than one entity in a federation.  It is also true that an entity can be part of more than one federation.  </p>
+<p id="rfc.section.1.p.3">OpenID Connect Federation trust chains rely on cryptographically signed <a href="#RFC7519" class="xref">JSON Web Token (JWT)</a> documents, and the trust chain does not at all rely on TLS <a href="#RFC8446" class="xref">[RFC8446]</a> to establish trust.  </p>
 <h1 id="rfc.section.1.1">
 <a href="#rfc.section.1.1">1.1.</a> Requirements Language</h1>
 <p id="rfc.section.1.1.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC2119" class="xref">RFC 2119</a>.  </p>
@@ -796,12 +795,13 @@
 
 <p> </p>
 <h1 id="rfc.section.2">
-<a href="#rfc.section.2">2.</a> <a href="#architectur" id="architectur">Overall architecture</a>
+<a href="#rfc.section.2">2.</a> <a href="#architecture" id="architecture">Overall Architecture</a>
 </h1>
-<p id="rfc.section.2.p.1">The basic component is the entity statement which is a cryptographically signed <a href="#RFC7519" class="xref">JSON Web Token (JWT)</a>.  A set of entity statements can form a path from a leaf entity to a trust anchor. This is done by having authority hints in an entity statement pointing to its nearest superiors. Starting with an entity statement you can then find the next level of statements by following the authority hints. And then repeat this until you hit a trust anchor.  </p>
-<p id="rfc.section.2.p.2">Once you have followed a path you have collected a set of entity statements that forms a chain. You can verify that this chain has not been tampered with by verifying the signature of each statement. Exactly how this is done is described in <a href="#trust_chain" class="xref">Section 3.2</a> </p>
-<p id="rfc.section.2.p.3">With a verified trust chain in hand you can now apply federation policy to the published metadata. How this is done is described in <a href="#federation_policy" class="xref">Section 5</a> </p>
-<p id="rfc.section.2.p.4">Note that this specification is only dealing with trust in that the other party is part of the same federation as you and that you can trust that the metadata you get that describes the other party is what was sent. The specification does not touch protocol operations outside those of metadata exchange. In OpenID Connect terms protocol operations other then discovery and registration.  </p>
+<p id="rfc.section.2.p.1">The basic component is the entity statement, which is a cryptographically signed <a href="#RFC7519" class="xref">JSON Web Token (JWT)</a>.  A set of entity statements can form a path from a leaf entity to a trust anchor. This is done by having authority hints in an entity statement pointing to its nearest superiors. Starting with an entity statement, you can then find the next level of entity statements by following the authority hints. And then repeat this until you hit a trust anchor.  </p>
+<p id="rfc.section.2.p.2">Once you have followed a path, you have collected a set of entity statements that forms a chain. You can verify that this chain has not been tampered with by verifying the signature of each statement. How this is done is described in <a href="#trust_chain" class="xref">Section 3.2</a>.  </p>
+<p id="rfc.section.2.p.3">With a verified trust chain in hand, you can now apply federation policy to the published metadata. How this is done is described in <a href="#federation_policy" class="xref">Section 5</a>.  </p>
+<p id="rfc.section.2.p.4">Note that this specification is only dealing with trust in that the other party is part of the same federation as you and that you can trust that the metadata you get that describes the other party is what was sent. The specification does not touch protocol operations outside those of metadata exchange. In OpenID Connect terms, these are protocol operations other than discovery and registration.  </p>
+<p id="rfc.section.2.p.5">The fact that we use OpenID Connect in all the examples in this specification does not mean that the specification can only be used together with OpenID Connect. On the contrary, it can equally well be used to build an OAuth 2.0 federations or for that matter, other protocols that depend on dynamic exchange of entity metadata.  </p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> <a href="#components" id="components">Components</a>
 </h1>
@@ -812,11 +812,12 @@
 <p id="rfc.section.3.1.p.2">An entity statement is composed of the following claims: </p>
 <p></p>
 
-<p>The following is a non-normative example of <samp>trust_marks_issuers</samp> claim value.  </p>
+<p>The following is a non-normative example of a <samp>trust_marks_issuers</samp> claim value: </p>
 <pre>
 {
   "https://openid.net/certification/op": ["*"],
-  "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf": ["https://swamid.sunet.se"]
+  "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf":
+    ["https://swamid.sunet.se"]
 }
               </pre>
 <dl>
@@ -849,7 +850,7 @@
 <br> OPTIONAL. JSON object that describes a metadata policy.  Each key of the JSON object represents a metadata type identifier, and each value MUST be a JSON object representing the metadata policy according to the metadata schema of that metadata type. An entity statement MAY contain multiple metadata policy statements, but only one for each metadata type.  Only non-leaf entities MAY contain a <samp>metadata_policy</samp> claim. Leaf entities MUST NOT contain a <samp>metadata_policy</samp> claim.  </dd>
 <dt>constraints</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. JSON object that describes a set of trust chain constraints. More about this in <a href="#chain_constraints" class="xref">Section 5.2</a> </dd>
+<br> OPTIONAL. JSON object that describes a set of trust chain constraints. There is more about this in <a href="#chain_constraints" class="xref">Section 5.2</a>.  </dd>
 <dt>crit</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  The <samp>crit</samp> (critical) entity statement claim indicates that extensions to entity statement claims defined by this specification are being used that MUST be understood and processed.  It is used in the same way that <samp>crit</samp> is used for extension <a href="#RFC7515" class="xref">JWS</a> header parameters that MUST be understood and processed.  Its value is an array listing the entity statement claims present in the entity statement that use those extensions.  If any of the listed extension entity statement claims are not understood and supported by the recipient, then the entity statement is invalid.  Producers MUST NOT include entity statement claim names defined by this specification or names that do not occur as entity statement claim names in the entity statement in the <samp>crit</samp> list.  Producers MUST NOT use the empty list <samp>[]</samp> as the <samp>crit</samp> value.  </dd>
@@ -858,10 +859,10 @@
 <br> OPTIONAL.  The <samp>policy_language_crit</samp> (critical) entity statement claim indicates that extensions to the policy language defined by this specification are being used that MUST be understood and processed.  It is used in the same way that <samp>crit</samp> is used for extension <a href="#RFC7515" class="xref">JSON Web Signature (JWS)</a> header parameters that MUST be understood and processed.  Its value is an array listing the policy language extensions present in the policy language statements that use those extensions.  If any of the listed extension policy language extensions are not understood and supported by the recipient, then the entity statement is invalid.  Producers MUST NOT include policy language names defined by this specification or names that do not occur in policy language statements in the entity statement in the <samp>policy_language_crit</samp> list.  Producers MUST NOT use the empty list <samp>[]</samp> as the <samp>policy_language_crit</samp> value.  </dd>
 <dt>trust_marks</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. A JSON array of signed JSON Web Token each representing a certification mark. More about certification marks in <a href="#trust_marks" class="xref">Section 5.3</a>.  </dd>
+<br> OPTIONAL. A JSON array of signed JSON Web Tokens, each representing a certification mark. There is more about certification marks in <a href="#trust_marks" class="xref">Section 5.3</a>.  </dd>
 <dt>trust_marks_issuers</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL.  A Trust Anchor MAY use this claim to tell which trust mark identifiers and their issuers are trusted by the federation.  This claim MUST be ignored if present in an Entity Statement of other entities than Trust Anchor.  It is a JSON array with keys representing trust mark identifiers and values being an array of trusted entities representing the accreditation authority.  A special value of <samp>*</samp> allows for self-signed trust marks.  More about certification marks in <a href="#trust_marks" class="xref">Section 5.3</a>.  </dd>
+<br> OPTIONAL.  A trust anchor MAY use this claim to tell which trust mark identifiers and their issuers are trusted by the federation.  This claim MUST be ignored if present in an entity statement of other entities than trust anchor.  It is a JSON array with keys representing trust mark identifiers and values being an array of trusted entities representing the accreditation authority.  A special value of <samp>*</samp> allows for self-signed trust marks.  There is more about certification marks in <a href="#trust_marks" class="xref">Section 5.3</a>.  </dd>
 <dt>trust_anchor_id</dt>
 <dd style="margin-left: 8">
 <br> OPTIONAL.  An OP MUST use this claim to tell the RP which trust anchor it chose to use when responding to an explicit client registration.  The value of <samp>trust_anchor_id</samp> is the entity identifier of a trust anchor.  </dd>
@@ -996,7 +997,7 @@
 <br> OPTIONAL. This claim identifies the time at which the JWT is no longer valid.  </dd>
 </dl>
 <p> There are more claims defined in </p>
-<a href="#RFC7519" class="xref">[RFC7519]</a>; of these, <samp>aud</samp> SHOULD NOT be used, since the issuer can not know who the audience is.  <samp>nbf</samp> and <samp>jti</samp> are deemed to not be very useful in this context and are therefore to be omitted.  </dd>
+<a href="#RFC7519" class="xref">[RFC7519]</a>; of these, <samp>aud</samp> SHOULD NOT be used, since the issuer cannot know who the audience is.  <samp>nbf</samp> and <samp>jti</samp> are deemed to not be very useful in this context and are therefore to be omitted.  </dd>
 </dl>
 
 <p> </p>
@@ -1051,7 +1052,7 @@
 <br> OPTIONAL.  In OpenID Connect Core, no client authentication is performed at the authentication endpoint. Instead, you can say that a request authentication is performed. What it amounts to is that the OP maps the information in the request to the information it has on the client, through static or dynamic registration.  If the map is successful, then the request is permitted to proceed.  Something similar happens when automatic registration is used.  Since there has been no explicit registration, the OP will gather information about the RP using the process outlined in <a href="#federation_configuration" class="xref">Section 6</a>. Once it has the RP metadata, the OP can verify the information the RP provides in the request. We make this a bit more secure by demanding the use of the request parameter or pushed authorization.  <br> The claim value is a JSON object with members representing processes/endpoints and as values lists of request authentication methods that are supported by the authorization endpoint.  In this specification we use the processes/endpoints: Authorization Request (AR) as described in Section 3 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> and Pushed Authorization Request (PAR), as described in <a href="#PAR" class="xref">[PAR]</a>.  The request authentication methods are: <dl>
 <dt>request_object</dt>
 <dd style="margin-left: 8">
-<br> This uses a Request Object as described in <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  More about this in <a href="#automatic" class="xref">Section 10.1</a>.  </dd>
+<br> This uses a Request Object as described in <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  There is more about this in <a href="#automatic" class="xref">Section 10.1</a>.  </dd>
 <dt>private_key_jwt</dt>
 <dd style="margin-left: 8">
 <br> The authentication process is described in Section 9 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a>.  Note that if <samp>private_key_jwt</samp> is used, the audience of the signed JWT MUST be either the URL of the Authorization Server's Authorization Endpoint or the Authorization Server's entity identifier.  </dd>
@@ -1128,7 +1129,7 @@
 <br> OPTIONAL. URL to a generic home page representing this entity.  </dd>
 <dt>trust_marks</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL. A JSON array of signed JSON Web Token each representing a certification mark. More about certification marks in <a href="#trust_marks" class="xref">Section 5.3</a> </dd>
+<br> OPTIONAL. A JSON array of signed JSON Web Token each representing a certification mark. There is more about certification marks in <a href="#trust_marks" class="xref">Section 5.3</a>.  </dd>
 </dl>
 
 <p> </p>
@@ -1236,7 +1237,7 @@
 <p></p>
 
 <ul>
-<li>If <samp>subset_of</samp> and <samp>superset_of</samp> both appears as operators then the list of values in <samp>subset_of</samp> MUST be a superset of the values in <samp>superset_of</samp>.  </li>
+<li>If <samp>subset_of</samp> and <samp>superset_of</samp> both appear as operators, then the list of values in <samp>subset_of</samp> MUST be a superset of the values in <samp>superset_of</samp>.  </li>
 <li>If <samp>add</samp> appears in a policy entry together with <samp>subset_of</samp> then the value/values of <samp>add</samp> MUST be a subset of <samp>subset_of</samp>.  </li>
 <li>If <samp>add</samp> appears in a policy entry together with <samp>superset_of</samp> then the values of <samp>add</samp> MUST be a superset of <samp>superset_of</samp>.  </li>
 <li>If <samp>default</samp> appears in a policy entry together with <samp>subset_of</samp> then the values of <samp>default</samp> MUST be a subset of <samp>subset_of</samp>.  </li>
@@ -1581,14 +1582,14 @@
 </dl>
 
 <p> </p>
-<p id="rfc.section.5.3.1.p.3">Other claims MAY be used in conjunction with the claims outlined above.  The same recommendations as outlined in Section 5.1.2 of OpenID Connect Core apply.  </p>
+<p id="rfc.section.5.3.1.p.3">Other claims MAY be used in conjunction with the claims outlined above.  The claim naming recommendations outlined in Section 5.1.2 of <a href="#OpenID.Core" class="xref">OpenID Connect Core 1.0</a> apply.  </p>
 <h1 id="rfc.section.5.3.2">
 <a href="#rfc.section.5.3.2">5.3.2.</a> <a href="#trust_valid" id="trust_valid">Validating a Trust Mark</a>
 </h1>
 <p id="rfc.section.5.3.2.p.1">An entity SHOULD NOT try to validate a trust mark until it knows which trust anchors it wants to use.  </p>
-<p id="rfc.section.5.3.2.p.2">Validating a trust mark follows the procedure set out in <a href="#resolving_trust" class="xref">Section 8</a> </p>
-<p id="rfc.section.5.3.2.p.3">Note that the entity representing the accreditation authority SHOULD be well known and trusted for a given trust mark identifier.  Trust Anchor MAY publish a list of accreditation authorities of trust marks which SHOULD be trusted by other federation entities.  Trust Anchor SHOULD use <samp>trust_marks_issuers</samp> claim in its Entity Statement to publish this information.  </p>
-<p id="rfc.section.5.3.2.p.4">For other externally issued trust marks it is an out-of-band process to define and announce accreditation authorities to other entities and it is left to the discretion of the receiving party to assign an appropriate level of trust to such trust marks.  </p>
+<p id="rfc.section.5.3.2.p.2">Validating a trust mark follows the procedure set out in <a href="#resolving_trust" class="xref">Section 8</a>.  </p>
+<p id="rfc.section.5.3.2.p.3">Note that the entity representing the accreditation authority SHOULD be well known and trusted for a given trust mark identifier.  A trust anchor MAY publish a list of accreditation authorities of trust marks that SHOULD be trusted by other federation entities.  A trust anchor uses the <samp>trust_marks_issuers</samp> claim in its entity statement to publish this information.  </p>
+<p id="rfc.section.5.3.2.p.4">For other externally issued trust marks, it is an out-of-band process to define and announce accreditation authorities to other entities and it is left to the discretion of the receiving party to assign an appropriate level of trust to such trust marks.  </p>
 <h1 id="rfc.section.5.3.3">
 <a href="#rfc.section.5.3.3">5.3.3.</a> <a href="#trust_example" id="trust_example">Trust Mark Example</a>
 </h1>
@@ -1634,7 +1635,7 @@
 <h1 id="rfc.section.6.2">
 <a href="#rfc.section.6.2">6.2.</a> Federation Entity Configuration Response</h1>
 <p id="rfc.section.6.2.p.1">The response is a self-signed Entity Statement, as described in <a href="#entity-statement" class="xref">Section 3.1</a>.  If the entity is an intermediate entity or a trust anchor, the response MUST contain metadata for a federation entity.  </p>
-<p id="rfc.section.6.2.p.2">A positive response is a signed entity statement, where the content type MUST be set to <samp>application/jose</samp>.  In case of an error, the response will be a JSON object, the content type MUST be set to <samp>application/json</samp> and the error response uses the applicable HTTP status code value.  </p>
+<p id="rfc.section.6.2.p.2">A positive response is a signed entity statement, where the content type MUST be set to <samp>application/jose</samp>.  In case of an error, the response will be a JSON object, the content type MUST be set to <samp>application/json</samp>, and the error response uses the applicable HTTP status code value.  </p>
 <p id="rfc.section.6.2.p.3">The following is a non-normative example response from an intermediate entity, before serialization and adding a signature: </p>
 <pre>
 200 OK
@@ -2201,8 +2202,8 @@ HTTP/1.1 302 Found
 <ol>
 <li>After the OP receives the request, it collects and evaluates the trust chains starting with the <samp>authority_hints</samp> in the registration request.  After it has verified at least one trust chain it MUST verify that the signature on the received registration request is correct.  </li>
 <li>If it finds more than one acceptable trust chain, it MUST choose one trust anchor from those chains as the one it will proceed with.  </li>
-<li>At this point, if there already exists a client registration under the same entity identifier then that registration MUST be regarded as invalid.  <samp>Note</samp> that key material from the previous registration SHOULD be kept to allow verifying a signature on, or decrypting archived data.  </li>
-<li>The OP will now construct a metadata policy that, if applied to the RP's metadata statement, will result in metadata that the OP finds acceptable.  <samp>Note</samp> that the Client ID the OP chooses does not have to be the same as the entity identifier of the RP.  To the entity statement it will add a <samp>trust_anchor_id</samp> claim, containing the trust anchor chosen above.  </li>
+<li>At this point, if there already exists a client registration under the same entity identifier then that registration MUST be regarded as invalid.  Note that key material from the previous registration SHOULD be kept to enable verifying signatures or decrypting archived data.  </li>
+<li>The OP will now construct a metadata policy that, if applied to the RP's metadata statement, will result in metadata that the OP finds acceptable.  Note that the Client ID the OP chooses does not have to be the same as the entity identifier of the RP.  To the entity statement it will add a <samp>trust_anchor_id</samp> claim, containing the trust anchor chosen above.  </li>
 <li>It will sign and return the registration response (a signed entity statement) to the RP.  </li>
 </ol>
 
@@ -2240,7 +2241,7 @@ HTTP/1.1 302 Found
 <p></p>
 
 <ol>
-<li>If the signature on the registration request has expired it MUST mark the registration as invalid and demand that the RP MUST re-register. Else </li>
+<li>If the signature on the registration request has expired, it MUST mark the registration as invalid and demand that the RP MUST re-register. Else </li>
 <li>starting with the RP's client registration request, the OP MUST verify that there still is a valid trust chain terminating in the trust anchor the OP chose during the registration process.  </li>
 </ol>
 
@@ -2367,27 +2368,27 @@ HTTP/1.1 302 Found
 <p id="rfc.section.A.p.5">Once the RP-part of the Wiki knows which OP it SHOULD talk to it has to find out a couple of things about the OP. All if those things can be found in the metadata. But finding the metadata is not enough; the RP also has to trust the metadata.  </p>
 <p id="rfc.section.A.p.6">Let us make a detour and start with what it takes to build a federation.  </p>
 <h1 id="rfc.appendix.A.1">
-<a href="#rfc.appendix.A.1">A.1.</a> <a href="#federation_intro" id="federation_intro">Setting up a federation</a>
+<a href="#rfc.appendix.A.1">A.1.</a> <a href="#federation_intro" id="federation_intro">Setting Up a Federation</a>
 </h1>
-<p id="rfc.section.A.1.p.1">The steps you have to go through to set up your own federation.  What you minimally have to do.  </p>
+<p id="rfc.section.A.1.p.1">These are the steps you have to go through to set up your own federation.  What you minimally have to do is: </p>
 
 <ul>
 <li>Generate a signing key. This must be a public/private key pair.  </li>
-<li>Set up a signing service that can sign JWTs/entity statements using the federation operators signing key.  </li>
-<li>Set up web services that can publish signed entity statements.  You need at least two.  One for the URL corresponding to the federations entity ID returning self signed entity statements and the other one providing the fetch entity statement request API as described in <a href="#fetch_statement" class="xref">Section 7.1.1</a>.  </li>
+<li>Set up a signing service that can sign JWTs/entity statements using the federation operator's signing key.  </li>
+<li>Set up web services that can publish signed entity statements.  You need at least two: one for the URL corresponding to the federation's entity ID returning self-signed entity statements and the other one providing the fetch entity statement request API, as described in <a href="#fetch_statement" class="xref">Section 7.1.1</a>.  </li>
 </ul>
 
 <p> </p>
-<p id="rfc.section.A.1.p.2">Once you have this you can start adding entities to your federation.  Adding an entity comes down to: </p>
+<p id="rfc.section.A.1.p.2">Once you have this, you can start adding entities to your federation.  Adding an entity comes down to: </p>
 
 <ul>
-<li>Providing the entity with the federations entity ID and the public part of the key pairs used by the federation operator for signing entity statements.  </li>
-<li>Getting the entity's entity ID and the JWKS that the entity plans to publish in its self signed entity statement.  </li>
+<li>Providing the entity with the federation's entity ID and the public part of the key pairs used by the federation operator for signing entity statements.  </li>
+<li>Getting the entity's entity ID and the JWKS that the entity plans to publish in its self-signed entity statement.  </li>
 </ul>
 
 <p> </p>
-<p id="rfc.section.A.1.p.3">Now before the federation operator start adding entities there have to be policies in place on who can be part of the federation and the layout of the federation. Is it supposed to be a one-layer federation like Internet2 above, a two-layer one like the SWAMID federation or a multi-layer federation ? The federation may also want to think about implementing other policies using the <a href="#federation_policy" class="xref">Section 5</a> framework.  </p>
-<p id="rfc.section.A.1.p.4">With the federation in place things can start happening.  </p>
+<p id="rfc.section.A.1.p.3">Now before the federation operator starts adding entities, there have to be policies in place on who can be part of the federation and the layout of the federation. Is it supposed to be a one-layer federation like Internet2, a two-layer one like the SWAMID federation, or a multi-layer federation? The federation may also want to think about implementing other policies using the federation policy framework, as described in <a href="#federation_policy" class="xref">Section 5</a>.  </p>
+<p id="rfc.section.A.1.p.4">With the federation in place, things can start happening.  </p>
 <h1 id="rfc.appendix.A.2">
 <a href="#rfc.appendix.A.2">A.2.</a> <a href="#op_discovery" id="op_discovery">The LIGO Wiki Discovers the OP's Metadata</a>
 </h1>
@@ -2736,7 +2737,7 @@ Host: geant.org
         "add": "ops@edugain.geant.org"
       }
     },
-    "openid_relying_part": {
+    "openid_relying_party": {
       "contacts": {
         "add": "ops@edugain.geant.org"
       }
@@ -3117,7 +3118,7 @@ Host: op.umu.se
 <h1 id="rfc.appendix.C">
 <a href="#rfc.appendix.C">Appendix C.</a> <a href="#Acknowledgements" id="Acknowledgements">Acknowledgements</a>
 </h1>
-<p id="rfc.section.C.p.1">The authors wish to acknowledge the contributions of the following individuals and organizations to this specification: Vladimir Dzhuvinov, Heather Flanagan, Jouke Roorda, Mischa Sall&#65533;&#65533;, Marcos Sanz, Peter Schober, Michael Schwartz, and the JRA3T3 task force of GEANT4-2.  </p>
+<p id="rfc.section.C.p.1">The authors wish to acknowledge the contributions of the following individuals and organizations to this specification: Vladimir Dzhuvinov, Heather Flanagan, Jouke Roorda, Mischa Sall&#233;, Marcos Sanz, Peter Schober, Michael Schwartz, and the JRA3T3 task force of GEANT4-2.  </p>
 <h1 id="rfc.appendix.D">
 <a href="#rfc.appendix.D">Appendix D.</a> <a href="#TBD" id="TBD">Open Issues</a>
 </h1>
@@ -3141,17 +3142,22 @@ Host: op.umu.se
 <a href="#rfc.appendix.E">Appendix E.</a> <a href="#History" id="History">Document History</a>
 </h1>
 <p id="rfc.section.E.p.1">[[ To be removed from the final specification ]]</p>
-<p id="rfc.section.E.p.2">-16 </p>
+<p id="rfc.section.E.p.2">-17 </p>
+
+<ul><li>Addressed many working group review comments.  Changes included adding the Overall Architecture section, the <samp>trust_marks_issuers</samp> claim, and the Setting Up a Federation section.  </li></ul>
+
+<p> </p>
+<p id="rfc.section.E.p.3">-16 </p>
 
 <ul><li>Added Security Considerations section on Denial of Service attacks.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.3">-15 </p>
+<p id="rfc.section.E.p.4">-15 </p>
 
-<ul><li>Added signed_jwks_uri, which had be lost somewhere along the road.  </li></ul>
+<ul><li>Added <samp>signed_jwks_uri</samp>, which had been lost somewhere along the road.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.4">-14 </p>
+<p id="rfc.section.E.p.5">-14 </p>
 
 <ul>
 <li>Rewrote the federation policy section.  </li>
@@ -3161,7 +3167,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.5">-13 </p>
+<p id="rfc.section.E.p.6">-13 </p>
 
 <ul>
 <li>Added 'trust_marks' as a parameter in the entity statement.  </li>
@@ -3185,7 +3191,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.6">-11 </p>
+<p id="rfc.section.E.p.7">-11 </p>
 
 <ul>
 <li>Added section on trust marks.  </li>
@@ -3195,12 +3201,12 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.7">-10 </p>
+<p id="rfc.section.E.p.8">-10 </p>
 
 <ul><li>Incorporated additional review feedback from Marcos Sanz.  The primary change was moving constraints to their own section of the entity statement.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.8">-09 </p>
+<p id="rfc.section.E.p.9">-09 </p>
 
 <ul>
 <li>Incorporated review feedback from Marcos Sanz.  Major changes were as follows.  </li>
@@ -3210,7 +3216,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.9">-08 </p>
+<p id="rfc.section.E.p.10">-08 </p>
 
 <ul>
 <li>Incorporated review feedback from Michael B. Jones.  Major changes were as follows.  </li>
@@ -3230,7 +3236,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.10">-07 </p>
+<p id="rfc.section.E.p.11">-07 </p>
 
 <ul>
 <li>Split metadata into metadata and metadata_policy </li>
@@ -3238,7 +3244,7 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.11">-06 </p>
+<p id="rfc.section.E.p.12">-06 </p>
 
 <ul>
 <li>Some rewrites </li>
@@ -3246,12 +3252,12 @@ Host: op.umu.se
 </ul>
 
 <p> </p>
-<p id="rfc.section.E.p.12">-05 </p>
+<p id="rfc.section.E.p.13">-05 </p>
 
 <ul><li>A major rewrite.  </li></ul>
 
 <p> </p>
-<p id="rfc.section.E.p.13">-04 </p>
+<p id="rfc.section.E.p.14">-04 </p>
 
 <ul>
 <li>Changed client metadata names <samp>scopes</samp> to <samp>rp_scopes</samp> and <samp>claims</samp> to <samp>rp_claims</samp>.  </li>
