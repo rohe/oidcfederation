@@ -629,8 +629,8 @@ Hedberg, et al.          Expires March 13, 2022                [Page 11]
    type identifier will uniquely identify which metadata specification
    to utilize.
 
-   The metadata document MUST be a JSON document.  Beyond that there is
-   no restriction.
+   The metadata document MUST be a JSON object.  Beyond that there is no
+   restriction.
 
    Metadata used in federations typically reuses existing metadata
    standards.  If needed, the metadata schema is extended with
@@ -1965,9 +1965,10 @@ Hedberg, et al.          Expires March 13, 2022                [Page 35]
 7.2.  Trust Negotiation (OPTIONAL)
 
    An entity MAY use the trust negotiation operation to fetch resolved
-   metadata about itself as seen/trusted by a remote peer.  The result
-   may, for instance, tell an RP what operations, scopes and claims an
-   OP would allow the RP to use if a specific trust anchor was used.
+   metadata about itself as seen/trusted by another entity (the peer).
+   The result may, for instance, tell an RP what operations, scopes and
+   claims an OP would allow the RP to use if a specific trust anchor was
+   used.
 
 7.2.1.  Trust Negotiation Request
 
@@ -1985,16 +1986,17 @@ Hedberg, et al.          Expires March 13, 2022                [Page 35]
       parameter makes it explicit exactly which entity is expected.
 
    peer
-      REQUIRED.  The entity identifier of the entity the information is
-      requested for.  This MUST be a leaf entity.
+      REQUIRED.  The entity identifier of the entity that will collect
+      the information.
 
    type
       REQUIRED.  The metadata type to resolve.  In this document, we use
       the metadata types listed in Section 4.
 
    anchor
-      REQUIRED.  The trust anchor that the remote peer MUST use when
-      resolving the metadata.  The value is an entity identifier.
+      REQUIRED.  The trust anchor that the entity, defined by the "peer"
+      parameter, MUST use when resolving the metadata.  The value is an
+      entity identifier.
 
    The following is a non-normative example of an API request for trust
    negotiation:
@@ -2006,8 +2008,6 @@ Hedberg, et al.          Expires March 13, 2022                [Page 35]
    anchor=https%3A%2F%2Fswamid.se&
    peer=https%3A%2F%2Fidp.umu.se%2Fopenid HTTP/1.1
    Host: openid.sunet.se
-
-
 
 
 
