@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -53,7 +53,7 @@
 	  font-family: verdana, helvetica, arial, sans-serif;
 	  font-size: 10pt;
 	  max-width: 55em;
-	  
+
 	  }
 	  cite {
 	  font-style: normal;
@@ -64,7 +64,7 @@
 	  dl {
 	  margin-left: 2em;
 	  }
-	
+
 	  ul.empty {
 	  list-style-type: none;
 	  }
@@ -193,7 +193,7 @@
 	  font-size: 9pt;
 	  margin-top: .5em;
 	  }
-	
+
 	  table.header {
 	  border-spacing: 1px;
 	  width: 95%;
@@ -205,7 +205,7 @@
 	  }
 	  td.topnowrap {
 	  vertical-align: top;
-	  white-space: nowrap; 
+	  white-space: nowrap;
 	  }
 	  table.header td {
 	  background-color: gray;
@@ -248,7 +248,7 @@
 	  ul p {
 	  margin-left: 0em;
 	  }
-	
+
 	  .comment {
 	  background-color: yellow;
 	  }
@@ -299,22 +299,22 @@
 	  font-size: 14pt;
 	  background-color: yellow;
 	  }
-	
-	
+
+
 	  @media print {
 	  .noprint {
 		display: none;
 	  }
-	
+
 	  a {
 		color: black;
 		text-decoration: none;
 	  }
-	
+
 	  table.header {
 		width: 90%;
 	  }
-	
+
 	  td.header {
 		width: 50%;
 		color: black;
@@ -322,44 +322,44 @@
 		vertical-align: top;
 		font-size: 12pt;
 	  }
-	
+
 	  ul.toc a::after {
 		content: leader('.') target-counter(attr(href), page);
 	  }
-	
+
 	  ul.ind li li a {
 		content: target-counter(attr(href), page);
 	  }
-	
+
 	  .print2col {
 		column-count: 2;
 		-moz-column-count: 2;
 		column-fill: auto;
 	  }
 	  }
-	
+
 	  @page {
 	  @top-left {
-		   content: "Internet-Draft"; 
-	  } 
+		   content: "Internet-Draft";
+	  }
 	  @top-right {
-		   content: "December 2010"; 
-	  } 
+		   content: "December 2010";
+	  }
 	  @top-center {
 		   content: "Abbreviated Title";
-	  } 
-	  @bottom-left {
-		   content: "Doe"; 
-	  } 
-	  @bottom-center {
-		   content: "Expires June 2011"; 
-	  } 
-	  @bottom-right {
-		   content: "[Page " counter(page) "]"; 
-	  } 
 	  }
-	
-	  @page:first { 
+	  @bottom-left {
+		   content: "Doe";
+	  }
+	  @bottom-center {
+		   content: "Expires June 2011";
+	  }
+	  @bottom-right {
+		   content: "[Page " counter(page) "]";
+	  }
+	  }
+
+	  @page:first {
 		@top-left {
 		  content: normal;
 		}
@@ -490,7 +490,7 @@
 
   <table class="header">
     <tbody>
-    
+
     	<tr>
 <td class="left"></td>
 <td class="right">R. Hedberg, Ed.</td>
@@ -536,19 +536,19 @@
 <td class="right">September 9, 2021</td>
 </tr>
 
-    	
+
     </tbody>
   </table>
 
   <p class="title">OpenID Connect Federation 1.0 - draft 17 <br />
   <span class="filename">openid-connect-federation-1_0</span></p>
-  
+
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
 <p>A federation can be expressed as an agreement between parties that trust each other.  In bilateral federations, you can have direct trust between the parties.  In a multilateral federation, bilateral agreements might not be practical, in which case, trust can be mediated by a third party.  That is the model used in this specification.  </p>
 <p>An entity in the federation must be able to trust that other entities it is interacting with belong to the same federation.  It must also be able to trust that the information the other entities publish about themselves has not been tampered with during transport and that it adheres to the federation's policies.  </p>
 <p>This specification describes the basic components you will need to build a multilateral federation and it provides a guide on how to apply them when the underlying protocol used is OpenID Connect.  </p>
 
-  
+
   <hr class="noprint" />
   <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
   <ul class="toc">
@@ -1529,13 +1529,16 @@
 <ul>
 <li>The TA specifies a <samp>max_path_length</samp> that is equal to or bigger than 2.  </li>
 <li>TA specifies <samp>max_path_length</samp> of 2, I2 specifies <samp>max_path_length</samp> of 1, and I1 specifies no <samp>max_path_length</samp> constraint.  </li>
-<li>Neither TA nor I2 specifies any <samp>max_path_length</samp> constraint while I1 specifies <samp>max_path_length</samp> of 0.  </li>
+<li>Neither TA nor I2 specifies any <samp>max_path_length</samp> constraint while I1 specifies <samp>max_path_length</samp> of 1.  </li>
 </ul>
 
 <p> </p>
 <p id="rfc.section.5.2.1.p.5">The trust chain does not fulfill the constraints if: </p>
 
-<ul><li>TA has specified <samp>max_path_length</samp> of 1.  </li></ul>
+<ul>
+  <li>TA has specified <samp>max_path_length</samp> of 1.  </li>
+  <li>I1 has specified <samp>max_path_length</samp> of 0.  </li>
+</ul>
 
 <p> </p>
 <h1 id="rfc.section.5.2.2">
@@ -3279,9 +3282,9 @@ Host: op.umu.se
 	</span>
 	<span class="org vcardline">independent</span>
 	<span class="adr">
-	  
+
 	  <span class="vcardline">
-		<span class="locality"></span> 
+		<span class="locality"></span>
 		<span class="region"></span>
 		<span class="code"></span>
 	  </span>
@@ -3293,16 +3296,16 @@ Host: op.umu.se
 </div><div class="avoidbreak">
   <address class="vcard">
 	<span class="vcardline">
-	  <span class="fn">Michael B. Jones</span> 
+	  <span class="fn">Michael B. Jones</span>
 	  <span class="n hidden">
 		<span class="family-name">Jones</span>
 	  </span>
 	</span>
 	<span class="org vcardline">Microsoft</span>
 	<span class="adr">
-	  
+
 	  <span class="vcardline">
-		<span class="locality"></span> 
+		<span class="locality"></span>
 		<span class="region"></span>
 		<span class="code"></span>
 	  </span>
@@ -3316,16 +3319,16 @@ Host: op.umu.se
 </div><div class="avoidbreak">
   <address class="vcard">
 	<span class="vcardline">
-	  <span class="fn">Andreas &#197;kre Solberg</span> 
+	  <span class="fn">Andreas &#197;kre Solberg</span>
 	  <span class="n hidden">
 		<span class="family-name">Solberg</span>
 	  </span>
 	</span>
 	<span class="org vcardline">Uninett AS</span>
 	<span class="adr">
-	  
+
 	  <span class="vcardline">
-		<span class="locality"></span> 
+		<span class="locality"></span>
 		<span class="region"></span>
 		<span class="code"></span>
 	  </span>
@@ -3339,16 +3342,16 @@ Host: op.umu.se
 </div><div class="avoidbreak">
   <address class="vcard">
 	<span class="vcardline">
-	  <span class="fn">Samuel Gulliksson</span> 
+	  <span class="fn">Samuel Gulliksson</span>
 	  <span class="n hidden">
 		<span class="family-name">Gulliksson</span>
 	  </span>
 	</span>
 	<span class="org vcardline">Schibsted Media Group</span>
 	<span class="adr">
-	  
+
 	  <span class="vcardline">
-		<span class="locality"></span> 
+		<span class="locality"></span>
 		<span class="region"></span>
 		<span class="code"></span>
 	  </span>
@@ -3360,16 +3363,16 @@ Host: op.umu.se
 </div><div class="avoidbreak">
   <address class="vcard">
 	<span class="vcardline">
-	  <span class="fn">John Bradley</span> 
+	  <span class="fn">John Bradley</span>
 	  <span class="n hidden">
 		<span class="family-name">Bradley</span>
 	  </span>
 	</span>
 	<span class="org vcardline">Yubico</span>
 	<span class="adr">
-	  
+
 	  <span class="vcardline">
-		<span class="locality"></span> 
+		<span class="locality"></span>
 		<span class="region"></span>
 		<span class="code"></span>
 	  </span>
