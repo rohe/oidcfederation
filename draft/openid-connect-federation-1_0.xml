@@ -1038,9 +1038,8 @@
               <vspace/>
               OPTIONAL.
               The endpoint for the status operation described in
-              <xref target="status"/>. Issuers of trust marks
-              MAY publish a
-              <spanx style="verb">status_endpoint</spanx>.
+              <xref target="status_endpoint"/>. Issuers of trust marks
+              MAY publish a <spanx style="verb">status_endpoint</spanx>.
             </t>
           </list>
         </t>
@@ -1052,6 +1051,10 @@
 }
 ]]></artwork>
         </figure>
+        <t>
+          The communication with the status endpoint is described in
+          <xref target="status_endpoint"/>
+        </t>
       </section>
     </section>
     <section title="Federation Policy" anchor="federation_policy">
@@ -1783,7 +1786,7 @@
           If the trust mark issuer wants, it can implement an endpoint from
           which one can find out if a trust mark is still valid or not.
           More about that here
-          <xref target="status"/>
+          <xref target="status_endpoint"/>
         </t>
         <t>
           Note that a federation MAY allow an entity to self-sign
@@ -2372,8 +2375,8 @@ Content-Type: application/json
           <t></t>
         </section>
       </section>
-      <section title="Trust Mark Status" anchor="status">
-        <section title="Trust request">
+      <section title="Trust Mark Status" anchor="status_endpoint">
+        <section title="Status request">
           <t>
             The request MUST be an HTTP request using the GET method and
             the https scheme to a status endpoint with the
@@ -2383,17 +2386,42 @@ Content-Type: application/json
             <list style="hanging">
               <t hangText="sub">
                 <vspace/>
-                REQUIRED. The entity_id for the entity to which the trust mark
+                OPTIONAL. The entity_id for the entity to which the trust mark
                 was issued.
               </t>
               <t hangText="id">
                 <vspace/>
-                REQUIRED. Identifier of the trust mark
+                OPTIONAL. Identifier of the trust mark
+              </t>
+              <t hangText="trust_mark">
+                <vspace/>
+                OPTIONAL. The whole trust mark
               </t>
             </list>
+            If <spanx style="verb">trust_mark</spanx> is used then
+            <spanx style="verb">sub</spanx> and <spanx style="verb">id</spanx>
+            are not needed. If <spanx style="verb">trust_mark</spanx> is not used
+            then <spanx style="verb">sub</spanx> and <spanx style="verb">id</spanx>
+            are required.
+          </t>
+          <t>
+            <figure>
+              <preamble>
+                The following is a non-normative example of a request using
+                <spanx style="verb">sub</spanx> and <spanx style="verb">id</spanx>:
+              </preamble>
+              <artwork><![CDATA[
+GET /status_endpoint?
+sub=https%3A%2F%2Fopenid.sunet.se%2FRP
+&id=https%3A%2F%2Frefeds.org%2Fsirtfi
+HTTP/1.1
+Host: operations.swamid.se
+]]></artwork>
+            </figure>
+
           </t>
         </section>
-        <section title="Trust Response">
+        <section title="Status Response">
           <t>
             The HTTP response body MUST be a JSON
             object containing the claims below and the content type MUST

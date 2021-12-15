@@ -424,8 +424,8 @@
 <link href="#rfc.section.7.4.1" rel="Chapter" title="7.4.1 Search request">
 <link href="#rfc.section.7.4.2" rel="Chapter" title="7.4.2 Search Response">
 <link href="#rfc.section.7.5" rel="Chapter" title="7.5 Trust Mark Status">
-<link href="#rfc.section.7.5.1" rel="Chapter" title="7.5.1 Trust request">
-<link href="#rfc.section.7.5.2" rel="Chapter" title="7.5.2 Trust Response">
+<link href="#rfc.section.7.5.1" rel="Chapter" title="7.5.1 Status request">
+<link href="#rfc.section.7.5.2" rel="Chapter" title="7.5.2 Status Response">
 <link href="#rfc.section.7.6" rel="Chapter" title="7.6 Generic Error Response">
 <link href="#rfc.section.8" rel="Chapter" title="8 Resolving Trust Chain and Metadata">
 <link href="#rfc.section.8.1" rel="Chapter" title="8.1 Fetching Entity Statements to Establish a Trust Chain">
@@ -660,9 +660,9 @@
 </li>
 </ul><li>7.5.   <a href="#rfc.section.7.5">Trust Mark Status</a>
 </li>
-<ul><li>7.5.1.   <a href="#rfc.section.7.5.1">Trust request</a>
+<ul><li>7.5.1.   <a href="#rfc.section.7.5.1">Status request</a>
 </li>
-<li>7.5.2.   <a href="#rfc.section.7.5.2">Trust Response</a>
+<li>7.5.2.   <a href="#rfc.section.7.5.2">Status Response</a>
 </li>
 </ul><li>7.6.   <a href="#rfc.section.7.6">Generic Error Response</a>
 </li>
@@ -1182,7 +1182,7 @@
 <dl>
 <dt>status_endpoint</dt>
 <dd style="margin-left: 8">
-<br> OPTIONAL.  The endpoint for the status operation described in <a href="#status" class="xref">Section 7.5</a>. Issuers of trust marks MAY publish a <samp>status_endpoint</samp>.  </dd>
+<br> OPTIONAL.  The endpoint for the status operation described in <a href="#status_endpoint" class="xref">Section 7.5</a>. Issuers of trust marks MAY publish a <samp>status_endpoint</samp>.  </dd>
 </dl>
 
 <p> </p>
@@ -1192,6 +1192,7 @@
   "status_endpoint": "https://trust_marks_are_us.example.com/status"
 }
 </pre>
+<p id="rfc.section.4.7.p.5">The communication with the status endpoint is described in <a href="#status_endpoint" class="xref">Section 7.5</a> </p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#federation_policy" id="federation_policy">Federation Policy</a>
 </h1>
@@ -1601,7 +1602,7 @@
 <p id="rfc.section.5.3.p.2">Technically, trust marks as used by this specification are signed JWTs that represent a statement of conformance to a well-scoped set of trust and/or interoperability requirements.  </p>
 <p id="rfc.section.5.3.p.3">To mark that the JWT is a trust mark 'trust-mark+jwt' SHOULD be added as the value of <samp>type</samp> in the JWT header.  </p>
 <p id="rfc.section.5.3.p.4">The trust marks are signed by a federation accredited authority. The validation of such a signed statement is performed in the same way that a self-signed entity statement is validated.  </p>
-<p id="rfc.section.5.3.p.5">If the trust mark issuer wants, it can implement an endpoint from which one can find out if a trust mark is still valid or not.  More about that here <a href="#status" class="xref">Section 7.5</a> </p>
+<p id="rfc.section.5.3.p.5">If the trust mark issuer wants, it can implement an endpoint from which one can find out if a trust mark is still valid or not.  More about that here <a href="#status_endpoint" class="xref">Section 7.5</a> </p>
 <p id="rfc.section.5.3.p.6">Note that a federation MAY allow an entity to self-sign some trust marks.  </p>
 <h1 id="rfc.section.5.3.1">
 <a href="#rfc.section.5.3.1">5.3.1.</a> <a href="#trust_mark_claims" id="trust_mark_claims">Trust Mark Claims</a>
@@ -1944,25 +1945,38 @@ Content-Type: application/json
 <a href="#rfc.section.7.4.2">7.4.2.</a> Search Response</h1>
 <p></p>
 <h1 id="rfc.section.7.5">
-<a href="#rfc.section.7.5">7.5.</a> <a href="#status" id="status">Trust Mark Status</a>
+<a href="#rfc.section.7.5">7.5.</a> <a href="#status_endpoint" id="status_endpoint">Trust Mark Status</a>
 </h1>
 <h1 id="rfc.section.7.5.1">
-<a href="#rfc.section.7.5.1">7.5.1.</a> Trust request</h1>
+<a href="#rfc.section.7.5.1">7.5.1.</a> Status request</h1>
 <p id="rfc.section.7.5.1.p.1">The request MUST be an HTTP request using the GET method and the https scheme to a status endpoint with the following query string parameters: </p>
-<p></p>
+<p><samp>trust_mark</samp> is used then <samp>sub</samp> and <samp>id</samp> are not needed. If <samp>trust_mark</samp> is not used then <samp>sub</samp> and <samp>id</samp> are required.  </p>
 
 <dl>
 <dt>sub</dt>
 <dd style="margin-left: 8">
-<br> REQUIRED. The entity_id for the entity to which the trust mark was issued.  </dd>
+<br> OPTIONAL. The entity_id for the entity to which the trust mark was issued.  </dd>
 <dt>id</dt>
 <dd style="margin-left: 8">
-<br> REQUIRED. Identifier of the trust mark </dd>
+<br> OPTIONAL. Identifier of the trust mark </dd>
+<dt>trust_mark</dt>
+<dd style="margin-left: 8">
+<br> OPTIONAL. The whole trust mark </dd>
 </dl>
 
-<p> </p>
+<p> If </p>
+<p></p>
+
+<p>The following is a non-normative example of a request using <samp>sub</samp> and <samp>id</samp>: </p>
+<pre>
+GET /status_endpoint?
+sub=https%3A%2F%2Fopenid.sunet.se%2FRP&amp;
+id=https%3A%2F%2Frefeds.org%2Fsirtfi
+HTTP/1.1
+Host: operations.swamid.se
+</pre>
 <h1 id="rfc.section.7.5.2">
-<a href="#rfc.section.7.5.2">7.5.2.</a> Trust Response</h1>
+<a href="#rfc.section.7.5.2">7.5.2.</a> Status Response</h1>
 <p id="rfc.section.7.5.2.p.1">The HTTP response body MUST be a JSON object containing the claims below and the content type MUST be set to <samp>application/json</samp>.  </p>
 <p></p>
 
