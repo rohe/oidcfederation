@@ -85,22 +85,25 @@
 
     <abstract>
       <t>
-        A federation can be expressed as an agreement between parties that trust each other.
+        A federation can be expressed as an agreement between parties that trust
+        each other.
         In bilateral federations, you can have direct trust between the parties.
-        In a multilateral federation, bilateral agreements might not be practical,
+        In a multilateral federation, bilateral agreements might not be
+        practical,
         in which case, trust can be mediated by a third party.
         That is the model used in this specification.
       </t>
       <t>
         An entity in the federation must be able to trust that other entities
-	it is interacting with belong to the same federation.
-	It must also be able to trust that the information the other entities
-	publish about themselves has not been tampered with during transport
-	and that it adheres to the federation's policies.
+        it is interacting with belong to the same federation.
+        It must also be able to trust that the information the other entities
+        publish about themselves has not been tampered with during transport
+        and that it adheres to the federation's policies.
       </t>
       <t>
         This specification describes the basic components you will need to build
-        a multilateral federation and it provides a guide on how to apply them when
+        a multilateral federation and it provides a guide on how to apply them
+        when
         the underlying protocol used is OpenID Connect.
       </t>
     </abstract>
@@ -201,19 +204,22 @@
     </section>
     <section title="Overall Architecture" anchor="architecture">
       <t>
-        The basic component is the entity statement, which is a cryptographically
+        The basic component is the entity statement, which is a
+        cryptographically
         signed <xref target="RFC7519">JSON Web Token (JWT)</xref>.
         A set of entity statements can form a path from a leaf entity to
         a trust anchor. This is done by having authority hints in an entity
         statement pointing to its nearest superiors. Starting with an entity
-        statement, you can then find the next level of entity statements by following
+        statement, you can then find the next level of entity statements by
+        following
         the authority hints. And then repeat this until you hit a trust anchor.
       </t>
       <t>
-        Once you have followed a path, you have collected a set of entity statements
+        Once you have followed a path, you have collected a set of entity
+        statements
         that forms a chain. You can verify that this chain has not been tampered
         with by verifying the signature of each statement. How this is
-        done is described in <xref target="trust_chain"/>.
+        done is described in<xref target="trust_chain"/>.
       </t>
       <t>
         With a verified trust chain in hand, you can now apply federation
@@ -225,14 +231,16 @@
         other party is part of the same federation as you and that you can
         trust that the metadata you get that describes the other party is
         what was sent. The specification does not touch protocol operations
-        outside those of metadata exchange. In OpenID Connect terms, these are protocol
+        outside those of metadata exchange. In OpenID Connect terms, these are
+        protocol
         operations other than discovery and registration.
       </t>
       <t>
         The fact that we use OpenID Connect in all the examples in this
         specification does not mean that the specification can only be used
         together with OpenID Connect. On the contrary, it can equally well be
-        used to build an OAuth 2.0 federations or for that matter, other protocols
+        used to build an OAuth 2.0 federations or for that matter, other
+        protocols
         that depend on dynamic exchange of entity metadata.
       </t>
     </section>
@@ -343,7 +351,8 @@
               Only non-leaf entities MAY contain a
               <spanx style="verb">metadata_policy</spanx>
               claim. Leaf entities MUST NOT contain a
-	      <spanx style="verb">metadata_policy</spanx> claim.
+              <spanx style="verb">metadata_policy</spanx>
+              claim.
             </t>
             <t hangText="constraints">
               <vspace/>
@@ -408,27 +417,34 @@
             </t>
             <t hangText="trust_marks">
               <vspace/>
-              OPTIONAL. A JSON array of signed JSON Web Tokens, each representing
+              OPTIONAL. A JSON array of signed JSON Web Tokens, each
+              representing
               a certification mark. There is more about certification marks in
               <xref target="trust_marks"/>.
             </t>
             <t hangText="trust_marks_issuers">
               <vspace/>
               OPTIONAL.
-              A trust anchor MAY use this claim to tell which trust mark identifiers
+              A trust anchor MAY use this claim to tell which trust mark
+              identifiers
               and their issuers are trusted by the federation.
-              This claim MUST be ignored if present in an entity statement of other entities
+              This claim MUST be ignored if present in an entity statement of
+              other entities
               than trust anchor.
-              It is a JSON array with keys representing trust mark identifiers and values
-              being an array of trusted entities representing the accreditation authority.
-              A special value of <spanx style="verb">*</spanx> allows for self-signed trust marks.
-              There is more about certification marks in <xref target="trust_marks"/>.
+              It is a JSON array with keys representing trust mark identifiers
+              and values
+              being an array of trusted entities representing the accreditation
+              authority.
+              A special value of <spanx style="verb">*</spanx> allows for
+              self-signed trust marks.
+              There is more about certification marks in<xref
+                    target="trust_marks"/>.
               <figure>
-              <preamble>
-                The following is a non-normative example of
-                a <spanx style="verb">trust_marks_issuers</spanx> claim value:
-              </preamble>
-              <artwork><![CDATA[
+                <preamble>
+                  The following is a non-normative example of
+                  a <spanx style="verb">trust_marks_issuers</spanx> claim value:
+                </preamble>
+                <artwork><![CDATA[
 {
   "https://openid.net/certification/op": ["*"],
   "https://refeds.org/wp-content/uploads/2016/01/Sirtfi-1.0.pdf":
@@ -442,7 +458,8 @@
               OPTIONAL.
               An OP MUST use this claim to tell the RP which trust anchor it
               chose to use when responding to an explicit client registration.
-              The value of <spanx style="verb">trust_anchor_id</spanx> is the entity identifier of a trust
+              The value of <spanx style="verb">trust_anchor_id</spanx> is the
+              entity identifier of a trust
               anchor.
             </t>
           </list>
@@ -451,8 +468,9 @@
           The entity statement is signed using the private key of the issuer
           entity, in the form of a <xref target="RFC7515">JSON Web Signature
           (JWS)</xref>. Entities MUST support signing Entity Statements with
-          the RSA SHA-256 algorithm (an <spanx style="verb">alg</spanx>
-	  value of <spanx style="verb">RS256</spanx>). Consequently
+          the RSA SHA-256 algorithm (an
+          <spanx style="verb">alg</spanx>
+          value of <spanx style="verb">RS256</spanx>). Consequently
           entities MUST support signature verification where the statement was
           signed using RS256.
         </t>
@@ -662,7 +680,8 @@
               in the JWK that the entity published in its self-signed entity
               statement.
               A signed JWT can contain the following claims, all except
-              <spanx style="verb">keys</spanx> defined in
+              <spanx style="verb">keys</spanx>
+              defined in
               <xref target="RFC7519"/>:
               <list style="hanging">
                 <t hangText="keys">
@@ -690,16 +709,18 @@
                   no longer valid.
                 </t>
               </list>
-              There are more claims defined in <xref target="RFC7519"/>; of
+              There are more claims defined in<xref target="RFC7519"/>; of
               these, <spanx style="verb">aud</spanx> SHOULD NOT be used, since
               the issuer cannot know who the audience is.
-              <spanx style="verb">nbf</spanx> and <spanx style="verb">jti</spanx>
+              <spanx style="verb">nbf</spanx>
+              and
+              <spanx style="verb">jti</spanx>
               are deemed to not be very useful in this context and are therefore
               to be omitted.
             </t>
           </list>
         </t>
-	<figure>
+        <figure>
           <preamble>
             The following is a non-normative example of a signed JWKS
             before serialization and adding a signature.
@@ -769,18 +790,20 @@
               OPTIONAL.
               URL of the OP's Federation specific Dynamic Client Registration
               Endpoint. If the OP supports explicit client
-              registration as described in <xref target="explicit"/>,
+              registration as described in<xref target="explicit"/>,
               then this claim is REQUIRED.
             </t>
             <t hangText="request_authentication_methods_supported">
               <vspace/>
               OPTIONAL.
-              In OpenID Connect Core, no client authentication is performed at the authentication
+              In OpenID Connect Core, no client authentication is performed at
+              the authentication
               endpoint. Instead, you can say that a request authentication is
               performed. What it amounts to is that the OP maps
               the information in the request to the information it has
               on the client, through static or dynamic registration.
-              If the map is successful, then the request is permitted to proceed.
+              If the map is successful, then the request is permitted to
+              proceed.
               Something similar happens when automatic registration is used.
               Since there has been no explicit registration, the OP will gather
               information about the RP using the process outlined in
@@ -921,14 +944,39 @@
         <t>
           The following properties are allowed:
           <list style="hanging">
-            <t hangText="federation_api_endpoint">
+            <t hangText="fetch_endpoint">
               <vspace/>
               OPTIONAL.
-              The endpoint for the Federation API described in
-              <xref target="federation_api"/>. Intermediate entities and
+              The endpoint for fetch operation described in
+              <xref target="fetch"/>. Intermediate entities and
               trust anchors MUST publish a
-	      <spanx style="verb">federation_api_endpoint</spanx>.
+              <spanx style="verb">fetch_endpoint</spanx>.
               Leaf entities MUST NOT.
+            </t>
+            <t hangText="list_endpoint">
+              <vspace/>
+              OPTIONAL.
+              The endpoint for list operation described in
+              <xref target="listing"/>. Intermediate entities and
+              trust anchors MAY publish a
+              <spanx style="verb">list_endpoint</spanx>.
+              Leaf entities MUST NOT.
+            </t>
+            <t hangText="search_endpoint">
+              <vspace/>
+              OPTIONAL.
+              The endpoint for search operation described in
+              <xref target="search"/>. Intermediate entities and
+              trust anchors MAY publish a
+              <spanx style="verb">search_endpoint</spanx>.
+              Leaf entities MUST NOT.
+            </t>
+            <t hangText="evaluate_endpoint">
+              <vspace/>
+              OPTIONAL.
+              The endpoint for search operation described in
+              <xref target="evaluate"/>. any entity MAY publish a
+              <spanx style="verb">evaluate_endpoint</spanx>.
             </t>
             <t hangText="name">
               <vspace/>
@@ -965,10 +1013,42 @@
         <figure>
           <artwork><![CDATA[
 "federation_entity": {
-  "federation_api_endpoint":
-    "https://example.com/federation_api_endpoint",
+  "fetch_endpoint": "https://entity.example.com/fetch",
+  "list_endpoint": "https://entity.example.com/list",
+  "search_endpoint": "https://entity.example.com/search",
   "name": "The example cooperation",
   "homepage_uri": "https://www.example.com"
+}
+]]></artwork>
+        </figure>
+      </section>
+      <section title="Trust Mark Issuer">
+        <t>
+          The metadata type identifier is
+          <spanx style="verb">trust_mark_issuer</spanx>.
+        </t>
+        <t>
+          All entities participating in a federation may be of this type.
+        </t>
+
+        <t>
+          The following properties are allowed:
+          <list style="hanging">
+            <t hangText="status_endpoint">
+              <vspace/>
+              OPTIONAL.
+              The endpoint for the status operation described in
+              <xref target="status"/>. Issuers of trust marks
+              MAY publish a
+              <spanx style="verb">status_endpoint</spanx>.
+            </t>
+          </list>
+        </t>
+        <t>Example</t>
+        <figure>
+          <artwork><![CDATA[
+"trust_mark_issuer": {
+  "status_endpoint": "https://trust_marks_are_us.example.com/status"
 }
 ]]></artwork>
         </figure>
@@ -979,7 +1059,7 @@
         <t>
           An entity can publish metadata policies pertaining to entities of a
           specific type. Entity type identifiers specified in this document
-          can be found in <xref target="metadata"/>.
+          can be found in<xref target="metadata"/>.
         </t>
         <t>
           Each such metadata policy has the following structure:
@@ -995,7 +1075,8 @@
           </list>
         </t>
         <t>
-          It SHOULD be noted that claim names without language tags are different
+          It SHOULD be noted that claim names without language tags are
+          different
           from the same claim but with language tags.
         </t>
         <t>
@@ -1081,7 +1162,8 @@
               </t>
               <t hangText="essential">
                 <vspace/>
-                If <spanx style="verb">true</spanx>, then the parameter MUST have a value.
+                If <spanx style="verb">true</spanx>, then the parameter MUST
+                have a value.
               </t>
             </list>
           </t>
@@ -1191,7 +1273,8 @@
             MUST be combined before they are applied to the metadata statement.
           </t>
           <t>
-            Using the notation we have defined in <xref target="trust_chain"/>, policies are
+            Using the notation we have defined in<xref target="trust_chain"/>,
+            policies are
             combined
             starting with ES[i] and then adding the policies from ES[j]
             j=i-1,..,1
@@ -1199,7 +1282,7 @@
           </t>
           <t>
             After each combination, the policy for each parameter MUST
-            adhere to the rules defined in <xref target="policy_restr"/>.
+            adhere to the rules defined in<xref target="policy_restr"/>.
           </t>
           <section title="Merging Operators">
             <t>
@@ -1207,19 +1290,22 @@
                 <t hangText="subset_of">
                   <vspace/>
                   The result of merging the values of two
-                  <spanx style="verb">subset_of</spanx> operators is the
+                  <spanx style="verb">subset_of</spanx>
+                  operators is the
                   intersection of the operator values.
                 </t>
                 <t hangText="one_of">
                   <vspace/>
                   The result of merging the values of two
-                  <spanx style="verb">one_of</spanx> operators is the
+                  <spanx style="verb">one_of</spanx>
+                  operators is the
                   intersection of the operator values.
                 </t>
                 <t hangText="superset_of">
                   <vspace/>
                   The result of merging the values of two
-                  <spanx style="verb">superset_of</spanx> operators is the
+                  <spanx style="verb">superset_of</spanx>
+                  operators is the
                   union of the operator values.
                 </t>
                 <t hangText="add">
@@ -1240,16 +1326,18 @@
                 </t>
                 <t hangText="essential">
                   <vspace/>
-                  If a superior has specified <spanx style="verb">essential=true</spanx>,
-		  then a subordinate
+                  If a superior has specified <spanx style="verb">
+                  essential=true</spanx>,
+                  then a subordinate
                   cannot change that. If a superior has specified
                   <spanx style="verb">essential=false</spanx>, then a
                   subordinate is allowed to change that to
-		  <spanx style="verb">essential=true</spanx>.
+                  <spanx style="verb">essential=true</spanx>.
                   If a superior has not specified
                   <spanx style="verb">essential</spanx>, then a subordinate
                   can set <spanx style="verb">essential</spanx> to
-		  <spanx style="verb">true</spanx> or <spanx style="verb">false</spanx>.
+                  <spanx style="verb">true</spanx>
+                  or <spanx style="verb">false</spanx>.
                 </t>
               </list>
             </t>
@@ -1271,12 +1359,14 @@
                 policy, apply that and you are done.
               </t>
               <t>
-                Add whatever value is specified in an <spanx style="verb">add</spanx>
-		operator.
+                Add whatever value is specified in an
+                <spanx style="verb">add</spanx>
+                operator.
               </t>
               <t>
                 If the parameter still has no value apply the
-		<spanx style="verb">default</spanx> if there is one.
+                <spanx style="verb">default</spanx>
+                if there is one.
               </t>
               <t>
                 Do the essential check. If <spanx style="verb">essential</spanx> is
@@ -1284,18 +1374,19 @@
                 <spanx style="verb">essential</spanx>
                 is to be treated as if set to <spanx style="verb">false</spanx>.
                 If <spanx style="verb">essential</spanx> is defined to be
-		<spanx style="verb">true</spanx>,
+                <spanx style="verb">true</spanx>,
                 then the claim
                 MUST have a value by now. Otherwise applying the operator MUST
                 fail.
               </t>
               <t>
                 Do the other checks. Verified that the value is
-		<spanx style="verb">one_of</spanx> or that the
+                <spanx style="verb">one_of</spanx>
+                or that the
                 values are <spanx style="verb">subset_of</spanx>/<spanx
                       style="verb">superset_of</spanx>. If the parameter values
                 do not fall within the allowed boundaries,
-		applying the operator MUST fail.
+                applying the operator MUST fail.
               </t>
             </list>
           </t>
@@ -1406,40 +1497,40 @@
 ]]></artwork>
           </figure>
         </section>
-      <section title="Enforcing Policy">
-        <t>
-          If applying policies to a metadata statement results in incorrect
-          metadata, then such a metadata statement MUST
-          be regarded as broken and MUST NOT be used.
-        </t>
-      </section>
-      <section title="Extending the Policy Language">
-        <t>
-          There might be parties that want to extend the policy language
-          defined here. If that happens then the rule is that if
-          software compliant with this specification
-          encounters a keyword it does not understand,
-	  it MUST ignore it
-          unless it is listed in a
-          <spanx style="verb">policy_language_crit</spanx>
-          list,
-          as is done for <xref target="RFC7515">JWS</xref> header parameters
-          with the <spanx style="verb">crit</spanx> parameter.
-          If the policy language extension keyword
-          is listed in the <spanx style="verb">policy_language_crit</spanx> list
-          and not understood, then the metadata MUST be rejected.
-        </t>
-      </section>
-      <section title="Policy Example">
-        <t>
-          The following is a non-normative example of a set of policies being
-          applied to an RP's metadata.
-        </t>
-        <figure>
-          <preamble>
-            The RP's metadata:
-          </preamble>
-          <artwork><![CDATA[
+        <section title="Enforcing Policy">
+          <t>
+            If applying policies to a metadata statement results in incorrect
+            metadata, then such a metadata statement MUST
+            be regarded as broken and MUST NOT be used.
+          </t>
+        </section>
+        <section title="Extending the Policy Language">
+          <t>
+            There might be parties that want to extend the policy language
+            defined here. If that happens then the rule is that if
+            software compliant with this specification
+            encounters a keyword it does not understand,
+            it MUST ignore it
+            unless it is listed in a
+            <spanx style="verb">policy_language_crit</spanx>
+            list,
+            as is done for <xref target="RFC7515">JWS</xref> header parameters
+            with the <spanx style="verb">crit</spanx> parameter.
+            If the policy language extension keyword
+            is listed in the <spanx style="verb">policy_language_crit</spanx> list
+            and not understood, then the metadata MUST be rejected.
+          </t>
+        </section>
+        <section title="Policy Example">
+          <t>
+            The following is a non-normative example of a set of policies being
+            applied to an RP's metadata.
+          </t>
+          <figure>
+            <preamble>
+              The RP's metadata:
+            </preamble>
+            <artwork><![CDATA[
 {
   "contacts": [
     "rp_admins@cs.example.com"
@@ -1452,12 +1543,12 @@
   ]
 }
 ]]></artwork>
-        </figure>
-        <figure>
-          <preamble>
-            The federation's policy for RPs:
-          </preamble>
-          <artwork><![CDATA[
+          </figure>
+          <figure>
+            <preamble>
+              The federation's policy for RPs:
+            </preamble>
+            <artwork><![CDATA[
 {
   "scopes": {
     "superset_of": [
@@ -1477,12 +1568,12 @@
   }
 }
 ]]></artwork>
-        </figure>
-        <figure>
-          <preamble>
-            The organization's policy for RPs:
-          </preamble>
-          <artwork><![CDATA[
+          </figure>
+          <figure>
+            <preamble>
+              The organization's policy for RPs:
+            </preamble>
+            <artwork><![CDATA[
 {
   "contacts": {
     "add": "helpdesk@example.com"
@@ -1502,14 +1593,14 @@
   }
 }
 ]]></artwork>
-        </figure>
-        <t>
-          The metadata for the entity in question,
-	  after applying the policies above,
-	  would then become:
-        </t>
-        <figure>
-          <artwork><![CDATA[
+          </figure>
+          <t>
+            The metadata for the entity in question,
+            after applying the policies above,
+            would then become:
+          </t>
+          <figure>
+            <artwork><![CDATA[
 {
   "contacts": [
     "rp_admins@cs.example.com",
@@ -1530,8 +1621,8 @@
   ]
 }
 ]]></artwork>
-        </figure>
-      </section>
+          </figure>
+        </section>
       </section>
       <section title="Applying Constraints" anchor="chain_constraints">
         <t>A constraint specification can contain the following claims:</t>
@@ -1548,7 +1639,7 @@
               OPTIONAL. JSON object. Restriction on the entity identifiers of
               the
               entities below this entity. The behavior of this claim mimics
-              what is defined in Section 4.2.1.10 in <xref target="RFC5280"/>.
+              what is defined in Section 4.2.1.10 in<xref target="RFC5280"/>.
               Restrictions are defined in terms of permitted or excluded name
               subtrees.
             </t>
@@ -1594,7 +1685,8 @@
             indicates that no
             entity statement MAY appear between this entity statement and the
             leaf entity statement. Where it appears, the
-	    <spanx style="verb">max_path_length</spanx> constraint
+            <spanx style="verb">max_path_length</spanx>
+            constraint
             MUST have a value that is greater than or equal to zero.
             Where <spanx style="verb">max_path_length</spanx> does not appear,
             no
@@ -1624,7 +1716,8 @@
                 and I1 specifies no <spanx style="verb">max_path_length</spanx> constraint.
               </t>
               <t>Neither TA nor I2 specifies any
-	        <spanx style="verb">max_path_length</spanx> constraint
+                <spanx style="verb">max_path_length</spanx>
+                constraint
                 while I1 specifies <spanx style="verb">max_path_length</spanx> of
                 0.
               </t>
@@ -1642,7 +1735,7 @@
         <section title="Naming Constraints" anchor="naming_constraints">
           <t>
             The <spanx style="verb">naming_constraints</spanx> member
-	    specifies a namespace within which all subject
+            specifies a namespace within which all subject
             entity identifiers in subordinate entity statements in a trust chain
             MUST be located.
           </t>
@@ -1666,23 +1759,34 @@
       </section>
       <section title="Trust Marks" anchor="trust_marks">
         <t>
-	  In this specification we use the US NSTIC definition:
+          In this specification we use the US NSTIC definition:
           "A trustmark is used to indicate that a product or service provider
           has met the requirements of the Identity Ecosystem, as determined
           by an accreditation authority".
         </t>
         <t>
-	  Technically, trust marks as used by this specification are signed
+          Technically, trust marks as used by this specification are signed
           JWTs that represent a statement of conformance to a well-scoped
           set of trust and/or interoperability requirements.
         </t>
         <t>
-	  The trust marks are signed by a federation accredited
+          To mark that the JWT is a trust mark 'trust-mark+jwt' SHOULD be
+          added as the value of <spanx style="verb">type</spanx> in the
+          JWT header.
+        </t>
+        <t>
+          The trust marks are signed by a federation accredited
           authority. The validation of such a signed statement is performed
           in the same way that a self-signed entity statement is validated.
         </t>
         <t>
-	  Note that a federation MAY allow an entity to self-sign
+          If the trust mark issuer wants, it can implement an endpoint from
+          which one can find out if a trust mark is still valid or not.
+          More about that here
+          <xref target="status"/>
+        </t>
+        <t>
+          Note that a federation MAY allow an entity to self-sign
           some trust marks.
         </t>
         <section title="Trust Mark Claims" anchor="trust_mark_claims">
@@ -1704,7 +1808,8 @@
               <t hangText="iat">
                 <vspace/>
                 REQUIRED. Number. When this trust mark was issued.
-		Expressed as Seconds Since the Epoch, per <xref target="RFC7519"/>.
+                Expressed as Seconds Since the Epoch, per<xref
+                      target="RFC7519"/>.
               </t>
               <t hangText="mark">
                 <vspace/>
@@ -1714,8 +1819,9 @@
               <t hangText="exp">
                 <vspace/>
                 OPTIONAL. Number. When this trust mark is not valid anymore.
-                Expressed as Seconds Since the Epoch, per <xref target="RFC7519"/>.
-		If not present, it means that
+                Expressed as Seconds Since the Epoch, per<xref
+                      target="RFC7519"/>.
+                If not present, it means that
                 the trust mark is valid forever.
               </t>
               <t hangText="ref">
@@ -1726,9 +1832,11 @@
             </list>
           </t>
           <t>
-            Other claims MAY be used in conjunction with the claims outlined above.
+            Other claims MAY be used in conjunction with the claims outlined
+            above.
             The claim naming recommendations outlined in Section 5.1.2 of
-	    <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> apply.
+            <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>
+            apply.
           </t>
         </section>
         <section title="Validating a Trust Mark" anchor="trust_valid">
@@ -1743,11 +1851,13 @@
             SHOULD be well known and trusted for a given trust mark identifier.
             A trust anchor MAY publish a list of accreditation authorities
             of trust marks that SHOULD be trusted by other federation entities.
-            A trust anchor uses the <spanx style="verb">trust_marks_issuers</spanx> claim
+            A trust anchor uses the <spanx style="verb">trust_marks_issuers
+          </spanx> claim
             in its entity statement to publish this information.
           </t>
           <t>
-            For other externally issued trust marks, it is an out-of-band process
+            For other externally issued trust marks, it is an out-of-band
+            process
             to define and announce accreditation authorities to other entities
             and it is left to the discretion of the receiving party to assign
             an appropriate level of trust to such trust marks.
@@ -1793,8 +1903,10 @@
         The configuration endpoint is found using the
         <xref target="RFC8615">Well-Known URIs</xref>
         specification, with the suffix
-        <spanx style="verb">openid-federation</spanx>. The scheme, host, and port
-        are taken directly from the entity identifier combined with the following
+        <spanx style="verb">openid-federation</spanx>. The scheme, host, and
+        port
+        are taken directly from the entity identifier combined with the
+        following
         path: <spanx style="verb">/.well-known/openid-federation</spanx>.
       </t>
       <t>
@@ -1809,17 +1921,24 @@
         Of course, in real multi-tenant deployments, in which the entity
         identifier
         might be of the form
-        <spanx style="verb">https://multi-tenant-service.example.com/my-tenant-identifier</spanx>
+        <spanx style="verb">
+          https://multi-tenant-service.example.com/my-tenant-identifier
+        </spanx>
         the tenant is very likely to not have control over the path
-        <spanx style="verb">https://multi-tenant-service.example.com/.well-known/openid-federation/my-tenant-identifier</spanx>
+        <spanx style="verb">
+          https://multi-tenant-service.example.com/.well-known/openid-federation/my-tenant-identifier
+        </spanx>
         whereas it is very likely to have control over the path
-        <spanx style="verb">https://multi-tenant-service.example.com/my-tenant-identifier/.well-known/openid-federation</spanx>.
+        <spanx style="verb">
+          https://multi-tenant-service.example.com/my-tenant-identifier/.well-known/openid-federation
+        </spanx>
+        .
         Therefore, if using the configuration endpoint at the URL with the
         tenant path
         after the well-known part fails,
         it is RECOMMENDED that callers retry at the URL with the tenant path
         before the well-known part
-        (even though this violates <xref target="RFC8615"/>).
+        (even though this violates<xref target="RFC8615"/>).
       </t>
       <t>
         Federation Entities SHOULD make an Entity Configuration Document
@@ -1909,49 +2028,30 @@ Content-Type: application/jose
         </t>
       </section>
     </section>
-    <section title="Federation API" anchor="federation_api">
-      <t>
-        All entities that are expected to publish entity statements about other
-        entities MUST expose a Federation API endpoint.
-      </t>
-      <t>
-        The federation API endpoint of an entity can be found in the
-        configuration response as described in
-        <xref target="federation_configuration"/>
-        or by other means.
-      </t>
-      <t>
-        The Federation API is an HTTPS API that MAY support multiple
-        operations. Fetching entity statements is one of the operations, and the
-        only one that all Federation API endpoints are REQUIRED to support.
-        All the other operations are OPTIONAL. The list of defined
-        operations MAY be extended in the future.
-      </t>
-      <t>
-        While all operations on the federation API endpoint make use of a
-        GET request, other operations MAY choose to use other HTTP methods. If
-        the
-        <spanx style="verb">operation</spanx>
-        parameter is left out, it is treated as a
-        fetch entity statements request. Unless otherwise mentioned or agreed
-        upon, requests to the federation API do not need to be
-        authenticated.
-      </t>
-
-      <section title="Fetching Entity Statements (REQUIRED)">
+    <section title="Federation Endpoints" anchor="federation_api">
+      <section title="Fetch Entity Statements" anchor="fetch">
+        <t>
+          All entities that are expected to publish entity statements about
+          other entities MUST expose a Fetch endpoint.
+        </t>
         <t>
           Fetching entity statements is performed to collect entity statements
           one by one to gather trust chains.
         </t>
         <t>
           To fetch an entity statement, an entity needs to know the
-          identifier of the entity to ask (the issuer), the federation API
+          identifier of the entity to ask (the issuer), the fetch
           endpoint of that entity and the identifier of the entity that you
           want the statement to be about (the subject).
         </t>
+        <t>
+          The fetch endpoint of an entity can be found in the
+          configuration response as described in
+          <xref target="federation_configuration"/>
+          or by other means.
+        </t>
 
-        <section title="Fetch Entity Statements Request"
-                 anchor="fetch_statement">
+        <section title="Fetch Request" anchor="fetch_request">
           <t>
             The request MUST be an HTTP request using the GET method and
             the https scheme to a resolved federation API endpoint with the
@@ -1959,19 +2059,6 @@ Content-Type: application/jose
           </t>
           <t>
             <list style="hanging">
-              <t hangText="operation">
-                <vspace/>
-                OPTIONAL. If not present, MUST be treated as
-                <spanx style="verb">fetch</spanx>.
-              </t>
-              <t hangText="iss">
-                <vspace/>
-                REQUIRED. The entity identifier of the issuer
-                from which you want an entity statement issued. Because of the
-                normalization of the URL, multiple issuers MAY resolve to a
-                shared federation API. This parameter makes it explicit exactly
-                which issuer we want entity statements from.
-              </t>
               <t hangText="sub">
                 <vspace/>
                 OPTIONAL. The entity identifier of the subject
@@ -1983,8 +2070,9 @@ Content-Type: application/jose
               <t hangText="aud">
                 <vspace/>
                 OPTIONAL. The entity identifier of the
-                requester. If the <spanx style="verb">aud</spanx>
-		parameter is present in the request,
+                requester. If the
+                <spanx style="verb">aud</spanx>
+                parameter is present in the request,
                 the <spanx style="verb">aud</spanx> claim SHOULD be present in
                 the entity statement response and take exactly that value.
               </t>
@@ -1994,25 +2082,24 @@ Content-Type: application/jose
           <figure>
             <preamble>
               The following is a non-normative example of an API
-              request for an entity statement:
+              request for a self-signed entity statement:
             </preamble>
             <artwork><![CDATA[
-GET /federation_api_endpoint?
-iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation HTTP/1.1
+GET /federation_api_endpoint/fetch HTTP/1.1
 Host: openid.sunet.se
 ]]></artwork>
           </figure>
         </section>
 
-        <section title="Fetch Entity Statements Response">
+        <section title="Fetch Response">
           <t>
             A positive response is a signed entity statement where
-            the content type MUST be set to
+            the HTTP content type MUST be set to
             <spanx style="verb">application/jose</spanx>.
             If it is a negative response, it will be a JSON object and the
             content type MUST be set to
             <spanx style="verb">application/json</spanx>.
-            See more about error responses in <xref target="error_response"/>.
+            See more about error responses in<xref target="error_response"/>.
           </t>
           <figure>
             <preamble>
@@ -2068,9 +2155,9 @@ Content-Type: application/jose
         </section>
       </section>
 
-      <section title="Trust Negotiation (OPTIONAL)">
+      <section title="Evaluate Entity Statement" anchor="evaluate">
         <t>
-          An entity MAY use the trust negotiation operation to fetch
+          An entity MAY use the evaluate endpoint to fetch
           resolved metadata about itself as seen/trusted by another entity
           (the peer).
           The result may, for instance, tell an RP what operations, scopes and
@@ -2078,31 +2165,18 @@ Content-Type: application/jose
           was used.
         </t>
 
-        <section title="Trust Negotiation Request">
+        <section title="Evaluate Request">
           <t>
             The request MUST be an HTTP request using the GET method and
-            the https scheme to a resolved federation API endpoint with the
+            the https scheme to a fetch endpoint with the
             following query string parameters:
           </t>
           <t>
             <list style="hanging">
-              <t hangText="operation">
-                <vspace/>
-                REQUIRED. MUST be set to
-                <spanx style="verb">resolve_metadata</spanx>.
-              </t>
-              <t hangText="respondent">
+              <t hangText="sub">
                 <vspace/>
                 REQUIRED. The entity identifier of the
-                entity whose metadata are requested. Because of the
-                normalization of the URL, multiple entity identifiers may
-                resolve to a shared federation API. This parameter makes it
-                explicit exactly which entity is expected.
-              </t>
-              <t hangText="peer">
-                <vspace/>
-                REQUIRED. The entity identifier of the entity
-                that will collect the information.
+                entity whose metadata are requested.
               </t>
               <t hangText="type">
                 <vspace/>
@@ -2113,7 +2187,8 @@ Content-Type: application/jose
               <t hangText="anchor">
                 <vspace/>
                 REQUIRED. The trust anchor that the entity, defined by the
-                <spanx style="verb">peer</spanx> parameter, MUST use when
+                <spanx style="verb">peer</spanx>
+                parameter, MUST use when
                 resolving the metadata. The value is an entity identifier.
               </t>
             </list>
@@ -2121,21 +2196,22 @@ Content-Type: application/jose
           <figure>
             <preamble>
               The following is a non-normative example of an API
-              request for trust negotiation:
+              request for an evaluation. The example is an entity asking
+              an RP (rp.openid.sunet.se) for the metadata it will get
+              for op.openid.sunet.se if the trust anchor https://swamid.se is
+              used:
             </preamble>
             <artwork><![CDATA[
-GET /federation_api_endpoint?
-operation=resolve_metadata&
-respondent=https%3A%2F%2Fopenid.sunet.se%2Ffederation&
+GET /evaluate?
+sub=https%3A%2F%2Fop.openid.sunet.se&
 type=openid_provider&
-anchor=https%3A%2F%2Fswamid.se&
-peer=https%3A%2F%2Fidp.umu.se%2Fopenid HTTP/1.1
-Host: openid.sunet.se
+anchor=https%3A%2F%2Fswamid.se HTTP/1.1
+Host: rp.openid.sunet.se
 ]]></artwork>
           </figure>
         </section>
 
-        <section title="Trust Negotiation Response">
+        <section title="Evaluate Response">
           <t>
             The response is a metadata statement that is the result of
             applying the metadata policies in the trust chain on the entity's
@@ -2187,61 +2263,56 @@ Content-Type: application/json
         </section>
       </section>
 
-      <section title="Entity Listings (OPTIONAL)" anchor="entity_listings">
+      <section title="Listing entities" anchor="listing">
         <t>
           An entity MAY query another entity for a list of all the
           entities immediately subordinate to that entity and about which
-          that entity is prepared to issue statements about.
+          that entity is prepared to issue statements.
           (In some cases, this MAY be a very large list.)
         </t>
 
-        <section title="Entity Listings Request">
+        <section title="List Request">
           <t>
             The request MUST be an HTTP request using the GET method and
-            the https scheme to a resolved federation API endpoint with the
+            the https scheme to a list endpoint with the
             following query string parameters:
           </t>
           <t>
             <list style="hanging">
-              <t hangText="operation">
+              <t hangText="entity_type">
                 <vspace/>
-                REQUIRED. MUST be set to
-                <spanx style="verb">listing</spanx>.
+                OPTIONAL. If left out, the result should include both leaf
+                entities and intermediate nodes. The value is one
+                ot the entity types defined in
+                <xref target="metadata"/>
+                If set to <spanx style="verb">federation_entity</spanx>,
+                the response MUST contain only intermediary nodes.
               </t>
-              <t hangText="iss">
+              <t hangText="page">
                 <vspace/>
-                REQUIRED. The entity identifier of the entity
-                from which an entity listing is requested. Because of the
-                normalization of the URL, multiple entity identifiers may
-                resolve to a shared federation API. This parameter makes it
-                explicit exactly which entity is expected.
+                OPTIONAL. Integer, indicates the page number.
+                If absent the response will contains the first page
               </t>
-              <t hangText="is_leaf">
+              <t hangText="per_page">
                 <vspace/>
-                OPTIONAL. If left out, the result should
-                include both leaf entities and intermediate nodes. If set to
-                <spanx style="verb">true</spanx>,
-                the response SHOULD contain only leaf entities. If set to
-                <spanx style="verb">false</spanx>, the
-                response SHOULD contain only intermediate nodes.
+                OPTIONAL. Integer, indicates how many entities will be carried
+                in a page. If omitted, by default the value is 100.
               </t>
             </list>
           </t>
           <figure>
             <preamble>
-              The following is a non-normative example of an API
-              request for trust negotiation:
+              The following is a non-normative example of a list request:
             </preamble>
             <artwork><![CDATA[
-GET /federation_api_endpoint?
-operation=listing&
+GET /list_endpoint?
 iss=https%3A%2F%2Fopenid.sunet.se%2Ffederation HTTP/1.1
 Host: openid.sunet.se
 ]]></artwork>
           </figure>
         </section>
 
-        <section title="Entity Listing Response">
+        <section title="List Response">
           <t>
             The response MUST contain an JSON list with the known entity
             identifiers.
@@ -2255,16 +2326,105 @@ Host: openid.sunet.se
 Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
-[
-  "https://ntnu.andreas.labs.uninett.no/",
-  "https://blackboard.ntnu.no/openid/callback",
-  "https://serviceprovider.andreas.labs.uninett.no/application17"
-]
+{
+  "alg": "RS256",
+  "kid": "WU52Y3MxX0VTYWs0b1pwbXAxcVkzd1Y5YnY3OWJHeUZXczgtRl9Lc3VDTQ",
+  “typ”: “oidc-federation-listing+jwt”
+}
+.
+{
+ "iss": "https://openid.sunet.se",
+ "iat": 1620050972,
+ "exp": 1620072515,
+ "entities": [
+   "https://ntnu.andreas.labs.uninett.no/",
+   "https://blackboard.ntnu.no/openid/callback",
+   "https://serviceprovider.say.no/"
+  },
+ "page": 1,
+}
 ]]></artwork>
           </figure>
         </section>
       </section>
 
+      <section title="Search Entity Statements" anchor="search">
+        <t>
+          The search parameter will be of the form “s={encoded search terms}.
+          The default shall just be whatever terms the user enters to be
+          decoded by the local machine search engine. It may be possible to
+          include a json structured query that is base64url encoded which may
+          also be jose encoded for signing or encryption. The default json
+          term will be take from the distinguirshed name parament set, for
+          example “co=us.wa” or any json terms that are used by the federation.
+          If both forms of query are acceptable, the request should not begin
+          with the letters “Ey”/
+          Note that the entity data to be included in the response must only
+          include the name of the entity, but would likely include other data
+          that would be displayed to a human user to help in the selection of
+          the appropriate entity, for example the country or the assurance
+          level of the entity statement.
+        </t>
+        <section title="Search request">
+          <t></t>
+        </section>
+        <section title="Search Response">
+          <t></t>
+        </section>
+      </section>
+      <section title="Trust Mark Status" anchor="status">
+        <section title="Trust request">
+          <t>
+            The request MUST be an HTTP request using the GET method and
+            the https scheme to a status endpoint with the
+            following query string parameters:
+          </t>
+          <t>
+            <list style="hanging">
+              <t hangText="sub">
+                <vspace/>
+                REQUIRED. The entity_id for the entity to which the trust mark
+                was issued.
+              </t>
+              <t hangText="id">
+                <vspace/>
+                REQUIRED. Identifier of the trust mark
+              </t>
+            </list>
+          </t>
+        </section>
+        <section title="Trust Response">
+          <t>
+            The HTTP response body MUST be a JSON
+            object containing the claims below and the content type MUST
+            be set to <spanx style="verb">application/json</spanx>.
+          </t>
+          <t>
+            <list style="hanging">
+              <t hangText="active">
+                <vspace/>
+                REQUIRED. Boolean. Whether the trust mark is active or not.
+              </t>
+            </list>
+          </t>
+          <t>
+            <figure>
+              <preamble>
+                The following is a non-normative example of a response:
+              </preamble>
+              <artwork><![CDATA[
+200 OK
+Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
+Content-Type: application/json
+
+{
+  "active"=true
+}
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+      </section>
       <section title="Generic Error Response" anchor="error_response">
         <t>
           If the request was malformed, or some error occurred during
@@ -2279,10 +2439,6 @@ Content-Type: application/json
         </t>
         <t>
           <list style="hanging">
-            <t hangText="operation">
-              <vspace/>
-              REQUIRED. The operation of the request.
-            </t>
             <t hangText="error">
               <vspace/>
               REQUIRED. The error code.
@@ -2305,7 +2461,6 @@ Last-Modified: Wed, 22 Jul 2018 19:15:56 GMT
 Content-Type: application/json
 
 {
-  "operation": "fetch",
   "error": "invalid_request",
   "error_description":
     "Required request parameter [iss] was missing."
@@ -2336,7 +2491,7 @@ Content-Type: application/json
           handed the remote peer's self-issued entity statement, or it may
           have to fetch it by itself. If it needs to fetch it, it will use the
           process described in
-          <xref target="fetch_statement"/>
+          <xref target="fetch"/>
           with both <spanx style="verb">iss</spanx> and
           <spanx style="verb">sub</spanx>
           containing the entity identifier
@@ -2352,7 +2507,8 @@ Content-Type: application/json
           process is repeated. This time with the
           <spanx style="verb">iss</spanx>
           set to the
-          intermediate's entity identifier and the <spanx style="verb">sub</spanx> to
+          intermediate's entity identifier and the <spanx style="verb">sub
+        </spanx> to
           be
           the <spanx style="verb">iss</spanx> of the previous query.
           The Consumer SHOULD NOT attempt to fetch
@@ -2375,7 +2531,7 @@ Content-Type: application/json
       <section title="Validating a Trust Chain"
                anchor="trust_chain_validation">
         <t>
-          As described in <xref target="trust_chain"/>,
+          As described in<xref target="trust_chain"/>,
           a trust chain consists of an ordered list of entity
           statements. So whichever way the Consumer has acquired the set of
           entity statements, it MUST now verify that it is a proper trust chain
@@ -2437,8 +2593,9 @@ Content-Type: application/json
         <t>
           Note that the second bullet point means that, at each step in the
           trust chain resolution, it MUST be verified that the signing JWK is
-          also present in the <spanx style="verb">jwks</spanx>
-	  statement claim issued by the superior.
+          also present in the
+          <spanx style="verb">jwks</spanx>
+          statement claim issued by the superior.
         </t>
       </section>
       <section title="Choosing One of the Valid Trust Chains">
@@ -2468,7 +2625,7 @@ Content-Type: application/json
         and public keys.
       </t>
       <t>
-        As described above in <xref target="trust_lifetime"/>,
+        As described above in<xref target="trust_lifetime"/>,
         each trust chain has an expiration time.
         A consumer of metadata using this specification MUST support
         refreshing a trust chain when it expires.
@@ -2552,7 +2709,7 @@ Content-Type: application/json
         Independent of whether the RP uses automatic or explicit registration,
         the way that the RP learns about the OP is the same.
         It will use the procedure that is
-        described in <xref target="resolving_trust"/>.
+        described in<xref target="resolving_trust"/>.
       </t>
       <section title="Automatic Registration" anchor="automatic">
         <t>
@@ -2583,12 +2740,13 @@ Content-Type: application/json
             <t>
               The Client ID MUST be a URL from which the OP can
               fetch the RP's self-signed entity statement using the process
-              described in <xref target="federation_configuration"/>.
+              described in<xref target="federation_configuration"/>.
             </t>
             <t>
               The OP MUST publish that it supports a request authentication
               method using the metadata claim
-              <spanx style="verb">request_authentication_methods_supported</spanx>.
+              <spanx style="verb">
+                request_authentication_methods_supported</spanx>.
             </t>
           </list>
         </t>
@@ -2596,7 +2754,7 @@ Content-Type: application/json
         <section title="Authentication Request">
           <t>
             The Authentication Request is performed by passing a
-	    Request Object by value as described in Section 6.1 in
+            Request Object by value as described in Section 6.1 in
             <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>
             or using pushed authorization as described in
             <xref target="PAR">Pushed Authorization Requests</xref>.
@@ -2619,16 +2777,17 @@ Content-Type: application/json
                 </t>
                 <t hangText="iss">
                   <vspace/>
-                  REQUIRED. The claim <spanx style="verb">iss</spanx>
-		  MUST contain the client identifier.
+                  REQUIRED. The claim
+                  <spanx style="verb">iss</spanx>
+                  MUST contain the client identifier.
                 </t>
                 <t hangText="sub">
                   <vspace/>
                   MUST NOT be present. This together with the value of
-		  <spanx style="verb">aud</spanx>
+                  <spanx style="verb">aud</spanx>
                   SHOULD make reuse of the statement for
-		  <spanx style="verb">private_key_jwt</spanx>
-		  client authentication not feasible.
+                  <spanx style="verb">private_key_jwt</spanx>
+                  client authentication not feasible.
                 </t>
                 <t hangText="jti">
                   <vspace/>
@@ -2708,7 +2867,7 @@ https://server.example.com/authorize?
                 registered as a known
                 client, then the OP SHOULD try to resolve and fetch trust
                 chains starting with the RP's entity
-                statement as described in <xref target="fetching-es"/>.
+                statement as described in<xref target="fetching-es"/>.
               </t>
               <t>
                 The OP MUST then validate the possible trust chains, as
@@ -2740,7 +2899,7 @@ https://server.example.com/authorize?
               provides an
               interoperable way to push the payload of a Request Object
               directly to the AS in exchange for a
-	      <spanx style="verb">request_uri</spanx>.
+              <spanx style="verb">request_uri</spanx>.
             </t>
             <t>
               When it comes to request authentication, the applicable
@@ -2756,8 +2915,9 @@ https://server.example.com/authorize?
                   <xref target="RFC8705"/>
                   based on self-signed certificates.
                   In this case the self-signed certificate MUST be present as
-                  the value of an <spanx style="verb">x5c</spanx>
-		  claim for one key in the JWK Set describing
+                  the value of an
+                  <spanx style="verb">x5c</spanx>
+                  claim for one key in the JWK Set describing
                   the RP's keys.
                 </t>
                 <t>
@@ -2767,7 +2927,8 @@ https://server.example.com/authorize?
                 </t>
               </list>
               Note that if mTLS is used, TLS client authentication MUST be
-              configured and, in case of self-signed certificates, the server must
+              configured and, in case of self-signed certificates, the server
+              must
               omit trust chain validation (optional_no_ca).
             </t>
             <t>Using the example above, a request could look like this:</t>
@@ -2814,7 +2975,7 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
                 registered as a known client and the OP supports the request
                 authentication method used then the OP SHOULD try to resolve and
                 fetch trust chains starting with the RP's entity
-                statement as described in <xref target="fetching-es"/>.
+                statement as described in<xref target="fetching-es"/>.
               </t>
               <t>
                 The OP SHOULD validate the possible trust chains, as described
@@ -2836,26 +2997,27 @@ redirect_uri=https%3A%2F%2Frp.example.com%2Fauthz_cb
                 authentication method was used.
                 <list style="hanging">
                   <t hangText="private_key_jwt">
-		    <vspace/>
+                    <vspace/>
                     If this method is used, then the OP will try to verify the
                     signature of the signed JWT using the key material published
                     by the RP in its metadata. If the authentication is
                     successful, then the registration is regarded as correct.
                   </t>
                   <t hangText="tls_client_auth">
-		    <vspace/>
+                    <vspace/>
                     If mTLS is used and the certificate used was not
                     self-signed, then the Subject Alternative Name of the
                     certificate
                     MUST match the entity identifier of the RP.
                   </t>
                   <t hangText="self_signed_tls_client_auth">
-		    <vspace/>
+                    <vspace/>
                     If mTLS is used and the certificate used is a self-signed
                     certificate, then the certificate MUST be present as the
                     value
-                    of an <spanx style="verb">x5c</spanx>
-		    claim for one key in the JWK Set describing the RP's
+                    of an
+                    <spanx style="verb">x5c</spanx>
+                    claim for one key in the JWK Set describing the RP's
                     keys.
                   </t>
                 </list>
@@ -3129,14 +3291,18 @@ HTTP/1.1 302 Found
 
     <section anchor="IANA" title="IANA Considerations">
       <t>
-        TBD Register <spanx style="verb">federation_types_supported</spanx> for OP metadata with initial
-        values <spanx style="verb">automatic</spanx> and <spanx style="verb">explicit</spanx>.
+        TBD Register <spanx style="verb">federation_types_supported</spanx> for
+        OP metadata with initial
+        values <spanx style="verb">automatic</spanx> and <spanx style="verb">
+        explicit</spanx>.
       </t>
       <t>
-        TBD Register <spanx style="verb">federation_type</spanx> for RP registration metadata.
+        TBD Register <spanx style="verb">federation_type</spanx> for RP
+        registration metadata.
       </t>
       <t>
-        TBD Register <spanx style="verb">federation_registration_endpoint</spanx> for the OP metadata.
+        TBD Register <spanx style="verb">federation_registration_endpoint
+      </spanx> for the OP metadata.
       </t>
     </section>
 
@@ -3144,9 +3310,10 @@ HTTP/1.1 302 Found
       <t>
         Some of the interfaces defined in this specification could be used for
         Denial of Service attacks (DOS), most notably, Entity Listings
-        (<xref target="entity_listings"/>) and
+        (<xref target="listing"/>) and
         automatic client registration (<xref target="automatic"/>).
-        If you plan to provide these interfaces as a service, you should consider
+        If you plan to provide these interfaces as a service, you should
+        consider
         applying normal defense methods, such as those described in
         <xref target="RFC4732"/>.
       </t>
@@ -3333,7 +3500,8 @@ HTTP/1.1 302 Found
 
       <section title="Setting Up a Federation" anchor="federation_intro">
         <t>
-          These are the steps you have to go through to set up your own federation.
+          These are the steps you have to go through to set up your own
+          federation.
           What you minimally have to do is:
           <list style="symbols">
             <t>
@@ -3346,10 +3514,12 @@ HTTP/1.1 302 Found
             <t>
               Set up web services that can publish signed entity statements.
               You need at least two:
-              one for the URL corresponding to the federation's entity ID returning
-              self-signed entity statements and the other one providing the fetch
+              one for the URL corresponding to the federation's entity ID
+              returning
+              self-signed entity statements and the other one providing the
+              fetch
               entity statement request API, as described in
-              <xref target="fetch_statement"/>.
+              <xref target="fetch"/>.
             </t>
           </list>
         </t>
@@ -3369,14 +3539,15 @@ HTTP/1.1 302 Found
           </list>
         </t>
         <t>
-          Now before the federation operator starts adding entities, there have to
+          Now before the federation operator starts adding entities, there have
+          to
           be policies in place on who can be part of the federation and the
           layout of the federation. Is it supposed to be a one-layer federation
           like Internet2, a two-layer one like the SWAMID federation,
           or a multi-layer federation?
           The federation may also want to think about implementing other
           policies using the federation policy framework,
-	  as described in <xref target="federation_policy"/>.
+          as described in<xref target="federation_policy"/>.
         </t>
         <t>
           With the federation in place, things can start happening.
@@ -3402,7 +3573,7 @@ HTTP/1.1 302 Found
             <t>
               Using the federation API endpoint of the superiors do
               a fetch request
-              <xref target="fetch_statement"/>
+              <xref target="fetch"/>
               on the endpoint asking for information about the subordinate
               entity.
             </t>
@@ -3426,7 +3597,7 @@ HTTP/1.1 302 Found
         <section title="Configuration Information for op.umu.se">
           <t>The LIGO WIKI RP fetches the self-signed entity statement from the
             OP (op.umu.se)
-            using the process defined in <xref
+            using the process defined in<xref
                     target="federation_configuration"/>.
           </t>
           <figure>
@@ -3558,7 +3729,7 @@ Host: umu.se
                 title="Entity Statement Published by 'https://umu.se' about 'https://op.umu.se'">
           <t>
             The RP uses the federation API and the "fetch" command as defined in
-            <xref target="fetch_statement"/>
+            <xref target="fetch"/>
             to fetch information about
             "https://op.umu.se" from the API endpoint published in
             https://umu.se's configuration.
@@ -3689,7 +3860,7 @@ Host: swamid.se
           <t>
             The LIGO Wiki RP uses the federation API and the "fetch" command as
             defined in
-            <xref target="fetch_statement"/>
+            <xref target="fetch"/>
             to fetch information about
             "https://umu.se" from the API endpoint published in
             https://swamid.se's configuration.
@@ -3816,7 +3987,7 @@ Host: edugain.geant.org
           <t>
             The LIGO Wiki RP uses the federation API and the "fetch" command as
             defined in
-            <xref target="fetch_statement"/>
+            <xref target="fetch"/>
             to fetch information about
             "https://swamid.se" from the API endpoint published in
             https://edugain.geant.org's configuration.
@@ -4044,7 +4215,7 @@ Host: op.umu.se
               The OP starts to resolve metadata for the client identifier
               https://wiki.ligo.org by fetching the self-issued entity statement
               using
-              the process described in <xref target="federation_configuration"/>.
+              the process described in<xref target="federation_configuration"/>.
             </t>
             <t>
               The process is the same as described in
@@ -4099,10 +4270,10 @@ Host: op.umu.se
                 ]]></artwork>
                   </figure>
                 </t>
-	      </list>
-	    </t>
-	    <t>
-	      <list style="hanging">
+              </list>
+            </t>
+            <t>
+              <list style="hanging">
                 <t hangText="incommon.org">
                   <figure>
                     <artwork><![CDATA[
@@ -4207,12 +4378,37 @@ Host: op.umu.se
           <t>
             Here the LIGO Wiki RP sends a client registration request to the
             <spanx style="verb">federation_registration_endpoint</spanx>
-	    of the OP (op.umu.se).
+            of the OP (op.umu.se).
             What it sends is a self-signed entity statement.
           </t>
+                    <figure>
+            <artwork><![CDATA[
+
+POST /federation_registration?
+Host: op.umu.se
+Content-Type: application/txt
+
+eyJhbGciOiJSUzI1NiIsImtpZCI6ImRVTjJhMDF3Umtoa1NXc
+GxRVGh2Y1ZCSU5VSXdUVWRPVUZVMlRtVnJTbWhFUVhnelpYbHBUemRR
+TkEifQ.eyJyZXNwb25zZV90eXBlIjogImNvZGUiLCAic2NvcGUiOiAi
+b3BlbmlkIHByb2ZpbGUgZW1haWwiLCAiY2xpZW50X2lkIjogImh0dHB
+zOi8vd2lraS5saWdvLm9yZyIsICJzdGF0ZSI6ICIyZmY3ZTU4OS0zOD
+Q4LTQ2ZGEtYTNkMi05NDllMTIzNWU2NzEiLCAibm9uY2UiOiAiZjU4M
+WExODYtYWNhNC00NmIzLTk0ZmMtODA0ODQwODNlYjJjIiwgInJlZGly
+ZWN0X3VyaSI6ICJodHRwczovL3dpa2kubGlnby5vcmcvb3BlbmlkL2N
+hbGxiYWNrIiwgImlzcyI6ICIiLCAiaWF0IjogMTU5MzU4ODA4NSwgIm
+F1ZCI6ICJodHRwczovL29wLnVtdS5zZSJ9.cRwSFNcDx6VsacAQDcIx
+5OAt_Pj30I_uUKRh04N4QJd6MZ0f50sETRv8uspSt9fMa-5yV3uzthX
+_v8OtQrV33gW1vzgOSRCdHgeCN40StbzjFk102seDwtU_Uzrcsy7KrX
+YSBp8U0dBDjuxC6h18L8ExjeR-NFjcrhy0wwua7Tnb4QqtN0QCia6DD
+8QBNVTL1Ga0YPmMdT25wS26wug23IgpbZB20VUosmMGgGtS5yCI5AwK
+Bhozv-oBH5KxxHzH1Oss-RkIGiQnjRnaWwEOTITmfZWra1eHP254wFF
+2se-EnWtz1q2XwsD9NSsOEJwWJPirPPJaKso8ng6qrrOSgw
+]]></artwork>
+          </figure>
           <t>
             Once the OP has the entity statement, it proceeds with the same
-            sequence of steps as laid out in <xref target="op_discovery"/>.
+            sequence of steps as laid out in<xref target="op_discovery"/>.
           </t>
           <t>
             The OP will end up with the same RP metadata as was described in
@@ -4467,9 +4663,9 @@ Host: op.umu.se
         <list style="symbols">
           <t>
             Addressed many working group review comments.
-	    Changes included adding the Overall Architecture section,
-	    the <spanx style="verb">trust_marks_issuers</spanx> claim,
-	    and the Setting Up a Federation section.
+            Changes included adding the Overall Architecture section,
+            the <spanx style="verb">trust_marks_issuers</spanx> claim,
+            and the Setting Up a Federation section.
           </t>
         </list>
       </t>
@@ -4486,7 +4682,7 @@ Host: op.umu.se
         <list style="symbols">
           <t>
             Added <spanx style="verb">signed_jwks_uri</spanx>,
-	    which had been lost somewhere along the road.
+            which had been lost somewhere along the road.
           </t>
         </list>
       </t>
@@ -4498,17 +4694,19 @@ Host: op.umu.se
           </t>
           <t>
             What previously was referred to as
-            <spanx style="verb">client authentication</spanx> in connection
+            <spanx style="verb">client authentication</spanx>
+            in connection
             with automatic client registration is now changed to be
             <spanx style="verb">request authentication</spanx>.
           </t>
           <t>
             Made a distinction between parameters and claims.
           </t>
-	  <t>
-	    Corrected the description of the intended behavior when
-	    <spanx style="verb">essential</spanx> is absent.
-	  </t>
+          <t>
+            Corrected the description of the intended behavior when
+            <spanx style="verb">essential</spanx>
+            is absent.
+          </t>
         </list>
       </t>
       <t>
@@ -4546,7 +4744,8 @@ Host: op.umu.se
         -12
         <list style="symbols">
           <t>
-            Made JWK Set OPTIONAL in an entity statement returned by OP as response
+            Made JWK Set OPTIONAL in an entity statement returned by OP as
+            response
             of an explicit client registration
           </t>
           <t>
